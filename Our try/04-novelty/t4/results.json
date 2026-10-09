@@ -1,0 +1,17 @@
+{
+  "verdict": "CONFIRMED (\u041f\u0406\u0414\u0422\u0412\u0415\u0420\u0414\u0416\u0415\u041d\u041e)",
+  "g_ref": 0.1,
+  "l2_regressor": {
+    "mean_g": 1.0979439416624135,
+    "median_g": 0.8769719443741615,
+    "valid_ratio": 0.028
+  },
+  "mdn": {
+    "mean_g": 0.01210230409289859,
+    "median_g": 0.005508890790508355,
+    "valid_ratio_samples": 0.984,
+    "valid_ratio_both_modes": 0.976,
+    "branch_coverage_lower": 0.484,
+    "branch_coverage_upper": 0.516
+  }
+}

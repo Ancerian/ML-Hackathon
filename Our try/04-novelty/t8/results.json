@@ -1,0 +1,38 @@
+{
+  "verdict": "CONFIRMED (\u041f\u0406\u0414\u0422\u0412\u0415\u0420\u0414\u0416\u0415\u041d\u041e)",
+  "baseline": {
+    "gamma": 0.0,
+    "mean_r2": 0.8729323223233223,
+    "mean_spurious": 1.8083333333333333,
+    "canonical_ratio": 0.4583333333333333
+  },
+  "topological_best": {
+    "gamma": 0.2,
+    "mean_r2": 0.8805709034204483,
+    "mean_spurious": 0.08333333333333333,
+    "canonical_ratio": 0.9333333333333333
+  },
+  "spurious_reduction": 0.9539170501637325,
+  "delta_r2": 0.007638581097126007,
+  "canonical_gain": 2.0363636319206613,
+  "all_results": {
+    "gamma_0.0": {
+      "gamma": 0.0,
+      "mean_r2": 0.8729323223233223,
+      "mean_spurious": 1.8083333333333333,
+      "canonical_ratio": 0.4583333333333333
+    },
+    "gamma_0.05": {
+      "gamma": 0.05,
+      "mean_r2": 0.8983286023139954,
+      "mean_spurious": 0.11666666666666667,
+      "canonical_ratio": 0.9083333333333333
+    },
+    "gamma_0.2": {
+      "gamma": 0.2,
+      "mean_r2": 0.8805709034204483,
+      "mean_spurious": 0.08333333333333333,
+      "canonical_ratio": 0.9333333333333333
+    }
+  }
+}

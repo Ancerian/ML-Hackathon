@@ -1,0 +1,29 @@
+{
+  "verdict": "REFUTED (\u0421\u041f\u0420\u041e\u0421\u0422\u041e\u0412\u0410\u041d\u041e)",
+  "phase1_single_mode": {
+    "nls_success": 0.35,
+    "de_success": 1.0,
+    "henon_success": 0.95
+  },
+  "phase2_dual_mode": {
+    "nls": {
+      "success_rate": 0.0,
+      "mean_rel_amp_err": 0.4976670884888984,
+      "mean_phase_err_deg": 96.86783496302026,
+      "mean_time_sec": 0.21739853620529176
+    },
+    "de": {
+      "success_rate": 1.0,
+      "mean_rel_amp_err": 0.007718103918227556,
+      "mean_phase_err_deg": 0.4923910712755747,
+      "mean_time_sec": 4.903617632389069
+    },
+    "henon": {
+      "success_rate": 0.65,
+      "mean_rel_amp_err": 0.05903203969359492,
+      "mean_phase_err_deg": 5.394869236047984,
+      "mean_time_sec": 0.0002074718475341797
+    },
+    "speedup_henon_vs_de": 23634.98496631581
+  }
+}
