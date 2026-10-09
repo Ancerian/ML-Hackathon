@@ -194,3 +194,17 @@ def test_scorer_reproduction():
         rep_pca = evaluate_submission(sub_path=pca_sub_path, mode="file", n_boot=100)
         assert abs(rep_pca["official"]["S"] - 0.192639) < 1e-4
         assert abs(rep_pca["extended_s_prime"]["S_prime"] - 0.361368) < 1e-4
+
+
+def test_imas_roundtrip_integration():
+    """Checks IMAS IDS equilibrium export/import integration."""
+    from tokamld.imas import EquilibriumData, to_ids, from_ids
+    R = np.linspace(1.0, 2.0, 32)
+    Z = np.linspace(-1.0, 1.0, 32)
+    psi = np.random.randn(32, 32)
+    eq = EquilibriumData(psi=psi, R=R, Z=Z, axis_r=1.5, axis_z=0.0)
+    ids = to_ids(eq)
+    rec = from_ids(ids)
+    assert np.max(np.abs(eq.psi - rec.psi)) <= 1e-12
+    assert abs(eq.axis_r - rec.axis_r) <= 1e-12
+

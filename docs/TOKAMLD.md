@@ -25,6 +25,12 @@
 - `magnetic_island_width(psi_tilde, q_res, dq_dpsi)`: Фізично коректна ширина магнітного острова $W = 4\sqrt{\tilde{\psi} q / |dq/d\psi|}$ (R4, VR15).
 - `FieldLineIntegrator`: Інтегратор силових ліній магнітного поля та побудова перерізів Пуанкаре.
 
+### `tokamld.imas` (IMAS IDS Equilibrium Export & Import)
+- `EquilibriumData`: Високорівневий типізований датаклас рівноваги (поле $\psi$, сітка $R, Z$, профілі $p', FF', q$, межа LCFS, магнітна вісь, X-точки).
+- `to_ids(data, target_ods=None)`: Експорт у структуру IMAS IDS `equilibrium` (підтримує нативний OMAS ODS або валідний Mock IDS словник).
+- `from_ids(ids_obj, time_index=0)`: Відновлення даних рівноваги з IMAS IDS.
+- `export_equilibrium(data, filepath)` / `import_equilibrium(filepath)`: Серіалізація та зчитування у JSON форматі з точністю $\le 10^{-12}$.
+
 ---
 
 ## 2. Верифікаційні регресійні тести
@@ -34,3 +40,5 @@
 3. **Аналітична рівновага Серфона-Фрайдберга:** перевірено точний розв'язок Соловйова $\Delta^*(R^4/8) = R^2$ (похибка дискретизації $< 10^{-3}$).
 4. **Істина + 1% шуму на 25 розрядах:** підтверджено $g \approx 0.6368 \approx 0.63$ (E6/E38).
 5. **Репродукція скорера:** $S'$ на `perfect` $\to 1.0$, `zeros` $\to 0.0$, `PCA+Ridge` $\to 0.361368$.
+6. **IMAS Round-trip:** повне відновлення 2D поля, профілів $p', FF', q$, сепаратриси LCFS та критичних точок з похибкою $\le 10^{-12}$.
+
