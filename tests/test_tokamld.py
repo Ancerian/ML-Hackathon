@@ -152,6 +152,29 @@ def test_conformal_bands_coverage():
     assert np.isfinite(cov["c_star"])
 
 
+def test_conformal_comparative_methods():
+    """Comparative test: Simultaneous vs Pointwise vs Bonferroni."""
+    from tokamld.conformal import PointwiseConformalBands, BonferroniConformalBands, compare_conformal_methods
+    rng = np.random.default_rng(42)
+    # 40 calibration, 20 test frames on 8x8 grid (64 pixels)
+    y_true_cal = rng.standard_normal((40, 8, 8))
+    y_pred_cal = y_true_cal + rng.normal(0, 0.1, size=(40, 8, 8))
+
+    y_true_test = rng.standard_normal((20, 8, 8))
+    y_pred_test = y_true_test + rng.normal(0, 0.1, size=(20, 8, 8))
+    test_shots = np.repeat(np.arange(4), 5)
+
+    comp = compare_conformal_methods(y_true_cal, y_pred_cal, y_true_test, y_pred_test,
+                                     alpha=0.90, test_shot_ids=test_shots)
+    assert "simultaneous_M" in comp
+    assert "pointwise_P" in comp
+    assert "bonferroni" in comp
+    # On 64 pixels with alpha=0.90, Bonferroni requires n >= 64 / 0.10 - 1 = 639 frames.
+    # With only 40 frames, it must report is_finite = False
+    assert comp["bonferroni"]["is_finite"] is False
+    assert comp["price_of_simultaneity"] > 1.0
+
+
 def test_scorer_reproduction():
     """Checks that eval_submission.py reproduces perfect/zeros and PCA+Ridge known numbers."""
     from eval_submission import evaluate_submission
