@@ -34,12 +34,12 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 STARTER = HERE / "fusion equilibrium challenge" / "starter"
 C2 = HERE / "Our try" / "03-deep-dives" / "D1-psi-to-scalars" / "c2"
-NOV = HERE / "Our try" / "04-novelty"
+SRC = HERE / "src"
 
+sys.path.insert(0, str(SRC))
 sys.path.insert(0, str(STARTER))
 sys.path.insert(0, str(STARTER / "fusion_scoring"))
 sys.path.insert(0, str(C2))
-sys.path.insert(0, str(NOV))
 
 import local_score as ls
 import train as c2_train
@@ -50,52 +50,17 @@ from contour import symmetric_hausdorff
 from derive import derive_frame
 from lcfs import extract_lcfs, extract_lcfs_with_sign, major_radius
 from metrics import Accum, finalize_machine
-from gs_residual_probe import gs_inconsistency
-from topology_probe import _winding, inside_lcfs, LOOP
+
+from tokamld.gs import gs_inconsistency, gate, DEFAULT_G_REF
+from tokamld.topology import inside_lcfs, count_critical_points, check_canonical_topology
 
 # Pre-registered constants (Specification v2.1)
-G_REF = 0.6328
+G_REF = DEFAULT_G_REF
 MACHINE = "DIII-D"
 N_POINTS = 512
 N_ITER = 22
 LI_IDX = CONS_SCALARS.index("li")
 GAMMA_TOPO = 0.5
-
-
-def detect_critical_points(psi: np.ndarray, R: np.ndarray, Z: np.ndarray,
-                           inside: np.ndarray, min_npix: int = 3) -> Tuple[int, int]:
-    """Returns (N_O, N_X) inside LCFS with connected component noise filtering (min_npix >= 3)."""
-    from scipy.ndimage import label
-    dR, dZ = R[1] - R[0], Z[1] - Z[0]
-    gz, gr = np.gradient(psi, dZ, dR)
-    ang = np.arctan2(gz, gr)
-    nz, nr = psi.shape
-
-    raw = np.zeros_like(psi)
-    for iz in range(1, nz - 1):
-        for ir in range(1, nr - 1):
-            if not inside[iz, ir]:
-                continue
-            a = [ang[iz + dz, ir + dr] for dz, dr in LOOP]
-            a.append(a[0])
-            d = np.diff(a)
-            d = (d + np.pi) % (2 * np.pi) - np.pi
-            raw[iz, ir] = np.round(d.sum() / (2 * np.pi))
-
-    lab, n = label(raw != 0, structure=np.ones((3, 3)))
-    n_O, n_X = 0, 0
-    for c in range(1, n + 1):
-        zs, rs = np.where(lab == c)
-        if len(zs) < min_npix:
-            continue
-        iz0, iz1 = max(zs.min() - 1, 0), min(zs.max() + 1, nz - 1)
-        ir0, ir1 = max(rs.min() - 1, 0), min(rs.max() + 1, nr - 1)
-        w = _winding(ang, iz0, iz1, ir0, ir1)
-        if w > 0:
-            n_O += 1
-        elif w < 0:
-            n_X += 1
-    return n_O, n_X
 
 
 def score_single_shot(gt: dict, ref: tuple, pred: dict,
@@ -127,7 +92,7 @@ def score_single_shot(gt: dict, ref: tuple, pred: dict,
             p_frame_vals.append(0.0)
             n_spurious_vals.append(5)
         else:
-            n_O, n_X = detect_critical_points(psi_pred[k], R, Z, ins, min_npix=3)
+            n_O, n_X = count_critical_points(psi_pred[k], R, Z, ins, min_npix=3)
             n_spur = abs(n_O - 1) + n_X
             n_spurious_vals.append(n_spur)
             p_frame_vals.append(float(np.exp(-GAMMA_TOPO * n_spur)))
