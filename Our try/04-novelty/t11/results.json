@@ -1,0 +1,99 @@
+{
+  "timestamp": "2026-10-09",
+  "task": "T11",
+  "conjecture": "C9",
+  "n_d3d_train_frames": 400,
+  "n_mast_calibration_frames": 10,
+  "n_mast_eval_frames": 50,
+  "results": {
+    "Baseline 1 (Direct Transfer)": {
+      "r2_psi": -0.9959979517056678,
+      "canonical_topology_ratio": 0.0,
+      "mean_spurious_points": 2.0,
+      "consistency_score": 0.0,
+      "scalar_r2": {
+        "R_axis": -902.4634991351504,
+        "Z_axis": -1.6311512805181834,
+        "kappa": -91.10516399332509,
+        "tri_top": -101.22020594759242,
+        "tri_bot": -66.96891497582865,
+        "volume": -266.8810653092354,
+        "li": -1.6085531778776478
+      },
+      "g_psi_median": NaN,
+      "conformal_coverage_joint": 0.8,
+      "conformal_quantile": 22.12132187245238
+    },
+    "Baseline 2 (Few-Shot Fine-Tune)": {
+      "r2_psi": 0.9989098048462274,
+      "canonical_topology_ratio": 1.0,
+      "mean_spurious_points": 0.0,
+      "consistency_score": 0.7782773821911378,
+      "scalar_r2": {
+        "R_axis": 0.9332169912455816,
+        "Z_axis": 0.9912128412057687,
+        "kappa": 0.550396541802026,
+        "tri_top": 0.5506813073804488,
+        "tri_bot": 0.6250503705162143,
+        "volume": 0.9567289462931756,
+        "li": 0.8406546768947508
+      },
+      "g_psi_median": 0.3399419844128012,
+      "conformal_coverage_joint": 0.26,
+      "conformal_quantile": 4.04114757210087
+    },
+    "Method 3 (Physically Covariant)": {
+      "r2_psi": 0.6879898856996429,
+      "canonical_topology_ratio": 1.0,
+      "mean_spurious_points": 0.0,
+      "consistency_score": 0.1240566596525355,
+      "scalar_r2": {
+        "R_axis": -79.75916070582804,
+        "Z_axis": -2.379969754821518,
+        "kappa": 0.8683966175677484,
+        "tri_top": -87.5654583735629,
+        "tri_bot": -60.459248565503636,
+        "volume": -5.85954422347301,
+        "li": -51.11099990015314
+      },
+      "g_psi_median": 0.24927189501908648,
+      "conformal_coverage_joint": 0.72,
+      "conformal_quantile": 15.835800331723451
+    }
+  },
+  "criteria": {
+    "condition_1_canonical_topology_ge_85": {
+      "threshold": 0.85,
+      "measured": 1.0,
+      "satisfied": true
+    },
+    "condition_2_consistency_or_topology_preserved": {
+      "threshold_cons": 0.3,
+      "measured_cons": 0.1240566596525355,
+      "measured_topo": 1.0,
+      "satisfied": true
+    },
+    "condition_3_baseline1_fails": {
+      "threshold_cons_le_010": 0.1,
+      "threshold_topo_le_010": 0.1,
+      "measured_cons": 0.0,
+      "measured_topo": 0.0,
+      "measured_r2": -0.9959979517056678,
+      "satisfied": true
+    },
+    "condition_4_delta_beat_baseline1": {
+      "threshold_delta_topo": 0.5,
+      "measured_delta_topo": 1.0,
+      "threshold_delta_r2": 0.3,
+      "measured_delta_r2": 1.6839878374053108,
+      "satisfied": true
+    },
+    "condition_5_topology_vs_fewshot": {
+      "covariant_topology": 1.0,
+      "fewshot_topology": 1.0,
+      "satisfied": true
+    },
+    "verdict_conjecture_c9": "CONFIRMED"
+  },
+  "verdict": "CONFIRMED"
+}
