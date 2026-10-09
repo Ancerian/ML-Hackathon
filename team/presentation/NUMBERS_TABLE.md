@@ -59,6 +59,7 @@
 | **T11** | Збереження топології DIII-D → MAST ($1\mathrm{O}/0\mathrm{X}$) | **100%** ($R^2_\psi = \mathbf{0.6880}$ vs $\mathbf{-0.9960}$) | **ПІДТВЕРДЖЕНО** (Категорія B) | [`Our try/04-novelty/t11/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t11/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t11/run_t11.py"` |
 | **T12** | Збереження фазового об'єму інтегратора | $|\det J - 1| \le \mathbf{10^{-10}}$ | **ВИКОНАНО** (Категорія B) | [`Our try/04-novelty/t12/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t12/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t12/run_t12.py"` |
 | **T12** | Швидкість трасування силових ліній на JAX | **968.7** ліній/с | **ВИКОНАНО** (Категорія B) | [`Our try/04-novelty/t12/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t12/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t12/run_t12.py"` |
+| **T13** | Зниження $g$ релаксацією ГШ ($dt=2\cdot 10^{-4}, n=8$) | **-55.5%** ($0.8618 \to 0.3838$, $R^2_\psi = 0.9771$, $\Delta S'\text{-gate} = +0.1993$) | **ПІДТВЕРДЖЕНО** (Категорія A) | [`Our try/04-novelty/t13/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t13/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t13/run_t13.py"` |
 
 ---
 
