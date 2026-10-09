@@ -1,2 +1,4 @@
-# Ignore intermediate frame batches, track clips and keyframes
+# Ignore intermediate frame batches and logs, track clips and keyframes
 renders/*_frames/
+renders/*_raw/
+renders/*.log

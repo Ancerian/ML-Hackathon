@@ -2,16 +2,17 @@
 """motion/render_film.py — Render continuous camera flight film and individual acts.
 
 Supports:
-  --preview : 640x360, 16 samples EEVEE
-  --final   : 1920x1080, 64 samples EEVEE (Run ONLY after explicit approval)
+  --preview : 640x360, 4 samples EEVEE (fast verification, ~5 min for 1344 3D frames)
+  --final   : 1920x1080, 64 samples EEVEE (Full HD master render)
 
-Acts:
-  Act 1: Machine Cutaway (DIII-D #203702, vessel, TF/PF coils, divertor)
-  Act 2: Magnetic Flux Surfaces (psi_N in [0.12 .. 0.97], EFIT frame 75 t=1760 ms)
-  Act 3: Field Lines (Canonical Hamiltonian system, q=m/n wrapping)
-  Act 4A: Poincare Section A (Single mode 2/1, A=1e-3, w=27.1 mm, S=н/д)
-  Act 4B: Poincare Section B (Key frame A=4.8e-3, S=1.002, k=2.02 stochastic overlap)
-  Act 5: 2D Equilibrium Comparison Panel (DIII-D #062 Frame 147, GT vs UNet_Lite)
+Frame allocation at 24 fps:
+  Act 1: Machine Cutaway (Frames 1 .. 192, 8.0 s)
+  Act 2: Magnetic Flux Surfaces (Frames 193 .. 480, 12.0 s)
+  Act 3: Field Lines Canonical Hamiltonian (Frames 481 .. 768, 12.0 s)
+  Act 4A: Poincare Section A (Frames 769 .. 1056, 12.0 s: single mode 2/1, dynamic turn accumulation)
+  Act 4B: Poincare Section B (Frames 1057 .. 1344, 12.0 s: two modes 2/1+3/1, key frame A=4.8e-3 overlap)
+  Act 5: 2D Equilibrium Comparison (Frames 1345 .. 1632, 12.0 s: DIII-D #062 Frame 147)
+Total: 1632 frames (68.0 s continuous film).
 """
 from __future__ import annotations
 
@@ -29,6 +30,8 @@ PROJECT = Path(__file__).resolve().parent.parent
 BLENDER_BIN = "/Users/ancerian/Library/Application Support/Steam/steamapps/common/Blender/Blender.app/Contents/MacOS/Blender"
 BLEND_FILE = str(PROJECT / "tokamak-3d-viz" / "tokamak.blend")
 COMPARE_PNG = str(PROJECT / "motion" / "data" / "contours_compare.png")
+POINCARE_SWEEP_JSON = str(PROJECT / "motion" / "data" / "poincare_sweep.json")
+POINCARE_HIGHRES_JSON = str(PROJECT / "motion" / "data" / "poincare_highres_chaos.json")
 
 
 def add_banner(image_path: Path, title: str, subtitle: str, act_num: int, is_preview: bool = True):
@@ -57,9 +60,6 @@ def add_banner(image_path: Path, title: str, subtitle: str, act_num: int, is_pre
     pad_x = int(w * 0.025)
     pad_y = int(h * 0.018)
     
-    # Act badge color
-    badge_color = (88, 166, 255) if act_num < 4 else ((227, 179, 65) if act_num == 4 else (248, 81, 73))
-    
     draw.text((pad_x, pad_y), title, font=font_t, fill=(255, 255, 255, 255))
     draw.text((pad_x, pad_y + font_size_t + 4), subtitle, font=font_s, fill=(201, 209, 217, 255))
     
@@ -73,15 +73,20 @@ def add_banner(image_path: Path, title: str, subtitle: str, act_num: int, is_pre
     combined.convert("RGB").save(image_path, "PNG")
 
 
-def render_blender_batch(args, out_frames_dir: Path):
-    """Executes Blender in headless mode to render 3D camera flight acts."""
+def render_blender_batch(args, raw_frames_dir: Path):
+    """Executes Blender in headless mode to render 3D camera flight acts (frames 1..1344)."""
     script_content = f"""
 import bpy
-import time
+import json
 import math
+import os
+import time
 
 blend_file = "{BLEND_FILE}"
-out_dir = "{str(out_frames_dir)}"
+raw_dir = "{str(raw_frames_dir)}"
+sweep_file = "{POINCARE_SWEEP_JSON}"
+highres_file = "{POINCARE_HIGHRES_JSON}"
+
 res_x = {args.res_x}
 res_y = {args.res_y}
 samples = {args.samples}
@@ -123,18 +128,27 @@ fl = bpy.data.objects.get('FieldLines')
 plasma_vol = bpy.data.objects.get('PlasmaVolume')
 cutaway = bpy.data.objects.get('VacuumVessel')
 
-# Define flight keyframes: (frame_idx, cam_loc, tgt_loc, (hide_p_reg, hide_p_isl, hide_p_ch, hide_fl, hide_surf))
-# Total 160 frames for 3D acts:
-# Act 1: 1 .. 35  (Cutaway overview)
-# Act 2: 36 .. 70 (Flux surfaces zoom)
-# Act 3: 71 .. 105 (Field lines orbital track)
-# Act 4A: 106 .. 135 (Poincare Section A: Single mode 2/1)
-# Act 4B: 136 .. 165 (Poincare Section B: Key frame A=4.8e-3 overlap)
-
 def lerp(a, b, t):
     return tuple(a[i] + (b[i] - a[i]) * t for i in range(len(a)))
 
-# Flight path coordinates
+def update_mesh_pts(ob, pts):
+    me = ob.data
+    me.clear_geometry()
+    if pts:
+        me.from_pydata(pts, [], [])
+    me.update()
+
+# Load Poincare data
+with open(sweep_file) as f:
+    sweep_data = json.load(f)
+highres_frames = {{}}
+if os.path.exists(highres_file):
+    with open(highres_file) as f:
+        hr = json.load(f)
+        for hrf in hr.get('frames', []):
+            highres_frames[round(float(hrf['amp']), 4)] = hrf
+
+# Flight coordinates
 pos_cutaway_start = (-34.0, -38.0, 24.0)
 pos_cutaway_end   = (-27.0, -36.0, 20.0)
 tgt_cutaway       = (0.0, 0.0, 0.0)
@@ -147,13 +161,17 @@ pos_fl_start      = (-20.0, -28.0, 12.0)
 pos_fl_end        = (-10.5, -21.0, 5.5)
 tgt_fl            = (4.5, -3.0, 0.0)
 
-pos_poincare      = (5.03, -20.2, 0.0)
+pos_p_a_start     = (4.7, -21.5, 1.2)
+pos_p_a_end       = (5.3, -19.5, -0.6)
+
+pos_p_b_start     = (5.3, -19.5, -0.6)
+pos_p_b_end       = (5.0, -18.0, 0.5)
 tgt_poincare      = (5.03, 0.0, 0.0)
 
 timings = {{}}
 t_start_all = time.time()
 
-# ----------------- ACT 1: CUTAWAY (Frames 1..35) -----------------
+# ----------------- ACT 1: CUTAWAY (Frames 1..192, 8.0 s) -----------------
 t0 = time.time()
 if p_reg: p_reg.hide_render = True
 if p_isl: p_isl.hide_render = True
@@ -161,37 +179,47 @@ if p_ch: p_ch.hide_render = True
 if p_plane: p_plane.hide_render = True
 if fl: fl.hide_render = True
 
-for f in range(1, 36):
-    t_norm = (f - 1) / 34.0
+for f in range(1, 193):
+    out_p = f'{{raw_dir}}/frame_{{f:04d}}.png'
+    if os.path.exists(out_p) and os.path.getsize(out_p) > 1000:
+        continue
+    t_norm = (f - 1) / 191.0
     cam.location = lerp(pos_cutaway_start, pos_cutaway_end, t_norm)
     tgt.location = tgt_cutaway
-    scene.render.filepath = f'{{out_dir}}/frame_{{f:04d}}.png'
+    scene.render.filepath = out_p
     bpy.ops.render.render(write_still=True)
 timings['act1_cutaway'] = time.time() - t0
 
-# ----------------- ACT 2: SURFACES (Frames 36..70) -----------------
+# ----------------- ACT 2: SURFACES (Frames 193..480, 12.0 s) -----------------
 t0 = time.time()
 if fl: fl.hide_render = True
-for f in range(36, 71):
-    t_norm = (f - 36) / 34.0
+for f in range(193, 481):
+    out_p = f'{{raw_dir}}/frame_{{f:04d}}.png'
+    if os.path.exists(out_p) and os.path.getsize(out_p) > 1000:
+        continue
+    t_norm = (f - 193) / 287.0
     cam.location = lerp(pos_surf_start, pos_surf_end, t_norm)
     tgt.location = tgt_surf
-    scene.render.filepath = f'{{out_dir}}/frame_{{f:04d}}.png'
+    scene.render.filepath = out_p
     bpy.ops.render.render(write_still=True)
 timings['act2_surfaces'] = time.time() - t0
 
-# ----------------- ACT 3: FIELD LINES (Frames 71..105) -----------------
+# ----------------- ACT 3: FIELD LINES (Frames 481..768, 12.0 s) -----------------
 t0 = time.time()
 if fl: fl.hide_render = False
-for f in range(71, 106):
-    t_norm = (f - 71) / 34.0
+for f in range(481, 769):
+    out_p = f'{{raw_dir}}/frame_{{f:04d}}.png'
+    if os.path.exists(out_p) and os.path.getsize(out_p) > 1000:
+        continue
+    t_norm = (f - 481) / 287.0
     cam.location = lerp(pos_fl_start, pos_fl_end, t_norm)
     tgt.location = tgt_fl
-    scene.render.filepath = f'{{out_dir}}/frame_{{f:04d}}.png'
+    scene.render.filepath = out_p
     bpy.ops.render.render(write_still=True)
 timings['act3_fieldlines'] = time.time() - t0
 
-# ----------------- ACT 4A: POINCARE SECTION A (Frames 106..135) -----------------
+# ----------------- ACT 4A: POINCARE SECTION A (Frames 769..1056, 12.0 s) -----------------
+# 7 amplitude steps: [41, 41, 41, 41, 41, 41, 42] = 288 frames. Single mode 2/1.
 t0 = time.time()
 if fl: fl.hide_render = True
 if p_reg: p_reg.hide_render = False
@@ -199,31 +227,132 @@ if p_isl: p_isl.hide_render = False
 if p_ch: p_ch.hide_render = True
 if p_plane: p_plane.hide_render = False
 
-cam.location = pos_poincare
-tgt.location = tgt_poincare
+step_lengths_a = [41, 41, 41, 41, 41, 41, 42]
+cum_a = [0]
+for sl in step_lengths_a:
+    cum_a.append(cum_a[-1] + sl)
 
-for f in range(106, 136):
-    scene.render.filepath = f'{{out_dir}}/frame_{{f:04d}}.png'
+for f in range(769, 1057):
+    out_p = f'{{raw_dir}}/frame_{{f:04d}}.png'
+    idx_in_act = f - 769
+    
+    # Camera slow motion
+    t_act_norm = idx_in_act / 287.0
+    cam.location = lerp(pos_p_a_start, pos_p_a_end, t_act_norm)
+    tgt.location = tgt_poincare
+    
+    # Amplitude step
+    step_idx = 0
+    for s in range(len(step_lengths_a)):
+        if cum_a[s] <= idx_in_act < cum_a[s+1]:
+            step_idx = s
+            break
+            
+    # Progress within step: punctures accumulate turn-by-turn (~1.5 s per step)
+    k_in_step = idx_in_act - cum_a[step_idx]
+    k_ratio = min(1.0, (k_in_step + 1) / 34.0)
+    
+    if os.path.exists(out_p) and os.path.getsize(out_p) > 1000:
+        continue
+        
+    sweep_frame = sweep_data['frames'][step_idx]
+    reg_pts, isl_pts = [], []
+    for line in sweep_frame['lines']:
+        pts_line = line['points']
+        n_show = max(1, int(len(pts_line) * k_ratio))
+        for pt in pts_line[:n_show]:
+            r_val, z_val = pt[0], pt[1]
+            # Scaled Blender coordinates: (R*3.0, 0.0, Z*3.0)
+            p_bl = (r_val * 3.0, 0.0, z_val * 3.0)
+            if 2.02 <= r_val <= 2.17:
+                isl_pts.append(p_bl)
+            else:
+                reg_pts.append(p_bl)
+                
+    update_mesh_pts(p_reg, reg_pts)
+    update_mesh_pts(p_isl, isl_pts)
+    update_mesh_pts(p_ch, [])
+    
+    scene.render.filepath = out_p
     bpy.ops.render.render(write_still=True)
 timings['act4a_poincare_single'] = time.time() - t0
 
-# ----------------- ACT 4B: POINCARE SECTION B (Frames 136..165) -----------------
+# ----------------- ACT 4B: POINCARE SECTION B (Frames 1057..1344, 12.0 s) -----------------
+# 8 amplitude steps: 36 frames each = 288 frames. Two modes 2/1+3/1 (chaos overlap at A=4.8e-3).
 t0 = time.time()
-if p_ch: p_ch.hide_render = False  # Enable chaotic stochastic points
+if p_ch: p_ch.hide_render = False
 
-for f in range(136, 166):
-    scene.render.filepath = f'{{out_dir}}/frame_{{f:04d}}.png'
+step_len_b = 36
+for f in range(1057, 1345):
+    out_p = f'{{raw_dir}}/frame_{{f:04d}}.png'
+    idx_in_act = f - 1057
+    
+    # Camera slow motion
+    t_act_norm = idx_in_act / 287.0
+    cam.location = lerp(pos_p_b_start, pos_p_b_end, t_act_norm)
+    tgt.location = tgt_poincare
+    
+    # Amplitude step (frames 7..14 of sweep)
+    step_idx = min(7, idx_in_act // step_len_b)
+    sweep_frame = sweep_data['frames'][7 + step_idx]
+    amp_val = sweep_frame['amp']
+    
+    # Progress within step: punctures accumulate turn-by-turn
+    k_in_step = idx_in_act % step_len_b
+    k_ratio = min(1.0, (k_in_step + 1) / 30.0)
+    
+    if os.path.exists(out_p) and os.path.getsize(out_p) > 1000:
+        continue
+        
+    reg_pts, isl_pts, ch_pts = [], [], []
+    has_dense_chaos = round(float(amp_val), 4) in highres_frames
+    
+    for line in sweep_frame['lines']:
+        pts_line = line['points']
+        n_show = max(1, int(len(pts_line) * k_ratio))
+        for pt in pts_line[:n_show]:
+            r_val, z_val = pt[0], pt[1]
+            p_bl = (r_val * 3.0, 0.0, z_val * 3.0)
+            if step_idx < 4:
+                # Pre-overlap: 2/1 and 3/1 islands
+                if 2.02 <= r_val <= 2.22:
+                    isl_pts.append(p_bl)
+                else:
+                    reg_pts.append(p_bl)
+            else:
+                # Stochastic overlap layer (A >= 4.0e-3, key frame A=4.8e-3 S=1.002, k=2.02)
+                if 2.08 <= r_val <= 2.17:
+                    ch_pts.append(p_bl)
+                elif 2.02 <= r_val <= 2.22:
+                    isl_pts.append(p_bl)
+                else:
+                    reg_pts.append(p_bl)
+                    
+    # Add dense highres chaotic points for stochastic layer visualization
+    if has_dense_chaos and step_idx >= 4:
+        hrf = highres_frames[round(float(amp_val), 4)]
+        for line in hrf['lines'][::3]: # Subsample lines for clean density
+            pts_line = line['points']
+            n_show = max(1, int(len(pts_line) * k_ratio * 0.5))
+            for pt in pts_line[:n_show]:
+                p_bl = (pt[0] * 3.0, 0.0, pt[1] * 3.0)
+                ch_pts.append(p_bl)
+                
+    update_mesh_pts(p_reg, reg_pts)
+    update_mesh_pts(p_isl, isl_pts)
+    update_mesh_pts(p_ch, ch_pts)
+    
+    scene.render.filepath = out_p
     bpy.ops.render.render(write_still=True)
 timings['act4b_poincare_chaos'] = time.time() - t0
 
 timings['total_3d_sec'] = time.time() - t_start_all
-with open(f'{{out_dir}}/timings.json', 'w') as f:
-    import json
+with open(f'{{raw_dir}}/timings.json', 'w') as f:
     json.dump(timings, f, indent=2)
 
 print('BLENDER_BATCH_DONE')
 """
-    runner_script = out_frames_dir / "run_blender_inner.py"
+    runner_script = raw_frames_dir / "run_blender_inner.py"
     with open(runner_script, "w", encoding="utf-8") as f:
         f.write(script_content)
         
@@ -242,21 +371,22 @@ print('BLENDER_BATCH_DONE')
         print("Blender STDERR:", proc.stderr)
         raise RuntimeError(f"Blender failed with exit code {proc.returncode}")
         
-    with open(out_frames_dir / "timings.json") as f:
-        timings = json.load(f)
+    timings_path = raw_frames_dir / "timings.json"
+    if timings_path.exists():
+        with open(timings_path) as f:
+            timings = json.load(f)
+    else:
+        timings = {"total_3d_sec": dt}
     timings["total_session_sec"] = dt
     return timings
 
 
-def generate_act5_frames(args, out_frames_dir: Path):
-    """Generates Act 5 2D comparison panel frames (frames 166..195) from contours_compare.png."""
+def generate_act5_frames(args, raw_frames_dir: Path):
+    """Generates Act 5 2D comparison panel frames (frames 1345..1632, 288 frames) from contours_compare.png."""
     t0 = time.time()
     src_img = Image.open(COMPARE_PNG).convert("RGBA")
     
-    # Target resolution
     w_t, h_t = args.res_x, args.res_y
-    
-    # Resize preserving aspect ratio
     src_w, src_h = src_img.size
     scale = min(w_t / src_w, h_t / src_h)
     new_w, new_h = int(src_w * scale), int(src_h * scale)
@@ -267,80 +397,92 @@ def generate_act5_frames(args, out_frames_dir: Path):
     off_y = (h_t - new_h) // 2
     panel.paste(resized, (off_x, off_y), resized)
     
-    # Write frames 166..195 (30 frames)
-    for f in range(166, 196):
-        out_f = out_frames_dir / f"frame_{f:04d}.png"
-        panel.convert("RGB").save(out_f, "PNG")
+    for f in range(1345, 1633):
+        out_f = raw_frames_dir / f"frame_{f:04d}.png"
+        if not (out_f.exists() and out_f.stat().st_size > 1000):
+            panel.convert("RGB").save(out_f, "PNG")
         
     return time.time() - t0
 
 
-def annotate_all_frames(out_frames_dir: Path, is_preview: bool = True):
-    """Applies high-contrast readable banners to all frames."""
-    print("Applying high-contrast projector banners...")
+def annotate_all_frames(raw_frames_dir: Path, out_frames_dir: Path, is_preview: bool = True):
+    """Copies raw frames to annotated frames and applies high-contrast readable banners."""
+    print("Applying high-contrast projector banners (frames 1..1632)...")
+    out_frames_dir.mkdir(parents=True, exist_ok=True)
     
     acts_meta = [
         # (range, title, subtitle, act_num)
         (
-            range(1, 36),
+            range(1, 193),
             "АКТ 1: РОЗРІЗ РЕАКТОРА (ТОКАМАК DIII-D #203702)",
             "Вакуумна камера, котушки тороїдального (TF) та полоїдального (PF) полів, дивертор",
             1
         ),
         (
-            range(36, 71),
+            range(193, 481),
             "АКТ 2: МАГНІТНІ ПОВЕРХНІ ПОЛОЇДАЛЬНОГО ПОТОКУ ψ_N ∈ [0.12 .. 0.97]",
             "Вкладені магнітні поверхні розрахунку EFIT (кадр 75, t=1760 мс, q_95=3.7)",
             2
         ),
         (
-            range(71, 106),
+            range(481, 769),
             "АКТ 3: СИЛОВА ЛІНІЯ: КАНОНІЧНА ГАМІЛЬТОНОВА СИСТЕМА (E19)",
             "Збереження фазового об'єму |det J - 1| ≤ 10^-10; намотка на тори із q = m/n",
             3
         ),
         (
-            range(106, 136),
-            "АКТ 4А: ПЕРЕРІЗ ПУАНКАРЕ — ОДИНОЧНА МОДА 2/1 (A=10^-3, w=27.1 мм)",
+            range(769, 1057),
+            "АКТ 4А: ПЕРЕРІЗ ПУАНКАРЕ — ОДИНОЧНА МОДА 2/1 (A=10^-3, w=27.1 мм, модель сцени)",
             "Параметр Чирикова S = н/д (одна мода); повна відсутність хаосу (теорема E20)",
             4
         ),
         (
-            range(136, 166),
+            range(1057, 1345),
             "АКТ 4Б: ПЕРЕРІЗ ПУАНКАРЕ — КЛЮЧОВИЙ КАДР ПЕРЕКРИТТЯ A=4.8e-3 (k=2.02)",
             "S≈1.0–1.1: початок перекриття островів; FTLE у 1.7–2.0 раза більший; стохастичність ймовірна, кількісно не підтверджена",
             4
         ),
         (
-            range(166, 196),
+            range(1345, 1633),
             "АКТ 5: 2D ПОРІВНЯННЯ РІВНОВАГ (DIII-D #062, КАДР 147 — МЕДІАННИЙ ЗА g КАДР ТЕСТУ)",
             "Істина g=0.0065 проти UNet_Lite g=0.8618; єдина шкала нев'язки g_local ∈ [0.0 .. 1.2]",
             5
         ),
     ]
     
+    t0 = time.time()
+    n_annotated = 0
     for f_range, title, subtitle, act_num in acts_meta:
         for f in f_range:
-            p = out_frames_dir / f"frame_{f:04d}.png"
-            if p.exists():
-                add_banner(p, title, subtitle, act_num, is_preview=is_preview)
+            raw_p = raw_frames_dir / f"frame_{f:04d}.png"
+            out_p = out_frames_dir / f"frame_{f:04d}.png"
+            if raw_p.exists():
+                if out_p.exists() and out_p.stat().st_mtime >= raw_p.stat().st_mtime and out_p.stat().st_size > 1000:
+                    continue
+                # Copy then add banner
+                im = Image.open(raw_p)
+                im.save(out_p, "PNG")
+                add_banner(out_p, title, subtitle, act_num, is_preview=is_preview)
+                n_annotated += 1
+                
+    print(f"  Banners applied to {n_annotated} updated frames in {time.time() - t0:.2f} s")
 
 
 def assemble_videos_and_keyframes(args, out_frames_dir: Path, renders_dir: Path):
-    """Encodes separate act clips, continuous full film, and exports keyframes."""
+    """Encodes separate act clips, continuous full film (68.0 s), and exports keyframes."""
     print("Encoding video clips with ffmpeg...")
     renders_dir.mkdir(parents=True, exist_ok=True)
     
     fps = args.fps
     
-    # 1. Full continuous film (frames 1..195)
+    # 1. Full continuous film (frames 1..1632, 68.0 s)
     full_mp4 = renders_dir / f"film_continuous_{args.mode}.mp4"
     cmd_full = [
         "/opt/homebrew/bin/ffmpeg", "-y",
         "-framerate", str(fps),
         "-start_number", "1",
         "-i", str(out_frames_dir / "frame_%04d.png"),
-        "-vframes", "195",
+        "-vframes", "1632",
         "-c:v", "libx264",
         "-pix_fmt", "yuv420p",
         "-crf", "19",
@@ -352,12 +494,12 @@ def assemble_videos_and_keyframes(args, out_frames_dir: Path, renders_dir: Path)
     
     # 2. Individual Acts
     acts_def = [
-        ("act1_cutaway", 1, 35),
-        ("act2_surfaces", 36, 70),
-        ("act3_fieldlines", 71, 105),
-        ("act4a_poincare_single", 106, 135),
-        ("act4b_poincare_chaos", 136, 165),
-        ("act5_compare_2d", 166, 195),
+        ("act1_cutaway", 1, 192),           # 192 frames = 8.0 s
+        ("act2_surfaces", 193, 480),        # 288 frames = 12.0 s
+        ("act3_fieldlines", 481, 768),      # 288 frames = 12.0 s
+        ("act4a_poincare_single", 769, 1056), # 288 frames = 12.0 s
+        ("act4b_poincare_chaos", 1057, 1344), # 288 frames = 12.0 s
+        ("act5_compare_2d", 1345, 1632),    # 288 frames = 12.0 s
     ]
     
     for name, start, end in acts_def:
@@ -390,7 +532,7 @@ def assemble_videos_and_keyframes(args, out_frames_dir: Path, renders_dir: Path)
 
 def main():
     parser = argparse.ArgumentParser(description="Render camera flight film and individual acts.")
-    parser.add_argument("--preview", dest="preview", action="store_true", help="Preview mode (640x360, 16 samples)")
+    parser.add_argument("--preview", dest="preview", action="store_true", help="Preview mode (640x360, 4 samples)")
     parser.add_argument("--final", dest="final", action="store_true", help="Final mode (1920x1080, 64 samples)")
     parser.add_argument("--fps", type=int, default=24, help="Frames per second (default: 24)")
     args = parser.parse_args()
@@ -404,29 +546,32 @@ def main():
         args.mode = "preview"
         args.res_x = 640
         args.res_y = 360
-        args.samples = 16
+        args.samples = 4
         
     print("=" * 70)
     print(f"  TOKAMAK FLIGHT FILM RENDERER — Mode: {args.mode.upper()}")
     print(f"  Resolution: {args.res_x}x{args.res_y} | EEVEE Samples: {args.samples} | FPS: {args.fps}")
+    print(f"  Total Duration: 68.0 s (1632 frames total, 1344 3D frames)")
     print("=" * 70)
     
     renders_dir = PROJECT / "motion" / "renders"
+    raw_frames_dir = renders_dir / f"{args.mode}_raw"
     out_frames_dir = renders_dir / f"{args.mode}_frames"
+    raw_frames_dir.mkdir(parents=True, exist_ok=True)
     out_frames_dir.mkdir(parents=True, exist_ok=True)
     
-    # 1. Render 3D Blender acts (frames 1..165)
-    print("\n>>> Step 1: Rendering 3D camera flight acts in Blender...")
-    timings = render_blender_batch(args, out_frames_dir)
+    # 1. Render 3D Blender acts (frames 1..1344)
+    print("\n>>> Step 1: Rendering 3D camera flight acts in Blender (frames 1..1344)...")
+    timings = render_blender_batch(args, raw_frames_dir)
     
-    # 2. Render Act 5 2D comparison panel (frames 166..195)
-    print("\n>>> Step 2: Generating 2D comparison panel act...")
-    t_act5 = generate_act5_frames(args, out_frames_dir)
+    # 2. Render Act 5 2D comparison panel (frames 1345..1632)
+    print("\n>>> Step 2: Generating 2D comparison panel act (frames 1345..1632)...")
+    t_act5 = generate_act5_frames(args, raw_frames_dir)
     timings["act5_compare_2d"] = t_act5
     
     # 3. Add high-contrast typography banners
     print("\n>>> Step 3: Annotating frames...")
-    annotate_all_frames(out_frames_dir, is_preview=(args.mode == "preview"))
+    annotate_all_frames(raw_frames_dir, out_frames_dir, is_preview=(args.mode == "preview"))
     
     # 4. Assemble clips and continuous MP4
     print("\n>>> Step 4: Encoding MP4 clips and extracting keyframes...")
@@ -435,21 +580,19 @@ def main():
     # Total timings
     total_render_sec = sum(v for k, v in timings.items() if k.startswith("act"))
     print("\n" + "=" * 70)
-    print(f"RENDER TIMINGS SUMMARY ({args.mode.upper()} 640x360, 16 samples):")
+    print(f"RENDER TIMINGS SUMMARY ({args.mode.upper()} {args.res_x}x{args.res_y}, {args.samples} samples):")
     for k, v in timings.items():
         if k.startswith("act"):
-            print(f"  - {k:22s}: {v:6.2f} s")
-    print(f"  TOTAL RENDER TIME:      {total_render_sec:6.2f} s")
+            print(f"  - {k:24s}: {v:7.2f} s")
+    print(f"  TOTAL RENDER TIME:        {total_render_sec:7.2f} s ({total_render_sec/60.0:.1f} хв)")
     print("=" * 70)
     
     # Estimate final render time (1920x1080, 64 samples)
-    # Measured single frame: 5.14 s at 1920x1080 (vs 0.67 s at 640x360 -> factor ~ 7.7)
     time_per_frame_final = 5.14
-    total_frames = 195
-    est_final_sec = (165 * time_per_frame_final) + (30 * 0.1)  # 2D panel is instantaneous
-    print("\nESTIMATED FINAL RENDER TIME (1920x1080, EEVEE):")
-    print(f"  At 24 fps ({total_frames} frames, 8.1 s clip): ~{est_final_sec / 60.0:.1f} хвилин ({est_final_sec:.0f} с)")
-    print(f"  At 30 fps ({total_frames} frames, 6.5 s clip): ~{est_final_sec / 60.0:.1f} хвилин ({est_final_sec:.0f} с)")
+    total_3d_frames = 1344
+    est_final_sec = (total_3d_frames * time_per_frame_final) + 5.0
+    print("\nESTIMATED FINAL RENDER TIME (1920x1080, 64 samples, EEVEE):")
+    print(f"  At 24 fps ({total_3d_frames} 3D frames, 68 s total film): ~{est_final_sec / 60.0:.1f} хвилин ({est_final_sec / 3600.0:.2f} годин)")
     print("=" * 70)
 
 
