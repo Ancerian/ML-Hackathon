@@ -376,6 +376,35 @@ def main() -> int:
             json.dump(rep, f, indent=2)
         print(f"Report saved to: {args.out}")
 
+    # Optional: compare against baseline if requested
+    baseline_path = Path("Our try/04-novelty/t1/eval_pca_ridge.json")
+    if baseline_path.exists() and args.sub and str(args.sub) != "Our try/04-novelty/t1/eval_pca_ridge.json":
+        try:
+            with open(baseline_path, "r", encoding="utf-8") as bf:
+                base_rep = json.load(bf)
+            s_cand = np.array([s["S"] for s in rep["per_shot"]])
+            s_base = np.array([s["S"] for s in base_rep["per_shot"]])
+            sp_cand = np.array([s["S_prime"] for s in rep["per_shot"]])
+            sp_base = np.array([s["S_prime"] for s in base_rep["per_shot"]])
+            n_s = len(s_cand)
+            rng_b = np.random.default_rng(42)
+            b_indices = [rng_b.integers(0, n_s, size=n_s) for _ in range(1000)]
+            d_s = np.array([np.mean(s_cand[b]) - np.mean(s_base[b]) for b in b_indices])
+            d_sp = np.array([np.mean(sp_cand[b]) - np.mean(sp_base[b]) for b in b_indices])
+            ci_ds = [np.percentile(d_s, 2.5), np.percentile(d_s, 97.5)]
+            ci_dsp = [np.percentile(d_sp, 2.5), np.percentile(d_sp, 97.5)]
+            sig_s = not (ci_ds[0] <= 0 <= ci_ds[1])
+            sig_sp = not (ci_dsp[0] <= 0 <= ci_dsp[1])
+            status_s = "РОЗБІЖНІСТЬ" if sig_s else "≈ (CI перекриваються)"
+            status_sp = "РОЗБІЖНІСТЬ" if sig_sp else "≈ (CI перекриваються)"
+            print("\n" + "-" * 72)
+            print("PAIRED BOOTSTRAP SIGNIFICANCE vs BASELINE (PCA+Ridge):")
+            print(f"  ΔS  (Cand - Base): {np.mean(s_cand) - np.mean(s_base):+.6f} [95% CI: {ci_ds[0]:+.6f} .. {ci_ds[1]:+.6f}] -> {status_s}")
+            print(f"  ΔS' (Cand - Base): {np.mean(sp_cand) - np.mean(sp_base):+.6f} [95% CI: {ci_dsp[0]:+.6f} .. {ci_dsp[1]:+.6f}] -> {status_sp}")
+            print("-" * 72)
+        except Exception:
+            pass
+
     print(f"Finished in {elapsed:.2f}s")
     return 0
 
