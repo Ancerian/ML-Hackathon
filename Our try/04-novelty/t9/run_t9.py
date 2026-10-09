@@ -361,12 +361,16 @@ def main():
                 "PCA+Ridge": {
                     "MAE_R_cm": results_strata[t]["PCA+Ridge"]["MAE_R"][0]*100,
                     "MAE_R_CI": [results_strata[t]["PCA+Ridge"]["MAE_R"][1][0]*100, results_strata[t]["PCA+Ridge"]["MAE_R"][1][1]*100],
+                    "MAE_Z_cm": results_strata[t]["PCA+Ridge"]["MAE_Z"][0]*100,
+                    "MAE_Z_CI": [results_strata[t]["PCA+Ridge"]["MAE_Z"][1][0]*100, results_strata[t]["PCA+Ridge"]["MAE_Z"][1][1]*100],
                     "MAE_dist_cm": results_strata[t]["PCA+Ridge"]["MAE_dist"][0]*100,
                     "MAE_dist_CI": [results_strata[t]["PCA+Ridge"]["MAE_dist"][1][0]*100, results_strata[t]["PCA+Ridge"]["MAE_dist"][1][1]*100],
                 },
                 "UNet_Lite": {
                     "MAE_R_cm": results_strata[t]["UNet_Lite"]["MAE_R"][0]*100,
                     "MAE_R_CI": [results_strata[t]["UNet_Lite"]["MAE_R"][1][0]*100, results_strata[t]["UNet_Lite"]["MAE_R"][1][1]*100],
+                    "MAE_Z_cm": results_strata[t]["UNet_Lite"]["MAE_Z"][0]*100,
+                    "MAE_Z_CI": [results_strata[t]["UNet_Lite"]["MAE_Z"][1][0]*100, results_strata[t]["UNet_Lite"]["MAE_Z"][1][1]*100],
                     "MAE_dist_cm": results_strata[t]["UNet_Lite"]["MAE_dist"][0]*100,
                     "MAE_dist_CI": [results_strata[t]["UNet_Lite"]["MAE_dist"][1][0]*100, results_strata[t]["UNet_Lite"]["MAE_dist"][1][1]*100],
                 }
