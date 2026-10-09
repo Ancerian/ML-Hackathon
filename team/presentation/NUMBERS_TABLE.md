@@ -73,3 +73,18 @@
 | **Розмір тестового спліту** | **8** розрядів (#060–#067) | Публічний контрольний спліт хакатону | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | Каталог спліту |
 | **Кількість кадрів тесту** | **1 521** кадрів | Сумарна кількість 2D кадрів у 8 розрядах | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `eval_submission.py` |
 | **Репліки бутстрепу** | **1 000** реплік | Кількість ітерацій випадкового семплювання | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `eval_submission.py` |
+
+---
+
+## 5. Аудит Test Snooping (розряди #036–#039) та розкид PCA+Ridge
+
+| Параметр / Характеристика | Числове значення | Фізичний / технічний зміст | Файл-джерело | Команда відтворення |
+|:---|:---:|:---|:---|:---|
+| **$g(\psi)$ UNet (36–39 vs 60–67)** | **0.8557** проти **0.8627** | Узгодженість нев'язки між сплітами (не чистий контроль: 36–39 є VAL) | [`team/notes/TEST_SNOOPING.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/notes/TEST_SNOOPING.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" team/scripts/eval_snooping_audit.py` |
+| **$S$ UNet на 36–39** | **0.7130** [0.6239 .. 0.7491] | Офіційний бал на 4 валідаційних розрядах (1039 кадрів) | [`team/notes/TEST_SNOOPING.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/notes/TEST_SNOOPING.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" team/scripts/eval_snooping_audit.py` |
+| **$S$ MLP на 36–39** | **0.7404** [0.6498 .. 0.7737] | Офіційний бал на 4 валідаційних розрядах | [`team/notes/TEST_SNOOPING.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/notes/TEST_SNOOPING.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" team/scripts/eval_snooping_audit.py` |
+| **$S$ PCA+Ridge на 36–39** | **0.7384** [0.6113 .. 0.7753] | Офіційний бал PCA+Ridge на 36–39 (без атипових провалів) | [`team/notes/TEST_SNOOPING.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/notes/TEST_SNOOPING.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" team/scripts/eval_snooping_audit.py` |
+| **$S$ PCA+Ridge на #061, #063** | **0.0836**, **0.0794** | Два провальні розряди тесту, що обвалюють спліт 60–67 до 0.1926 | [`team/notes/TEST_SNOOPING.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/notes/TEST_SNOOPING.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S$ PCA+Ridge на #064, #067** | **0.5776**, **0.6330** | Високі розряди тесту, де PCA працює на рівні нелінійних мереж | [`team/notes/TEST_SNOOPING.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/notes/TEST_SNOOPING.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\Delta S$ на 36–39 (UNet – MLP)** | **-0.0071** [-0.0201 .. +0.0057] | 0 входить у CI: нерозрізненість за $S$ повторюється | [`team/notes/TEST_SNOOPING.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/notes/TEST_SNOOPING.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" team/scripts/eval_snooping_audit.py` |
+| **$\Delta S'\text{-gate}$ на 36–39** | **-0.2195** [-0.2503 .. -0.1742] | 0 не входить у CI: інверсія на користь MLP зберігається | [`team/notes/TEST_SNOOPING.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/notes/TEST_SNOOPING.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" team/scripts/eval_snooping_audit.py` |
