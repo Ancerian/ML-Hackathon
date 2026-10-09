@@ -1,0 +1,111 @@
+{
+  "submission": "Our try/04-novelty/t1/mlp_sub.npz",
+  "mode": "file",
+  "n_shots": 8,
+  "psi_sign": 1,
+  "official": {
+    "S": 0.643674,
+    "ci_95": [
+      0.623863,
+      0.662243
+    ],
+    "r2_psi": 0.970457,
+    "r2_qb": -0.47383,
+    "dlcfs": 0.085252,
+    "consistency": 0.092239,
+    "r2_cons_each": {
+      "R_axis": 0.011559,
+      "Z_axis": -6.215625,
+      "kappa": -0.15007,
+      "tri_top": 0.634111,
+      "tri_bot": -0.097309,
+      "volume": -0.014254,
+      "li": -0.487264
+    }
+  },
+  "extended_s_prime": {
+    "S_prime": 0.533076,
+    "ci_95": [
+      0.400315,
+      0.63599
+    ],
+    "mean_G_GS": 0.961441,
+    "mean_P_topo": 0.853184,
+    "median_g": 0.502697,
+    "g_ref": 0.6328
+  },
+  "per_shot": [
+    {
+      "shot_index": 0,
+      "S": 0.592208,
+      "S_prime": 0.576679,
+      "bar_g": 0.641821,
+      "G_GS": 0.985845,
+      "P_topo": 0.987759,
+      "mean_N_spurious": 0.031
+    },
+    {
+      "shot_index": 1,
+      "S": 0.624713,
+      "S_prime": 0.624713,
+      "bar_g": 0.402336,
+      "G_GS": 1.0,
+      "P_topo": 1.0,
+      "mean_N_spurious": 0.0
+    },
+    {
+      "shot_index": 2,
+      "S": 0.623138,
+      "S_prime": 0.588672,
+      "bar_g": 0.605616,
+      "G_GS": 1.0,
+      "P_topo": 0.944689,
+      "mean_N_spurious": 0.175
+    },
+    {
+      "shot_index": 3,
+      "S": 0.570983,
+      "S_prime": 0.144832,
+      "bar_g": 0.853387,
+      "G_GS": 0.705683,
+      "P_topo": 0.359444,
+      "mean_N_spurious": 2.17
+    },
+    {
+      "shot_index": 4,
+      "S": 0.641677,
+      "S_prime": 0.641677,
+      "bar_g": 0.456039,
+      "G_GS": 1.0,
+      "P_topo": 1.0,
+      "mean_N_spurious": 0.0
+    },
+    {
+      "shot_index": 5,
+      "S": 0.696306,
+      "S_prime": 0.685571,
+      "bar_g": 0.531257,
+      "G_GS": 1.0,
+      "P_topo": 0.984582,
+      "mean_N_spurious": 0.049
+    },
+    {
+      "shot_index": 6,
+      "S": 0.623272,
+      "S_prime": 0.342175,
+      "bar_g": 0.474138,
+      "G_GS": 1.0,
+      "P_topo": 0.548997,
+      "mean_N_spurious": 1.523
+    },
+    {
+      "shot_index": 7,
+      "S": 0.660292,
+      "S_prime": 0.660292,
+      "bar_g": 0.414335,
+      "G_GS": 1.0,
+      "P_topo": 1.0,
+      "mean_N_spurious": 0.0
+    }
+  ]
+}

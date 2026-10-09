@@ -1,0 +1,254 @@
+{
+  "verdict": "\u041f\u0406\u0414\u0422\u0412\u0415\u0420\u0414\u0416\u0415\u041d\u041e (CONFIRMED)",
+  "g_ref": 0.6340883948271788,
+  "runtime_sec": 438.93821001052856,
+  "rankings": {
+    "S": {
+      "title": "Original S",
+      "point_rank": [
+        "UNet_Lite",
+        "MLP (sklearn)",
+        "PCA+Ridge",
+        "Linear Regression"
+      ],
+      "tau_vs_S": 1.0,
+      "scores": {
+        "Linear Regression": 0.192442,
+        "PCA+Ridge": 0.192639,
+        "MLP (sklearn)": 0.643674,
+        "UNet_Lite": 0.647563
+      },
+      "ci": {
+        "Linear Regression": [
+          0.10522714999999999,
+          0.598194125
+        ],
+        "PCA+Ridge": [
+          0.105260425,
+          0.5985011
+        ],
+        "MLP (sklearn)": [
+          0.62386325,
+          0.6622427249999999
+        ],
+        "UNet_Lite": [
+          0.628936025,
+          0.667114075
+        ]
+      }
+    },
+    "S_hard": {
+      "title": "Hard Gate S'_A",
+      "point_rank": [
+        "MLP (sklearn)",
+        "PCA+Ridge",
+        "Linear Regression",
+        "UNet_Lite"
+      ],
+      "tau_vs_S": 0.0,
+      "scores": {
+        "Linear Regression": 0.192442,
+        "PCA+Ridge": 0.192639,
+        "MLP (sklearn)": 0.643674,
+        "UNet_Lite": 0.0
+      },
+      "ci": {
+        "Linear Regression": [
+          0.10522714999999999,
+          0.598194125
+        ],
+        "PCA+Ridge": [
+          0.105260425,
+          0.5985011
+        ],
+        "MLP (sklearn)": [
+          0.6235062,
+          0.6622427249999999
+        ],
+        "UNet_Lite": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "S_sigmoid": {
+      "title": "Sigmoid Gate S'_B",
+      "point_rank": [
+        "MLP (sklearn)",
+        "PCA+Ridge",
+        "Linear Regression",
+        "UNet_Lite"
+      ],
+      "tau_vs_S": 0.0,
+      "scores": {
+        "Linear Regression": 0.1924270608394189,
+        "PCA+Ridge": 0.19262405450213185,
+        "MLP (sklearn)": 0.5642125193511397,
+        "UNet_Lite": 0.01736264034376129
+      },
+      "ci": {
+        "Linear Regression": [
+          0.10521912848463617,
+          0.5981474629253389
+        ],
+        "PCA+Ridge": [
+          0.10525240690603047,
+          0.5984544322913559
+        ],
+        "MLP (sklearn)": [
+          0.34259049823760934,
+          0.6228328740864726
+        ],
+        "UNet_Lite": [
+          0.010762619554002283,
+          0.0660723899694056
+        ]
+      }
+    },
+    "S_log": {
+      "title": "Log Penalty S'_C",
+      "point_rank": [
+        "MLP (sklearn)",
+        "UNet_Lite",
+        "PCA+Ridge",
+        "Linear Regression"
+      ],
+      "tau_vs_S": 0.6666666666666666,
+      "scores": {
+        "Linear Regression": 0.192442,
+        "PCA+Ridge": 0.192639,
+        "MLP (sklearn)": 0.643674,
+        "UNet_Lite": 0.45216374650451696
+      },
+      "ci": {
+        "Linear Regression": [
+          0.10522714999999999,
+          0.598194125
+        ],
+        "PCA+Ridge": [
+          0.105260425,
+          0.5985011
+        ],
+        "MLP (sklearn)": [
+          0.62386325,
+          0.6622427249999999
+        ],
+        "UNet_Lite": [
+          0.42771096203128695,
+          0.5103000318524463
+        ]
+      }
+    }
+  },
+  "robust_swaps": {
+    "S_hard": [
+      {
+        "S_above": "UNet_Lite",
+        "Sprime_above": "Linear Regression",
+        "rate": 0.998,
+        "robust": true
+      },
+      {
+        "S_above": "UNet_Lite",
+        "Sprime_above": "PCA+Ridge",
+        "rate": 0.998,
+        "robust": true
+      }
+    ],
+    "S_sigmoid": [
+      {
+        "S_above": "UNet_Lite",
+        "Sprime_above": "Linear Regression",
+        "rate": 0.998,
+        "robust": true
+      },
+      {
+        "S_above": "UNet_Lite",
+        "Sprime_above": "PCA+Ridge",
+        "rate": 0.998,
+        "robust": true
+      }
+    ],
+    "S_log": []
+  },
+  "all_swaps": {
+    "S_hard": [
+      {
+        "S_above": "UNet_Lite",
+        "Sprime_above": "Linear Regression",
+        "rate": 0.998,
+        "robust": true
+      },
+      {
+        "S_above": "UNet_Lite",
+        "Sprime_above": "PCA+Ridge",
+        "rate": 0.998,
+        "robust": true
+      },
+      {
+        "S_above": "UNet_Lite",
+        "Sprime_above": "MLP (sklearn)",
+        "rate": 0.677,
+        "robust": false
+      }
+    ],
+    "S_sigmoid": [
+      {
+        "S_above": "UNet_Lite",
+        "Sprime_above": "Linear Regression",
+        "rate": 0.998,
+        "robust": true
+      },
+      {
+        "S_above": "UNet_Lite",
+        "Sprime_above": "PCA+Ridge",
+        "rate": 0.998,
+        "robust": true
+      },
+      {
+        "S_above": "UNet_Lite",
+        "Sprime_above": "MLP (sklearn)",
+        "rate": 0.678,
+        "robust": false
+      }
+    ],
+    "S_log": [
+      {
+        "S_above": "UNet_Lite",
+        "Sprime_above": "MLP (sklearn)",
+        "rate": 0.678,
+        "robust": false
+      }
+    ]
+  },
+  "models": {
+    "Linear Regression": {
+      "median_g": 0.03401970068096099,
+      "S": 0.192442,
+      "S_hard": 0.192442,
+      "S_sigmoid": 0.1924270608394189,
+      "S_log": 0.192442
+    },
+    "PCA+Ridge": {
+      "median_g": 0.033981712982823806,
+      "S": 0.192639,
+      "S_hard": 0.192639,
+      "S_sigmoid": 0.19262405450213185,
+      "S_log": 0.192639
+    },
+    "MLP (sklearn)": {
+      "median_g": 0.509797012559309,
+      "S": 0.643674,
+      "S_hard": 0.643674,
+      "S_sigmoid": 0.5642125193511397,
+      "S_log": 0.643674
+    },
+    "UNet_Lite": {
+      "median_g": 0.8618350021069817,
+      "S": 0.647563,
+      "S_hard": 0.0,
+      "S_sigmoid": 0.01736264034376129,
+      "S_log": 0.45216374650451696
+    }
+  }
+}
