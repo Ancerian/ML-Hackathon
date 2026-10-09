@@ -118,15 +118,16 @@
       overflow: hidden;
     }
 
-    /* Slides Viewport */
+    /* Slides Viewport & Cinema Transitions */
     .slides-viewport {
       flex: 1;
       height: 100%;
       overflow-y: auto;
-      padding: 36px 48px;
+      padding: 32px 44px;
       display: flex;
       justify-content: center;
       align-items: center;
+      perspective: 1200px;
     }
     .slide {
       display: none;
@@ -136,15 +137,53 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 36px 44px;
-      box-shadow: 0 12px 36px rgba(0,0,0,0.45);
+      padding: 34px 42px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.55), 0 0 1px rgba(88,166,255,0.25);
       flex-direction: column;
-      animation: fadeIn 0.25s ease-out;
+      position: relative;
+      opacity: 0;
+      transform: translateY(10px) scale(0.995);
+      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .slide.active { display: flex; }
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .slide.slide-from-right {
+      animation: slideInFromRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .slide.slide-from-left {
+      animation: slideInFromLeft 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+    @keyframes slideInFromRight {
+      from { opacity: 0; transform: translateX(24px) scale(0.992); }
+      to { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    @keyframes slideInFromLeft {
+      from { opacity: 0; transform: translateX(-24px) scale(0.992); }
+      to { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    /* Staggered entrance for slide components */
+    .slide.active .card-box {
+      animation: cardEntrance 0.38s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: 50ms;
+    }
+    .slide.active .video-container {
+      animation: cardEntrance 0.38s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: 90ms;
+    }
+    .slide.active .stat-row,
+    .slide.active table.data-table,
+    .slide.active .sim-panel {
+      animation: cardEntrance 0.38s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: 120ms;
+    }
+    @keyframes cardEntrance {
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -201,7 +240,7 @@
       gap: 8px;
     }
 
-    /* Video Player Component */
+    /* Video Player Component & Interactive HUD */
     .video-container {
       width: 100%;
       background: #000;
@@ -209,11 +248,65 @@
       overflow: hidden;
       border: 1px solid var(--border);
       position: relative;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .video-container:hover {
+      border-color: rgba(88, 166, 255, 0.6);
+      box-shadow: 0 4px 24px rgba(88, 166, 255, 0.16);
     }
     .video-container video {
       width: 100%;
       height: auto;
       display: block;
+      cursor: pointer;
+    }
+    .video-hud {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      z-index: 10;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+    .video-container:hover .video-hud {
+      opacity: 1;
+    }
+    .video-hud-badge {
+      background: rgba(13, 17, 23, 0.88);
+      border: 1px solid rgba(88, 166, 255, 0.45);
+      color: var(--accent);
+      padding: 3px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      backdrop-filter: blur(4px);
+      letter-spacing: 0.04em;
+    }
+    .video-hud-btn {
+      background: rgba(13, 17, 23, 0.88);
+      border: 1px solid var(--border);
+      color: var(--text-bright);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: all 0.15s ease;
+    }
+    .video-hud-btn:hover {
+      background: var(--accent);
+      color: #0d1117;
+      border-color: var(--accent);
+    }
+    .video-hud-btn.active {
+      background: rgba(88, 166, 255, 0.25);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
     }
     .video-caption {
       padding: 8px 12px;
@@ -408,6 +501,163 @@
       background: rgba(248, 81, 73, 0.08);
     }
 
+    /* Pitch Timer Pill in Header */
+    .timer-pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: #11161d;
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .timer-pill:hover {
+      border-color: var(--accent);
+      background: #161d26;
+    }
+    .timer-pill .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      display: inline-block;
+      transition: background 0.3s ease;
+    }
+    .timer-pill.running .dot {
+      box-shadow: 0 0 6px var(--success);
+      animation: pulseDot 1.4s infinite ease-in-out;
+    }
+    .timer-pill.warn { color: var(--warning); border-color: rgba(210, 153, 34, 0.4); }
+    .timer-pill.warn .dot { background: var(--warning); box-shadow: 0 0 6px var(--warning); }
+    .timer-pill.over { color: var(--danger); border-color: rgba(248, 81, 73, 0.5); }
+    .timer-pill.over .dot { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.2); }
+    }
+
+    /* Background Field-Line Canvas */
+    #bgCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.22;
+    }
+
+    /* Slide Overview Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 7, 10, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 250;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .modal-backdrop.active {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-content {
+      width: 90%;
+      max-width: 1040px;
+      max-height: 85vh;
+      background: #161b22;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .modal-slide-card {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .modal-slide-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(88,166,255,0.15);
+      background: #131923;
+    }
+    .modal-slide-card.current {
+      border-color: var(--accent);
+      background: rgba(88, 166, 255, 0.1);
+    }
+    .modal-slide-card .card-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .modal-slide-card .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-bright);
+      line-height: 1.35;
+    }
+    .modal-slide-card .card-tag {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Accessibility: Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      .slide,
+      .slide.active,
+      .slide.slide-from-right,
+      .slide.slide-from-left,
+      .slide.active .card-box,
+      .slide.active .video-container,
+      .slide.active .stat-row,
+      .slide.active table.data-table,
+      .slide.active .sim-panel,
+      .timer-pill.running .dot {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+      }
+      #bgCanvas { display: none !important; }
+    }
+
     /* Key bindings helper */
     .key-helper {
       position: fixed;
@@ -431,8 +681,15 @@
     </div>
     <div class="nav-controls">
       <button class="btn" id="btnPrev" title="Попередній слайд (←)">←</button>
-      <div class="slide-counter" id="slideNum">1 / 9</div>
+      <div class="slide-counter" id="slideNum" title="Клік для огляду слайдів (O)" style="cursor: pointer;">1 / 9</div>
       <button class="btn" id="btnNext" title="Наступний слайд (→)">→</button>
+      <button class="btn" id="btnOverview" title="Огляд усіх слайдів (O)">
+        <span>📑</span> Огляд
+      </button>
+      <div id="headerTimerBadge" class="timer-pill" title="Клік: Старт/Пауза (таймер 12 хв пітчу)">
+        <span class="dot"></span>
+        <span id="headerTimerVal">12:00</span>
+      </div>
       <button class="btn" id="btnSpeaker" title="Режим доповідача (S)">
         <span>🎙️</span> Доповідач
       </button>
@@ -444,6 +701,9 @@
   </div>
 
   <main class="deck-main">
+    <!-- Ambient Tokamak Flux Field Canvas -->
+    <canvas id="bgCanvas"></canvas>
+
     <!-- Slides Container -->
     <div class="slides-viewport">
 
@@ -752,6 +1012,9 @@
             <div style="display: flex; gap: 8px;">
               <button class="btn active" id="btnModeA">Секція А (Мода 2/1)</button>
               <button class="btn" id="btnModeB">Секція Б (Моди 2/1 + 3/1)</button>
+              <button class="btn" id="btnAutoSweep" style="border-color: var(--accent); color: var(--accent);" title="Автоматичне відтворення свіпу амплітуди">
+                <span id="autoSweepIcon">▶</span> <span id="autoSweepText">Авто-Свіп</span>
+              </button>
             </div>
 
             <div class="sim-slider-group">
@@ -867,8 +1130,19 @@
     </aside>
   </main>
 
+  <!-- Slide Overview Modal -->
+  <div id="slideOverviewModal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div style="font-weight: 700; font-size: 16px; color: var(--text-bright);">Огляд Слайдів Презентації</div>
+        <button class="btn" id="btnCloseOverview">✕ Закрити (Esc)</button>
+      </div>
+      <div class="modal-grid" id="modalSlideGrid"></div>
+    </div>
+  </div>
+
   <div class="key-helper">
-    Навігація: [←/→] або [Space] | Режим доповідача: [S] | FMF KPI 2026
+    Навігація: [←/→] або [Space] | Огляд: [O] | Режим доповідача: [S] | FMF KPI 2026
   </div>
 
   <!-- Companion Poincare Data -->
@@ -915,13 +1189,23 @@
       const speakerNotes = document.getElementById('speakerNotes');
       const speakerNextTitle = document.getElementById('speakerNextTitle');
 
-      function updateSlide(newIdx) {
+      function updateSlide(newIdx, direction = null) {
         if (newIdx < 1 || newIdx > totalSlides) return;
+        const prevSlideIdx = currentSlide;
         currentSlide = newIdx;
 
-        slides.forEach(s => s.classList.remove('active'));
+        slides.forEach(s => {
+          s.classList.remove('active', 'slide-from-right', 'slide-from-left');
+        });
         const activeSlide = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
-        if (activeSlide) activeSlide.classList.add('active');
+        if (activeSlide) {
+          activeSlide.classList.add('active');
+          if (direction === 'next' || (direction === null && currentSlide > prevSlideIdx)) {
+            activeSlide.classList.add('slide-from-right');
+          } else if (direction === 'prev' || (direction === null && currentSlide < prevSlideIdx)) {
+            activeSlide.classList.add('slide-from-left');
+          }
+        }
 
         slideNum.textContent = `${currentSlide} / ${totalSlides}`;
         progressBar.style.width = `${((currentSlide - 1) / (totalSlides - 1)) * 100}%`;
@@ -946,19 +1230,26 @@
         if (currentSlide === 7) {
           drawPoincareCanvas();
         }
+
+        // Sync modal active state
+        const modalCards = document.querySelectorAll('.modal-slide-card');
+        modalCards.forEach((c, idx) => {
+          if (idx + 1 === currentSlide) c.classList.add('current');
+          else c.classList.remove('current');
+        });
       }
 
-      document.getElementById('btnPrev').addEventListener('click', () => updateSlide(currentSlide - 1));
-      document.getElementById('btnNext').addEventListener('click', () => updateSlide(currentSlide + 1));
+      document.getElementById('btnPrev').addEventListener('click', () => updateSlide(currentSlide - 1, 'prev'));
+      document.getElementById('btnNext').addEventListener('click', () => updateSlide(currentSlide + 1, 'next'));
 
       // Keyboard navigation
       window.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
           e.preventDefault();
-          updateSlide(currentSlide + 1);
+          updateSlide(currentSlide + 1, 'next');
         } else if (e.key === 'ArrowLeft' || e.key === 'Backspace' || e.key === 'PageUp') {
           e.preventDefault();
-          updateSlide(currentSlide - 1);
+          updateSlide(currentSlide - 1, 'prev');
         } else if (e.key === 's' || e.key === 'S') {
           e.preventDefault();
           toggleSpeaker();
@@ -979,6 +1270,8 @@
       const speakerTimer = document.getElementById('speakerTimer');
       const btnTimerStart = document.getElementById('btnTimerStart');
       const btnTimerReset = document.getElementById('btnTimerReset');
+      const headerTimerBadge = document.getElementById('headerTimerBadge');
+      const headerTimerVal = document.getElementById('headerTimerVal');
 
       function formatTime(s) {
         const m = Math.floor(s / 60);
@@ -995,9 +1288,27 @@
         } else {
           speakerTimer.className = 'timer-display';
         }
+
+        // Sync header countdown timer (12 min pitch)
+        if (headerTimerVal) {
+          const totalPitch = 720;
+          const rem = Math.max(0, totalPitch - timerSec);
+          headerTimerVal.textContent = formatTime(rem);
+          if (headerTimerBadge) {
+            if (rem === 0) {
+              headerTimerBadge.className = 'timer-pill over';
+            } else if (rem <= 120) {
+              headerTimerBadge.className = 'timer-pill warn ' + (timerInterval ? 'running' : '');
+            } else if (timerInterval) {
+              headerTimerBadge.className = 'timer-pill running';
+            } else {
+              headerTimerBadge.className = 'timer-pill';
+            }
+          }
+        }
       }
 
-      btnTimerStart.addEventListener('click', () => {
+      function toggleTimer() {
         if (timerInterval) {
           clearInterval(timerInterval);
           timerInterval = null;
@@ -1009,7 +1320,11 @@
           }, 1000);
           btnTimerStart.textContent = 'Пауза';
         }
-      });
+        updateTimerDisplay();
+      }
+
+      btnTimerStart.addEventListener('click', toggleTimer);
+      if (headerTimerBadge) headerTimerBadge.addEventListener('click', toggleTimer);
 
       btnTimerReset.addEventListener('click', () => {
         clearInterval(timerInterval);
@@ -1179,8 +1494,248 @@
         pCtx.fillText('Z = 0.0 м', 8, toY(0.0) + 4);
       }
 
-      // Initialize
+      // -------------------------------------------------------------
+      // Auto-Sweep Controller for Slide 7
+      // -------------------------------------------------------------
+      let autoSweepInterval = null;
+      const btnAutoSweep = document.getElementById('btnAutoSweep');
+      const autoSweepIcon = document.getElementById('autoSweepIcon');
+      const autoSweepText = document.getElementById('autoSweepText');
+
+      function toggleAutoSweep() {
+        if (autoSweepInterval) {
+          stopAutoSweep();
+        } else {
+          startAutoSweep();
+        }
+      }
+
+      function startAutoSweep() {
+        if (!btnAutoSweep) return;
+        btnAutoSweep.classList.add('active');
+        if (autoSweepIcon) autoSweepIcon.textContent = '⏸';
+        if (autoSweepText) autoSweepText.textContent = 'Пауза';
+
+        autoSweepInterval = setInterval(() => {
+          let val = parseInt(ampSlider.value, 10);
+          let maxVal = parseInt(ampSlider.max, 10);
+          if (val < maxVal) {
+            ampSlider.value = val + 1;
+            currentAmpIdx = val + 1;
+            updateSimulator();
+          } else {
+            // End of mode: switch between A and B
+            if (currentMode === 'A') {
+              btnModeB.click();
+              ampSlider.value = 0;
+              currentAmpIdx = 0;
+              updateSimulator();
+            } else {
+              btnModeA.click();
+              ampSlider.value = 0;
+              currentAmpIdx = 0;
+              updateSimulator();
+            }
+          }
+        }, 1400);
+      }
+
+      function stopAutoSweep() {
+        if (autoSweepInterval) {
+          clearInterval(autoSweepInterval);
+          autoSweepInterval = null;
+        }
+        if (btnAutoSweep) {
+          btnAutoSweep.classList.remove('active');
+          if (autoSweepIcon) autoSweepIcon.textContent = '▶';
+          if (autoSweepText) autoSweepText.textContent = 'Авто-Свіп';
+        }
+      }
+
+      if (btnAutoSweep) {
+        btnAutoSweep.addEventListener('click', toggleAutoSweep);
+      }
+
+      // -------------------------------------------------------------
+      // Video Interactive HUD Controls (Speed, Fullscreen, Play/Pause)
+      // -------------------------------------------------------------
+      function initVideoHuds() {
+        document.querySelectorAll('.video-container').forEach(container => {
+          const video = container.querySelector('video');
+          if (!video) return;
+
+          const hud = document.createElement('div');
+          hud.className = 'video-hud';
+
+          const badge = document.createElement('div');
+          badge.className = 'video-hud-badge';
+          badge.textContent = '1080p 24FPS';
+
+          const btnSpeed = document.createElement('button');
+          btnSpeed.className = 'video-hud-btn';
+          btnSpeed.textContent = '1.0x';
+          btnSpeed.title = 'Швидкість відтворення (1x / 0.5x для аналізу фізики)';
+          btnSpeed.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (video.playbackRate === 1.0) {
+              video.playbackRate = 0.5;
+              btnSpeed.textContent = '0.5x';
+              btnSpeed.classList.add('active');
+            } else {
+              video.playbackRate = 1.0;
+              btnSpeed.textContent = '1.0x';
+              btnSpeed.classList.remove('active');
+            }
+          });
+
+          const btnFs = document.createElement('button');
+          btnFs.className = 'video-hud-btn';
+          btnFs.textContent = '⛶';
+          btnFs.title = 'Повноекранний перегляд відео';
+          btnFs.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (video.requestFullscreen) {
+              video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) {
+              video.webkitRequestFullscreen();
+            }
+          });
+
+          hud.appendChild(badge);
+          hud.appendChild(btnSpeed);
+          hud.appendChild(btnFs);
+          container.appendChild(hud);
+
+          video.addEventListener('click', () => {
+            if (video.paused) video.play();
+            else video.pause();
+          });
+        });
+      }
+
+      // -------------------------------------------------------------
+      // Slide Overview Modal Grid
+      // -------------------------------------------------------------
+      function initSlideOverview() {
+        const modal = document.getElementById('slideOverviewModal');
+        const grid = document.getElementById('modalSlideGrid');
+        const btnClose = document.getElementById('btnCloseOverview');
+        const btnOpen = document.getElementById('btnOverview');
+        const slideCounter = document.getElementById('slideNum');
+
+        if (!modal || !grid) return;
+
+        grid.innerHTML = '';
+        for (let i = 1; i <= totalSlides; i++) {
+          const card = document.createElement('div');
+          card.className = `modal-slide-card ${i === currentSlide ? 'current' : ''}`;
+          card.innerHTML = `
+            <div class="card-num">СЛАЙД ${String(i).padStart(2, '0')} / 09</div>
+            <div class="card-title">${SLIDE_TITLES[i] || ''}</div>
+            <div class="card-tag">Перейти до розділу →</div>
+          `;
+          card.addEventListener('click', () => {
+            updateSlide(i);
+            closeModal();
+          });
+          grid.appendChild(card);
+        }
+
+        function openModal() {
+          const cards = grid.querySelectorAll('.modal-slide-card');
+          cards.forEach((c, idx) => {
+            if (idx + 1 === currentSlide) c.classList.add('current');
+            else c.classList.remove('current');
+          });
+          modal.classList.add('active');
+        }
+
+        function closeModal() {
+          modal.classList.remove('active');
+        }
+
+        if (btnOpen) btnOpen.addEventListener('click', openModal);
+        if (slideCounter) slideCounter.addEventListener('click', openModal);
+        if (btnClose) btnClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+
+        window.addEventListener('keydown', (e) => {
+          if (e.key === 'o' || e.key === 'O') {
+            e.preventDefault();
+            if (modal.classList.contains('active')) closeModal();
+            else openModal();
+          } else if (e.key === 'Escape') {
+            closeModal();
+          }
+        });
+      }
+
+      // -------------------------------------------------------------
+      // Ambient Tokamak Flux Field Canvas Animation
+      // -------------------------------------------------------------
+      function initBgCanvas() {
+        const bgCanvas = document.getElementById('bgCanvas');
+        if (!bgCanvas) return;
+        const ctx = bgCanvas.getContext('2d');
+        let width = bgCanvas.width = bgCanvas.offsetWidth;
+        let height = bgCanvas.height = bgCanvas.offsetHeight;
+
+        window.addEventListener('resize', () => {
+          width = bgCanvas.width = bgCanvas.offsetWidth;
+          height = bgCanvas.height = bgCanvas.offsetHeight;
+        });
+
+        // 16 gentle procedural magnetic field lines rotating in toroidal space
+        const lines = [];
+        for (let i = 0; i < 16; i++) {
+          lines.push({
+            a: (i / 16) * Math.PI * 2,
+            rMajor: 0.30 + (i % 4) * 0.04,
+            rMinor: 0.12 + (i % 3) * 0.03,
+            q: 1.5 + (i % 3) * 0.5,
+            speed: 0.0009 + (i % 3) * 0.0003,
+            hue: i % 2 === 0 ? 'rgba(88, 166, 255, 0.30)' : 'rgba(210, 153, 34, 0.22)'
+          });
+        }
+
+        function renderBg() {
+          ctx.clearRect(0, 0, width, height);
+          const cx = width * 0.5;
+          const cy = height * 0.5;
+          const scale = Math.min(width, height) * 0.95;
+
+          for (let l of lines) {
+            l.a += l.speed;
+            ctx.strokeStyle = l.hue;
+            ctx.lineWidth = 1.0;
+            ctx.beginPath();
+            for (let t = 0; t <= Math.PI * 2; t += 0.09) {
+              const phi = t + l.a;
+              const theta = t * l.q;
+              const r = l.rMajor + l.rMinor * Math.cos(theta);
+              const x = cx + r * Math.cos(phi) * scale;
+              const y = cy + (r * Math.sin(phi) * 0.42 + l.rMinor * Math.sin(theta) * 0.85) * scale;
+              if (t === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+          }
+
+          requestAnimationFrame(renderBg);
+        }
+
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          renderBg();
+        }
+      }
+
+      // Initialize all motion modules
       updateSlide(1);
+      initVideoHuds();
+      initSlideOverview();
+      initBgCanvas();
       setTimeout(updateSimulator, 100);
     })();
   </script>
