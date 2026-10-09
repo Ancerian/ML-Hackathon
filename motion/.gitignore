@@ -1,0 +1,2 @@
+# Ignore intermediate frame batches, track clips and keyframes
+renders/*_frames/
