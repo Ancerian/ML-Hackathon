@@ -1,0 +1,75 @@
+# Таблиця всіх числових значень проєкту (Numbers Cheat Sheet)
+
+**Лабораторія:** AI-лабораторія ім. В. М. Горшкова, Фізико-математичний факультет КПІ ім. Ігоря Сікорського  
+**Проєкт:** ML-Hackathon — Магнітна рівновага токамака і динаміка силових ліній  
+**Гілка:** `presentation-prep` | **Дата:** 2026-10-10  
+**Призначення:** Єдине джерело правди для всіх чисел, які озвучуються на захисті, наводяться на слайдах або в документах. Жодне число не береться з голови.
+
+---
+
+## 1. Головні метрики моделей на тестовому спліті (8 розрядів #060–#067, 1521 кадрів)
+
+| Параметр / Величина | Точне числове значення | 95% Bootstrap CI | Контекст у доповіді | Файл-джерело | Команда або скрипт відтворення |
+|:---|:---:|:---:|:---|:---|:---|
+| **$S$ (UNet_Lite)** | **0.6476** | [0.6289 .. 0.6671] | Ранг 1 за офіційною метрикою $S$ | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S$ (MLP sklearn)** | **0.6437** | [0.6239 .. 0.6622] | Ранг 2 за офіційною метрикою $S$ | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S$ (PCA+Ridge)** | **0.1926** | [0.1053 .. 0.5985] | Ранг 3 за офіційною метрикою $S$ | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S$ (Linear Regr)** | **0.1924** | [0.1052 .. 0.5982] | Ранг 4 за офіційною метрикою $S$ | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\Delta S$ (UNet – MLP)** | **-0.0015** | **[-0.0121 .. +0.0089]** | **Містить 0: UNet та MLP статистично нерозрізненні за $S$** | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S'\text{-gate}$ (UNet_Lite)** | **0.4202** | [0.3719 .. 0.4710] | Ранг 2 за нашою діагностичною пропозицією | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S'\text{-gate}$ (MLP sklearn)** | **0.5331** | [0.4003 .. 0.6360] | Ранг 1 за нашою діагностичною пропозицією | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S'\text{-gate}$ (PCA+Ridge)** | **0.3614** | [0.2290 .. 0.4910] | Ранг 3 за діагностичною метрикою (CI перетинаються з UNet) | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S'\text{-gate}$ (Linear Regr)** | **0.3609** | [0.2288 .. 0.4906] | Ранг 4 за діагностичною метрикою | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\Delta S'\text{-gate}$ (UNet – MLP)** | **-0.1129** | **[-0.2044 .. -0.0006]** | **Не містить 0: значуща інверсія рангів на межі ($p < 0.05$)** | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+
+---
+
+## 2. Фізичні компоненти та нев'язки Ґреда–Шафранова
+
+| Параметр / Величина | Точне числове значення | Контекст у доповіді | Файл-джерело | Команда або скрипт відтворення |
+|:---|:---:|:---|:---|:---|
+| **$g(\psi)$ (UNet_Lite)** | **0.8627** | Медіанна відносна нев'язка ГШ (високочастотний шум других похідних) | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$g(\psi)$ (MLP)** | **0.5027** | Медіанна відносна нев'язка ГШ (гладкість завдяки PCA-базису) | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$g(\psi)$ (PCA+Ridge)** | **0.0331** | Вкрай низька нев'язка через сильну лінійну фільтрацію | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$g(\psi)$ (Linear Regr)** | **0.0332** | Вкрай низька нев'язка | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$g_{\mathrm{ref}}$ (Опорний поріг)** | **0.6328** | Нев'язка поля EFIT з 1% гаусовим шумом вимірювань | [`Our try/03-deep-dives/D1-psi-to-scalars/c4/gref.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/03-deep-dives/D1-psi-to-scalars/c4/gref.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/03-deep-dives/D1-psi-to-scalars/c4/calc_gref.py"` |
+| **$g_{\mathrm{clean}}$ (Чистий EFIT)** | **0.0097** | Чисельна нев'язка ідеальної реконструкції EFIT без шуму | [`Our try/03-deep-dives/D1-psi-to-scalars/c4/gref.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/03-deep-dives/D1-psi-to-scalars/c4/gref.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/03-deep-dives/D1-psi-to-scalars/c4/calc_gref.py"` |
+| **$\mathcal{G}_{\mathrm{GS}}$ (UNet_Lite)** | **0.7213** | Мультиплікативний гейт за нев'язку (штраф $28\%$) | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\mathcal{G}_{\mathrm{GS}}$ (MLP)** | **0.9614** | Мультиплікативний гейт за нев'язку (штраф лише $4\%$) | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\mathcal{P}_{\mathrm{topo}}$ (UNet_Lite)** | **0.9217** | Множник топологічної чистоти магнітних осей | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\mathcal{P}_{\mathrm{topo}}$ (MLP)** | **0.8532** | Множник топологічної чистоти | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$R^2_\psi$ (UNet_Lite)** | **0.976** | Коефіцієнт детермінації карти потоку (гачок доповіді) | [`Our try/04-novelty/t1/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t1/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t1/run_t1.py"` |
+
+---
+
+## 3. Результати дослідницьких задач новизни (T2 – T12)
+
+| Задача | Досліджувана величина | Числове значення (Point / CI) | Статус / Вердикт | Файл-джерело | Команда відтворення |
+|:---:|:---|:---:|:---|:---|:---|
+| **T2** | Зниження $g$ регуляризацією ГШ ($\beta = 10^{-3}$) | **-76.9%** ($0.1589 \pm 0.0045$, $R^2_\psi = 0.9398$) | **ПІДТВЕРДЖЕНО** (Категорія A) | [`Our try/04-novelty/t2/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t2/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t2/run_t2.py"` |
+| **T3** | $\Delta\mathrm{Consistency}$ (Multi-Task, $\lambda=0.1$) | **-0.0203** (95% CI [-0.0902 .. +0.0703]) | **СПРОСТОВАНО** (Категорія A) | [`Our try/04-novelty/t3/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t3/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t3/run_t3.py"` |
+| **T3** | $\Delta\mathrm{Consistency}$ (Multi-Task, $\lambda=0.5$) | **-0.0702** (95% CI [-0.1496 .. +0.0943]) | **СПРОСТОВАНО** (Категорія A) | [`Our try/04-novelty/t3/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t3/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t3/run_t3.py"` |
+| **T4** | Валідні рівноваги на Брату (MDN проти MSE) | **98.4%** проти **2.8%** | **ПІДТВЕРДЖЕНО** (Категорія B) | [`Our try/04-novelty/t4/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t4/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t4/run_t4.py"` |
+| **T5** | Одночасне конформне покриття (номінал 90%) | **87.7%** ($\kappa = 0.220$) | **ПІДТВЕРДЖЕНО З УТОЧН.** (Категорія B) | [`Our try/04-novelty/t5/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t5/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t5/run_t5.py"` |
+| **T6** | Точність HénonNet vs RF у 2-модовому режимі | **65%** проти **0%** | **СПРОСТОВАНО** (Категорія B) | [`Our try/04-novelty/t6/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t6/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t6/run_t6.py"` |
+| **T7** | Співвідношення варіабельності $\mathrm{IQR}(g)_{\mathrm{Ritz}} / \mathrm{IQR}(g)_{\mathrm{PINN}}$ | **[13.5 .. 32.7]** (10 seeds) | **СПРОСТОВАНО** (Категорія A) | [`Our try/04-novelty/t7/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t7/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t7/run_t7.py"` |
+| **T8** | Кількість фіктивних критичних осей на кадр | **0.08** проти **1.81** (**-95.4%**) | **ПІДТВЕРДЖЕНО** (Категорія B) | [`Our try/04-novelty/t8/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t8/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t8/run_t8.py"` |
+| **T10** | Колапс покриття при відмові зондів ($Cov_M$) | **3.2%** проти **63.6%** | **СПРОСТОВАНО** (Категорія B) | [`Our try/04-novelty/t10/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t10/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t10/run_t10.py"` |
+| **T10** | Виграш аугментації за відмов датчиків | **+82.7%** $R^2$ | **ПІДТВЕРДЖЕНО** (Категорія B) | [`Our try/04-novelty/t10/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t10/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t10/run_t10.py"` |
+| **T11** | Збереження топології DIII-D → MAST ($1\mathrm{O}/0\mathrm{X}$) | **100%** ($R^2_\psi = \mathbf{0.6880}$ vs $\mathbf{-0.9960}$) | **ПІДТВЕРДЖЕНО** (Категорія B) | [`Our try/04-novelty/t11/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t11/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t11/run_t11.py"` |
+| **T12** | Збереження фазового об'єму інтегратора | $|\det J - 1| \le \mathbf{10^{-10}}$ | **ВИКОНАНО** (Категорія B) | [`Our try/04-novelty/t12/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t12/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t12/run_t12.py"` |
+| **T12** | Швидкість трасування силових ліній на JAX | **968.7** ліній/с | **ВИКОНАНО** (Категорія B) | [`Our try/04-novelty/t12/results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t12/results.json) | `"fusion equilibrium challenge/starter/.venv/bin/python" "Our try/04-novelty/t12/run_t12.py"` |
+
+---
+
+## 4. Верифікація конвеєра та характеристики датасету
+
+| Параметр / Характеристика | Числове значення | Фізичний / технічний зміст | Файл-джерело | Команда відтворення |
+|:---|:---:|:---|:---|:---|
+| **Harness Self-Check `perfect`** | $S = 1.000000$, $S' = 1.000000$ | Похибка $< 10^{-9}$ на еталонному полі | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py --mode perfect` |
+| **Harness Self-Check `zeros`** | $S = 0.000000$, $S' = 0.000000$ | Похибка $< 10^{-9}$ на нульовому полі | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py --mode zeros` |
+| **Загальна кількість розрядів** | **9 121** розрядів | Повний відкритий датасет DIII-D | [`Our try/00-decisions/ESTABLISHED.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/00-decisions/ESTABLISHED.md) ([E26]) | Відкритий каталог датасету |
+| **Загальний обсяг даних** | **103.86 ГБ** | Обсяг вихідних HDF5/файлів розрядів | [`Our try/00-decisions/ESTABLISHED.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/00-decisions/ESTABLISHED.md) ([E26]) | Статистика датасету |
+| **Розмір тестового спліту** | **8** розрядів (#060–#067) | Публічний контрольний спліт хакатону | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | Каталог спліту |
+| **Кількість кадрів тесту** | **1 521** кадрів | Сумарна кількість 2D кадрів у 8 розрядах | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `eval_submission.py` |
+| **Репліки бутстрепу** | **1 000** реплік | Кількість ітерацій випадкового семплювання | [`team/LEADERBOARD.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/LEADERBOARD.md) | `eval_submission.py` |
