@@ -49,7 +49,7 @@
    - Усі порогові критерії успіху для T12, T11, T10 тощо записувалися в файли `THEORY.md` **ДО** фінального запуску і заморожувалися разом із датою та командою запуску.
 3. **Відповідність міжнародним термоядерним стандартам:**
    - Модуль [`src/tokamld/imas.py`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/src/tokamld/imas.py) реалізує повноцінний експорт/імпорт у форматі **ITER IMAS IDS equilibrium** із тестом взаємної конвертації з похибкою $< 10^{-12}$.
-   - Складено юридичний аудит даних [`docs/MAST_LICENSE_ANALYSIS.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/docs/MAST_LICENSE_ANALYSIS.md) (розділення ліцензій CC BY 4.0 та CC BY-SA 4.0, блокер Q13).
+   - Складено юридичний аудит даних [`team/docs/MAST_LICENSE_ANALYSIS.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/docs/MAST_LICENSE_ANALYSIS.md) (розділення ліцензій CC BY 4.0 та CC BY-SA 4.0, блокер Q13).
 
 ---
 

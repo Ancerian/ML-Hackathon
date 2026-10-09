@@ -21,8 +21,8 @@ from bench.models import (
 RESULTS_DIR = Path("bench/results")
 
 
-def generate_leaderboard_md(out_path: Path = Path("LEADERBOARD.md")) -> str:
-    """Reads bench/results/*.json and automatically generates LEADERBOARD.md with paired bootstrap."""
+def generate_leaderboard_md(out_path: Path = Path("team/LEADERBOARD.md")) -> str:
+    """Reads bench/results/*.json and automatically generates team/LEADERBOARD.md with paired bootstrap."""
     models_files = {
         "UNet_Lite": RESULTS_DIR / "unet_lite.json",
         "MLP (sklearn)": RESULTS_DIR / "mlp_sklearn.json",
@@ -58,7 +58,7 @@ def generate_leaderboard_md(out_path: Path = Path("LEADERBOARD.md")) -> str:
         "",
         "**Дата формування:** 2026-10-09  ",
         "**Тестова вибірка:** 8 контрольних розрядів (#060–#067, тестовий спліт C2), 1521 кадрів (DIII-D)  ",
-        "**Примітка щодо метрики $S'$:** Розширена метрика $S'$ є суто **експериментальною діагностичною метрикою** ([docs/METRIC_S_PRIME.md](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/docs/METRIC_S_PRIME.md) v2.1) і **НЕ входить у залік хакатону** (офіційне оцінювання здійснюється виключно за метрикою $S$).",
+        "**Примітка щодо метрики $S'$:** Розширена метрика $S'$ є суто **експериментальною діагностичною метрикою** ([team/docs/METRIC_S_PRIME.md](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/team/docs/METRIC_S_PRIME.md) v2.1) і **НЕ входить у залік хакатону** (офіційне оцінювання здійснюється виключно за метрикою $S$).",
         "",
         "---",
         "",
@@ -156,7 +156,7 @@ def generate_leaderboard_md(out_path: Path = Path("LEADERBOARD.md")) -> str:
 
 def main():
     parser = argparse.ArgumentParser(description="TokaBench-GS benchmark runner.")
-    parser.add_argument("--generate-leaderboard", action="store_true", help="Generate LEADERBOARD.md")
+    parser.add_argument("--generate-leaderboard", action="store_true", help="Generate team/LEADERBOARD.md")
     args = parser.parse_args()
 
     if args.generate_leaderboard:
