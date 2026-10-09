@@ -4,13 +4,13 @@
 Computes:
 1. Official composite metric S:
    S = 0.55 * max(0, R^2_psi) + 0.15 * max(0, R^2_qb) + 0.10 * (1 - min(1, D_LCFS)) + 0.20 * Consistency
-2. Experimental diagnostic metric S' (v2.1):
-   S'_s = S_s * G_GS(bar_g_s) * P_topo,s
+2. Proposed diagnostic metric S'-gate (v2.2):
+   S'-gate_s = S_s * G_GS(bar_g_s) * P_topo,s
    where:
      G_GS(bar_g_s) = 1.0 if bar_g_s <= g_ref else exp(-(bar_g_s - g_ref) / g_ref)  (g_ref = 0.6328)
      P_topo,s = (1/T_s) * sum_t exp(-0.5 * N_spurious^(t))
      N_spurious^(t) = |N_O^(t) - 1| + N_X^(t)  (with connected component npix >= 3)
-3. Cluster bootstrap over shots (1000 replicates) for 95% confidence intervals of S and S'.
+3. Cluster bootstrap over shots (1000 replicates) for 95% confidence intervals of S and S'-gate.
 4. Structured JSON output report and stdout summary.
 
 Inputs supported:
@@ -280,7 +280,9 @@ def evaluate_submission(sub_path: Optional[Path] = None,
             "r2_cons_each": res_official["r2_cons_each"],
         },
         "extended_s_prime": {
+            "metric_name": "S'-gate",
             "S_prime": round(s_prime, 6),
+            "S_prime_gate": round(s_prime, 6),
             "ci_95": [round(ci_s_prime[0], 6), round(ci_s_prime[1], 6)],
             "mean_G_GS": round(mean_g_gs, 6),
             "mean_P_topo": round(mean_p_topo, 6),
@@ -292,6 +294,7 @@ def evaluate_submission(sub_path: Optional[Path] = None,
                 "shot_index": i,
                 "S": round(shot_s[i], 6),
                 "S_prime": round(shot_s_prime[i], 6),
+                "S_prime_gate": round(shot_s_prime[i], 6),
                 "bar_g": round(parts[i]["bar_g"], 6),
                 "G_GS": round(parts[i]["G_GS"], 6),
                 "P_topo": round(parts[i]["P_topo"], 6),
@@ -304,7 +307,7 @@ def evaluate_submission(sub_path: Optional[Path] = None,
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Evaluate Hackathon FMF submission with S and S'.")
+    parser = argparse.ArgumentParser(description="Evaluate Hackathon FMF submission with official S and proposed S'-gate.")
     parser.add_argument("--sub", type=Path, default=None, help="Path to .npz or .json submission file")
     parser.add_argument("--mode", choices=["file", "perfect", "zeros"], default="file",
                         help="Evaluation mode (file, or synthetic perfect / zeros self-checks)")
@@ -324,15 +327,15 @@ def main() -> int:
     print("=" * 72)
     off = rep["official"]
     ext = rep["extended_s_prime"]
-    print(f"  Official S:      {off['S']:.6f}   [95% CI: {off['ci_95'][0]:.4f} .. {off['ci_95'][1]:.4f}]")
-    print(f"    R2_psi:        {off['r2_psi']:.6f}")
-    print(f"    R2_{{qb}}:       {off['r2_qb']:.6f}")
-    print(f"    1 - D_LCFS:    {1.0 - min(1.0, off['dlcfs']):.6f} (D_LCFS={off['dlcfs']:.4f})")
-    print(f"    Consistency:   {off['consistency']:.6f}")
+    print(f"  Official S:        {off['S']:.6f}   [95% CI: {off['ci_95'][0]:.4f} .. {off['ci_95'][1]:.4f}]")
+    print(f"    R2_psi:          {off['r2_psi']:.6f}")
+    print(f"    R2_{{qb}}:         {off['r2_qb']:.6f}")
+    print(f"    1 - D_LCFS:      {1.0 - min(1.0, off['dlcfs']):.6f} (D_LCFS={off['dlcfs']:.4f})")
+    print(f"    Consistency:     {off['consistency']:.6f}")
     print("-" * 72)
-    print(f"  Extended S':     {ext['S_prime']:.6f}   [95% CI: {ext['ci_95'][0]:.4f} .. {ext['ci_95'][1]:.4f}]")
-    print(f"    Mean G_GS:     {ext['mean_G_GS']:.6f} (median g={ext['median_g']:.4f}, g_ref={ext['g_ref']})")
-    print(f"    Mean P_topo:   {ext['mean_P_topo']:.6f}")
+    print(f"  Proposed S'-gate:  {ext['S_prime']:.6f}   [95% CI: {ext['ci_95'][0]:.4f} .. {ext['ci_95'][1]:.4f}]")
+    print(f"    Mean G_GS:       {ext['mean_G_GS']:.6f} (median g={ext['median_g']:.4f}, g_ref={ext['g_ref']})")
+    print(f"    Mean P_topo:     {ext['mean_P_topo']:.6f}")
     print("=" * 72)
 
     if args.out:
@@ -364,8 +367,8 @@ def main() -> int:
             status_sp = "РОЗБІЖНІСТЬ" if sig_sp else "≈ (CI перекриваються)"
             print("\n" + "-" * 72)
             print("PAIRED BOOTSTRAP SIGNIFICANCE vs BASELINE (PCA+Ridge):")
-            print(f"  ΔS  (Cand - Base): {np.mean(s_cand) - np.mean(s_base):+.6f} [95% CI: {ci_ds[0]:+.6f} .. {ci_ds[1]:+.6f}] -> {status_s}")
-            print(f"  ΔS' (Cand - Base): {np.mean(sp_cand) - np.mean(sp_base):+.6f} [95% CI: {ci_dsp[0]:+.6f} .. {ci_dsp[1]:+.6f}] -> {status_sp}")
+            print(f"  ΔS        (Cand - Base): {np.mean(s_cand) - np.mean(s_base):+.6f} [95% CI: {ci_ds[0]:+.6f} .. {ci_ds[1]:+.6f}] -> {status_s}")
+            print(f"  ΔS'-gate  (Cand - Base): {np.mean(sp_cand) - np.mean(sp_base):+.6f} [95% CI: {ci_dsp[0]:+.6f} .. {ci_dsp[1]:+.6f}] -> {status_sp}")
             print("-" * 72)
         except Exception:
             pass
