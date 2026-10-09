@@ -32,6 +32,8 @@
 | ✔ Q11 | Ліцензія **ITPA HDB5** | **ЗАКРИТО: CC BY 4.0**, підтверджено через OSF API. Але поле `copyright_holders` порожнє — атрибуція через канонічну цитату Verdoolaege et al. (2021) | закрите |
 | ✔ Q12 | Атрибуція для скорера й даних Sophelio | **ЗАКРИТО.** Код — справді MIT (перевірено локально; GitHub показує `NOASSERTION` через дописаний розділ «NOTE ON SCOPE»). Дані — CC BY 4.0. Формулювання атрибуції — у `01-landscape/datasets.md` | закрите |
 | **Q13** | ⚠️ **Правова підстава переходу 1 206 розрядів MAST із CC BY-SA 4.0 (FAIR-MAST) у випуск CC BY 4.0 (Sophelio).** Share-alike поширюється на похідні бази через §4(b), тож перевипуск як простий CC BY **не дозволений самою BY-SA** | Sophelio та/або UKAEA | **відкрите — блокує перевипуск частини MAST.** До з'ясування трактуємо її як обтяжену BY-SA |
+| **Q14** | ⚠️ **Доступність і ліцензійні умови експериментальних рівноважних даних (2D мапи $\psi$) для зовнішніх установок (ASDEX Upgrade, TCV, EAST, KSTAR).** Чи є публічні випуски під CC BY / CC0 для перевірки крос-машинного перенесення? | EUROfusion (AUG), SPC/EPFL (TCV), ASIPP (EAST), KFE (KSTAR) | **відкрите — блокує пряме розширення T11.** Всі 4 машини мають закритий/договірний доступ до сирих і EFIT даних; відсутні відкриті CC BY датасети 2D карт $\psi(R,Z)$. Без інституційних угод розширення можливе лише на симульованих (CF/IMAS) рівновагах |
+
 
 ---
 
@@ -51,6 +53,6 @@ Open questions blocking parts of the work, by addressee:
 
 - **Plasma physicists**: is magnetics-free reconstruction physically realistic (Q1); severity of the p′/FF′ degeneracy without internal diagnostics (Q2); whether GS non-uniqueness occurs in operational regimes (Q3); realistic τ and ΔH for NbTi/Nb₃Sn (Q4); vacuum-vessel shielding factor for fast dB/dt (Q5).
 - **Organisers**: cluster access (Q6), dates/venue/jury (Q7), scoring platform (Q8), actual staffing (Q9).
-- **External**: redistribution terms for `fusionsimulator.io`-generated data — the README is self-contradictory, so **nothing derived from it gets published until answered** (Q10); HDB5 licence (Q11); exact attribution wording for reusing the Sophelio scorer and data (Q12).
+- **External**: redistribution terms for `fusionsimulator.io`-generated data — the README is self-contradictory, so **nothing derived from it gets published until answered** (Q10); HDB5 licence (Q11); exact attribution wording for reusing the Sophelio scorer and data (Q12); MAST license transition from CC BY-SA to CC BY (Q13); external machine (AUG, TCV, EAST, KSTAR) data access and CC BY licensing availability blocking non-simulated cross-machine extensions (Q14).
 
 Already closed: no local simulator code; disruption prediction is saturated with closed data; the Consistency term averages **seven** scalars (per the scoring code, which supersedes the website).
