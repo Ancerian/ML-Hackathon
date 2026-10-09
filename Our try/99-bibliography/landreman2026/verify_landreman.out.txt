@@ -1,0 +1,32 @@
+[F1 eps=0.25] n=40  max|divB|=4.7e-11  max|JxB-grad p|=2.9e-10 (typ |grad p| 1.09e+00)  max|b.grad psi|/(|B||grad psi|)=1.0e-11
+   eq2.15 psi(u,v) err 2.5e-16;  B = dr/dzeta err 3.0e-10
+   det d(x,y,z)/d(u,v,zeta) = -0.96824584  vs -ab = -0.96824584
+   stell-sym |B(x,-y,-z)-(-Bx,By,Bz)| = 0.0e+00;  NFP=2 |B(-x,-y,z)-(-Bx,-By,Bz)| = 0.0e+00
+[F1 eps=0.5] n=40  max|divB|=7.7e-11  max|JxB-grad p|=2.9e-10 (typ |grad p| 9.00e-01)  max|b.grad psi|/(|B||grad psi|)=2.7e-11
+   eq2.15 psi(u,v) err 1.9e-16;  B = dr/dzeta err 2.3e-10
+   det d(x,y,z)/d(u,v,zeta) = -0.86602540  vs -ab = -0.86602540
+   stell-sym |B(x,-y,-z)-(-Bx,By,Bz)| = 0.0e+00;  NFP=2 |B(-x,-y,z)-(-Bx,-By,Bz)| = 0.0e+00
+[F1 eps=0.7] n=40  max|divB|=5.9e-09  max|JxB-grad p|=5.0e-07 (typ |grad p| 6.68e-01)  max|b.grad psi|/(|B||grad psi|)=2.0e-10
+   eq2.15 psi(u,v) err 1.5e-16;  B = dr/dzeta err 2.2e-10
+   det d(x,y,z)/d(u,v,zeta) = -0.71414284  vs -ab = -0.71414284
+   stell-sym |B(x,-y,-z)-(-Bx,By,Bz)| = 0.0e+00;  NFP=2 |B(-x,-y,z)-(-Bx,-By,Bz)| = 0.0e+00
+[F1 beta] <|B|^2>_V MC = 0.88985 (+-0.00113) vs 1-eps^2/2+delta = 0.89062;  beta_V = 0.035088 vs 2/57 = 0.035088
+[F1 iota] traced iota = 2.000000 (claim 2); closure after 1 transit: 2.9e-04
+[F2 eps=1.08 S=3 lam=3.5] n=40  max|divB|=2.0e-12  max|JxB-grad p|=1.5e-12 (typ |grad p| 1.19e-01)  max|b.grad psi|/(|B||grad psi|)=1.3e-12
+   map (3.12-3.13): |psi-(X^2+Y^2)/2| 5.6e-16, |lam Bz - X| 1.3e-15, |Y+sin(lam z)| 1.4e-17
+   stell-sym 0.0e+00;  NFP=2 0.0e+00
+[F2 eps=4 S=3.5 lam=3.5] n=40  max|divB|=1.0e-11  max|JxB-grad p|=1.2e-11 (typ |grad p| 2.28e-01)  max|b.grad psi|/(|B||grad psi|)=2.4e-12
+   map (3.12-3.13): |psi-(X^2+Y^2)/2| 3.3e-15, |lam Bz - X| 6.1e-15, |Y+sin(lam z)| 5.6e-17
+   stell-sym 0.0e+00;  NFP=2 0.0e+00
+[F2 eps=5.6 S=4 lam=2] n=40  max|divB|=1.7e-11  max|JxB-grad p|=1.2e-10 (typ |grad p| 1.03e+00)  max|b.grad psi|/(|B||grad psi|)=3.0e-12
+   map (3.12-3.13): |psi-(X^2+Y^2)/2| 6.9e-15, |lam Bz - X| 1.1e-14, |Y+sin(lam z)| 0.0e+00
+   stell-sym 0.0e+00;  NFP=2 0.0e+00
+[F2 eps=2 S=1 lam=1.7] n=40  max|divB|=3.4e-12  max|JxB-grad p|=3.9e-12 (typ |grad p| 6.67e-02)  max|b.grad psi|/(|B||grad psi|)=1.6e-12
+   map (3.12-3.13): |psi-(X^2+Y^2)/2| 8.5e-17, |lam Bz - X| 1.1e-15, |Y+sin(lam z)| 1.4e-17
+   stell-sym 0.0e+00;  NFP=2 0.0e+00
+[F2 iota] (3.26) iota(0) = h0*H = 2.286900  (claim 2.28690)
+   (3.24) iota(k=0.0001) = 2.28690
+   (3.24) iota(k=0.05) = 2.28711
+   (3.24) iota(k=0.1) = 2.28779
+   traced iota (k=0.03) = 2.28695
+   traced iota (k=0.1) = 2.28777

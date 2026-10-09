@@ -1,0 +1,1233 @@
+{
+ "homogeneity_max_residual": [
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0
+ ],
+ "checks": {
+  "k=1.6,d=0.2,A=-0.155": {
+   "saddle": true,
+   "lcfs": true,
+   "Zmin": -1.049718645738349,
+   "Zx": -1.056,
+   "Zmin_err_cells": 0.12562720504046102,
+   "Zmax": 0.9595358804357755,
+   "Zmax_pred": 0.96,
+   "Rmin": 1.090092551917135,
+   "Rmax": 2.28964070262392,
+   "R_pred": [
+    1.0899999999999999,
+    2.29
+   ]
+  },
+  "k=1.6,d=0.2,A=0.3": {
+   "saddle": true,
+   "lcfs": true,
+   "Zmin": -1.0498710924463617,
+   "Zx": -1.056,
+   "Zmin_err_cells": 0.1225782679725134,
+   "Zmax": 0.9595216191100253,
+   "Zmax_pred": 0.96,
+   "Rmin": 1.0901573821941926,
+   "Rmax": 2.2897075038598245,
+   "R_pred": [
+    1.0899999999999999,
+    2.29
+   ]
+  },
+  "k=1.6,d=0.4,A=-0.155": {
+   "saddle": true,
+   "lcfs": true,
+   "Zmin": -1.0493186253206392,
+   "Zx": -1.056,
+   "Zmin_err_cells": 0.13362762102444628,
+   "Zmax": 0.9597366202520392,
+   "Zmax_pred": 0.96,
+   "Rmin": 1.0900578251364637,
+   "Rmax": 2.2896789242784386,
+   "R_pred": [
+    1.0899999999999999,
+    2.29
+   ]
+  },
+  "k=1.6,d=0.4,A=0.3": {
+   "saddle": true,
+   "lcfs": true,
+   "Zmin": -1.0493709615444495,
+   "Zx": -1.056,
+   "Zmin_err_cells": 0.1325808955500053,
+   "Zmax": 0.9596998525405671,
+   "Zmax_pred": 0.96,
+   "Rmin": 1.0901162316886417,
+   "Rmax": 2.2896285195418455,
+   "R_pred": [
+    1.0899999999999999,
+    2.29
+   ]
+  },
+  "k=1.6,d=0.6,A=-0.155": {
+   "saddle": true,
+   "lcfs": true,
+   "Zmin": -1.0490583541974234,
+   "Zx": -1.056,
+   "Zmin_err_cells": 0.13883304845304484,
+   "Zmax": 0.9595533611024075,
+   "Zmax_pred": 0.96,
+   "Rmin": 1.0900397427384343,
+   "Rmax": 2.289693625601117,
+   "R_pred": [
+    1.0899999999999999,
+    2.29
+   ]
+  },
+  "k=1.6,d=0.6,A=0.3": {
+   "saddle": true,
+   "lcfs": true,
+   "Zmin": -1.0491382227671882,
+   "Zx": -1.056,
+   "Zmin_err_cells": 0.13723567553437693,
+   "Zmax": 0.9594799605255189,
+   "Zmax_pred": 0.96,
+   "Rmin": 1.0900970622614048,
+   "Rmax": 2.2897346113377615,
+   "R_pred": [
+    1.0899999999999999,
+    2.29
+   ]
+  },
+  "k=1.8,d=0.2,A=-0.155": {
+   "saddle": true,
+   "lcfs": true,
+   "Zmin": -1.1966210521752116,
+   "Zx": -1.1880000000000002,
+   "Zmin_err_cells": 0.1724212079379071,
+   "Zmax": 1.079224068573003,
+   "Zmax_pred": 1.08,
+   "Rmin": 1.0902425542696546,
+   "Rmax": 2.2896233667120374,
+   "R_pred": [
+    1.0899999999999999,
+    2.29
+   ]
+  },
+  "k=1.8,d=0.2,A=0.3": {
+   "saddle": true,
+   "lcfs": true,
+   "Zmin": -1.1970135979691927,
+   "Zx": -1.1880000000000002,
+   "Zmin_err_cells": 0.18027213130475248,
+   "Zmax": 1.0792086586857772,
+   "Zmax_pred": 1.08,
+   "Rmin": 1.0902763747399689,
+   "Rmax": 2.2896646784561328,
+   "R_pred": [
+    1.0899999999999999,
+    2.29
+   ]
+  },
+  "k=1.8,d=0.4,A=-0.155": {
+   "saddle": true,
+   "lcfs": true,
+   "Zmin": -1.1955360792533742,
+   "Zx": -1.1880000000000002,
+   "Zmin_err_cells": 0.15072172880692314,
+   "Zmax": 1.0793402992670356,
+   "Zmax_pred": 1.08,
+   "Rmin": 1.0901938179089679,
+   "Rmax": 2.28956048043717,
+   "R_pred": [
+    1.0899999999999999,
+    2.29
+   ]
+  },
+  "k=1.8,d=0.4,A=0.3": {
+   "saddle": true,
+   "lcfs": true,
+   "Zmin": -1.1958785800066356,
+   "Zx": -1.1880000000000002,
+   "Zmin_err_cells": 0.15757175040484012,
+   "Zmax": 1.0792990961156586,
+   "Zmax_pred": 1.08,
+   "Rmin": 1.0902323827752398,
+   "Rmax": 2.2896248013336744,
+   "R_pred": [
+    1.0899999999999999,
+    2.29
+   ]
+  },
+  "k=1.8,d=0.6,A=-0.155": {
+   "saddle": true,
+   "lcfs": true,
+   "Zmin": -1.1964705549210806,
+   "Zx": -1.1880000000000002,
+   "Zmin_err_cells": 0.16941125998477552,
+   "Zmax": 1.0791629109467298,
+   "Zmax_pred": 1.08,
+   "Rmin": 1.090151247558269,
+   "Rmax": 2.2895691823448727,
+   "R_pred": [
+    1.0899999999999999,
+    2.29
+   ]
+  },
+  "k=1.8,d=0.6,A=0.3": {
+   "saddle": true,
+   "lcfs": true,
+   "Zmin": -1.1957762017037976,
+   "Zx": -1.1880000000000002,
+   "Zmin_err_cells": 0.15552418239536728,
+   "Zmax": 1.0790789638966376,
+   "Zmax_pred": 1.08,
+   "Rmin": 1.0901980773197602,
+   "Rmax": 2.2895613858701456,
+   "R_pred": [
+    1.0899999999999999,
+    2.29
+   ]
+  }
+ },
+ "usable": 48,
+ "n_frames": 48,
+ "white": {
+  "alpha_global": [
+   0.5103821642465043,
+   0.501652349988171,
+   0.572043778905183,
+   0.4197324691358364,
+   0.38164415023195153,
+   0.7924523672824216,
+   0.9234713256606735
+  ],
+  "alpha_regime": [
+   0.8057794563706867,
+   0.9083477902519376,
+   1.0196115115497666,
+   1.233794967414518,
+   1.0851459313811687,
+   0.7715305049114785,
+   0.9481856342747965
+  ],
+  "alpha_global_part": {
+   "k": 2,
+   "silhouette": 0.7161055718242613,
+   "partition": "R_axis,Z_axis,kappa,tri_bot,tri_top | li,volume",
+   "silhouettes": {
+    "2": 0.7161055718242613,
+    "3": 0.6376117902371504,
+    "4": 0.47001236329821455
+   },
+   "k3": [
+    "R_axis,Z_axis,kappa | li,volume | tri_bot,tri_top",
+    0.6376117902371504
+   ]
+  },
+  "alpha_regime_part": {
+   "k": 4,
+   "silhouette": 0.5183410096360431,
+   "partition": "R_axis,volume | Z_axis,li | kappa,tri_bot | tri_top",
+   "silhouettes": {
+    "2": 0.47885931748773025,
+    "3": 0.4671695875652077,
+    "4": 0.5183410096360431
+   },
+   "k3": [
+    "R_axis,volume | Z_axis,kappa,li | tri_bot,tri_top",
+    0.4671695875652077
+   ]
+  },
+  "slopes": [
+   [
+    1.1494872673785554,
+    0.9183695784417126,
+    0.8972098486059576,
+    1.192114631292305,
+    0.5715105097631086,
+    0.810580377891509,
+    0.7636793857788383
+   ],
+   [
+    0.7082297305581392,
+    0.9593781695542677,
+    0.7851389626488483,
+    1.6347964142549272,
+    1.4523630991161023,
+    0.7414306240301006,
+    0.8963508160242873
+   ],
+   [
+    1.1517301775848312,
+    0.8062853158588505,
+    1.4382435031582157,
+    3.7126328534803235,
+    1.751935281242742,
+    1.1551401552320788,
+    0.9939087879772484
+   ],
+   [
+    0.4673227596433198,
+    0.8023944338895403,
+    0.5112398304360287,
+    3.008535487216002,
+    0.9957010096502131,
+    0.9898358582661091,
+    0.895520438867299
+   ],
+   [
+    0.9085017117178885,
+    1.316443999211992,
+    1.9049099710588326,
+    -0.06354025444474769,
+    1.533742956751423,
+    0.5515677335454832,
+    1.38766528127368
+   ],
+   [
+    0.11506469831049895,
+    0.46771660089354444,
+    1.7216160748679845,
+    0.023011593949823595,
+    2.607417923252813,
+    0.5815292148208069,
+    0.5395537489692822
+   ],
+   [
+    0.4646781003119765,
+    0.6461066589695645,
+    0.8716232039200261,
+    0.47873228622224206,
+    0.28684101239683163,
+    0.8307163188741017,
+    1.330837519279595
+   ],
+   [
+    0.5099909422437359,
+    0.43678554748576776,
+    0.34145978732285437,
+    0.30416633300800233,
+    0.4364480442428037,
+    0.7542317156100603,
+    1.2542712885774818
+   ],
+   [
+    0.605090112573354,
+    0.5348212343345149,
+    0.5650346559302609,
+    0.42526098093940795,
+    0.3456657316098241,
+    0.5061074750307476,
+    0.7688437219115284
+   ],
+   [
+    0.32558728136217296,
+    0.4636415675049349,
+    0.5241415716784136,
+    0.523719517744829,
+    0.39164796779804567,
+    1.1584163946913615,
+    0.3648287800333223
+   ],
+   [
+    0.6322248390876458,
+    0.1868505489650518,
+    0.8654643146369065,
+    0.47660577586274905,
+    0.659925991831999,
+    1.6331588846481393,
+    0.19151394490718832
+   ]
+  ],
+  "bootstrap": {
+   "alpha_global": {
+    "median": [
+     0.5124204844321305,
+     0.4975407948032099,
+     0.5697610079319891,
+     0.4221459708253848,
+     0.3891840373421418,
+     0.7905378754631209,
+     0.9232498895983705
+    ],
+    "ci95": [
+     [
+      0.4618841837907179,
+      0.5520689709067031
+     ],
+     [
+      0.4474378346719551,
+      0.5576744086174227
+     ],
+     [
+      0.4897985901799918,
+      0.6447575441714071
+     ],
+     [
+      0.38268723402331795,
+      0.5213514166234776
+     ],
+     [
+      0.33319550451445445,
+      0.5805881741074307
+     ],
+     [
+      0.7197939746538177,
+      0.8646692955208185
+     ],
+     [
+      0.8632855281258325,
+      0.9687242513327889
+     ]
+    ],
+    "best_partition_freq": {
+     "R_axis,Z_axis,kappa,tri_bot,tri_top | li,volume": 0.903,
+     "R_axis,Z_axis,kappa | li,volume | tri_bot,tri_top": 0.075,
+     "R_axis,Z_axis,tri_bot,tri_top | kappa,li,volume": 0.012,
+     "R_axis,Z_axis | kappa | li,volume | tri_bot,tri_top": 0.003,
+     "R_axis,Z_axis,tri_top | kappa,tri_bot | li,volume": 0.003,
+     "R_axis,kappa | Z_axis,tri_bot,tri_top | li,volume": 0.002,
+     "R_axis,kappa,tri_bot,tri_top | Z_axis,li,volume": 0.001,
+     "R_axis,tri_top | Z_axis,tri_bot | kappa,volume | li": 0.001
+    },
+    "k3_partition_freq": {
+     "R_axis,Z_axis,kappa | li,volume | tri_bot,tri_top": 0.405,
+     "R_axis,Z_axis,tri_bot,tri_top | kappa | li,volume": 0.137,
+     "R_axis,Z_axis,kappa,tri_bot,tri_top | li | volume": 0.128,
+     "R_axis,kappa | Z_axis,tri_bot,tri_top | li,volume": 0.106,
+     "R_axis,Z_axis,kappa,tri_top | li,volume | tri_bot": 0.059,
+     "R_axis,Z_axis,kappa,tri_bot | li,volume | tri_top": 0.049,
+     "R_axis,Z_axis,tri_top | kappa,tri_bot | li,volume": 0.036,
+     "R_axis,kappa,tri_bot | Z_axis,tri_top | li,volume": 0.026,
+     "R_axis,tri_bot,tri_top | Z_axis,kappa | li,volume": 0.024,
+     "R_axis,Z_axis,tri_bot,tri_top | kappa,volume | li": 0.008,
+     "R_axis,Z_axis,tri_bot | kappa,tri_top | li,volume": 0.004,
+     "R_axis,tri_bot | Z_axis,kappa,tri_top | li,volume": 0.004,
+     "R_axis,tri_bot,tri_top | Z_axis,kappa,volume | li": 0.003,
+     "R_axis,Z_axis | kappa,tri_bot,tri_top | li,volume": 0.003,
+     "R_axis,kappa,tri_bot,tri_top | Z_axis,volume | li": 0.002,
+     "R_axis,tri_top | Z_axis,kappa,tri_bot | li,volume": 0.002,
+     "R_axis,kappa,tri_top | Z_axis,tri_bot | li,volume": 0.002,
+     "R_axis,Z_axis,kappa,volume | li | tri_bot,tri_top": 0.001,
+     "R_axis,Z_axis,kappa,tri_top | li | tri_bot,volume": 0.001
+    },
+    "names": [
+     "R_axis",
+     "Z_axis",
+     "kappa",
+     "tri_top",
+     "tri_bot",
+     "volume",
+     "li"
+    ]
+   },
+   "alpha_regime": {
+    "median": [
+     0.800188690828496,
+     0.8883911103659838,
+     1.023578459766977,
+     1.2276876072274279,
+     1.0626836207339672,
+     0.7712248403979662,
+     0.9454595337449425
+    ],
+    "ci95": [
+     [
+      0.6419430227794725,
+      0.878215132632248
+     ],
+     [
+      0.7652349764335141,
+      1.0791359264113327
+     ],
+     [
+      0.9666290010968289,
+      1.079979472452428
+     ],
+     [
+      1.1481127316683923,
+      1.2908000295224402
+     ],
+     [
+      0.9152340527251017,
+      1.1288184841634439
+     ],
+     [
+      0.74780674980785,
+      0.798553002293273
+     ],
+     [
+      0.8602199596161084,
+      1.0026724670403153
+     ]
+    ],
+    "best_partition_freq": {
+     "R_axis,Z_axis,li,volume | kappa,tri_bot,tri_top": 0.158,
+     "R_axis,Z_axis,volume | kappa,li,tri_bot,tri_top": 0.133,
+     "R_axis,volume | Z_axis,kappa,li,tri_bot | tri_top": 0.115,
+     "R_axis,volume | Z_axis,li | kappa,tri_bot | tri_top": 0.102,
+     "R_axis,Z_axis,volume | kappa,li,tri_bot | tri_top": 0.089,
+     "R_axis,Z_axis,kappa,li,tri_bot,volume | tri_top": 0.085,
+     "R_axis,Z_axis,li,tri_bot,volume | kappa,tri_top": 0.056,
+     "R_axis,volume | Z_axis,kappa,li | tri_bot,tri_top": 0.044,
+     "R_axis,volume | Z_axis,kappa,li,tri_bot,tri_top": 0.043,
+     "R_axis,Z_axis,kappa,li,volume | tri_bot,tri_top": 0.033,
+     "R_axis,li,tri_bot,volume | Z_axis,kappa,tri_top": 0.019,
+     "R_axis,volume | Z_axis,li,tri_bot | kappa | tri_top": 0.014,
+     "R_axis,li,volume | Z_axis,kappa,tri_bot,tri_top": 0.011,
+     "R_axis,volume | Z_axis,tri_bot | kappa,li | tri_top": 0.011,
+     "R_axis,volume | Z_axis,kappa | li,tri_bot | tri_top": 0.01,
+     "R_axis,volume | Z_axis,li | kappa,tri_bot,tri_top": 0.01,
+     "R_axis,volume | Z_axis,li,tri_bot | kappa,tri_top": 0.008,
+     "R_axis,Z_axis,volume | kappa,li | tri_bot,tri_top": 0.008,
+     "R_axis,Z_axis,li,volume | kappa,tri_bot | tri_top": 0.006,
+     "R_axis,Z_axis,volume | kappa | li,tri_bot | tri_top": 0.006,
+     "R_axis,li,volume | Z_axis,kappa,tri_bot | tri_top": 0.005,
+     "R_axis,li,volume | Z_axis,kappa | tri_bot,tri_top": 0.003,
+     "R_axis,volume | kappa,li,tri_bot,tri_top": 0.003,
+     "R_axis,volume | kappa,li,tri_bot | tri_top": 0.003,
+     "R_axis,li,tri_bot,volume | kappa,tri_top": 0.002,
+     "R_axis,Z_axis,tri_bot,volume | kappa,li,tri_top": 0.002,
+     "R_axis,li,tri_bot | Z_axis,kappa | tri_top | volume": 0.002,
+     "R_axis,volume | Z_axis | kappa,tri_top | li,tri_bot": 0.002,
+     "R_axis,volume | Z_axis,li | kappa | tri_bot,tri_top": 0.002,
+     "R_axis,kappa,li,tri_bot,volume | tri_top": 0.002,
+     "R_axis,li,volume | kappa,tri_bot,tri_top": 0.002,
+     "R_axis,Z_axis,kappa,tri_bot,volume | li,tri_top": 0.001,
+     "R_axis,tri_bot,volume | Z_axis,kappa,li | tri_top": 0.001,
+     "R_axis,li | Z_axis,volume | kappa,tri_bot | tri_top": 0.001,
+     "R_axis,volume | Z_axis,kappa,li | tri_bot | tri_top": 0.001,
+     "R_axis | Z_axis,volume | kappa,li,tri_bot | tri_top": 0.001,
+     "R_axis,volume | Z_axis,tri_bot | kappa,li,tri_top": 0.001,
+     "R_axis,volume | Z_axis,kappa,tri_top | li,tri_bot": 0.001,
+     "R_axis,kappa,li,tri_bot,volume | Z_axis,tri_top": 0.001,
+     "R_axis,kappa,volume | Z_axis,li,tri_bot,tri_top": 0.001,
+     "R_axis,Z_axis,volume | kappa,tri_bot | li | tri_top": 0.001,
+     "R_axis,volume | Z_axis | kappa,li,tri_bot | tri_top": 0.001
+    },
+    "k3_partition_freq": {
+     "R_axis,Z_axis,volume | kappa,li,tri_bot | tri_top": 0.283,
+     "R_axis,volume | Z_axis,kappa,li,tri_bot | tri_top": 0.274,
+     "R_axis,Z_axis,li,volume | kappa,tri_bot | tri_top": 0.113,
+     "R_axis,volume | Z_axis,kappa,li | tri_bot,tri_top": 0.111,
+     "R_axis,Z_axis,volume | kappa,li | tri_bot,tri_top": 0.056,
+     "R_axis,volume | Z_axis,li | kappa,tri_bot,tri_top": 0.031,
+     "R_axis,li,volume | Z_axis,kappa,tri_bot | tri_top": 0.029,
+     "R_axis,Z_axis,li,volume | kappa | tri_bot,tri_top": 0.01,
+     "R_axis,volume | Z_axis,li,tri_bot | kappa,tri_top": 0.01,
+     "R_axis,Z_axis,kappa,li,tri_bot | tri_top | volume": 0.009,
+     "R_axis,li,volume | Z_axis,kappa | tri_bot,tri_top": 0.009,
+     "R_axis,volume | kappa,li,tri_bot | tri_top": 0.007,
+     "R_axis,li,tri_bot,volume | Z_axis,kappa | tri_top": 0.006,
+     "R_axis,li,tri_bot | Z_axis,kappa,tri_top | volume": 0.005,
+     "R_axis,volume | Z_axis,tri_top | kappa,li,tri_bot": 0.004,
+     "R_axis | Z_axis,li,volume | kappa,tri_bot,tri_top": 0.004,
+     "R_axis,volume | Z_axis,tri_bot,tri_top | kappa,li": 0.003,
+     "R_axis,Z_axis,li,tri_bot,volume | kappa | tri_top": 0.003,
+     "R_axis,Z_axis | kappa,li,tri_bot,tri_top | volume": 0.003,
+     "R_axis,Z_axis,volume | kappa,tri_bot,tri_top | li": 0.003,
+     "R_axis,volume | Z_axis,tri_bot | kappa,li,tri_top": 0.003,
+     "R_axis,volume | Z_axis | kappa,li,tri_bot,tri_top": 0.003,
+     "R_axis,tri_bot,volume | Z_axis,kappa,li | tri_top": 0.002,
+     "R_axis,volume | Z_axis,kappa,tri_top | li,tri_bot": 0.002,
+     "R_axis,Z_axis,volume | kappa,tri_top | li,tri_bot": 0.002,
+     "R_axis,Z_axis,volume | kappa | li,tri_bot,tri_top": 0.002,
+     "R_axis,li,volume | kappa,tri_bot | tri_top": 0.002,
+     "R_axis,Z_axis,tri_bot,volume | kappa,li | tri_top": 0.002,
+     "R_axis,kappa,volume | Z_axis,li,tri_bot | tri_top": 0.001,
+     "R_axis,Z_axis,li,tri_bot | kappa,tri_top | volume": 0.001,
+     "R_axis,tri_bot,volume | Z_axis,li | kappa,tri_top": 0.001,
+     "R_axis,volume | kappa,li,tri_top | tri_bot": 0.001,
+     "R_axis,li,tri_bot | kappa,tri_top | volume": 0.001,
+     "R_axis,volume | kappa,tri_top | li,tri_bot": 0.001,
+     "R_axis,kappa | Z_axis,li,tri_bot,tri_top | volume": 0.001,
+     "R_axis,volume | Z_axis,kappa,tri_bot,tri_top | li": 0.001,
+     "R_axis | Z_axis,volume | kappa,li,tri_bot,tri_top": 0.001
+    },
+    "names": [
+     "R_axis",
+     "Z_axis",
+     "kappa",
+     "tri_top",
+     "tri_bot",
+     "volume",
+     "li"
+    ]
+   }
+  }
+ },
+ "smooth": {
+  "alpha_global": [
+   0.728218309250269,
+   0.771674740777302,
+   0.8643296593163685,
+   0.8054181698354446,
+   0.9295844312680175,
+   1.012452650491287,
+   0.748981148139847
+  ],
+  "alpha_regime": [
+   0.99294755116238,
+   1.000784204886771,
+   1.0147339068717633,
+   1.272057555799678,
+   1.0907757561856242,
+   0.9829575778622992,
+   0.9152280356291768
+  ],
+  "alpha_global_part": {
+   "k": 2,
+   "silhouette": 0.5708306298893757,
+   "partition": "R_axis,Z_axis,li,tri_top | kappa,tri_bot,volume",
+   "silhouettes": {
+    "2": 0.5708306298893757,
+    "3": 0.45503217086476705,
+    "4": 0.28098663028475523
+   },
+   "k3": [
+    "R_axis,Z_axis,li,tri_top | kappa,tri_bot | volume",
+    0.45503217086476705
+   ]
+  },
+  "alpha_regime_part": {
+   "k": 2,
+   "silhouette": 0.6354622405984399,
+   "partition": "R_axis,Z_axis,kappa,li,tri_bot,volume | tri_top",
+   "silhouettes": {
+    "2": 0.6354622405984399,
+    "3": 0.4339173899717004,
+    "4": 0.4409335590582992
+   },
+   "k3": [
+    "R_axis,Z_axis,kappa,li,volume | tri_bot | tri_top",
+    0.4339173899717004
+   ]
+  },
+  "slopes": [
+   [
+    1.1845528249429311,
+    1.068654011042666,
+    1.1385025398902449,
+    1.2367740158988791,
+    1.0897465178964831,
+    0.9876423487453758,
+    1.045286294708515
+   ],
+   [
+    0.9386052686960487,
+    0.6774343303328823,
+    1.0714307203245204,
+    1.4134944033606331,
+    0.8547507664965394,
+    1.1867868443851208,
+    1.2152742828921486
+   ],
+   [
+    0.82812684588414,
+    1.1805401859666362,
+    0.8515857857076479,
+    1.0203524335361156,
+    1.5236019558285845,
+    0.7731039627234217,
+    0.5851588234574062
+   ],
+   [
+    0.90471411805194,
+    1.112271523166747,
+    0.796590997408232,
+    1.302107078768663,
+    1.2713961258467044,
+    1.1108051658302804,
+    0.8291600887996056
+   ],
+   [
+    1.1124781387301612,
+    0.9264198892746889,
+    0.8632112135252954,
+    2.2046953057632295,
+    0.7351359444268609,
+    0.9706998620717427,
+    0.5821671584917597
+   ],
+   [
+    1.202614731775747,
+    1.220540769303649,
+    1.722908527841641,
+    0.4859623706846663,
+    1.2610997812180653,
+    0.9802941217849522,
+    1.814003308613818
+   ],
+   [
+    0.9612322401796739,
+    1.0462623900858499,
+    1.0294960268140285,
+    1.4610813717866242,
+    1.0003452061056708,
+    0.9820762688708954,
+    0.7491874750299108
+   ],
+   [
+    0.905485556884247,
+    0.8898452714293638,
+    0.8830545059485462,
+    0.6918769960988068,
+    1.107616682827931,
+    0.879099603671827,
+    0.8527584892617944
+   ],
+   [
+    0.5635306896590473,
+    0.7159553179407597,
+    1.0523261592278015,
+    0.4729862826240828,
+    0.999286709215323,
+    0.9056127564719066,
+    0.755642069238788
+   ],
+   [
+    0.5640083381716365,
+    0.4292277644274577,
+    0.5844520507363883,
+    1.1092281025986732,
+    0.5222859165920267,
+    1.5146929025691278,
+    0.617044659883006
+   ],
+   [
+    0.4062606580088373,
+    0.43845285116597904,
+    -0.2870884712009167,
+    0.10967734707638375,
+    0.4377446631460727,
+    1.0489467743879897,
+    0.5274959248274806
+   ]
+  ],
+  "bootstrap": {
+   "alpha_global": {
+    "median": [
+     0.7305658176951357,
+     0.7674365765446198,
+     0.8667397412417284,
+     0.7845766426466548,
+     0.9263187372283768,
+     1.012802652564944,
+     0.7497074794722141
+    ],
+    "ci95": [
+     [
+      0.6908925323203888,
+      0.7621413628714503
+     ],
+     [
+      0.7371035480298711,
+      0.811509299709607
+     ],
+     [
+      0.8327270793852705,
+      0.9014166974272358
+     ],
+     [
+      0.7176977722445123,
+      0.8501474148477222
+     ],
+     [
+      0.8723622847266441,
+      0.9725828545748275
+     ],
+     [
+      0.9717507850005955,
+      1.0494806570813524
+     ],
+     [
+      0.6865168377452667,
+      0.8230315770439387
+     ]
+    ],
+    "best_partition_freq": {
+     "R_axis,Z_axis,li,tri_top | kappa,tri_bot,volume": 0.477,
+     "R_axis,Z_axis,kappa,li,tri_top | tri_bot,volume": 0.273,
+     "R_axis,Z_axis,li,tri_top | kappa,tri_bot | volume": 0.051,
+     "R_axis,Z_axis,li | kappa,tri_bot,tri_top | volume": 0.049,
+     "R_axis,li | Z_axis,kappa,tri_top | tri_bot,volume": 0.036,
+     "R_axis,li | Z_axis,tri_top | kappa,tri_bot | volume": 0.025,
+     "R_axis,Z_axis,li | kappa,tri_top | tri_bot,volume": 0.023,
+     "R_axis,Z_axis,li | kappa,tri_bot,tri_top,volume": 0.017,
+     "R_axis,Z_axis | kappa,tri_bot | li,tri_top | volume": 0.011,
+     "R_axis,li | Z_axis,kappa,tri_bot,tri_top | volume": 0.006,
+     "R_axis,Z_axis,kappa,li,tri_bot,tri_top | volume": 0.004,
+     "R_axis,li | Z_axis,kappa | tri_bot,tri_top | volume": 0.004,
+     "R_axis,Z_axis,li | kappa,tri_top | tri_bot | volume": 0.004,
+     "R_axis,Z_axis,tri_top | kappa,li | tri_bot,volume": 0.003,
+     "R_axis,li | Z_axis,kappa,tri_bot,tri_top,volume": 0.002,
+     "R_axis | Z_axis,li | kappa,tri_bot,tri_top | volume": 0.002,
+     "R_axis,li | Z_axis,tri_top | kappa,tri_bot,volume": 0.002,
+     "R_axis,li | Z_axis,kappa,tri_bot | tri_top,volume": 0.001,
+     "R_axis,Z_axis | kappa,li,tri_bot,tri_top | volume": 0.001,
+     "R_axis,li,tri_top | Z_axis,kappa | tri_bot,volume": 0.001,
+     "R_axis,Z_axis,tri_top | kappa,li,tri_bot,volume": 0.001,
+     "R_axis | Z_axis,li,tri_top | kappa,tri_bot | volume": 0.001,
+     "R_axis,tri_top | Z_axis,li | kappa,tri_bot | volume": 0.001,
+     "R_axis,li,tri_top | Z_axis,kappa,tri_bot,volume": 0.001,
+     "R_axis,Z_axis,tri_top | kappa,li,tri_bot | volume": 0.001,
+     "R_axis,Z_axis | kappa,li,tri_bot,tri_top,volume": 0.001,
+     "R_axis,Z_axis | kappa,li,tri_top | tri_bot,volume": 0.001,
+     "R_axis,li,tri_top | Z_axis,tri_bot | kappa,volume": 0.001
+    },
+    "k3_partition_freq": {
+     "R_axis,Z_axis,li,tri_top | kappa,tri_bot | volume": 0.463,
+     "R_axis,Z_axis,li,tri_top | kappa | tri_bot,volume": 0.171,
+     "R_axis,Z_axis,li | kappa,tri_bot,tri_top | volume": 0.114,
+     "R_axis,Z_axis,li | kappa,tri_top | tri_bot,volume": 0.099,
+     "R_axis,li | Z_axis,kappa,tri_top | tri_bot,volume": 0.068,
+     "R_axis,li | Z_axis,kappa,tri_bot,tri_top | volume": 0.014,
+     "R_axis,Z_axis,tri_top | kappa,li | tri_bot,volume": 0.014,
+     "R_axis,Z_axis | kappa,li,tri_top | tri_bot,volume": 0.012,
+     "R_axis,Z_axis,tri_top | kappa,li,tri_bot | volume": 0.009,
+     "R_axis | Z_axis,kappa,li,tri_top | tri_bot,volume": 0.007,
+     "R_axis,li | Z_axis,tri_top | kappa,tri_bot,volume": 0.007,
+     "R_axis,Z_axis | kappa,li,tri_bot,tri_top | volume": 0.007,
+     "R_axis,li,tri_top | Z_axis,kappa | tri_bot,volume": 0.005,
+     "R_axis,li,tri_top | Z_axis,kappa,tri_bot | volume": 0.002,
+     "R_axis | Z_axis,li,tri_top | kappa,tri_bot,volume": 0.002,
+     "R_axis,li | Z_axis,kappa,tri_bot | tri_top,volume": 0.001,
+     "R_axis,tri_top | Z_axis,kappa,li | tri_bot,volume": 0.001,
+     "R_axis,Z_axis,kappa,li,tri_top | tri_bot | volume": 0.001,
+     "R_axis,li,tri_top | Z_axis | kappa,tri_bot,volume": 0.001,
+     "R_axis,li,tri_top | Z_axis,tri_bot | kappa,volume": 0.001,
+     "R_axis | Z_axis,kappa,li,tri_bot,tri_top | volume": 0.001
+    },
+    "names": [
+     "R_axis",
+     "Z_axis",
+     "kappa",
+     "tri_top",
+     "tri_bot",
+     "volume",
+     "li"
+    ]
+   },
+   "alpha_regime": {
+    "median": [
+     0.9891503248392122,
+     0.9906106284869987,
+     1.0105268819876794,
+     1.2854020078742345,
+     1.0883430707694526,
+     0.9838795154128332,
+     0.912177802681861
+    ],
+    "ci95": [
+     [
+      0.9394994578027411,
+      1.0506169957386284
+     ],
+     [
+      0.9241239067911586,
+      1.0488357324269637
+     ],
+     [
+      0.9693976178217146,
+      1.0512400792862566
+     ],
+     [
+      1.2360740704956379,
+      1.3974032268352545
+     ],
+     [
+      1.0305076739407353,
+      1.1403233918943383
+     ],
+     [
+      0.9487853455629643,
+      1.0201437214013656
+     ],
+     [
+      0.8815452938169817,
+      0.9621075016897469
+     ]
+    ],
+    "best_partition_freq": {
+     "R_axis,Z_axis,kappa,li,tri_bot,volume | tri_top": 0.798,
+     "R_axis,Z_axis,kappa,li,volume | tri_bot,tri_top": 0.188,
+     "R_axis,Z_axis,li,volume | kappa,tri_bot | tri_top": 0.002,
+     "R_axis,li | Z_axis,volume | kappa,tri_bot | tri_top": 0.002,
+     "R_axis,kappa | Z_axis,tri_bot | li,volume | tri_top": 0.002,
+     "R_axis,Z_axis,kappa,li | tri_bot,volume | tri_top": 0.002,
+     "R_axis,kappa,volume | Z_axis,li | tri_bot,tri_top": 0.002,
+     "R_axis,kappa,volume | Z_axis,li | tri_bot | tri_top": 0.001,
+     "R_axis,volume | Z_axis,li | kappa,tri_bot | tri_top": 0.001,
+     "R_axis,Z_axis,tri_bot | kappa,volume | li | tri_top": 0.001,
+     "R_axis,tri_bot | Z_axis,kappa,volume | li | tri_top": 0.001
+    },
+    "k3_partition_freq": {
+     "R_axis,Z_axis,kappa,li,volume | tri_bot | tri_top": 0.393,
+     "R_axis,Z_axis,kappa,tri_bot,volume | li | tri_top": 0.172,
+     "R_axis,Z_axis,li,volume | kappa,tri_bot | tri_top": 0.158,
+     "R_axis,Z_axis,kappa,tri_bot | li,volume | tri_top": 0.081,
+     "R_axis,li,volume | Z_axis,kappa,tri_bot | tri_top": 0.053,
+     "R_axis,tri_bot | Z_axis,kappa,li,volume | tri_top": 0.024,
+     "R_axis,Z_axis,tri_bot | kappa,li,volume | tri_top": 0.018,
+     "R_axis,kappa,tri_bot | Z_axis,li,volume | tri_top": 0.016,
+     "R_axis,kappa,li,volume | Z_axis,tri_bot | tri_top": 0.014,
+     "R_axis,Z_axis,li | kappa,tri_bot,volume | tri_top": 0.013,
+     "R_axis,li | Z_axis,kappa,tri_bot,volume | tri_top": 0.011,
+     "R_axis,kappa,volume | Z_axis,li | tri_bot,tri_top": 0.01,
+     "R_axis,kappa,tri_bot,volume | Z_axis,li | tri_top": 0.008,
+     "R_axis,Z_axis,kappa,li | tri_bot,volume | tri_top": 0.008,
+     "R_axis,tri_bot,volume | Z_axis,kappa,li | tri_top": 0.007,
+     "R_axis,Z_axis,tri_bot,volume | kappa,li | tri_top": 0.006,
+     "R_axis,Z_axis,kappa,volume | li | tri_bot,tri_top": 0.004,
+     "R_axis,Z_axis,li | kappa,volume | tri_bot,tri_top": 0.002,
+     "R_axis,Z_axis | kappa,li,tri_bot,volume | tri_top": 0.001,
+     "R_axis,Z_axis,li,tri_bot,volume | kappa | tri_top": 0.001
+    },
+    "names": [
+     "R_axis",
+     "Z_axis",
+     "kappa",
+     "tri_top",
+     "tri_bot",
+     "volume",
+     "li"
+    ]
+   }
+  }
+ },
+ "pca-tail": {
+  "alpha_global": [
+   0.7837741102953127,
+   0.7872622447369167,
+   0.936170987502924,
+   0.5345007492205732,
+   0.6902451191020027,
+   0.9600222268250888,
+   0.6931896574424924
+  ],
+  "alpha_regime": [
+   0.9255170424584336,
+   0.9495132500284181,
+   1.0974437636169068,
+   1.3100202263550422,
+   1.0983361099953688,
+   0.8882651572076941,
+   0.9429821251622993
+  ],
+  "alpha_global_part": {
+   "k": 4,
+   "silhouette": 0.795400480884144,
+   "partition": "R_axis,Z_axis | kappa,volume | li,tri_bot | tri_top",
+   "silhouettes": {
+    "2": 0.611034413038553,
+    "3": 0.5970757998427534,
+    "4": 0.795400480884144
+   },
+   "k3": [
+    "R_axis,Z_axis,li,tri_bot | kappa,volume | tri_top",
+    0.5970757998427534
+   ]
+  },
+  "alpha_regime_part": {
+   "k": 3,
+   "silhouette": 0.745453983430786,
+   "partition": "R_axis,Z_axis,li,volume | kappa,tri_bot | tri_top",
+   "silhouettes": {
+    "2": 0.6653298295136315,
+    "3": 0.745453983430786,
+    "4": 0.5662511868373483
+   },
+   "k3": [
+    "R_axis,Z_axis,li,volume | kappa,tri_bot | tri_top",
+    0.745453983430786
+   ]
+  },
+  "slopes": [
+   [
+    0.9813522506892517,
+    0.8024411851577568,
+    0.8382327203857698,
+    1.026204537080686,
+    1.004709672706065,
+    0.9916264513349746,
+    1.1479043238770166
+   ],
+   [
+    0.9975787229900988,
+    1.1825482683503616,
+    1.0875831844454005,
+    1.108657722792833,
+    1.0119384316112998,
+    0.9603570225790653,
+    0.9447082697256644
+   ],
+   [
+    0.9807641500450923,
+    1.0115788630390712,
+    1.0774026343742529,
+    1.4506580418742852,
+    1.2348127163256144,
+    1.3474693435521445,
+    1.0232298842676524
+   ],
+   [
+    0.4776392038626847,
+    0.8610223935422383,
+    1.3247574901838093,
+    1.8414348932935414,
+    1.4909457492487732,
+    0.7650851059558692,
+    0.5761247948104777
+   ],
+   [
+    1.3940646193179016,
+    0.8346701849740008,
+    0.468974162913147,
+    5.010592722792988,
+    1.4124301832590893,
+    0.8232282587688464,
+    1.0888667864441275
+   ],
+   [
+    1.0931642822197245,
+    1.6041331464461754,
+    1.493494995404357,
+    0.8034837282777407,
+    1.446907523943412,
+    0.7555623629934864,
+    1.0703018041821808
+   ],
+   [
+    0.7283295220217997,
+    0.6039754289657299,
+    1.3516175141905882,
+    0.8093562759019393,
+    1.4923115329865142,
+    0.6895333578083008,
+    0.9088690798549225
+   ],
+   [
+    0.7762725062738445,
+    0.7630016098985603,
+    0.8941562076459576,
+    0.3314856753560289,
+    0.3192365827883214,
+    1.021330491472392,
+    0.7178016459691297
+   ],
+   [
+    0.6630547225642536,
+    0.892311811282859,
+    0.6548013895864639,
+    0.47768102667246404,
+    0.5567920902085017,
+    0.8886636699188317,
+    0.5940893537096487
+   ],
+   [
+    0.9688929084153324,
+    0.9893288891629266,
+    0.8105024979279405,
+    0.6118031885713606,
+    0.6052071702560099,
+    1.068261181323965,
+    0.6036923356430716
+   ],
+   [
+    1.2800131699391966,
+    0.3346399827862855,
+    1.7732052960865188,
+    0.718585478608314,
+    0.7254679784638961,
+    1.834050212647823,
+    0.6303024010430678
+   ]
+  ],
+  "bootstrap": {
+   "alpha_global": {
+    "median": [
+     0.7792366712969583,
+     0.7853647787290975,
+     0.9339598575911667,
+     0.5367163085881177,
+     0.689335613176758,
+     0.9574341553915443,
+     0.6931989007567859
+    ],
+    "ci95": [
+     [
+      0.7471200439412683,
+      0.8078626536359572
+     ],
+     [
+      0.7163104435220089,
+      0.859674188289172
+     ],
+     [
+      0.8432113281167876,
+      0.9950127830859765
+     ],
+     [
+      0.47474759196097793,
+      0.6085630843278755
+     ],
+     [
+      0.5652340809252339,
+      0.7810284565924164
+     ],
+     [
+      0.9004666496739158,
+      1.0174731567684492
+     ],
+     [
+      0.6246566854689668,
+      0.7493349669326933
+     ]
+    ],
+    "best_partition_freq": {
+     "R_axis,Z_axis | kappa,volume | li,tri_bot | tri_top": 0.318,
+     "R_axis,Z_axis,li,tri_bot,tri_top | kappa,volume": 0.186,
+     "R_axis,Z_axis,li,tri_bot | kappa,volume | tri_top": 0.176,
+     "R_axis,Z_axis,kappa,volume | li,tri_bot,tri_top": 0.09,
+     "R_axis,Z_axis,li | kappa,volume | tri_bot,tri_top": 0.079,
+     "R_axis,Z_axis | kappa,volume | li,tri_bot,tri_top": 0.073,
+     "R_axis,li,tri_bot,tri_top | Z_axis,kappa,volume": 0.01,
+     "R_axis,li | Z_axis,kappa,volume | tri_bot,tri_top": 0.009,
+     "R_axis,Z_axis,tri_bot | kappa,volume | li,tri_top": 0.009,
+     "R_axis,Z_axis | kappa,volume | li | tri_bot,tri_top": 0.008,
+     "R_axis,kappa,volume | Z_axis,li,tri_bot,tri_top": 0.008,
+     "R_axis,li,tri_bot | Z_axis,kappa,volume | tri_top": 0.008,
+     "R_axis,Z_axis,kappa,li,tri_bot,volume | tri_top": 0.003,
+     "R_axis,Z_axis,kappa | li,tri_bot,tri_top | volume": 0.003,
+     "R_axis,Z_axis | kappa | li,tri_bot,tri_top | volume": 0.003,
+     "R_axis,Z_axis,kappa,li,volume | tri_bot,tri_top": 0.003,
+     "R_axis,Z_axis,kappa,tri_bot | li,tri_top | volume": 0.002,
+     "R_axis,li,tri_bot | Z_axis,kappa | tri_top | volume": 0.002,
+     "R_axis,Z_axis,kappa,tri_bot,volume | li,tri_top": 0.002,
+     "R_axis,Z_axis,kappa,volume | li,tri_bot | tri_top": 0.001,
+     "R_axis,Z_axis,tri_bot | kappa,volume | li | tri_top": 0.001,
+     "R_axis,li,tri_bot | Z_axis,tri_top | kappa,volume": 0.001,
+     "R_axis,li,tri_top | Z_axis,kappa,tri_bot,volume": 0.001,
+     "R_axis,Z_axis | kappa,volume | li,tri_top | tri_bot": 0.001,
+     "R_axis,Z_axis,kappa,li,tri_bot,tri_top | volume": 0.001,
+     "R_axis,tri_bot | Z_axis,li | kappa,volume | tri_top": 0.001,
+     "R_axis,kappa | Z_axis,tri_bot | li,tri_top | volume": 0.001
+    },
+    "k3_partition_freq": {
+     "R_axis,Z_axis,li,tri_bot | kappa,volume | tri_top": 0.598,
+     "R_axis,Z_axis | kappa,volume | li,tri_bot,tri_top": 0.135,
+     "R_axis,Z_axis,li | kappa,volume | tri_bot,tri_top": 0.115,
+     "R_axis,Z_axis,kappa | li,tri_bot,tri_top | volume": 0.034,
+     "R_axis,li,tri_bot | Z_axis,kappa,volume | tri_top": 0.032,
+     "R_axis,Z_axis,tri_bot | kappa,volume | li,tri_top": 0.028,
+     "R_axis,li | Z_axis,kappa,volume | tri_bot,tri_top": 0.026,
+     "R_axis,Z_axis,kappa,volume | li,tri_bot | tri_top": 0.016,
+     "R_axis,Z_axis,kappa,tri_bot | li,tri_top | volume": 0.007,
+     "R_axis,Z_axis,kappa,volume | li,tri_top | tri_bot": 0.003,
+     "R_axis,kappa,volume | Z_axis,li,tri_bot | tri_top": 0.002,
+     "R_axis,Z_axis,li,tri_bot,tri_top | kappa | volume": 0.001,
+     "R_axis,li,tri_bot | Z_axis,tri_top | kappa,volume": 0.001,
+     "R_axis,Z_axis,kappa,li,tri_bot | tri_top | volume": 0.001,
+     "R_axis,Z_axis,kappa,volume | li | tri_bot,tri_top": 0.001
+    },
+    "names": [
+     "R_axis",
+     "Z_axis",
+     "kappa",
+     "tri_top",
+     "tri_bot",
+     "volume",
+     "li"
+    ]
+   },
+   "alpha_regime": {
+    "median": [
+     0.9302149083914173,
+     0.9793829797936797,
+     1.100713672322414,
+     1.4621575508711941,
+     1.099957406379282,
+     0.8900534229017896,
+     0.9417136192685004
+    ],
+    "ci95": [
+     [
+      0.8929893824529954,
+      0.9756738661702903
+     ],
+     [
+      0.9127165976628271,
+      1.053501855269623
+     ],
+     [
+      1.0438611271321032,
+      1.143044858947822
+     ],
+     [
+      1.2574433325649301,
+      1.5603291000709378
+     ],
+     [
+      1.0509313421243178,
+      1.1537398788521704
+     ],
+     [
+      0.8628702575579712,
+      0.9174978035197596
+     ],
+     [
+      0.8839679785150303,
+      0.9987094089482574
+     ]
+    ],
+    "best_partition_freq": {
+     "R_axis,Z_axis,li,volume | kappa,tri_bot | tri_top": 0.378,
+     "R_axis,Z_axis,kappa,li,tri_bot,volume | tri_top": 0.364,
+     "R_axis,Z_axis,li,volume | kappa,tri_bot,tri_top": 0.121,
+     "R_axis,li,volume | Z_axis,kappa,tri_bot | tri_top": 0.062,
+     "R_axis,volume | Z_axis,li | kappa,tri_bot | tri_top": 0.027,
+     "R_axis,Z_axis | kappa,tri_bot | li,volume | tri_top": 0.016,
+     "R_axis,li | Z_axis,volume | kappa,tri_bot | tri_top": 0.008,
+     "R_axis,li,volume | Z_axis,kappa,tri_bot,tri_top": 0.006,
+     "R_axis,li,volume | Z_axis | kappa,tri_bot | tri_top": 0.005,
+     "R_axis,Z_axis,kappa,li,volume | tri_bot,tri_top": 0.004,
+     "R_axis,volume | Z_axis,kappa,li,tri_bot | tri_top": 0.004,
+     "R_axis,li | Z_axis,volume | kappa,tri_bot,tri_top": 0.001,
+     "R_axis,li,volume | Z_axis,tri_bot | kappa | tri_top": 0.001,
+     "R_axis,kappa | Z_axis,li,volume | tri_bot,tri_top": 0.001,
+     "R_axis,Z_axis | kappa,tri_bot,tri_top | li,volume": 0.001,
+     "R_axis,Z_axis,volume | kappa,li,tri_bot | tri_top": 0.001
+    },
+    "k3_partition_freq": {
+     "R_axis,Z_axis,li,volume | kappa,tri_bot | tri_top": 0.679,
+     "R_axis,li,volume | Z_axis,kappa,tri_bot | tri_top": 0.28,
+     "R_axis,volume | Z_axis,kappa,li,tri_bot | tri_top": 0.024,
+     "R_axis,Z_axis,volume | kappa,li,tri_bot | tri_top": 0.005,
+     "R_axis,Z_axis,kappa,li,volume | tri_bot | tri_top": 0.003,
+     "R_axis,volume | Z_axis,li | kappa,tri_bot,tri_top": 0.002,
+     "R_axis,Z_axis,li | kappa,tri_bot,tri_top | volume": 0.002,
+     "R_axis,li | Z_axis,volume | kappa,tri_bot,tri_top": 0.001,
+     "R_axis,Z_axis,li,tri_bot,volume | kappa | tri_top": 0.001,
+     "R_axis,li,volume | Z_axis | kappa,tri_bot,tri_top": 0.001,
+     "R_axis,kappa | Z_axis,li,volume | tri_bot,tri_top": 0.001,
+     "R_axis,Z_axis | kappa,tri_bot,tri_top | li,volume": 0.001
+    },
+    "names": [
+     "R_axis",
+     "Z_axis",
+     "kappa",
+     "tri_top",
+     "tri_bot",
+     "volume",
+     "li"
+    ]
+   }
+  }
+ }
+}

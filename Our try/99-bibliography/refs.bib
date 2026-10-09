@@ -1,0 +1,273 @@
+% Our try — ключові джерела / key references.  Compiled 2026-09-22.
+% Confidence tags mirror 99-bibliography/verification-log.md:
+%   note = {[V]}  source opened and read
+%   note = {[S]}  search-summary only
+%   note = {[?]}  bibliographic data unverified against the publisher
+
+% ---------------------------------------------------------------- the benchmark we build on
+@misc{fec2026paper,
+  author = {Nakkina, Tapan Ganatma and Waller, Matthew and Michoski, Craig and Sammuli, Brian
+            and Hatch, David R. and Boyes, William and Clark, Mitchell and Nazikian, Raffi
+            and Smith, Sterling},
+  title  = {The Fusion Equilibrium Challenge: Inferring Magnetic Geometry Without Magnetic Diagnostics},
+  year   = {2026}, eprint = {2609.01750}, archivePrefix = {arXiv},
+  note   = {[V] Dataset statistics in this paper are self-contradictory; see verification-log B1/B2}
+}
+@dataset{fusion_equilibrium_challenge,
+  title  = {The Fusion Equilibrium Challenge: Predicting Plasma Shape from Control Inputs},
+  author = {Michoski, Craig and Waller, Matthew and Sammuli, Brian and Boyes, William
+            and Clark, Mitchell and Smith, Sterling and Nakkina, Tapan Ganatma
+            and Hatch, David and Nazikian, Raffi},
+  year   = {2026}, note = {Sophelio and General Atomics. CC BY 4.0. [V] Required attribution}
+}
+
+% ---------------------------------------------------------------- classical inverse problem
+@article{lao1985efit,
+  author = {Lao, L. L. and St. John, H. and Stambaugh, R. D. and Kellman, A. G. and Pfeiffer, W.},
+  title  = {Reconstruction of current profile parameters and plasma shapes in tokamaks},
+  journal = {Nuclear Fusion}, volume = {25}, number = {11}, pages = {1611--1622}, year = {1985},
+  doi = {10.1088/0029-5515/25/11/007}, note = {[V]}
+}
+@article{moret2015liuqe,
+  author = {Moret, J.-M. and others}, title = {Tokamak equilibrium reconstruction code LIUQE},
+  journal = {Fusion Engineering and Design}, volume = {91}, pages = {1--15}, year = {2015}, note = {[V]}
+}
+@article{faugeras2020nice,
+  author = {Faugeras, Blaise}, title = {An overview of the numerical methods for tokamak plasma
+            equilibrium computation implemented in the NICE code},
+  journal = {Fusion Engineering and Design}, volume = {160}, pages = {112020}, year = {2020}, note = {[V]}
+}
+
+% ---------------------------------------------------------------- free boundary: the theory
+@article{temam1975,
+  author = {Temam, Roger},
+  title  = {A non-linear eigenvalue problem: the shape at equilibrium of a confined plasma},
+  journal = {Archive for Rational Mechanics and Analysis}, volume = {60}, pages = {51--73},
+  year = {1975}, doi = {10.1007/BF00281469},
+  note = {[S] Springer returned 403; open the ARMA paper before citing what Temam proved}
+}
+@article{berestycki1980,
+  author = {Berestycki, H. and Brezis, H.},
+  title  = {On a free boundary problem arising in plasma physics},
+  journal = {Nonlinear Analysis: TMA}, volume = {4}, number = {3}, pages = {415--436}, year = {1980},
+  note = {[?] via Bartolucci et al. reference list}
+}
+@article{schaeffer1977,
+  author = {Schaeffer, D. G.},
+  title  = {Non-uniqueness in the equilibrium shape of a confined plasma},
+  journal = {Communications in PDE}, volume = {2}, number = {6}, pages = {587--600}, year = {1977},
+  note = {[S] non-uniqueness is the headline result}
+}
+@misc{bartolucci2021generic,
+  author = {Bartolucci, Daniele and Hu, Yeyao and Jevnikar, Aleks and Yang, Wen},
+  title  = {Generic properties of free boundary problems in plasma physics},
+  year   = {2021}, eprint = {2106.04331}, archivePrefix = {arXiv},
+  note   = {[V] The cleanest modern statement; places plasma in the Gelfand family}
+}
+
+% ---------------------------------------------------------------- non-uniqueness, measured
+@article{ham2024multiple,
+  author = {Ham, C. J. and Farrell, P. E.},
+  title  = {On multiple solutions of the Grad--Shafranov equation},
+  journal = {Nuclear Fusion}, volume = {64}, number = {3}, pages = {034001}, year = {2024},
+  doi = {10.1088/1741-4326/ad1d77}, note = {[V] deflated continuation; fold bifurcations}
+}
+@article{pentland2025multiple,
+  author = {Pentland, K. and Amorisco, N. C. and Farrell, P. E. and Ham, C. J.},
+  title  = {Multiple solutions to the static forward free-boundary Grad--Shafranov problem on MAST-U},
+  journal = {Nuclear Fusion}, year = {2025}, doi = {10.1088/1741-4326/adf3cc},
+  eprint = {2503.05674}, archivePrefix = {arXiv},
+  note = {[V] Contains NO machine learning -- the gap our D2 targets}
+}
+
+% ---------------------------------------------------------------- ML reconstruction
+@article{mcclenaghan2024greens,
+  author = {McClenaghan, J. and Ak{\c c}ay, C. and Amara, T. Bechtel and Sun, X.
+            and Madireddy, S. and Lao, L. L. and Kruger, S. E. and Meneghini, O. M.},
+  title  = {Augmenting machine learning of Grad--Shafranov equilibrium reconstruction with Green's functions},
+  journal = {Physics of Plasmas}, volume = {31}, number = {8}, pages = {082507}, year = {2024},
+  doi = {10.1063/5.0213625},
+  note = {[V] REFUTES our draft claim A2: hard-constrains the Green's relation ARCHITECTURALLY}
+}
+@article{madireddy2024efitprime,
+  author = {Madireddy, S. and Ak{\c c}ay, C. and Kruger, S. E. and others},
+  title  = {EFIT-Prime: Probabilistic and physics-constrained reduced-order neural network model
+            for equilibrium reconstruction in DIII-D},
+  journal = {Physics of Plasmas}, volume = {31}, number = {9}, pages = {092505}, year = {2024},
+  note = {[S] Separates aleatoric/epistemic UQ but never demonstrates frequentist calibration}
+}
+@misc{zheng2025efitmini,
+  author = {Zheng, G. and Liu, S. and Xie, H. and others},
+  title  = {EFIT-mini: An embedded, multi-task neural network-driven equilibrium inversion algorithm},
+  year   = {2025}, eprint = {2503.19467}, archivePrefix = {arXiv},
+  note   = {[V] Neural initialiser + classical certifier -- the most defensible architecture}
+}
+
+% ---------------------------------------------------------------- operator learning + theory
+@misc{ding2025pino,
+  author = {Ding, S. and Zhang, Z. and Shi, G. and others},
+  title  = {Physics-informed neural operator learning for the nonlinear Grad--Shafranov equation},
+  year   = {2025}, eprint = {2511.19114}, archivePrefix = {arXiv},
+  note   = {[V] HEADLINE FACT: 0.25\% L2 error coexisting with LARGE physics residuals}
+}
+@misc{krastev2026fno,
+  author = {Krastev, Plamen G.},
+  title  = {Millisecond-scale neural operator surrogates for double-null free-boundary
+            Grad--Shafranov equilibria},
+  year   = {2026}, eprint = {2608.05555}, archivePrefix = {arXiv},
+  note   = {[V] Residual merely MATCHES FreeGS: a surrogate cannot beat its labels}
+}
+@article{lanthaler2022deeponet,
+  author = {Lanthaler, Samuel and Mishra, Siddhartha and Karniadakis, George E.},
+  title  = {Error estimates for DeepONets: a deep learning framework in infinite dimensions},
+  journal = {Transactions of Mathematics and Its Applications}, volume = {6}, number = {1},
+  pages = {tnac001}, year = {2022}, eprint = {2102.09618}, archivePrefix = {arXiv},
+  note = {[V] encoding + approximation + RECONSTRUCTION; the last is a Kolmogorov n-width statement}
+}
+
+% ---------------------------------------------------------------- the negative literature
+@inproceedings{krishnapriyan2021failure,
+  author = {Krishnapriyan, Aditi S. and Gholami, Amir and Zhe, Shandian and Kirby, Robert M.
+            and Mahoney, Michael W.},
+  title  = {Characterizing possible failure modes in physics-informed neural networks},
+  booktitle = {NeurIPS}, volume = {34}, year = {2021}, eprint = {2109.01050}, archivePrefix = {arXiv},
+  note = {[V] The failure is in the OPTIMISATION landscape, not the approximator}
+}
+@article{grossmann2024fem,
+  author = {Grossmann, Tamara G. and Komorowska, Urszula Julia and Latz, Jonas and Sch{\"o}nlieb, Carola-Bibiane},
+  title  = {Can physics-informed neural networks beat the finite element method?},
+  journal = {IMA Journal of Applied Mathematics}, volume = {89}, number = {1}, pages = {143--174},
+  year = {2024}, eprint = {2302.04107}, archivePrefix = {arXiv},
+  note = {[V] Verdict: no. The win is amortised inference, not solving}
+}
+@article{mishra2023generalization,
+  author = {Mishra, Siddhartha and Molinaro, Roberto},
+  title  = {Estimates on the generalization error of physics-informed neural networks
+            for approximating PDEs},
+  journal = {IMA Journal of Numerical Analysis}, volume = {43}, number = {1}, pages = {1--43},
+  year = {2023}, eprint = {2006.16144}, archivePrefix = {arXiv},
+  note = {[V] Requires a PDE stability constant -- which free-boundary GS lacks when non-unique}
+}
+@article{wang2022ntk,
+  author = {Wang, Sifan and Yu, Xinling and Perdikaris, Paris},
+  title  = {When and why PINNs fail to train: a neural tangent kernel perspective},
+  journal = {Journal of Computational Physics}, volume = {449}, pages = {110768}, year = {2022},
+  note = {[V] Theory behind "adaptive loss weighting beats static"}
+}
+@article{rutigliano2026pinnopt,
+  author = {Rutigliano, N. and Murari, A. and Gaudio, P. and Gelfusa, M. and Rossi, R.},
+  title  = {Optimisation of PINN architecture and training for tokamak equilibrium reconstruction},
+  journal = {Plasma Physics and Controlled Fusion}, volume = {68}, number = {4}, pages = {045002},
+  year = {2026}, doi = {10.1088/1361-6587/ae54c9},
+  note = {[V] OPEN CODE. GS-Net fastest on symmetric cases, fails catastrophically on asymmetric}
+}
+
+% ---------------------------------------------------------------- Deep Ritz and the near-miss
+@article{e2018deepritz,
+  author = {E, Weinan and Yu, Bing},
+  title  = {The Deep Ritz method: a deep learning-based numerical algorithm for solving
+            variational problems},
+  journal = {Communications in Mathematics and Statistics}, volume = {6}, pages = {1--12},
+  year = {2018}, note = {[S] exact pagination unverified}
+}
+@misc{quantumgs2026,
+  title  = {Quantum Variational Approaches to Plasma Equilibrium: Cost Function Design
+            for the Grad--Shafranov Equation},
+  year   = {2026}, eprint = {2609.13101}, archivePrefix = {arXiv},
+  note   = {[V] Constructs the weighted GS energy functional (1/R makes Delta* self-adjoint).
+            Removes the "GS has no energy functional" excuse. Minimised by a quantum circuit,
+            NOT a network -- so claim A1 survives}
+}
+
+% ---------------------------------------------------------------- Bayesian / UQ
+@inproceedings{svensson2007minerva,
+  author = {Svensson, J. and Werner, A.},
+  title  = {Large scale Bayesian data analysis for nuclear fusion experiments},
+  booktitle = {IEEE WISP}, pages = {1--6}, year = {2007}, doi = {10.1109/WISP.2007.4447579}, note = {[V]}
+}
+@article{svensson2008tomography,
+  author = {Svensson, J. and Werner, A.}, title = {Current tomography for axisymmetric plasmas},
+  journal = {Plasma Physics and Controlled Fusion}, volume = {50}, pages = {085002}, year = {2008},
+  note = {[S] Gaussian prior on J_phi + linear Green's forward => CLOSED-FORM posterior.
+          But it is not an equilibrium: force balance is discarded}
+}
+@misc{vonnessi2012unified,
+  author = {von Nessi, G. T. and Hole, M. J.},
+  title  = {A unified method for inference of tokamak equilibria and validation of force-balance
+            models based on Bayesian analysis},
+  year   = {2012}, eprint = {1209.3068}, archivePrefix = {arXiv},
+  note   = {[V] Treats force balance as a TESTABLE HYPOTHESIS}
+}
+
+% ---------------------------------------------------------------- superconductivity (D8/D9)
+@article{prigozhin1996ejam,
+  author = {Prigozhin, Leonid},
+  title  = {On the Bean critical-state model in superconductivity},
+  journal = {European Journal of Applied Mathematics}, volume = {7}, number = {3},
+  pages = {237--247}, year = {1996}, doi = {10.1017/S0956792500002333},
+  note = {[V] Thm 2: maximal monotone => EXISTENCE AND UNIQUENESS. The convex control in D2}
+}
+@article{prigozhin1996jcp,
+  author = {Prigozhin, Leonid},
+  title  = {The Bean model in superconductivity: variational formulation and numerical solution},
+  journal = {Journal of Computational Physics}, volume = {129}, number = {1}, pages = {190--200},
+  year = {1996}, doi = {10.1006/jcph.1996.0243}, note = {[V]}
+}
+@article{barrett2000plaplacian,
+  author = {Barrett, John W. and Prigozhin, Leonid},
+  title  = {Bean's critical-state model as the p-->infinity limit of an evolutionary
+            p-Laplacian equation},
+  journal = {Nonlinear Analysis: TMA}, volume = {42}, number = {6}, pages = {977--993}, year = {2000},
+  note = {[S] whether a RATE in p is proven is unverified}
+}
+@article{yousept2017,
+  author = {Yousept, Irwin},
+  title  = {Hyperbolic Maxwell variational inequalities for Bean's critical-state model
+            in type-II superconductivity},
+  journal = {SIAM Journal on Numerical Analysis}, volume = {55}, number = {5},
+  pages = {2444--2464}, year = {2017},
+  note = {[V] A priori error estimates cap the rate at O(h^{1/2}) -- tell students this is CORRECT}
+}
+
+% ---------------------------------------------------------------- disruption (why we declined)
+@article{spangher2025disruptionbench,
+  author = {Spangher, Lucas and others},
+  title  = {DisruptionBench and complimentary new models},
+  journal = {Journal of Fusion Energy}, volume = {44}, pages = {26}, year = {2025},
+  doi = {10.1007/s10894-025-00495-2},
+  note = {[S] Ships NO data; repository archived 2025-07-21. AUC up to 0.974 intra-machine}
+}
+@article{katesharbeck2019,
+  author = {Kates-Harbeck, Julian and Svyatkovskiy, Alexey and Tang, William},
+  title  = {Predicting disruptive instabilities in controlled fusion plasmas through deep learning},
+  journal = {Nature}, volume = {568}, pages = {526--531}, year = {2019}, note = {[V]}
+}
+
+% ---------------------------------------------------------------- benchmarks as templates
+@misc{tokamark2026,
+  title  = {TokaMark: a benchmark for machine learning on tokamak data},
+  year   = {2026}, eprint = {2602.10132}, archivePrefix = {arXiv},
+  note   = {[V] UKAEA+IBM+STFC, CC BY 4.0, 14 tasks. Best structural template;
+            temporal splits expose NRMSE > 3.0 out of distribution}
+}
+@misc{ml4cfd2025retro,
+  title  = {ML4CFD competition: results and retrospective},
+  year   = {2025}, eprint = {2506.08516}, archivePrefix = {arXiv},
+  note   = {[S] Best "lessons learned" source for designing a physics-ML competition}
+}
+
+% ---------------------------------------------------------------- 3D equilibria / Grad's conjecture
+@misc{landreman2026analytic3d,
+  author = {Landreman, Matt},
+  title  = {Analytic toroidal {3D} {MHD} equilibria and steady {Euler} flows with invariant surfaces},
+  year   = {2026}, eprint = {2609.26742}, archivePrefix = {arXiv}, primaryClass = {physics.plasm-ph},
+  note   = {[V] v2, 28 Sep 2026. All equations reproduced numerically, no errors found
+            (99-bibliography/landreman2026/). Iota=2 family is a linear image of a Solov'ev field:
+            B keeps a non-isometric symmetry (broken by |B|, J, p). ESTABLISHED E39}
+}
+@misc{gomezserrano2026grad,
+  author = {G{\'o}mez-Serrano, Javier and Liehr, Lukas and Taylor, Mitchell A.},
+  title  = {Counterexamples to {Grad's} conjecture},
+  year   = {2026}, eprint = {2609.24739}, archivePrefix = {arXiv},
+  note   = {[S] abstract only: C_N-symmetric equilibria, B vanishes on a round axis, Lean 4 certified}
+}

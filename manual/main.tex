@@ -1,0 +1,36 @@
+% Методичка «Фізика плазми всередині токамака»
+% Компіляція: latexmk -xelatex main.tex
+\input{preamble}
+\begin{document}
+\thispagestyle{plain}
+\begin{center}
+{\LARGE\bfseries\sffamily Фізика плазми всередині токамака}\\[3pt]
+{\large\sffamily Навчальний посібник (методичка)}\\[2pt]
+{\small На основі корпусу джерел проєкту «Моделювання потоку плазми в контурі токамаку» \,·\, 2026}
+\end{center}
+\vspace{-1.5em}
+{\footnotesize\renewcommand{\cftchapfont}{\bfseries\footnotesize}\renewcommand{\cftchappagefont}{\bfseries\footnotesize}
+\renewcommand{\cftsecfont}{\footnotesize}\renewcommand{\cftsecpagefont}{\footnotesize}
+\begin{multicols}{2}
+\tableofcontents
+\end{multicols}}
+
+\input{chapters/ch00}
+\input{chapters/ch01}
+\input{chapters/ch02}
+\input{chapters/ch03}
+\input{chapters/ch04}
+\input{chapters/ch04j}
+\input{chapters/ch05}
+\input{chapters/ch06}
+\input{chapters/ch07}
+\input{chapters/ch08}
+\input{chapters/ch09}
+\input{chapters/ch10}
+\input{chapters/ch11}
+
+\appendix
+\input{appendices/appB}   % Додаток A: СГС → СІ
+\input{appendices/appD}   % Додаток B: розв'язки задач
+\input{bib/bibliography}
+\end{document}

@@ -1,0 +1,251 @@
+<div class="wrap">
+  <header class="doc-head">
+    <div>
+      <img class="crest crest-light" src="CREST_LIGHT" alt="Герб Фізико-математичного факультету">
+      <img class="crest crest-dark" src="CREST_DARK" alt="Герб Фізико-математичного факультету">
+    </div>
+    <div class="org">
+      <span class="u">КПІ імені Ігоря Сікорського</span>
+      <span class="f">Фізико-математичний факультет</span>
+      <span class="l">AI-лабораторія імені професора В.&nbsp;М.&nbsp;Горшкова</span>
+    </div>
+    <div class="logo-slot" aria-hidden="true">логотип лабораторії</div>
+  </header>
+
+  <div class="title">
+    <span class="label">Дослідження · Гіпотеза C4 · 01.10.2026</span>
+    <h1>Перевірка гіпотези C4</h1>
+  </div>
+  <p class="lead">Чи змінить нев'язка рівняння Ґреда–Шафранова порядок моделей, якщо додати її до метрики конкурсу? Стійко — ні. Але вона показала інше: карти потоку нейромереж із <i class="v">R</i>²<sub>ψ</sub> ≈ 0,97 за рівнянням ГШ узагалі не є рівновагами.</p>
+
+  <div class="verdict">
+    <div class="chips">
+      <span class="chip bad">C4 (GS_score) → R12 · спростовано</span>
+      <span class="chip good">E38 · встановлено</span>
+      <span class="chip info">C4 (Calibration) · відкрито</span>
+    </div>
+    <div>
+      <p class="small muted" style="margin-bottom:8px">Найчастіша перестановка за S′<sub>GS</sub>: MLP (sklearn) піднімається над нейромережами. Частка бутстреп-повторень, у яких вона тримається; для «стійкої» потрібно ≥ 95 %.</p>
+      <div class="freqs" id="swapcells"></div>
+    </div>
+  </div>
+
+  <section>
+    <span class="label">Контекст</span>
+    <h2>Що стверджувала C4</h2>
+    <p>Офіційна метрика конкурсу S міряє ψ лише в нормі <i class="v">L</i>². Проєкт запропонував S′ з двома новими членами: нев'язкою ГШ (GS_score — чи є передбачене ψ рівновагою для хоч якоїсь пари профілів <i>p</i>′, <i>FF</i>′) і калібруванням невизначеності. C4: додавання цих членів <b>змінить упорядкування</b> наявних бейзлайнів. Якщо порядок той самий, нові члени нічого не додають.</p>
+    <div class="math-block"><i>g</i>(<i>ψ</i>) = min<sub><i>p</i>′, <i>FF</i>′</sub> ‖Δ*<i>ψ</i> + <i>μ</i><sub class="up">0</sub><i>R</i><sup class="up">2</sup><i>p</i>′(<i>ψ</i>) + <i>FF</i>′(<i>ψ</i>)‖ / ‖Δ*<i>ψ</i>‖, &nbsp;&nbsp; GS_score = clip(1 − (<i>g</i><sub>pred</sub> − <i>g</i><sub>true</sub>) / (<i>g</i><sub>ref</sub> − <i>g</i><sub>true</sub>), 0, 1)</div>
+    <p><b>Обсяг перевірки — половина C4.</b> Калібрування вимагає смуг невизначеності, яких жоден бейзлайн не видає. Тому перевірено лише GS_score; калібрування піде разом із гіпотезою C6.</p>
+  </section>
+
+  <section>
+    <span class="label">Метод</span>
+    <h2>Як перевіряли</h2>
+    <ol class="steps">
+      <li><span class="k">0</span><div><b>Попередня реєстрація.</b> До навчання записали означення GS_score (відносно <i>g</i> істини, щоб ідеальний прогноз давав 1), ваги, скан і критерій: пара моделей «стійко» міняється місцями, якщо це тримається в ≥ 95 % бутстреп-повторень по тестових розрядах.</div></li>
+      <li><span class="k">1</span><div><b>Калібрування g<sub>ref</sub></b> на 28 розрядах DIII-D: <i>g</i>(істина) = <span class="num" id="gtrue"></span>, <i>g</i>(істина + 1 % шуму) = <span class="num" id="gref"></span>. Отже, «1 % шуму» відповідає GS_score = 0.</div></li>
+      <li><span class="k">2</span><div><b>Моделі.</b> Сім бейзлайнів стартового набору (Linear, Ridge CV, Random Forest, MLP sklearn, Simple MLP, Conv Decoder, UNet_Lite) і наш PCA+Ridge на розбитті C2: навчання на розрядах 0–35, тест 60–67. Мережі — по 3 зерна.</div></li>
+      <li><span class="k">3</span><div><b>S′<sub>GS</sub></b> = (1 − <i>w<sub>r</sub></i>)·[ваги проєкту метрики без калібрування] + <i>w<sub>r</sub></i>·GS_score. Головна вага <i>w<sub>r</sub></i> = 0,167, скан від 0 до 0,30.</div></li>
+      <li><span class="k">4</span><div><b>Оцінка</b> функціями офіційного скорера; бутстреп 1000× по тестових розрядах; вердикт — лише за критерієм кроку 0.</div></li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="label">Результат</span>
+    <h2>Нев'язка ділить моделі на дві групи</h2>
+    <div class="tbl"><table id="tblModels"></table></div>
+    <figure>
+      <div class="chart" id="chartScatter" role="img" aria-label="GS_score проти R квадрат psi для восьми моделей"></div>
+      <div class="legend" id="legendScatter"></div>
+      <figcaption>Кожна точка — модель (мережі — середнє 3 зерен). Чим правіше, тим точніша карта потоку; чим вище, тим ближча вона до рівноваги ГШ.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <span class="label">Впорядкування</span>
+    <h2>Порядок зсувається, але не стійко</h2>
+    <p>Групи «лінійні» (S ≈ 0,19) і «мережі» (S ≈ 0,65) розділені надто сильно, щоб член вагою до 0,30 їх переставив: лінії зближуються лише біля <i>w<sub>r</sub></i> ≈ 0,3. Усередині групи мереж MLP (sklearn) з частково гладкими картами обходить решту, але не настільки впевнено, щоб це витримало перевибірку розрядів.</p>
+    <figure>
+      <div class="chart" id="chartWr" role="img" aria-label="S prime залежно від ваги GS"></div>
+      <div class="legend" id="legendWr"></div>
+      <figcaption>S′<sub>GS</sub> залежно від ваги члена. Вертикальна лінія — головна вага 0,167.</figcaption>
+    </figure>
+    <figure>
+      <div class="chart" id="chartSwap" role="img" aria-label="Частка бутстреп-повторень з перестановкою залежно від ваги"></div>
+      <div class="legend" id="legendSwap"></div>
+      <figcaption>Частка повторень, у яких S ставить мережу вище за MLP (sklearn), а S′<sub>GS</sub> — навпаки. Пунктир — поріг стійкості 95 %. Частки нижче 50 % скрипт оцінки не зберігав, тому для менших ваг точок немає.</figcaption>
+    </figure>
+    <div class="tbl"><table id="tblRank"></table></div>
+  </section>
+
+  <section>
+    <span class="label">Встановлено · E38</span>
+    <h2>Точна карта потоку — ще не рівновага</h2>
+    <ul class="stars">
+      <li><div><b>Нейромережі з виходом-картою</b> (Simple MLP, Conv Decoder, UNet_Lite) мають <i class="v">R</i>²<sub>ψ</sub> = 0,96–0,98, але нев'язку <i>g</i> = 0,81–0,96. Це більше, ніж в істини з 1 % шуму: за рівнянням ГШ їхні карти взагалі не рівноваги.</div></li>
+      <li><div><b>Моделі на коефіцієнтах PCA</b> (лінійні, Random Forest) мають <i>g</i> = 0,02–0,03, майже як істина. Але це заслуга гладкості низькорангового базису, а не фізики: їхня <i class="v">R</i>²<sub>ψ</sub> ≈ 0,09.</div></li>
+      <li><div><b>GS_score антикорелює з точністю ψ</b>: коефіцієнт Спірмена між GS_score і <i class="v">R</i>²<sub>ψ</sub> по моделях = <span class="num" id="sp1"></span>; з Consistency — <span class="num" id="sp2"></span>. Ризик, про який попереджав запис E8 (нев'язка сліпа до гладких похибок), справдився.</div></li>
+    </ul>
+    <div class="note"><p><b>Що з цього випливає для метрики.</b> У теперішньому вигляді GS_score — не оцінка якості, а <b>шлюз</b>: він надійно відділяє «не рівновагу» від рівноваги, але нагороджує гладкість. Природніше множити (S × допуск) або ставити поріг на <i>g</i>, ніж додавати. М'якша шкала (наприклад, log <i>g</i>) розрізнила б і мережі між собою.</p></div>
+  </section>
+
+  <section>
+    <span class="label">Проєкт</span>
+    <h2>Що змінено</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Де</th><th>Що</th></tr></thead>
+      <tbody>
+        <tr><td>Реєстри <code>Our try/00-decisions/</code></td><td>нові <b>R12</b> (половина C4) і <b>E38</b>; C4 звужено до частини про калібрування; журнал змін №108–114</td></tr>
+        <tr><td><code>04-novelty/metric-design.md</code></td><td>розділ «Перевірка C4»; таблиця перевірок: №1, №2 — за побудовою, №7 — для GS_score стійкої зміни немає</td></tr>
+        <tr><td>Код і дані <code>04-novelty/c4/</code></td><td>попередня реєстрація, калібрування g<sub>ref</sub>, навчання, оцінка, рисунок; відтворення ~10 хв</td></tr>
+        <tr><td>Путівник</td><td>розд. 5: підрозділ «Перевірка C4» з таблицею, рисунком і фрагментом коду; оновлено розд. 0, 1, 10 і покажчик (164 пункти); 87 с.</td></tr>
+        <tr><td>Методичка</td><td>розд. 12: рамка R12 з E38 і звужена C4; 75 с.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Відтворення</h3>
+<pre>cd "fusion equilibrium challenge/starter"
+P="../../Our try/04-novelty/c4"
+.venv/bin/python "$P/gref.py"        # ~3 с
+.venv/bin/python "$P/train.py"       # ~2,5 хв (UNet_Lite і PCA+Ridge — з C2)
+.venv/bin/python "$P/evaluate.py"    # ~5 хв
+.venv/bin/python "$P/summarise.py"</pre>
+    <p class="small muted">Попередні перевірки: <a href="https://claude.ai/artifact/9oAEFD3T7tp7WBgan8idXJ" target="_blank" rel="noopener">Перевірка гіпотези C1</a> (R10) · <a href="https://claude.ai/artifact/EqXuv2PCrL7Hr4F1Sf7jBM" target="_blank" rel="noopener">Перевірка гіпотези C2</a> (R11).</p>
+  </section>
+
+  <footer>
+    <p>Власний розрахунок проєкту «Моделювання потоку плазми в контурі токамаку». Код: <code>Our try/04-novelty/c4/</code>. Моделі — зі стартового набору конкурсу (MIT); нев'язка ГШ — <code>04-novelty/gs_residual_probe.py</code>.</p>
+    <p>Дані рівноваг: Fusion Equilibrium Challenge (Sophelio / General Atomics), CC BY 4.0.</p>
+    <p class="data">01.10.2026</p>
+  </footer>
+</div>
+
+<script>
+const DATA = /*DATA*/null;
+const NS = "http://www.w3.org/2000/svg";
+const fmt = (x, d = 2) => (x < 0 ? "−" : "") + Math.abs(x).toFixed(d).replace(".", ",");
+const pct = x => (Math.round(x * 1000) / 10).toString().replace(".", ",") + " %";
+function el(tag, attrs = {}, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function txt(parent, x, y, s, anchor = "middle") { const t = el("text", {x, y, "text-anchor": anchor}, parent); t.textContent = s; return t; }
+function mark(g, shape, x, y, r, color) {
+  if (shape === "circle") return el("circle", {cx: x, cy: y, r, fill: color}, g);
+  if (shape === "square") return el("rect", {x: x - r, y: y - r, width: 2 * r, height: 2 * r, fill: color}, g);
+  if (shape === "triangle") return el("path", {d: `M${x},${y - r * 1.2} L${x + r * 1.1},${y + r * 0.8} L${x - r * 1.1},${y + r * 0.8} Z`, fill: color}, g);
+  return el("path", {d: `M${x},${y - r * 1.3} L${x + r},${y} L${x},${y + r * 1.3} L${x - r},${y} Z`, fill: color}, g);
+}
+function legend(id, items) {
+  const box = document.getElementById(id);
+  items.forEach(([shape, color, label, dash]) => {
+    const sp = document.createElement("span");
+    const s = el("svg", {width: 26, height: 12, viewBox: "0 0 26 12"});
+    if (dash !== undefined) el("line", {x1: 1, x2: 25, y1: 6, y2: 6, stroke: color, "stroke-width": 2, "stroke-dasharray": dash}, s);
+    if (shape) mark(s, shape, 13, 6, 4, color);
+    sp.appendChild(s); sp.append(label); box.appendChild(sp);
+  });
+}
+const NETS = ["Simple MLP", "Conv Decoder", "UNet_Lite"];
+const STYLE = m => NETS.includes(m) ? {c: "var(--blue)", s: m === "UNet_Lite" ? "diamond" : (m === "Conv Decoder" ? "square" : "circle")}
+  : m === "MLP (sklearn)" ? {c: "var(--oak)", s: "triangle"} : {c: "var(--muted)", s: "circle"};
+const M = DATA.ev.models, names = Object.keys(M);
+const scanKeys = Object.keys(DATA.ev.scan).sort((a, b) => +a - +b);
+const MAIN = scanKeys.find(k => Math.abs(+k - 0.15 / 0.9) < 1e-3);
+
+// ---- header numbers + swap cells
+document.getElementById("gtrue").textContent = fmt(DATA.gref.g_truth_median, 3);
+document.getElementById("gref").textContent = fmt(DATA.gref.g_ref, 3);
+document.getElementById("sp1").textContent = fmt(DATA.ev.spearman_GS_vs_r2psi, 2);
+document.getElementById("sp2").textContent = "+" + fmt(DATA.ev.spearman_GS_vs_consistency, 2);
+function swapFrac(k, net) {
+  const s = DATA.ev.scan[k].swaps_majority.find(x => x.S_above === net && x.Sprime_above === "MLP (sklearn)");
+  return s ? s.frac : 0;
+}
+(function () {
+  const box = document.getElementById("swapcells");
+  [["UNet_Lite", MAIN, "над UNet_Lite · w_r = 0,167"], ["Conv Decoder", MAIN, "над Conv Decoder · w_r = 0,167"],
+   ["UNet_Lite", "0.3000", "над UNet_Lite · w_r = 0,30"], ["Conv Decoder", "0.3000", "над Conv Decoder · w_r = 0,30"]].forEach(([n, k, lab]) => {
+    const c = document.createElement("div"); c.className = "freq";
+    c.innerHTML = `<span class="big">${pct(swapFrac(k, n))}</span><span class="cap">MLP (sklearn) ${lab}</span>`;
+    box.appendChild(c);
+  });
+})();
+
+// ---- model table
+(function () {
+  let h = '<thead><tr><th>Модель</th><th class="n">S</th><th class="n" style="text-transform:none">R²ψ</th><th class="n">Consistency</th><th class="n">медіана g</th><th class="n">GS_score</th><th class="n" style="text-transform:none">S′_GS</th></tr></thead><tbody>';
+  names.forEach(m => { const v = M[m];
+    h += `<tr><td>${m}</td><td class="n">${fmt(v.S, 3)}</td><td class="n">${fmt(v.r2_psi, 3)}</td><td class="n">${fmt(v.consistency, 3)}</td><td class="n">${fmt(v.g_pred_median, 3)}</td><td class="n">${fmt(v.GS_score, 3)}</td><td class="n">${fmt(v.S_prime_main, 3)}</td></tr>`; });
+  document.getElementById("tblModels").innerHTML = h + `<tr><td class="muted">істина (EFIT)</td><td class="n muted">1</td><td class="n muted">1</td><td class="n muted">1</td><td class="n muted">${fmt(DATA.ev.g_true_median_test, 4)}</td><td class="n muted">1</td><td class="n muted">1</td></tr></tbody>`;
+})();
+
+// ---- scatter
+(function () {
+  const W = 760, H = 320, L = 50, R = 16, T = 14, B = 44;
+  const X = v => L + (v + 0.02) / 1.07 * (W - L - R), Y = v => T + (1.05 - v) / 1.1 * (H - T - B);
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`});
+  [0, 0.2, 0.4, 0.6, 0.8, 1.0].forEach(v => {
+    el("line", {class: "grid", x1: L, x2: W - R, y1: Y(v), y2: Y(v)}, svg); txt(svg, L - 8, Y(v) + 4, fmt(v, 1), "end");
+    el("line", {class: "grid", x1: X(v), x2: X(v), y1: T, y2: H - B}, svg); txt(svg, X(v), H - B + 18, fmt(v, 1));
+  });
+  txt(svg, L + (W - L - R) / 2, H - 6, "R²ψ (точність карти потоку)");
+  txt(svg, 14, T + (H - T - B) / 2, "GS_score").setAttribute("transform", `rotate(-90 14 ${T + (H - T - B) / 2})`);
+  names.forEach(m => { const st = STYLE(m), v = M[m];
+    const mk = mark(svg, st.s, X(v.r2_psi), Y(v.GS_score), 6, st.c);
+    el("title", {}, mk).textContent = `${m}: R²ψ = ${fmt(v.r2_psi, 3)}, GS_score = ${fmt(v.GS_score, 3)}, g = ${fmt(v.g_pred_median, 3)}`; });
+  txt(svg, X(0.11) + 14, Y(0.97) + 4, "лінійні, RF, PCA+Ridge", "start");
+  txt(svg, X(0.965) - 12, Y(0.2) + 4, "MLP (sklearn)", "end");
+  txt(svg, X(0.965) - 12, Y(0) - 10, "Simple MLP, Conv Decoder, UNet_Lite", "end");
+  document.getElementById("chartScatter").appendChild(svg);
+  legend("legendScatter", [["circle", "var(--muted)", "моделі на коефіцієнтах PCA"], ["triangle", "var(--oak)", "MLP (sklearn), вихід — коефіцієнти PCA"], ["diamond", "var(--blue)", "мережі з виходом-картою"]]);
+})();
+
+// ---- S' vs w_r
+(function () {
+  const W = 760, H = 320, L = 50, R = 16, T = 14, B = 44, x1 = 0.30, y0 = 0.15, y1 = 0.70;
+  const X = v => L + v / x1 * (W - L - R), Y = v => T + (y1 - v) / (y1 - y0) * (H - T - B);
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`});
+  [0.2, 0.3, 0.4, 0.5, 0.6, 0.7].forEach(v => { el("line", {class: "grid", x1: L, x2: W - R, y1: Y(v), y2: Y(v)}, svg); txt(svg, L - 8, Y(v) + 4, fmt(v, 1), "end"); });
+  [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30].forEach(v => txt(svg, X(v), H - B + 18, fmt(v, 2)));
+  txt(svg, L + (W - L - R) / 2, H - 6, "вага члена w_r");
+  el("line", {x1: X(0.15 / 0.9), x2: X(0.15 / 0.9), y1: T, y2: H - B, stroke: "var(--ink)", "stroke-dasharray": "5 4"}, svg);
+  names.forEach(m => { const st = STYLE(m);
+    const pts = scanKeys.map(k => [X(+k), Y(DATA.ev.scan[k].S_prime[m])]);
+    el("path", {d: "M" + pts.map(p => p.map(z => z.toFixed(1)).join(",")).join(" L"), fill: "none", stroke: st.c, "stroke-width": 1.8}, svg);
+    pts.forEach((p, i) => { const mk = mark(svg, st.s, p[0], p[1], 3, st.c); el("title", {}, mk).textContent = `${m}, w_r = ${fmt(+scanKeys[i], 3)}: ${fmt(DATA.ev.scan[scanKeys[i]].S_prime[m], 3)}`; });
+  });
+  document.getElementById("chartWr").appendChild(svg);
+  legend("legendWr", [["circle", "var(--muted)", "лінійні, RF, PCA+Ridge", "none"], ["triangle", "var(--oak)", "MLP (sklearn)", "none"], ["diamond", "var(--blue)", "мережі з виходом-картою", "none"], [null, "var(--ink)", "головна вага", "5 4"]]);
+})();
+
+// ---- swap fraction vs w_r
+(function () {
+  const W = 760, H = 260, L = 50, R = 16, T = 14, B = 44, x1 = 0.30;
+  const X = v => L + v / x1 * (W - L - R), Y = v => T + (1 - v) / 0.5 * (H - T - B);
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`});
+  [0.5, 0.75, 1].forEach(v => { el("line", {class: "grid", x1: L, x2: W - R, y1: Y(v), y2: Y(v)}, svg); txt(svg, L - 8, Y(v) + 4, (v * 100) + " %", "end"); });
+  [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30].forEach(v => txt(svg, X(v), H - B + 18, fmt(v, 2)));
+  txt(svg, L + (W - L - R) / 2, H - 6, "вага члена w_r");
+  el("line", {x1: L, x2: W - R, y1: Y(0.95), y2: Y(0.95), stroke: "var(--bad)", "stroke-dasharray": "5 4"}, svg);
+  txt(svg, W - R - 4, Y(0.95) - 6, "поріг 95 %", "end");
+  [["UNet_Lite", "var(--blue)", "diamond"], ["Conv Decoder", "var(--ink)", "square"]].forEach(([n, c, s]) => {
+    const keys = scanKeys.filter(k => swapFrac(k, n) > 0);
+    const pts = keys.map(k => [X(+k), Y(swapFrac(k, n))]);
+    el("path", {d: "M" + pts.map(p => p.map(z => z.toFixed(1)).join(",")).join(" L"), fill: "none", stroke: c, "stroke-width": 1.8}, svg);
+    pts.forEach((p, i) => { const mk = mark(svg, s, p[0], p[1], 3.5, c); el("title", {}, mk).textContent = `MLP (sklearn) над ${n}, w_r = ${fmt(+keys[i], 3)}: ${pct(swapFrac(keys[i], n))}`; });
+  });
+  document.getElementById("chartSwap").appendChild(svg);
+  legend("legendSwap", [["diamond", "var(--blue)", "MLP (sklearn) над UNet_Lite", "none"], ["square", "var(--ink)", "MLP (sklearn) над Conv Decoder", "none"], [null, "var(--bad)", "поріг стійкості", "5 4"]]);
+})();
+
+// ---- ranking table
+(function () {
+  let h = '<thead><tr><th class="n" style="text-transform:none">w_r</th><th class="n" style="text-transform:none">τ Кендалла</th><th>Порядок за S′_GS</th><th class="n">Стійких перестановок</th></tr></thead><tbody>';
+  h += `<tr><td class="n">S</td><td class="n">—</td><td>${DATA.ev.rank_S.join(" > ")}</td><td class="n">—</td></tr>`;
+  scanKeys.forEach(k => { const v = DATA.ev.scan[k];
+    h += `<tr><td class="n${k === MAIN ? " hl" : ""}">${fmt(+k, 3)}</td><td class="n">${fmt(v.tau, 3)}</td><td>${v.rank.join(" > ")}</td><td class="n">${v.robust_swaps.length}</td></tr>`; });
+  document.getElementById("tblRank").innerHTML = h + "</tbody>";
+})();
+</script>

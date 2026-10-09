@@ -1,0 +1,141 @@
+% notation.sty — єдиний стандарт позначень методички
+% «Фізика плазми всередині токамака». СІ, конвенція EFIT (ψ на радіан).
+% Будь-яке нове позначення додавати СЮДИ, а не в текст розділу.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{notation}[2026/09/28 Tokamak manual notation]
+
+\RequirePackage{amsmath,amssymb,mathtools,bm}
+\RequirePackage{siunitx}
+\sisetup{output-decimal-marker={,}, group-separator={\,}, per-mode=symbol,
+         exponent-product=\cdot, range-phrase={\text{--}},
+         list-final-separator={\text{ і }}, list-pair-separator={\text{ і }},
+         list-separator={\text{; }},
+         unit-mode=text}
+% Українські позначення одиниць (ДСТУ): друкуються текстовим шрифтом (unit-mode=text),
+% тому кирилиця в \SI{..}{..} коректна. Допускається й прямий запис \SI{5}{м}.
+\DeclareSIUnit\metre{м}\DeclareSIUnit\meter{м}
+\DeclareSIUnit\second{с}\DeclareSIUnit\tesla{Тл}\DeclareSIUnit\gauss{Гс}
+\DeclareSIUnit\weber{Вб}\DeclareSIUnit\radian{рад}\DeclareSIUnit\volt{В}
+\DeclareSIUnit\ampere{А}\DeclareSIUnit\watt{Вт}\DeclareSIUnit\joule{Дж}
+\DeclareSIUnit\pascal{Па}\DeclareSIUnit\hertz{Гц}\DeclareSIUnit\ohm{Ом}
+\DeclareSIUnit\kelvin{К}\DeclareSIUnit\gram{г}\DeclareSIUnit\electronvolt{еВ}
+\DeclareSIUnit\eV{еВ}\DeclareSIUnit\keV{кеВ}\DeclareSIUnit\MeV{МеВ}
+\DeclareSIUnit\degreeCelsius{\ensuremath{^\circ}C}
+\DeclareSIPrefix\kilo{к}{3}\DeclareSIPrefix\mega{М}{6}\DeclareSIPrefix\giga{Г}{9}
+\DeclareSIPrefix\milli{м}{-3}\DeclareSIPrefix\micro{мк}{-6}\DeclareSIPrefix\nano{н}{-9}
+\DeclareSIPrefix\centi{с}{-2}
+
+% ---------- загальні ----------
+\newcommand{\dd}{\mathrm{d}}                 % диференціал
+\newcommand{\ee}{\mathrm{e}}                 % основа натурального логарифму
+\newcommand{\vect}[1]{\bm{#1}}               % вектор (жирний, працює і з грецькими)
+\newcommand{\tens}[1]{\bm{\mathsf{#1}}}      % тензор
+\newcommand{\unitb}{\vect{b}}                % b = B/B
+\newcommand{\fsa}[1]{\left\langle #1 \right\rangle} % усереднення по магнітній поверхні
+\newcommand{\pa}{\partial}
+\newcommand{\grad}{\nabla}
+\newcommand{\order}[1]{\mathcal{O}\!\left(#1\right)}
+
+% ---------- координати ----------
+% (R, φ, Z) — циліндричні; φ — ЛИШЕ тороїдальний кут (\varphi);
+% θ — геометричний полоїдальний кут; θ* — кут прямих силових ліній.
+\newcommand{\tor}{\varphi}                   % тороїдальний кут
+\newcommand{\pol}{\theta}                    % полоїдальний кут
+\newcommand{\thetastar}{\theta^{*}}
+
+% ---------- потоки й поле ----------
+\newcommand{\psiax}{\psi_{\mathrm{ax}}}
+\newcommand{\psib}{\psi_{\mathrm{b}}}
+\newcommand{\psiN}{\psi_{N}}                 % (ψ-ψ_ax)/(ψ_b-ψ_ax)
+\newcommand{\Psit}{\Psi_{\mathrm{t}}}        % тороїдальний потік (повний)
+\newcommand{\psit}{\psi_{\mathrm{t}}}        % тороїдальний потік на радіан, \psit=\Psit/2\pi
+\newcommand{\Bvec}{\vect{B}}
+\newcommand{\BR}{B_{R}}
+\newcommand{\BZ}{B_{Z}}
+\newcommand{\Btor}{B_{\varphi}}
+\newcommand{\Bpol}{B_{\mathrm{p}}}
+\newcommand{\Bzero}{B_{0}}                   % вакуумне тороїдальне поле на R_0
+\newcommand{\GSop}{\Delta^{*}}               % оператор Ґреда–Шафранова
+\newcommand{\Jtor}{J_{\varphi}}
+\newcommand{\qnf}{q_{95}}
+
+% ---------- геометрія ----------
+\newcommand{\Rax}{R_{\mathrm{ax}}}
+\newcommand{\Zax}{Z_{\mathrm{ax}}}
+\newcommand{\dup}{\delta_{\mathrm{u}}}
+\newcommand{\dlo}{\delta_{\mathrm{l}}}
+
+% ---------- параметри плазми ----------
+\newcommand{\Zeff}{Z_{\mathrm{eff}}}
+\newcommand{\betap}{\beta_{\mathrm{p}}}
+\newcommand{\betaN}{\beta_{N}}
+\newcommand{\li}{l_{i}}
+\newcommand{\Ip}{I_{\mathrm{p}}}
+\newcommand{\Vloop}{V_{\mathrm{loop}}}
+\newcommand{\tauE}{\tau_{E}}
+\newcommand{\nGW}{n_{\mathrm{GW}}}
+\newcommand{\lnL}{\ln\Lambda}
+
+% ---------- швидкості, частоти, поля ----------
+\newcommand{\uvec}{\vect{u}}                 % гідродинамічна швидкість сорту
+\newcommand{\upar}{u_{\parallel}}
+\newcommand{\upol}{u_{\theta}}
+\newcommand{\utor}{u_{\varphi}}
+\newcommand{\omtor}{\omega_{\varphi}}        % частота тороїдального обертання
+\newcommand{\vE}{\vect{v}_{E}}               % дрейф E×B
+\newcommand{\ExB}{\vect{E}\times\vect{B}}
+\newcommand{\Er}{E_{r}}
+\newcommand{\Epar}{E_{\parallel}}
+\newcommand{\Omc}[1]{\Omega_{#1}}            % циклотронна частота сорту
+\newcommand{\nustar}{\nu_{*}}
+
+% ---------- транспорт ----------
+\newcommand{\Vpinch}{V_{\mathrm{pinch}}}
+\newcommand{\chis}[1]{\chi_{#1}}             % температуропровідність (χ ЛИШЕ з індексом!)
+\newcommand{\chitor}{\chi_{\varphi}}         % дифузійність імпульсу
+\newcommand{\Pitor}{\Pi_{\varphi}}           % потік тороїдального імпульсу
+\newcommand{\visc}{\tens{\pi}}               % тензор в'язкості
+
+% ---------- утікачі ----------
+\newcommand{\nre}{n_{\mathrm{re}}}
+\newcommand{\Ec}{E_{\mathrm{c}}}             % Коннор–Гасті
+\newcommand{\ED}{E_{\mathrm{D}}}             % Драйсер
+\newcommand{\gD}{\gamma_{\mathrm{D}}}
+\newcommand{\tauav}{\tau_{\mathrm{av}}}
+\newcommand{\taure}{\tau_{\mathrm{re}}}
+
+% ---------- хвилі ----------
+\newcommand{\vA}{v_{\mathrm{A}}}
+\newcommand{\kpar}{k_{\parallel}}
+\newcommand{\npar}{n_{\parallel}}
+
+% ---------- параметри профілю струму (замість α, β у Merlo/GS-solver) ----------
+\newcommand{\aJ}{a_{J}}
+\newcommand{\bJ}{b_{J}}
+
+% ---------- додано після рецензії частини III (розд. 7--10) ----------
+\newcommand{\tausaw}{\tau_{\mathrm{saw}}}    % період пилки
+\newcommand{\tauKF}{\tau_{\mathrm{KF}}}      % стала часу фільтра Калмана (Merlo, у джерелі τ_F)
+\newcommand{\tauLQR}{\tau_{\mathrm{LQR}}}    % стала часу LQR (Merlo, у джерелі τ_R); τ_R — ЛИШЕ резистивний час
+\newcommand{\Pb}{\mathcal{P}_{\mathrm{b}}}   % нормований градієнт тиску балонної моди (у літературі α)
+\newcommand{\kT}{k_{\mathrm{T}}}             % перший коефіцієнт Таунсенда, м^-1 (у літературі α)
+\newcommand{\fSC}{f_{\mathrm{SC}}}           % частка потужності α, що каналюється хвилями
+\newcommand{\fconv}{f_{\mathrm{conv}}}       % частка осаду, що перетворюється на пил
+\newcommand{\Lpl}{L_{\mathrm{pl}}}           % індуктивність плазми
+\newcommand{\Ecr}{E_{\mathrm{cr}}}           % критична енергія пучка (не плутати з полем \Ec)
+\newcommand{\vcr}{v_{\mathrm{cr}}}           % критична швидкість пучка
+\newcommand{\Teh}{T_{eh}}                    % температура гарячих електронів
+
+% ---------- додано у Ф7 (розд. 5 «Анатомія токамака: JET») ----------
+\newcommand{\ITF}{I_{\mathrm{TF}}}           % повний струм котушок TF (ампер-витки), \Btor=\mu_0\ITF/(2\pi R)
+\newcommand{\Tcoil}{\mathcal{T}}             % натяг котушки чистого натягу (D принстонського типу)
+\newcommand{\kD}{k_{\mathrm{D}}}             % стала D-котушки, \rho=\kD R
+\newcommand{\Bleg}{B_{\mathrm{m}}}           % поле на внутрішній нозі TF (у JET1975 B_MAX); B_max без індексу --- максимум |B|
+\newcommand{\dripple}{\delta_{\mathrm{r}}}   % глибина гофрування (Bmax-Bmin)/(Bmax+Bmin)
+\newcommand{\eripple}{\varepsilon_{\mathrm{r}}} % гофрування за JET1975: 2(Bmax-Bmin)/(Bmax+Bmin) = 2\dripple
+\newcommand{\Rv}{\mathcal{R}_{\mathrm{v}}}   % тороїдальний опір вакуумної камери
+\newcommand{\Lv}{L_{\mathrm{v}}}             % індуктивність камери для тороїдального струму
+\newcommand{\rhoe}{\varrho_{\mathrm{e}}}     % питомий електричний опір (ρ зайнято: ларморів радіус, радіус кривини)
+\newcommand{\betat}{\beta_{\mathrm{t}}}      % тороїдальна бета
+
+\endinput

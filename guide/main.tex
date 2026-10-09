@@ -1,0 +1,31 @@
+% Путівник гіпотезами проєкту «Моделювання потоку плазми в контурі токамаку»
+% Компіляція: latexmk -xelatex main.tex
+\input{preamble}
+\begin{document}
+\thispagestyle{plain}
+\begin{center}
+{\LARGE\bfseries\sffamily Путівник гіпотезами проєкту}\\[3pt]
+{\large\sffamily Що ми припускали, що перевірили, що спростували — і де це в коді}\\[2pt]
+{\small Для студентів ФМФ КПІ \,·\, 2026}
+\end{center}
+\vspace{-1.5em}
+{\footnotesize\renewcommand{\cftchapfont}{\bfseries\footnotesize}\renewcommand{\cftchappagefont}{\bfseries\footnotesize}
+\renewcommand{\cftsecfont}{\footnotesize}\renewcommand{\cftsecpagefont}{\footnotesize}
+\begin{multicols}{2}
+\tableofcontents
+\end{multicols}}
+\input{chapters/g00}
+\input{chapters/g01}
+\input{chapters/g02}
+\input{chapters/g03}
+\input{chapters/g04}
+\input{chapters/g05}
+\input{chapters/g06}
+\input{chapters/g07}
+\input{chapters/g08}
+\input{chapters/g09}
+\input{chapters/g10}
+\appendix
+\input{appendix/index}
+\input{bib/references}
+\end{document}

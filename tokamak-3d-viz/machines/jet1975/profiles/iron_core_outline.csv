@@ -1,0 +1,64 @@
+# JET 1975 Design Proposal (EUR 5516e): magnetic circuit (transformer iron core) R-Z half-section, R>=0.
+# Parts 'central_pillar' ... 'centre_piece_lower': DIGITIZED from Fig. I.3-2 'The JET Apparatus - Elevation', PDF p.80, 300-dpi render,
+# calibrated by the printed overall dimensions 14800 (x-scale 128.45 px/m) and 11500 (y-scale 129.48 px/m) and cross-checked with the
+# 0-4000 mm scale bar (128.5 px/m). Midplane taken from the horizontal centre line (y=1204 px). Section is in the plane of a limb
+# (one of 8 radial arm/limb pairs; the arms/limbs are NOT axisymmetric - each is ~1.0 m wide toroidally, see dimensions.yaml).
+# Part naming follows Fig. IV.4-1 (p.386): 5 lower radial arms, 6 upper radial arms, 7 vertical limbs, 8 feet, 9 centre pieces, 10 central pillar.
+# 'model_*' polygons: the AXISYMMETRIC annular-shell iron model used in the 2-D flux computations, digitized from Fig. IV.4-10 (p.394)
+# using its R/Z axis ticks (188.1 px/m in R, 195.95 px/m in Z, 0.5 deg scan skew corrected); Z>=0 only (mirror for Z<0). Its thin
+# outer shell (R 6.53-6.83 m) is the axisymmetric equivalent of the 8 limbs (2*pi*6.68*0.30 = 12.6 m2 vs 11.2 m2 Table IV.4-5).
+# confidence: digitized. Estimated error: +-30 mm (p.80 parts, drawing line width 5-8 px ~ 50 mm, scale anisotropy 0.8%);
+# +-20 mm for model polygons. Polygons are closed rectangles/trapezoids (first point repeated). Units: metres.
+part,R_m,Z_m,source
+central_pillar,0.0000,-5.9005,p80
+central_pillar,0.5177,-5.9005,p80
+central_pillar,0.5177,5.7924,p80
+central_pillar,0.0000,5.7924,p80
+central_pillar,0.0000,-5.9005,p80
+pillar_top_hub,0.0000,5.7924,p80
+pillar_top_hub,1.2262,5.7924,p80
+pillar_top_hub,0.5500,6.2249,p80
+pillar_top_hub,0.0000,6.2249,p80
+pillar_top_hub,0.0000,5.7924,p80
+upper_radial_arm,0.5177,4.3868,p80
+upper_radial_arm,5.9907,4.3868,p80
+upper_radial_arm,5.9907,5.7924,p80
+upper_radial_arm,0.5177,5.7924,p80
+upper_radial_arm,0.5177,4.3868,p80
+lower_radial_arm,0.5177,-5.6302,p80
+lower_radial_arm,5.9907,-5.6302,p80
+lower_radial_arm,5.9907,-4.3482,p80
+lower_radial_arm,0.5177,-4.3482,p80
+lower_radial_arm,0.5177,-5.6302,p80
+outer_limb,5.9907,-5.6302,p80
+outer_limb,7.3764,-5.6302,p80
+outer_limb,7.3764,5.7924,p80
+outer_limb,5.9907,5.7924,p80
+outer_limb,5.9907,-5.6302,p80
+foot_plate,5.8907,-5.7229,p80+p386(assumed width)
+foot_plate,7.4764,-5.7229,p80+p386(assumed width)
+foot_plate,7.4764,-5.6302,p80+p386(assumed width)
+foot_plate,5.8907,-5.6302,p80+p386(assumed width)
+foot_plate,5.8907,-5.7229,p80+p386(assumed width)
+centre_piece_upper,0.5177,2.9812,p80(mirrored)+p386
+centre_piece_upper,1.7322,2.9812,p80(mirrored)+p386
+centre_piece_upper,1.7322,4.3868,p80(mirrored)+p386
+centre_piece_upper,0.5177,4.3868,p80(mirrored)+p386
+centre_piece_upper,0.5177,2.9812,p80(mirrored)+p386
+centre_piece_lower,0.5177,-4.3482,p80
+centre_piece_lower,1.7322,-4.3482,p80
+centre_piece_lower,1.7322,-2.9812,p80
+centre_piece_lower,0.5177,-2.9812,p80
+centre_piece_lower,0.5177,-4.3482,p80
+model_window_inner_edge,0.7236,0.0000,p394 Fig.IV.4-10 axes
+model_window_inner_edge,0.7236,2.2231,p394 Fig.IV.4-10 axes
+model_window_inner_edge,1.2764,2.2185,p394 Fig.IV.4-10 axes
+model_window_inner_edge,1.9091,2.6904,p394 Fig.IV.4-10 axes
+model_window_inner_edge,1.9091,4.4429,p394 Fig.IV.4-10 axes
+model_window_inner_edge,6.5290,4.7763,p394 Fig.IV.4-10 axes
+model_window_inner_edge,6.5290,0.0000,p394 Fig.IV.4-10 axes
+model_outer_edge,0.0000,5.6430,p394 Fig.IV.4-10 axes
+model_outer_edge,1.9117,5.6273,p394 Fig.IV.4-10 axes
+model_outer_edge,1.9117,5.4411,p394 Fig.IV.4-10 axes
+model_outer_edge,6.8267,5.0959,p394 Fig.IV.4-10 axes
+model_outer_edge,6.8267,0.0000,p394 Fig.IV.4-10 axes

@@ -1,0 +1,97 @@
+{
+  "provenance": {
+    "machine": "DIII-D",
+    "frame": 75,
+    "amp": 0.001
+  },
+  "settings": {
+    "n_per_band": 44,
+    "band": 0.045,
+    "n_turns": 150,
+    "width_threshold": 0.004
+  },
+  "driven_widths": [
+    0.10407782326833871,
+    0.10724032976135225
+  ],
+  "expected_spurious_width": 0.01204698824808963,
+  "targets": [
+    {
+      "m": 2,
+      "n": 1,
+      "q": 2.0,
+      "psi_n_res": 0.752034162243634,
+      "driven": true,
+      "beat_order": 1,
+      "W_measured": 0.07558879707620281,
+      "verdict": "driven"
+    },
+    {
+      "m": 3,
+      "n": 1,
+      "q": 3.0,
+      "psi_n_res": 0.900081250854736,
+      "driven": true,
+      "beat_order": 1,
+      "W_measured": 0.06513241760624322,
+      "verdict": "driven"
+    },
+    {
+      "m": 5,
+      "n": 2,
+      "q": 2.5,
+      "psi_n_res": 0.8419070822061994,
+      "driven": false,
+      "beat_order": 2,
+      "W_measured": 0.0,
+      "verdict": "not visible"
+    },
+    {
+      "m": 1,
+      "n": 1,
+      "q": 1.0,
+      "psi_n_res": 0.3349017433803596,
+      "driven": false,
+      "beat_order": 3,
+      "W_measured": 0.0,
+      "verdict": "not visible"
+    },
+    {
+      "m": 3,
+      "n": 2,
+      "q": 1.5,
+      "psi_n_res": 0.6053355142136493,
+      "driven": false,
+      "beat_order": 4,
+      "W_measured": 0.0,
+      "verdict": "not visible"
+    },
+    {
+      "m": 7,
+      "n": 2,
+      "q": 3.5,
+      "psi_n_res": 0.9384940353422967,
+      "driven": false,
+      "beat_order": 3,
+      "W_measured": 0.0,
+      "verdict": "not visible"
+    },
+    {
+      "m": 4,
+      "n": 1,
+      "q": 4.0,
+      "psi_n_res": 0.9638413481316236,
+      "driven": false,
+      "beat_order": null,
+      "W_measured": 0.0,
+      "verdict": "not visible"
+    }
+  ],
+  "counts": {
+    "regular": 207,
+    "island": 42,
+    "chaotic": 59
+  },
+  "verdict": "holds",
+  "total_seconds": 401.21122312545776
+}

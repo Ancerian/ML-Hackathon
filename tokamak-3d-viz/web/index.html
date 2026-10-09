@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="uk">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Анатомія JET</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#EEF0EC; --panel:#F8F9F6; --ink:#1C2320; --muted:#5D6862; --rule:#CDD3CE;
+  --accent:#A8562A; --accent-ink:#FFFFFF; --scene:#E6E9E4; --grid:#C3C9C4; --focus:#A8562A;
+  --c-table:#2E6F63; --c-text:#4A5C8C; --c-digit:#A07118; --c-assumed:#A2453C; --c-derived:#6B7570;
+  --shadow:0 1px 2px rgba(28,35,32,.08);
+  --f-label:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#101412; --panel:#171C19; --ink:#E3E8E4; --muted:#9AA59F; --rule:#2B332F;
+    --accent:#D38A57; --accent-ink:#141816; --scene:#0C0F0E; --grid:#27302C; --focus:#D38A57;
+    --c-table:#5FB3A2; --c-text:#8FA3D8; --c-digit:#D8A84A; --c-assumed:#E08378; --c-derived:#9AA59F;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#101412; --panel:#171C19; --ink:#E3E8E4; --muted:#9AA59F; --rule:#2B332F;
+  --accent:#D38A57; --accent-ink:#141816; --scene:#0C0F0E; --grid:#27302C; --focus:#D38A57;
+  --c-table:#5FB3A2; --c-text:#8FA3D8; --c-digit:#D8A84A; --c-assumed:#E08378; --c-derived:#9AA59F;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font:14px/1.5 var(--f-body);padding-inline:16px;padding-block:12px 20px}
+.wrap{max-width:1500px;margin:0 auto;display:grid;gap:12px}
+header.top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;border-bottom:1px solid var(--rule);padding-block:4px 10px}
+h1{font:700 26px/1.1 var(--f-label);letter-spacing:.01em;margin:0;text-wrap:balance}
+h1 small{display:block;font:500 13px/1.4 var(--f-body);color:var(--muted);letter-spacing:0;margin-top:4px}
+.facts{display:flex;flex-wrap:wrap;gap:4px 18px;margin:0;padding:0;list-style:none;font:500 13px/1.3 var(--f-mono);font-variant-numeric:tabular-nums}
+.facts li{display:flex;gap:6px;align-items:baseline}
+.facts b{font:600 11px/1 var(--f-label);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:12px;align-items:start}
+.stage{position:relative;background:var(--scene);border:1px solid var(--rule);border-radius:4px;overflow:hidden;height:min(78vh,860px);min-height:380px}
+.stage canvas{display:block;width:100%;height:100%;touch-action:none}
+.stage .status{position:absolute;inset:auto 12px 12px 12px;font:500 12px/1.4 var(--f-mono);color:var(--muted);pointer-events:none}
+.stage .hint{position:absolute;top:10px;left:12px;font:500 11px/1.3 var(--f-label);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);pointer-events:none}
+.stage .scale{position:absolute;right:12px;top:10px;font:500 11px/1.3 var(--f-mono);color:var(--muted);pointer-events:none}
+aside.panel{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+.box{background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;box-shadow:var(--shadow)}
+.box h2{font:600 12px/1.2 var(--f-label);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);border-radius:4px;overflow:hidden}
+.seg button{appearance:none;border:0;background:transparent;color:var(--ink);font:600 13px/1.2 var(--f-label);padding:9px 8px;cursor:pointer;letter-spacing:.02em}
+.seg button+button{border-left:1px solid var(--rule)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.views{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.views button{appearance:none;border:1px solid var(--rule);background:transparent;color:var(--ink);font:500 12px/1.2 var(--f-label);padding:8px 4px;border-radius:3px;cursor:pointer}
+.views button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.row{display:flex;align-items:center;gap:10px}
+.row label{font:500 13px/1.3 var(--f-body)}
+.row output{margin-left:auto;font:500 13px/1 var(--f-mono);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.note{font-size:12px;color:var(--muted);margin:8px 0 0}
+.subs{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.subs li label{display:grid;grid-template-columns:18px 12px 1fr auto;gap:8px;align-items:center;padding:5px 2px;cursor:pointer;border-radius:3px}
+.subs li label:hover{background:color-mix(in srgb,var(--ink) 5%,transparent)}
+.subs input{margin:0;accent-color:var(--accent)}
+.sw{width:12px;height:12px;border-radius:2px;border:1px solid color-mix(in srgb,var(--ink) 25%,transparent)}
+.subs .nm{font-size:13px}
+.subs .ct{font:400 11px/1 var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.card h3{font:600 17px/1.25 var(--f-label);margin:0 0 4px;text-wrap:balance}
+.card .meta{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.chip{display:inline-flex;align-items:center;gap:5px;font:600 11px/1 var(--f-label);letter-spacing:.05em;text-transform:uppercase;padding:4px 7px;border-radius:999px;border:1px solid currentColor}
+.chip.table,.chip.drawing{color:var(--c-table)} .chip.text{color:var(--c-text)} .chip.digitized{color:var(--c-digit)}
+.chip.assumed{color:var(--c-assumed)} .chip.derived,.chip.model{color:var(--c-derived)} .chip.plain{color:var(--muted)}
+.dims{width:100%;border-collapse:collapse;font-size:12.5px}
+.dims td{padding:5px 0;border-top:1px solid var(--rule);vertical-align:top}
+.dims td.v{font:500 12.5px/1.35 var(--f-mono);text-align:right;white-space:nowrap;padding-left:10px;font-variant-numeric:tabular-nums}
+.dims td.c{font:400 11px/1.35 var(--f-mono);color:var(--muted);text-align:right;padding-left:10px;white-space:nowrap}
+.dimwrap{overflow-x:auto}
+.src{font:400 12px/1.45 var(--f-mono);color:var(--muted);margin:10px 0 0}
+details{border-top:1px solid var(--rule);padding-top:8px;margin-top:10px}
+summary{cursor:pointer;font:600 12px/1.3 var(--f-label);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+details ul{margin:8px 0 0;padding-left:18px;font-size:12.5px;display:grid;gap:6px}
+footer{font-size:12px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;max-width:90ch}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+@media (max-width:980px){
+  .main{grid-template-columns:1fr}
+  .stage{height:62vh;min-height:340px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1>Анатомія JET<small>Власна 3D-реконструкція Joint European Torus за розмірами з проєкту 1975 року (EUR 5516e) і звітів JET 1983 року</small></h1>
+    <ul class="facts" id="facts" aria-label="Основні параметри">
+      <li><b>R₀</b><span>2,96 м</span></li>
+      <li><b>a × b</b><span>1,25 × 2,10 м</span></li>
+      <li><b>B₀</b><span>2,77 Тл</span></li>
+      <li><b>Iₚ</b><span>3,8 МА</span></li>
+      <li><b>Габарит</b><span>Ø14,8 × 11,5 м</span></li>
+    </ul>
+  </header>
+
+  <div class="main">
+    <section class="stage" id="stage" aria-label="Тривимірна модель">
+      <canvas id="view"></canvas>
+      <div class="hint">Тягніть — обертати · колесо — наближати · клік — деталь</div>
+      <div class="scale" id="scaleNote">Фігура людини — 1,8 м</div>
+      <div class="status" id="status">Завантаження моделі…</div>
+    </section>
+
+    <aside class="panel">
+      <div class="box">
+        <h2>Конфігурація</h2>
+        <div class="seg" role="group" aria-label="Варіант машини">
+          <button type="button" id="v1975" aria-pressed="true">Проєкт 1975</button>
+          <button type="button" id="v1983" aria-pressed="false">Як побудовано, 1983</button>
+        </div>
+        <div class="row" id="row1984" hidden style="margin-top:10px">
+          <input type="checkbox" id="show1984">
+          <label for="show1984">Показати поворотні клапани (встановлені в січні 1984)</label>
+        </div>
+      </div>
+
+      <div class="box">
+        <h2>Вид і розріз</h2>
+        <div class="views" role="group" aria-label="Готові ракурси">
+          <button type="button" data-view="overview" aria-pressed="false">Загальний</button>
+          <button type="button" data-view="cut" aria-pressed="true">Розріз</button>
+          <button type="button" data-view="inside" aria-pressed="false">Усередині</button>
+          <button type="button" data-view="top" aria-pressed="false">Згори</button>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <label for="cut">Вирізаний сектор</label>
+          <output id="cutOut" for="cut">67,5°</output>
+        </div>
+        <input type="range" id="cut" min="0" max="180" step="5.625" value="67.5" aria-describedby="cutNote">
+        <p class="note" id="cutNote">Крок — 5,625°, половина кроку між котушками TF (32 котушки через 11,25°). 45° — один октант камери.</p>
+      </div>
+
+      <div class="box">
+        <h2>Підсистеми</h2>
+        <ul class="subs" id="subs"></ul>
+      </div>
+
+      <div class="box card" id="card" aria-live="polite">
+        <h2>Вибрана деталь</h2>
+        <div id="cardBody"><p class="note">Клацніть на деталь моделі.</p></div>
+        <details id="changes" hidden>
+          <summary>Що змінилося до 1983 року</summary>
+          <ul id="changesList"></ul>
+        </details>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    Модель побудовано власним кодом за розмірами й фактами з документів; це не копія креслень. Сторінки в посиланнях — сторінки PDF-файлів проєкту: EUR 5516e (1975) та JET JU Progress Report 1983. Деталі з позначкою «оцифровано» або «припущення» мають похибку від кількох сантиметрів до десятків відсотків; їх рівень показано в картці деталі. Плазма — аналітична рівновага Соловйова (Iₚ = 3,8 МА, B₀ = 2,77 Тл, q₉₅ ≈ 5,5); у варіанті 1983 року показано ту саму плазму.
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const statusEl = $("status");
+  const fmt = (x, d) => (typeof x === "number") ? x.toLocaleString("uk-UA", {maximumFractionDigits: d ?? 3}) : String(x);
+
+  const GROUPS = ["Plasma","FieldLines","Vessel","Bellows","Limiters","Ports","TF","PF","Structure","IronCore","NBI","Extras1983","Human"];
+  const DIM_UK = {
+    // плазма, рівновага, фізика
+    R0:"великий радіус R₀", a:"малий радіус a", b:"напіввисота b", kappa:"витягнутість κ",
+    B0:"поле на осі B₀", I_p:"струм плазми Iₚ", Btor_R0_basic:"тороїдальне поле на R₀ (базове)",
+    Ip_D_basic:"струм плазми, D-переріз (базовий)", TF_ripple:"гофрування TF на межі плазми",
+    elongation_b_over_a:"витягнутість b/a", R_min:"найменший R межі", R_max:"найбільший R межі",
+    delta_model:"трикутність δ (модель)", kappa_model:"витягнутість κ (модель)",
+    q0_model:"q на осі (модель)", q95_model:"q₉₅ (модель)", volume_model:"об'єм плазми (модель)",
+    q:"запас стійкості q", n_lines:"кількість силових ліній", q_values:"значення q",
+    // котушки TF
+    n_coils:"кількість котушок", overall_height:"повна висота", overall_width:"повна ширина",
+    bore_R_inner:"внутрішній радіус отвору", bore_R_outer:"зовнішній радіус отвору",
+    outer_leg_toroidal_width:"ширина зовнішньої гілки", inner_leg_wedge_width:"ширина клина внутрішньої гілки",
+    turns_per_coil:"витків на котушку", total_TF_current_basic:"сумарний струм TF (базовий)",
+    weight:"маса", mass:"маса",
+    // котушки PF
+    n_pf_coils_total:"усього котушок PF",
+    coil1_count:"PF 1: кількість блоків", coil1_turns:"PF 1: витків", coil1_cu_mass:"PF 1: маса міді",
+    coil1_mean_diameter:"PF 1: середній діаметр", coil1_support_cylinder_bore:"опорний циліндр PF 1: діаметр отвору",
+    coil1_support_cylinder_radial:"опорний циліндр PF 1: радіальна товщина",
+    coil2_count:"PF 2: кількість", coil2_turns:"PF 2: витків", coil2_cu_mass:"PF 2: маса міді",
+    coil2_mean_diameter:"PF 2: середній діаметр", coil2_Z:"PF 2: висота ±Z",
+    coil3_count:"PF 3: кількість", coil3_turns:"PF 3: витків", coil3_cu_mass:"PF 3: маса міді",
+    coil3_mean_diameter:"PF 3: середній діаметр", coil3_Z:"PF 3: висота ±Z",
+    coil4_count:"PF 4: кількість", coil4_turns:"PF 4: витків", coil4_cu_mass:"PF 4: маса міді",
+    coil4_mean_diameter:"PF 4: середній діаметр", coil4_Z:"PF 4: висота ±Z",
+    // вакуумна камера, сильфони, порти
+    n_rigid_sectors:"жорстких секторів", n_octants:"октантів", total_weight:"маса камери",
+    volume:"об'єм камери", wall_thickness_Ri_Ra:"товщина стінки на екваторі", wall_thickness_max:"найбільша товщина стінки",
+    rs_R_inner_wall_inboard:"внутр. стінка: R з боку осі", rs_R_inner_wall_outboard:"внутр. стінка: R ззовні",
+    rs_Z_inner_wall_top:"внутр. стінка: верх Z", material_rigid_sectors:"матеріал жорстких секторів",
+    material_bellows:"матеріал сильфонів", bellows_per_section:"сильфонів у вставці",
+    bellows_wall_thickness:"товщина листа сильфона",
+    R_outer_skin_at_Z:"R зовнішньої обшивки", Z:"висота Z", count:"кількість",
+    band_height_poloidal:"полоїдальна висота смуги", outer_skin_thickness_max:"найбільша товщина обшивки",
+    horizontal_port_count:"горизонтальних портів", horizontal_port_height:"висота горизонтального порту",
+    horizontal_port_width:"ширина горизонтального порту", vertical_port_large:"вертикальний порт, великий",
+    vertical_port_small:"вертикальний порт, малий", per_octant:"на октант",
+    octant:"октант №", door_inner_diameter:"внутрішній діаметр дверцят", turbomolecular_pumps:"турбомолекулярних насосів",
+    bake_C:"температура прогріву", opening_horizontal:"отвір по горизонталі", opening_vertical:"отвір по вертикалі",
+    // лімітери
+    outer_limiter_R:"R зовнішнього лімітера", outer_limiter_plates:"пластин у зовнішній рейці",
+    plate_material:"матеріал пластин", plate_size:"розмір пластини", bellows_shield_Re:"R екрана сильфона (зовн.)",
+    R_front:"R робочої поверхні", Z_center:"Z центру", phi_deg:"тороїдальний кут φ", area:"площа",
+    height_poloidal:"полоїдальна висота", width_toroidal:"тороїдальна ширина",
+    nickel_cladding:"товщина Ni-плакування", max_heat_flux_W_m2:"найбільший тепловий потік",
+    // механічна структура
+    ring_outer_diameter:"зовнішній діаметр кільця", ring_height:"висота кільця",
+    inner_cylinder_R:"радіус внутрішнього циліндра", inner_cylinder_thickness:"товщина внутрішнього циліндра",
+    shell_description:"будова оболонки",
+    // залізний магнітопровід
+    n_limbs:"вертикальних гілок", B_iron_max:"найбільше поле в залізі", arm_toroidal_width:"тороїдальна ширина плеча",
+    limb_R_inner:"внутрішній R гілки", limb_R_outer:"зовнішній R гілки", limb_toroidal_width:"тороїдальна ширина гілки",
+    upper_arm_Z_top:"верх верхнього плеча Z", lower_arm_Z_bottom:"низ нижнього плеча Z",
+    central_pillar_R:"радіус центрального стовпа", centre_piece_R_outer:"зовнішній R центральної частини",
+    overall_diameter:"габаритний діаметр машини", mass_total:"маса магнітопроводу загалом",
+    mass_central_pillar:"маса центрального стовпа", mass_centre_piece:"маса центральної частини",
+    mass_feet_structural:"маса опорних плит", mass_lower_radial_arm:"маса нижнього плеча",
+    mass_upper_radial_arm:"маса верхнього плеча", mass_vertical_limb:"маса вертикальної гілки",
+    // нагрів пучками
+    beam_energy_H:"енергія пучка (H)", injection_angle_to_axis:"кут інжекції до осі",
+    injectors_per_port:"інжекторів на порт", neutral_power_per_injector:"потужність нейтралів на інжектор",
+    total_power_goal:"цільова сумарна потужність"
+  };
+  // текстові значення з бази розмірів (англійською в YAML) -> українською
+  const VAL_UK = {
+    "molybdenum":"молібден",
+    "thin metallic shell of wedge blocks (cast Al AU5GT) + bolted Al-alloy plates (A-U4G), glass-epoxy insulated":
+      "тонка металева оболонка з клиновидних блоків (литий Al-сплав AU5GT) і болтових плит з Al-сплаву (A-U4G), ізольована склоепоксидом",
+    "external shell of 8 identical sectors + upper/lower rings and collars in austenitic nodular (ductile) cast iron; inner cylinder stainless steel 304 with 32 flutes; octant joints by insulated shear keys":
+      "зовнішня оболонка з 8 однакових секторів, верхнє й нижнє кільця та коміри — аустенітний високоміцний чавун (з кулястим графітом); внутрішній циліндр — нержавна сталь 304 з 32 пазами; стики октантів — ізольовані зсувні шпонки",
+    "Nicrofer 7216 LC (vacuum melted, equivalent to Inconel 600)":"Nicrofer 7216 LC (вакуумна плавка, аналог Inconel 600)",
+    "not on the machine in 1983 - installation planned January 1984":"у 1983 р. на машині не було; встановлення заплановано на січень 1984 р."
+  };
+  const uk = t => (typeof t === "string" && VAL_UK[t] !== undefined) ? VAL_UK[t] : t;
+  const UNIT_UK = {m:"м", T:"Тл", A:"А", t:"т", kg:"кг", count:"шт.", "-":"", deg:"°", mm:"мм", "m^2":"м²", "m2":"м²", "m^3":"м³", Wb:"Вб", "%":"%", s:"с", W:"Вт", MW:"МВт", "W/m^2":"Вт/м²", keV:"кеВ", MA:"МА", Pa:"Па", Torr:"Торр", K:"К", C:"°C"};
+  const CONF_UK = {table:"таблиця", drawing:"креслення", text:"текст", digitized:"оцифровано", assumed:"припущення", derived:"виведено", model:"модель"};
+
+  function fmtVal(v){
+    if (!v || typeof v !== "object") return fmt(v);
+    let val = v.value, unit = v.unit || "";
+    if (unit === "A" && typeof val === "number" && Math.abs(val) >= 1e5){ val = val/1e6; unit = "MA"; }
+    if (unit === "W" && typeof val === "number" && Math.abs(val) >= 1e5){ val = val/1e6; unit = "MW"; }
+    if (unit === "kg" && typeof val === "number" && Math.abs(val) >= 1e4){ val = val/1e3; unit = "t"; }
+    const u = UNIT_UK[unit] !== undefined ? UNIT_UK[unit] : unit;
+    // arrays (e.g. [0.14, 0.83] m): format each number; String([..]) would print "0.14,0.83", ambiguous with the uk decimal comma
+    const txt = Array.isArray(val) ? val.map(x => fmt(x, 4)).join(" / ") : (typeof val === "number" ? fmt(val, 4) : String(uk(val)));
+    return txt + (u ? " " + u : "");
+  }
+  function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+  function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+
+  // ---------- three.js scene ----------
+  const canvas = $("view");
+  if (!window.THREE || !THREE.GLTFLoader || !THREE.OrbitControls){
+    statusEl.textContent = "Не вдалося завантажити бібліотеку three.js. Перевірте з'єднання й оновіть сторінку.";
+    return;
+  }
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+  renderer.localClippingEnabled = true;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(38, 1, 0.05, 400);
+  const controls = new THREE.OrbitControls(camera, canvas);
+  controls.enableDamping = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  controls.dampingFactor = 0.08;
+  controls.target.set(0, 0, 0);
+
+  scene.add(new THREE.HemisphereLight(0xf3f6f2, 0x3a403c, 0.9));
+  const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(14, 18, 10); scene.add(key);
+  const fill = new THREE.DirectionalLight(0xdfe8ff, 0.55); fill.position.set(-12, 6, -14); scene.add(fill);
+  const inLight = new THREE.PointLight(0xfff1e0, 0, 7, 1.6); scene.add(inLight);
+
+  let grid = null;
+  function applyTheme(){
+    scene.background = new THREE.Color(cssVar("--scene") || "#E6E9E4");
+    if (grid){ scene.remove(grid); grid.geometry.dispose(); }
+    const gc = new THREE.Color(cssVar("--grid") || "#C3C9C4");
+    grid = new THREE.GridHelper(32, 32, gc, gc);
+    grid.position.y = -5.93;
+    scene.add(grid);
+  }
+  applyTheme();
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme);
+  new MutationObserver(applyTheme).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+
+  // Wedge cut: two vertical planes through the machine axis (+Y). clipIntersection removes the wedge.
+  const planeA = new THREE.Plane(new THREE.Vector3(), 0), planeB = new THREE.Plane(new THREE.Vector3(), 0);
+  // the wedge is centred on the camera azimuth at the moment the cut is set
+  function setCut(deg){
+    const th = THREE.MathUtils.degToRad(deg);
+    const c = Math.atan2(camera.position.z - controls.target.z, camera.position.x - controls.target.x);
+    const p1 = c - th/2, p2 = c + th/2;
+    // direction u(phi) = (cos, 0, sin); normal n(phi) = (-sin, 0, cos)
+    planeA.normal.set(Math.sin(p1), 0, -Math.cos(p1)); // clips n1·p > 0
+    planeB.normal.set(-Math.sin(p2), 0, Math.cos(p2)); // clips n2·p < 0
+    const on = deg > 0.01;
+    for (const m of allMaterials){
+      m.clippingPlanes = on ? [planeA, planeB] : null;
+      m.clipIntersection = true;
+      m.needsUpdate = true;
+    }
+    // the highlighted clone is not in allMaterials: keep it in step with the cut
+    if (selected && selected.material && selected.material !== selectedOrig){
+      selected.material.clippingPlanes = on ? [planeA, planeB] : null;
+      selected.material.clipIntersection = true;
+      selected.material.needsUpdate = true;
+    }
+    $("cutOut").textContent = fmt(deg, 3) + "°";
+  }
+
+  // ---------- data ----------
+  let meta = null;
+  const models = {};   // variant -> root Object3D
+  let allMaterials = new Set();
+  let variant = "jet1975";
+  let selected = null, selectedOrig = null;
+
+  const loader = new THREE.GLTFLoader();
+  // Моделі вбудовано в сторінку (base64) скриптом build_page.py; без вбудовування — завантаження файлу поруч.
+  function embedded(id){ const el = document.getElementById(id); return el ? el.textContent.trim() : ""; }
+  function b64ToBuffer(b64){
+    const bin = atob(b64); const u = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+    return u.buffer;
+  }
+  function loadGLB(name){
+    const b64 = embedded("glb-" + name.replace(".glb", ""));
+    if (b64) return new Promise((res, rej) => loader.parse(b64ToBuffer(b64), "", g => res(g.scene), rej));
+    return new Promise((res, rej) => loader.load(name, g => res(g.scene), undefined, rej));
+  }
+  function loadMeta(){
+    const j = embedded("jet-meta");
+    if (j) return Promise.resolve(JSON.parse(j));
+    return fetch("jet_meta.json").then(r => { if (!r.ok) throw new Error("meta " + r.status); return r.json(); });
+  }
+
+  function prepModel(root){
+    root.traverse(o => {
+      if (o.isMesh || o.isLine){
+        const mats = Array.isArray(o.material) ? o.material : [o.material];
+        for (const m of mats){
+          if (!m) continue;
+          if (o.isMesh && !m.transparent) m.side = THREE.DoubleSide;
+          allMaterials.add(m);
+        }
+      }
+    });
+    return root;
+  }
+
+  function groupNode(root, name){
+    let found = null;
+    root.traverse(o => { if (!found && o.userData && o.userData.kind === "group" && (o.userData.subsystem === name || o.name === name)) found = o; });
+    return found;
+  }
+
+  function applyStatusVisibility(){
+    const root = models.jet1983; if (!root) return;
+    const show = $("show1984").checked;
+    root.traverse(o => { if (o.userData && o.userData.kind === "part" && o.userData.status === "not_installed") o.visible = show; });
+  }
+
+  // ---------- panel ----------
+  const groupVisible = {};
+  function buildSubs(){
+    const list = $("subs"); list.innerHTML = "";
+    const subs = meta.machines[variant].subsystems;
+    for (const g of GROUPS){
+      const s = subs[g]; if (!s) continue;
+      const root = models[variant];
+      const node = root ? groupNode(root, g) : null;
+      if (root && (!node || node.children.length === 0)) continue;
+      if (groupVisible[g] === undefined) groupVisible[g] = true;
+      const li = document.createElement("li");
+      const id = "sub_" + g;
+      li.innerHTML = '<label for="' + id + '"><input type="checkbox" id="' + id + '"' + (groupVisible[g] ? " checked" : "") + '>' +
+        '<span class="sw" style="background:' + esc(s.colour || "#999") + '"></span>' +
+        '<span class="nm">' + esc(s.label_uk || g) + '</span>' +
+        '<span class="ct">' + (s.triangles ? fmt(Math.round(s.triangles/1000)) + " тис. △" : "") + '</span></label>';
+      li.querySelector("input").addEventListener("change", e => { groupVisible[g] = e.target.checked; syncGroups(); });
+      list.appendChild(li);
+    }
+  }
+  function syncGroups(){
+    const root = models[variant]; if (!root) return;
+    for (const g of GROUPS){ const n = groupNode(root, g); if (n) n.visible = groupVisible[g] !== false; }
+  }
+
+  function showCard(ud){
+    const b = $("cardBody");
+    if (!ud){ b.innerHTML = '<p class="note">Клацніть на деталь моделі.</p>'; return; }
+    const conf = ud.confidence || "plain";
+    let h = '<h3>' + esc(ud.label_uk || ud.id) + '</h3>';
+    h += '<div class="meta">';
+    h += '<span class="chip ' + esc(conf) + '">' + esc(CONF_UK[conf] || conf) + '</span>';
+    if (ud.material_uk) h += '<span class="chip plain">' + esc(ud.material_uk) + '</span>';
+    if (ud.n_instances > 1) h += '<span class="chip plain">×' + fmt(ud.n_instances) + '</span>';
+    if (ud.status === "not_installed") h += '<span class="chip assumed">не встановлено у 1983</span>';
+    h += '</div>';
+    if (ud.status_note) h += '<p class="note" style="margin:0 0 8px">' + esc(uk(ud.status_note)) + '</p>';
+    if (ud.simplified) h += '<p class="note" style="margin:0 0 8px">Спрощено для вебу: ' + esc(ud.simplified === true ? "гофри показано гладкою смугою" : ud.simplified) + '</p>';
+    const kd = ud.key_dims || {};
+    const keys = Object.keys(kd);
+    if (keys.length){
+      h += '<div class="dimwrap"><table class="dims"><tbody>';
+      for (const k of keys){
+        const d = kd[k];
+        h += '<tr><td>' + esc(DIM_UK[k] || k.replace(/_/g, " ")) + '</td><td class="v">' + esc(fmtVal(d)) + '</td><td class="c">' + esc(d && d.cite ? d.cite.replace("EUR 5516e, ", "") : "") + '</td></tr>';
+      }
+      h += '</tbody></table></div>';
+    }
+    const srcs = (ud.sources || []).map(s => s.cite || (s.doc + ", с. " + s.page));
+    if (srcs.length) h += '<p class="src">Джерела: ' + esc([...new Set(srcs)].join("; ")) + '</p>';
+    b.innerHTML = h;
+  }
+
+  function findPart(o){
+    while (o){ if (o.userData && o.userData.kind === "part") return o; o = o.parent; }
+    return null;
+  }
+  function clearHighlight(){
+    if (selected && selectedOrig){ const tmp = selected.material; selected.material = selectedOrig; if (tmp && tmp !== selectedOrig) tmp.dispose(); }
+    selected = null; selectedOrig = null;
+  }
+  function highlight(mesh){
+    clearHighlight();
+    if (!mesh || !mesh.isMesh) return;
+    selectedOrig = mesh.material;
+    const m = mesh.material.clone();
+    if (m.emissive){ m.emissive = new THREE.Color(cssVar("--accent") || "#A8562A"); m.emissiveIntensity = 0.55; }
+    m.clippingPlanes = selectedOrig.clippingPlanes; m.clipIntersection = true;
+    mesh.material = m; selected = mesh;
+  }
+
+  // picking: click without drag
+  const ray = new THREE.Raycaster(); ray.params.Line = {threshold: 0.05};
+  let down = null;
+  canvas.addEventListener("pointerdown", e => { down = {x:e.clientX, y:e.clientY}; });
+  canvas.addEventListener("pointerup", e => {
+    if (!down) return; const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y); down = null;
+    if (moved > 5) return;
+    const r = canvas.getBoundingClientRect();
+    const p = new THREE.Vector2(((e.clientX - r.left)/r.width)*2 - 1, -((e.clientY - r.top)/r.height)*2 + 1);
+    ray.setFromCamera(p, camera);
+    const root = models[variant]; if (!root) return;
+    const hits = ray.intersectObject(root, true).filter(h => h.object.visible && isVisibleChain(h.object) && !isClipped(h.point));
+    if (!hits.length){ clearHighlight(); showCard(null); return; }
+    const part = findPart(hits[0].object);
+    highlight(hits[0].object);
+    showCard(part ? part.userData : null);
+  });
+  function isVisibleChain(o){ while (o){ if (!o.visible) return false; o = o.parent; } return true; }
+  function isClipped(pt){
+    if (!planeA.normal.lengthSq() || Number($("cut").value) <= 0.01) return false;
+    return planeA.distanceToPoint(pt) < 0 && planeB.distanceToPoint(pt) < 0;
+  }
+
+  // ---------- views ----------
+  const VIEWS = {
+    overview:{pos:[16.5, 9.5, 17.5], tgt:[0, -0.5, 0], cut:0, inLight:0},
+    cut:{pos:[14.5, 7.0, -9.5], tgt:[0.6, -0.3, -0.8], cut:67.5, inLight:0},
+    inside:{pos:[3.75, 0.25, -0.35], tgt:[2.1, 0.0, -3.3], cut:0, inLight:2.2, hide:["Plasma","FieldLines"]},
+    top:{pos:[0.01, 27, 0.01], tgt:[0, 0, 0], cut:0, inLight:0}
+  };
+  function setView(name){
+    const v = VIEWS[name];
+    camera.position.set(...v.pos); controls.target.set(...v.tgt); controls.update();
+    inLight.intensity = v.inLight; inLight.position.set(2.9, 0.2, -2.0);
+    const hide = v.hide || [];
+    for (const g of ["Plasma","FieldLines"]) groupVisible[g] = !hide.includes(g);
+    if (meta) buildSubs();
+    syncGroups();
+    $("cut").value = v.cut; setCut(v.cut);
+    document.querySelectorAll(".views button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === name)));
+  }
+  document.querySelectorAll(".views button").forEach(b => b.addEventListener("click", () => setView(b.dataset.view)));
+  $("cut").addEventListener("input", e => setCut(Number(e.target.value)));
+
+  // ---------- variants ----------
+  function setVariant(v){
+    variant = v;
+    $("v1975").setAttribute("aria-pressed", String(v === "jet1975"));
+    $("v1983").setAttribute("aria-pressed", String(v === "jet1983"));
+    $("row1984").hidden = v !== "jet1983";
+    $("changes").hidden = v !== "jet1983";
+    for (const k in models) models[k].visible = (k === v);
+    clearHighlight(); showCard(null);
+    if (meta) buildSubs();
+    syncGroups(); applyStatusVisibility();
+    selectDefault();
+  }
+  $("v1975").addEventListener("click", () => setVariant("jet1975"));
+  $("v1983").addEventListener("click", () => setVariant("jet1983"));
+  $("show1984").addEventListener("change", applyStatusVisibility);
+
+  function selectDefault(){
+    const root = models[variant]; if (!root) return;
+    let tf = null; root.traverse(o => { if (!tf && o.userData && o.userData.kind === "part" && o.userData.subsystem === "TF") tf = o; });
+    if (tf){ showCard(tf.userData); }
+  }
+
+  // ---------- resize & loop ----------
+  function resize(){
+    const r = canvas.getBoundingClientRect();
+    const w = Math.max(1, Math.floor(r.width)), h = Math.max(1, Math.floor(r.height));
+    renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(canvas);
+  function loop(){ controls.update(); renderer.render(scene, camera); requestAnimationFrame(loop); }
+
+  // ---------- boot ----------
+  (async function boot(){
+    try{
+      const [m, a, b] = await Promise.all([
+        loadMeta(),
+        loadGLB("jet1975.glb"), loadGLB("jet1983.glb")
+      ]);
+      meta = m;
+      models.jet1975 = prepModel(a); models.jet1983 = prepModel(b);
+      scene.add(a); scene.add(b);
+      const ul = $("changesList");
+      (meta.changes_1983 || []).forEach(t => { const li = document.createElement("li"); li.textContent = t; ul.appendChild(li); });
+      resize();
+      setVariant("jet1975");
+      setView("cut");
+      statusEl.textContent = "";
+      loop();
+    } catch(err){
+      statusEl.textContent = "Модель не завантажилася (" + (err && err.message ? err.message : err) + "). Оновіть сторінку.";
+    }
+  })();
+})();
+</script>

@@ -1,0 +1,48 @@
+test frames 1521; g_true median 0.0097; g_ref 0.6341
+  Linear Regression: sign [1.0]  sharp [0.582]
+  Ridge (CV): sign [1.0]  sharp [0.583]
+  Random Forest: sign [1.0]  sharp [0.678]
+  MLP (sklearn): sign [1.0]  sharp [0.801]
+  Simple MLP: sign [1.0, 1.0, 1.0]  sharp [0.649, 0.648, 0.682]
+  Conv Decoder: sign [1.0, 1.0, 1.0]  sharp [0.759, 0.732, 0.774]
+  UNet_Lite: sign [1.0, 1.0, 1.0]  sharp [0.777, 0.783, 0.788]
+  PCA+Ridge (SCORE.md): sign [1.0]  sharp [0.586]
+
+  model                        S    C4 S   R2psi   C4 R2   Cons     GS    Cov  Sharp    Cal   S_Cal  S_full
+  Linear Regression       0.1924  0.1924  0.0866  0.0866  0.269  0.954  0.618  0.582  0.360  0.2376  0.3451
+  Ridge (CV)              0.1926  0.1926  0.0870  0.0870  0.269  0.954  0.619  0.583  0.360  0.2378  0.3453
+  Random Forest           0.1735  0.1735  0.1145  0.1145  0.105  0.982  0.732  0.678  0.496  0.2361  0.3481
+  MLP (sklearn)           0.6434  0.6434  0.9635  0.9635  0.124  0.200  0.613  0.801  0.491  0.6374  0.5718
+  Simple MLP              0.6308  0.6308  0.9587  0.9587  0.082  0.000  0.763  0.660  0.503  0.6273  0.5332
+  Conv Decoder            0.6509  0.6524  0.9664  0.9668  0.148  0.000  0.795  0.755  0.601  0.6572  0.5586
+  UNet_Lite               0.6634  0.6634  0.9758  0.9758  0.179  0.000  0.788  0.783  0.617  0.6703  0.5697
+  PCA+Ridge (SCORE.md)    0.1943  0.1943  0.0898  0.0898  0.270  0.955  0.616  0.586  0.361  0.2394  0.3467
+
+  rank by S : UNet_Lite > Conv Decoder > MLP (sklearn) > Simple MLP > PCA+Ridge (SCORE.md) > Ridge (CV) > Linear Regression > Random Forest
+
+  S'_Cal:
+  w_u=0.000: tau=+1.000 robust=0 majority=[]
+  w_u=0.050: tau=+1.000 robust=0 majority=[]
+  w_u=0.100: tau=+1.000 robust=0 majority=[]
+  w_u=0.118: tau=+1.000 robust=0 majority=[]
+  w_u=0.150: tau=+0.786 robust=0 majority=[]
+  w_u=0.200: tau=+0.786 robust=0 majority=[]
+  w_u=0.250: tau=+0.786 robust=0 majority=[]
+  w_u=0.300: tau=+0.786 robust=0 majority=[]
+
+  S'_Cov only:
+  w_u=0.000: tau=+1.000 robust=0 majority=[]
+  w_u=0.050: tau=+1.000 robust=0 majority=[]
+  w_u=0.100: tau=+0.929 robust=0 majority=[]
+  w_u=0.118: tau=+0.929 robust=0 majority=[('MLP (sklearn)', 'Simple MLP', 0.532)]
+  w_u=0.150: tau=+0.857 robust=0 majority=[('MLP (sklearn)', 'Simple MLP', 0.604)]
+  w_u=0.200: tau=+0.714 robust=0 majority=[('MLP (sklearn)', 'Simple MLP', 0.72)]
+  w_u=0.250: tau=+0.714 robust=0 majority=[('MLP (sklearn)', 'Simple MLP', 0.797)]
+  w_u=0.300: tau=+0.714 robust=0 majority=[('MLP (sklearn)', 'Simple MLP', 0.832)]
+
+  full S': tau=+0.643 robust=0 rank: MLP (sklearn) > UNet_Lite > Conv Decoder > Simple MLP > Random Forest > PCA+Ridge (SCORE.md) > Ridge (CV) > Linear Regression
+    majority swaps: [('Conv Decoder', 'MLP (sklearn)', 0.544), ('UNet_Lite', 'MLP (sklearn)', 0.505)]
+
+  Spearman(Cal, R2psi) = 0.929   Spearman(Cal, Consistency) = -0.524
+
+VERDICT: {'C4_Cal': 'REFUTED', 'tau_main': np.float64(1.0), 'n_robust_swaps': 0, 'first_wu_with_robust_swap': None}

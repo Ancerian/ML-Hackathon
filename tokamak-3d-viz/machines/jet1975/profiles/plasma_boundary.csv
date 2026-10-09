@@ -1,0 +1,37 @@
+# JET 1975 Design Proposal (EUR 5516e), Table IV.2-4 'Toroidal Field Ripple along the Minor Plasma Circumference
+# for a D-shaped Plasma', PDF p.332. Transcribed from the page image (OCR layer not used). cm -> m.
+# The table has 30 rows (not 31) and covers ONLY the upper-outboard quadrant of the D-shaped boundary, from the outer
+# midplane region (Z=0.128 m) to near the top (R=2.308 m, Z=2.195 m). Inboard side and Z<0 are NOT tabulated;
+# mirror in Z for the lower half. ripple_pct = TF ripple (%) at that point (values <1 printed as x10^-1).
+# confidence: table. Units: metres.
+R_m,Z_m,ripple_pct
+4.1963,0.1282,3.5534
+4.1859,0.2560,3.5260
+4.1688,0.3828,3.4835
+4.1452,0.5081,3.4283
+4.1153,0.6313,3.3613
+4.0792,0.7519,3.2804
+4.0372,0.8695,3.1883
+3.9896,0.9836,3.0862
+3.9367,1.0938,2.9754
+3.8788,1.1997,2.8561
+3.8164,1.3009,2.7318
+3.7498,1.3972,2.6030
+3.6795,1.4883,2.4722
+3.6059,1.5741,2.3420
+3.5294,1.6543,2.2112
+3.4504,1.7288,2.0814
+3.3695,1.7976,1.9568
+3.2869,1.8605,1.8336
+3.2033,1.9177,1.7185
+3.1189,1.9691,1.6081
+3.0341,2.0149,1.5051
+2.9493,2.0550,1.4076
+2.8649,2.0898,1.3196
+2.7811,2.1192,1.2372
+2.6984,2.1435,1.1632
+2.6168,2.1628,1.0949
+2.5368,2.1774,1.0342
+2.4586,2.1875,0.9799
+2.3822,2.1933,0.9306
+2.3079,2.1951,0.8862

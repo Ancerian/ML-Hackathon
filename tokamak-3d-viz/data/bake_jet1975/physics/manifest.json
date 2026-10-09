@@ -1,0 +1,320 @@
+{
+  "created_utc": "2026-09-29T13:11:41+00:00",
+  "python": "3.12.14",
+  "numpy": "2.5.3",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "objects": {
+    "fieldlines": {
+      "file": "fieldlines.npz",
+      "arrays": {
+        "xyz": [
+          7,
+          1281,
+          3
+        ],
+        "psi_n0": [
+          7
+        ],
+        "q": [
+          7
+        ],
+        "kind": [
+          7
+        ]
+      }
+    },
+    "punctures": {
+      "file": "punctures.npz",
+      "arrays": {
+        "points": [
+          3000,
+          3
+        ],
+        "psi_n": [
+          3000
+        ],
+        "seed_id": [
+          3000
+        ],
+        "R": [
+          3000
+        ],
+        "Z": [
+          3000
+        ],
+        "shape": [
+          2
+        ],
+        "label_id": [
+          3000
+        ],
+        "label_names": [
+          4
+        ]
+      }
+    },
+    "flux_surfaces": {
+      "file": "flux_surfaces.npz",
+      "arrays": {
+        "v_000": [
+          30720,
+          3
+        ],
+        "f_000": [
+          30720,
+          4
+        ],
+        "v_001": [
+          30720,
+          3
+        ],
+        "f_001": [
+          30720,
+          4
+        ],
+        "v_002": [
+          30720,
+          3
+        ],
+        "f_002": [
+          30720,
+          4
+        ],
+        "v_003": [
+          30720,
+          3
+        ],
+        "f_003": [
+          30720,
+          4
+        ],
+        "v_004": [
+          30720,
+          3
+        ],
+        "f_004": [
+          30720,
+          4
+        ],
+        "v_005": [
+          30720,
+          3
+        ],
+        "f_005": [
+          30720,
+          4
+        ],
+        "v_006": [
+          30720,
+          3
+        ],
+        "f_006": [
+          30720,
+          4
+        ],
+        "v_007": [
+          30720,
+          3
+        ],
+        "f_007": [
+          30720,
+          4
+        ],
+        "v_008": [
+          30720,
+          3
+        ],
+        "f_008": [
+          30720,
+          4
+        ],
+        "keys": [
+          9
+        ]
+      }
+    },
+    "lcfs": {
+      "file": "lcfs.npz",
+      "arrays": {
+        "verts": [
+          30720,
+          3
+        ],
+        "faces": [
+          30720,
+          4
+        ],
+        "profile": [
+          160,
+          2
+        ]
+      }
+    },
+    "psi_n_grid": {
+      "file": "psi_n_grid.npz",
+      "arrays": {
+        "psi_n": [
+          257,
+          193
+        ],
+        "R": [
+          193
+        ],
+        "Z": [
+          257
+        ],
+        "R_scaled": [
+          193
+        ],
+        "Z_scaled": [
+          257
+        ]
+      }
+    },
+    "q_profile": {
+      "file": "q_profile.npz",
+      "arrays": {
+        "psi_n": [
+          100
+        ],
+        "q": [
+          100
+        ],
+        "dq_dpsin": [
+          100
+        ]
+      }
+    }
+  },
+  "provenance": {
+    "machine": "JET 1975 design (EUR 5516e)",
+    "shot_file": "analytic Solov'ev equilibrium (no shot)",
+    "frame_index": 0,
+    "time_ms": 0.0,
+    "sources": "Table I.3-1 p.83; Fig. IV.2-4 p.330; Table IV.2-4 p.332; Fig. IV.2-1 p.325"
+  },
+  "equilibrium": {
+    "model": "Solov'ev, Cerfon-Freidberg basis (Phys. Plasmas 17, 032502, 2010)",
+    "R0": 2.96,
+    "a": 1.25,
+    "b": 2.1,
+    "kappa": 1.6800000000000002,
+    "delta": 0.3476,
+    "r_axis": 3.1831734464453514,
+    "z_axis": 3.352176489230887e-09,
+    "psi_axis": -0.9926004041053453,
+    "psi_bdy": 0.0,
+    "axis_sign": -1.0,
+    "B0_vacuum_T": 2.77,
+    "B_phi_R0_T": 2.7766779018242107,
+    "F0_Tm": 8.1992,
+    "q0": 2.7956003185701603,
+    "q95": 5.510147150822681,
+    "q_edge": 5.80821425795034,
+    "q_edge_over_q0": 2.0776268407785174,
+    "q_design_Table_I31": 6.0,
+    "q_design_formula_k1p1": 5.991645604493814,
+    "q_round_plasma_cyl_2p6MA": 2.8119315228690227,
+    "q_star_cyl": 3.677059254978663,
+    "A": 0.09483489990234376,
+    "psi0_Wb_per_rad": 15.636966465376952,
+    "method": "cf7",
+    "n_basis": 7,
+    "boundary_residual_max_m": 8.247009212033644e-05,
+    "boundary_residual_rms_m": 3.8600209902017605e-05,
+    "C1_minus_mu0_pprime": 0.1843798517003573,
+    "C2_minus_FFprime": 0.1692533497900303,
+    "Ip_A": 3800000.0000000005,
+    "Ip_area_A": 3799959.127234594,
+    "L_bdy_m": 10.737494904822288,
+    "area_m2": 8.117357668269548,
+    "volume_m3": 145.4577558330718,
+    "p_axis_Pa": 145639.0954736338,
+    "p_avg_Pa": 70820.34888059522,
+    "B_pa_T": 0.44472392078266776,
+    "beta_p": 0.8999470170698319,
+    "beta_t": 0.02319735044303396,
+    "li1": 0.49818962603015304,
+    "li3": 0.42468205067811915,
+    "F_axis_over_F0": 1.0024958992383006
+  },
+  "geometry": {
+    "scale": 1.0,
+    "R0_scaled": 2.96,
+    "units": "m",
+    "note": "true size, same frame as data/bake_jet1975 machine meshes",
+    "flux_surface_levels": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ]
+  },
+  "perturbation": {
+    "kind": "none (axisymmetric)"
+  },
+  "qa": {
+    "psi_invariant_drift_100_turns": 4.108847046003484e-07,
+    "q_traced_vs_contour": [
+      {
+        "psi_n": 0.1,
+        "q_contour": 2.948774400124791,
+        "q_traced": 2.9485230595405008
+      },
+      {
+        "psi_n": 0.3,
+        "q_contour": 3.310496144258031,
+        "q_traced": 3.3104726250676935
+      },
+      {
+        "psi_n": 0.5,
+        "q_contour": 3.7735638245853664,
+        "q_traced": 3.7738866621332443
+      },
+      {
+        "psi_n": 0.7,
+        "q_contour": 4.387505999108384,
+        "q_traced": 4.387686309998412
+      },
+      {
+        "psi_n": 0.9,
+        "q_contour": 5.241502275999663,
+        "q_traced": 5.242287950009446
+      },
+      {
+        "psi_n": 0.95,
+        "q_contour": 5.510147150822677,
+        "q_traced": 5.510707141893524
+      }
+    ],
+    "q_traced_max_rel_err": 0.00014989481419891426,
+    "rational_line_closure": [
+      {
+        "q": 3.0,
+        "turns": 3,
+        "gap_m": 0.0004396839546023633
+      },
+      {
+        "q": 3.5,
+        "turns": 7,
+        "gap_m": 0.0004016360038892589
+      },
+      {
+        "q": 4.0,
+        "turns": 4,
+        "gap_m": 4.162977184830263e-05
+      },
+      {
+        "q": 5.0,
+        "turns": 5,
+        "gap_m": 0.0002089218394693711
+      }
+    ],
+    "integrator": "scipy solve_ivp DOP853, rtol 1e-9..1e-10"
+  }
+}

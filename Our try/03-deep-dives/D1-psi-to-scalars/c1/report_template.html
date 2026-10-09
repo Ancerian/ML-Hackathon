@@ -1,0 +1,446 @@
+<title>Перевірка гіпотези C1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=STIX+Two+Text:ital@0;1&display=swap">
+<style>
+:root{
+  --paper:#f7f6f3; --surface:#ffffff; --ink:#16181d; --muted:#5b6170; --line:#e2e0da;
+  --graphite:#3a3d42; --navy:#0B2A4A; --blue:#0D5690; --on-blue:#ffffff; --sky:#DCE9F5;
+  --oak:#a8703c; --star:#ffffff; --bad:#9b2c2c; --good:#1f6b45;
+  --sans:Inter, system-ui, sans-serif; --mono:"IBM Plex Mono", ui-monospace, monospace;
+  --math:"STIX Two Text", "Times New Roman", serif;
+  --s1:4px; --s2:8px; --s3:16px; --s4:24px; --s5:40px; --s6:64px;
+  --r-sm:6px; --r-md:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#0b1220; --surface:#121a2b; --ink:#e8ecf4; --muted:#9aa4b8; --line:#243049;
+    --graphite:#2b3445; --navy:#163A63; --blue:#8CB8E6; --on-blue:#0b1220; --sky:#14304F;
+    --oak:#c9935c; --star:#e8ecf4; --bad:#f0a3a3; --good:#8fd4ad;
+  }
+  :root:not([data-theme="light"]) .crest-light{display:none}
+  :root:not([data-theme="light"]) .crest-dark{display:block}
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0b1220; --surface:#121a2b; --ink:#e8ecf4; --muted:#9aa4b8; --line:#243049;
+  --graphite:#2b3445; --navy:#163A63; --blue:#8CB8E6; --on-blue:#0b1220; --sky:#14304F;
+  --oak:#c9935c; --star:#e8ecf4; --bad:#f0a3a3; --good:#8fd4ad;
+}
+:root[data-theme="dark"] .crest-light{display:none}
+:root[data-theme="dark"] .crest-dark{display:block}
+
+*{box-sizing:border-box}
+body{background:var(--paper); color:var(--ink); font:400 15px/24px var(--sans); margin:0}
+.wrap{max-width:880px; margin:0 auto; padding-inline:16px; padding-block:var(--s5) var(--s6)}
+h1,h2,h3{text-wrap:balance; margin:0}
+h1{font-size:32px; line-height:38px; font-weight:700}
+h2{font-size:22px; line-height:30px; font-weight:600}
+h3{font-size:17px; line-height:24px; font-weight:600}
+p{margin:0; max-width:66ch}
+a{color:var(--blue)}
+.label{font:500 11px/16px var(--mono); letter-spacing:.16em; text-transform:uppercase; color:var(--blue)}
+.data,.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.small{font-size:13px; line-height:20px}
+i.v,.math{font-family:var(--math); font-style:italic; font-size:16px}
+.math-block{font-family:var(--math); font-size:17px; line-height:28px; padding-block:var(--s2); overflow-x:auto}
+.math-block .up{font-style:normal}
+
+/* header */
+.doc-head{display:grid; grid-template-columns:auto 1fr auto; gap:var(--s3); align-items:center;
+  padding-bottom:var(--s3); border-bottom:1px solid var(--line)}
+.crest{width:44px; height:auto}
+.crest-dark{display:none}
+.org{display:grid; gap:2px}
+.org .u{font-weight:600}
+.org .f,.org .l{font-size:13px; line-height:18px; color:var(--muted)}
+.logo-slot{width:92px; height:52px; border:1px dashed var(--muted); border-radius:var(--r-sm);
+  display:grid; place-items:center; text-align:center; font:500 10px/13px var(--mono);
+  letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding:4px}
+@media (max-width:520px){ .doc-head{grid-template-columns:auto 1fr} .logo-slot{display:none} }
+
+.title{display:grid; gap:var(--s1); margin-top:var(--s5)}
+.lead{font-size:17px; line-height:27px; color:var(--muted); margin-top:var(--s3); max-width:62ch}
+
+/* verdict */
+.verdict{margin-top:var(--s4); background:var(--surface); border:1px solid var(--line); border-radius:var(--r-md);
+  padding:var(--s4); display:grid; gap:var(--s3)}
+.chips{display:flex; flex-wrap:wrap; gap:var(--s2)}
+.chip{font:500 12px/16px var(--mono); padding:5px 10px; border-radius:999px; border:1px solid var(--line); white-space:nowrap}
+.chip.bad{color:var(--bad); border-color:currentColor}
+.chip.good{color:var(--good); border-color:currentColor}
+.chip.info{color:var(--blue); border-color:currentColor}
+.freqs{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1px; background:var(--line);
+  border:1px solid var(--line); border-radius:var(--r-sm); overflow:hidden}
+.freq{background:var(--paper); padding:var(--s3) 12px; display:grid; gap:2px; align-content:start}
+.freq .big{font:500 26px/32px var(--mono); font-variant-numeric:tabular-nums}
+.freq .cap{font-size:13px; line-height:18px; color:var(--muted)}
+.freq.hi .big{color:var(--blue)}
+@media (max-width:640px){ .freqs{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
+section{margin-top:var(--s6); display:grid; gap:var(--s3)}
+section > .label{margin-bottom:calc(var(--s1) - var(--s3))}
+section > *, .verdict > *, .two > *, .card > *, figure > *{min-width:0}
+.nt{text-transform:none; letter-spacing:0; font-family:var(--math); font-style:italic; font-size:13px}
+
+.tbl{overflow-x:auto; border:1px solid var(--line); border-radius:var(--r-md); background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:14px; line-height:20px}
+th,td{padding:8px 12px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top}
+tr:last-child td{border-bottom:none}
+th{font:500 11px/16px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted); white-space:nowrap}
+td.n,th.n{text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; white-space:nowrap}
+td.hl{color:var(--blue); font-weight:600}
+code{font:13px/20px var(--mono); background:var(--sky); padding:1px 5px; border-radius:4px; overflow-wrap:anywhere}
+
+.steps{list-style:none; margin:0; padding:0; display:grid; gap:0; border-left:1px solid var(--line)}
+.steps li{display:grid; grid-template-columns:40px 1fr; gap:var(--s2); padding:10px 0}
+.steps .k{font:500 12px/24px var(--mono); color:var(--blue); text-align:center; position:relative}
+.steps .k::before{content:""; position:absolute; left:-4px; top:9px; width:7px; height:7px; border-radius:50%; background:var(--blue)}
+.steps b{font-weight:600}
+
+.note{background:var(--sky); border-radius:var(--r-md); padding:var(--s3); font-size:14px; line-height:22px}
+.note p{max-width:none}
+
+figure{margin:0; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-md); padding:var(--s3)}
+.chart{overflow-x:auto}
+.chart svg{display:block; width:100%; min-width:520px; height:auto}
+figcaption{font-size:13px; line-height:20px; color:var(--muted); margin-top:var(--s2)}
+.legend{display:flex; flex-wrap:wrap; gap:6px 18px; font-size:13px; line-height:18px; margin-top:var(--s2)}
+.legend span{display:inline-flex; align-items:center; gap:6px}
+.legend svg{flex:none}
+svg text{font-family:var(--mono); font-size:11px; fill:var(--muted)}
+svg .axis{stroke:var(--line); stroke-width:1}
+svg .grid{stroke:var(--line); stroke-width:1; stroke-dasharray:2 3}
+svg .band{fill:var(--sky)}
+
+.stars{list-style:none; margin:0; padding:0; display:grid; gap:var(--s3)}
+.stars li{display:grid; grid-template-columns:20px 1fr; gap:var(--s2)}
+.stars li::before{content:"✦"; color:var(--blue); font-size:13px; line-height:24px}
+
+.two{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--s3)}
+@media (max-width:640px){ .two{grid-template-columns:1fr} }
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-md); padding:var(--s3); display:grid; gap:var(--s2); align-content:start}
+
+pre{margin:0; font:13px/20px var(--mono); background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r-md); padding:var(--s3); overflow-x:auto}
+footer{margin-top:var(--s6); padding-top:var(--s3); border-top:1px solid var(--line); font-size:13px; line-height:20px; color:var(--muted); display:grid; gap:var(--s1)}
+footer p{max-width:none}
+:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
+</style>
+
+<div class="wrap">
+  <header class="doc-head">
+    <div>
+      <img class="crest crest-light" src="CREST_LIGHT" alt="Герб Фізико-математичного факультету">
+      <img class="crest crest-dark" src="CREST_DARK" alt="Герб Фізико-математичного факультету">
+    </div>
+    <div class="org">
+      <span class="u">КПІ імені Ігоря Сікорського</span>
+      <span class="f">Фізико-математичний факультет</span>
+      <span class="l">AI-лабораторія імені професора В.&nbsp;М.&nbsp;Горшкова</span>
+    </div>
+    <div class="logo-slot" aria-hidden="true">логотип лабораторії</div>
+  </header>
+
+  <div class="title">
+    <span class="label">Дослідження · Гіпотеза C1 · 30.09.2026</span>
+    <h1>Перевірка гіпотези C1</h1>
+  </div>
+  <p class="lead">Чи відповідають три кластери показників підсилення <i class="v">α</i> трьом механізмам (екстремум, контур крізь сідло, інтеграл)? Ні. Кластери були властивістю трьох демо-розрядів, на яких їх помітили. Натомість встановлено механізм для положення магнітної осі.</p>
+
+  <div class="verdict">
+    <div class="chips">
+      <span class="chip bad">C1 → R10 · спростовано</span>
+      <span class="chip bad">H-alt · спростовано</span>
+      <span class="chip good">E36 · встановлено</span>
+      <span class="chip info">E14 · відтворено</span>
+    </div>
+    <div>
+      <p class="small muted" style="margin-bottom:8px">Частка з 1000 бутстреп-повторень (перевибірка розрядів), у яких повторюється розбиття C1. Білий шум, показник <i class="v">α</i> оцінено як у D1.</p>
+      <div class="freqs" id="freqs"></div>
+    </div>
+  </div>
+
+  <section>
+    <span class="label">Контекст</span>
+    <h2>Що стверджувала C1</h2>
+    <p>Розбір D1 проєкту міряв, як похибка карти потоку <i class="v">ψ</i> переходить у похибку семи скалярів, за якими конкурс оцінює рівновагу. Без навчання: до справжнього <i class="v">ψ</i> додаємо збурення контрольованої норми й перераховуємо скаляри кодом самого скорера. Показник підсилення <i class="v">α</i> — нахил у логарифмічних координатах:</p>
+    <div class="math-block">|<i>f</i>(<i>ψ</i> + <i>δψ</i>) − <i>f</i>(<i>ψ</i>)| / <i>σ<sub>f</sub></i> ≈ <i>C</i> · <i>e</i><sup><i>α</i></sup>, &nbsp;&nbsp; <i>e</i> = ‖<i>δψ</i>‖ / ‖<i>ψ</i> − <i>ψ̄</i>‖, &nbsp;&nbsp; <i>R</i><sup class="up">2</sup><sub><i>ψ</i></sub> = 1 − <i>e</i><sup class="up">2</sup></div>
+    <p>На трьох демо-розрядах DIII-D (60 кадрів) показники розпалися на три групи (запис E2). Гіпотеза C1 пов'язала кожну групу з окремим механізмом:</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Кластер</th><th class="n"><span class="nt">α</span> (D1)</th><th>Скаляри</th><th>Механізм за C1</th></tr></thead>
+      <tbody>
+        <tr><td>K1</td><td class="n">0,53–0,55</td><td><code>R_axis</code> <code>Z_axis</code></td><td>положення екстремуму (магнітна вісь)</td></tr>
+        <tr><td>K2</td><td class="n">0,35–0,42</td><td><code>kappa</code> <code>tri_top</code> <code>tri_bot</code></td><td>контур крізь сідло (X-точку)</td></tr>
+        <tr><td>K3</td><td class="n">0,70</td><td><code>volume</code> <code>li</code></td><td>інтеграл по області</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Що спростує C1:</b> синтетика з контрольованою геометрією дає інші кластери, або кластери зникають при зміні вибірки розрядів. Від відповіді залежало, чи D1 — теорія, чи каталог чисел.</p>
+  </section>
+
+  <section>
+    <span class="label">Метод</span>
+    <h2>Як перевіряли</h2>
+    <ol class="steps">
+      <li><span class="k">0</span><div><b>Попередня реєстрація.</b> До нових обчислень записали, як скорер рахує кожен скаляр, яке <i class="v">α</i> очікуємо (механізми P1–P7), що таке «кластер» (одновимірна k-means, силует &gt; 0,5) і за яких чисел C1 підтверджено чи спростовано. Поруч зареєстрували конкурентну гіпотезу H-alt: «положення екстремуму ≈ ½, значення й інтеграли ≳ 0,8».</div></li>
+      <li><span class="k">1</span><div><b>Відтворення D1.</b> Нове ядро розгортки на тих самих 60 кадрах дає старі <i class="v">α</i> до четвертого знака.</div></li>
+      <li><span class="k">2</span><div><b>Локальні моделі.</b> Параболоїд із кривиною <i class="v">λ</i> = 1…16 на сітці DIII-D (вісь шукає функція скорера) і аналітична «крапля» з X-точкою через увесь скорер.</div></li>
+      <li><span class="k">3</span><div><b>Повна синтетика.</b> 12 однонульових рівноваг Серфона–Фрайдберга (7 парних і 5 непарних однорідних розв'язків, 12 умов). Усі форми пройшли перевірку: X-точка — сідло, LCFS доходить до неї з точністю до 0,2 клітинки.</div></li>
+      <li><span class="k">4</span><div><b>Реальні дані.</b> 28 розрядів DIII-D (3 демо + 25 з корпусу Hugging Face, 280 кадрів), контрольно — 3 демо-розряди і 3 розряди MAST. Бутстреп 1000× по <em>розрядах</em>: кадри одного розряду корельовані, тож перевибірка кадрів дала б оманливо вузькі інтервали.</div></li>
+      <li><span class="k">5</span><div><b>Вердикт</b> — лише за критеріями кроку 0.</div></li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="label">Результат</span>
+    <h2>Кластери залежать від вибірки</h2>
+    <p>На 28 розрядах DIII-D <code>li</code> падає з 0,70 до 0,47 і потрапляє в інтервал осі. На MAST <code>Z_axis</code> переходить до інтегралів. На синтетиці <code>kappa</code> відходить від трикутностей. Групи E2 не відтворюються ніде, крім трьох демо-розрядів.</p>
+    <figure>
+      <div class="chart" id="chart1" role="img" aria-label="Показники альфа для семи скалярів у чотирьох вибірках із 95-відсотковими інтервалами"></div>
+      <div class="legend" id="legend1"></div>
+      <figcaption>Показники <i class="v">α</i> (білий шум, оцінювач D1) з 95 % бутстреп-інтервалами. Блакитні смуги — три кластери E2.</figcaption>
+    </figure>
+    <div class="tbl"><table id="tbl-alpha"></table></div>
+    <div class="note"><p><b>Гладке збурення</b> (хвильові числа |<i>k</i>| &lt; 4) дає <i class="v">α</i> ≈ 0,69–1,08 на всіх вибірках, і трикластерної структури немає ніде (C1 — 0 %). Отже, <i class="v">α</i> &lt; 1 у D1 — ознака саме шорсткого, повузлового шуму.</p></div>
+  </section>
+
+  <section>
+    <span class="label">Встановлено · E36</span>
+    <h2>Механізм для положення осі</h2>
+    <p>Скорер шукає вісь як максимум на вузлах сітки з параболічним уточненням. Поки шум у вузлі <i class="v">η</i> малий, уточнення лінійне, і <i class="v">α</i> = 1. Коли <i class="v">η</i> перевищує поріг, максимум перестрибує між вузлами на відстань ~√(2<i>η</i>/<i>λ</i>), і <i class="v">α</i> падає до ≈ 0,4–0,5:</p>
+    <div class="math-block"><i>η</i>* = <i>λ h</i><sup class="up">2</sup> / 2, &nbsp;&nbsp; <i>h</i><sub class="up">R</sub> = 2,66 см, &nbsp; <i>h</i><sub class="up">Z</sub> = 5,0 см</div>
+    <figure>
+      <div class="chart" id="chart2" role="img" aria-label="Локальний нахил похибки осі проти відношення шуму до порогового"></div>
+      <div class="legend" id="legend2"></div>
+      <figcaption>Параболоїд, 300 спроб на точку. Локальний нахил медіанного |Δ<i>R</i><sub>axis</sub>| проти <i>η</i>/<i>η</i>*. П'ять кривих білого шуму (<i>λ</i> = 1…16) лягають на одну; гладке збурення тримає нахил 1 до геометричного насичення.</figcaption>
+    </figure>
+    <div class="two">
+      <div class="card">
+        <span class="label">E14 · відтворено</span>
+        <p class="small">|Δ<i>R</i>|·√<i>λ</i> при <i>η</i> = 10⁻²: сталий у межах <b class="num" id="e14r"></b> на 16-кратному діапазоні <i>λ</i> (у реєстрі ±7 %). Для <i>Z</i> — <span class="num" id="e14z"></span>: крок сітки 5 см, і для великих <i>λ</i> режим стрибків ще не настав.</p>
+        <div class="tbl"><table id="tbl-e14"></table></div>
+      </div>
+      <div class="card">
+        <span class="label">R6 · механізм відтворено</span>
+        <p class="small"><i class="v">α</i>, підігнаний у фіксованому вікні <i>η</i> ∈ [10⁻⁵; 10⁻²], зростає з кривиною: вікно захоплює більше лінійного режиму. Реєстр для <i>λ</i> = 1 і 4 давав 0,687 і 0,841; точне вікно того тесту невідоме.</p>
+        <div class="tbl"><table id="tbl-r6"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="label">Інші передбачення</span>
+    <h2>Що справдилось, а що ні</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Скаляр</th><th>Що рахує скорер</th><th class="n">Прогноз <span class="nt">α</span></th><th class="n">Виміряно</th><th>Стан</th></tr></thead>
+      <tbody>
+        <tr><td><code>R_axis</code> <code>Z_axis</code></td><td>положення максимуму на сітці</td><td class="n">1 → ½</td><td class="n">1 → 0,4–0,5</td><td>підтверджено (E36)</td></tr>
+        <tr><td><code>tri_top</code> <code>tri_bot</code></td><td><i>R</i> у точці argmax <i>Z</i> серед 512 точок контуру</td><td class="n">½</td><td class="n">0,34–0,42</td><td>нижче прогнозу</td></tr>
+        <tr><td><code>kappa</code></td><td>значення екстремумів контуру</td><td class="n">≈ 1 (з домішкою ½)</td><td class="n">0,34–0,66</td><td>не підтверджено</td></tr>
+        <tr><td><code>volume</code></td><td>інтеграл по області LCFS</td><td class="n">0,8–0,95</td><td class="n">0,67–0,94</td><td>приблизно</td></tr>
+        <tr><td><code>li</code></td><td>⟨<i>B</i><sub>p</sub>²⟩ / (∮<i>B</i><sub>p</sub> d<i>l</i> / <i>l</i><sub>p</sub>)²</td><td class="n">≥ 1</td><td class="n">0,92–0,97 синт.; 0,47 DIII-D</td><td>загадка</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <span class="label">Відкрите</span>
+    <h2>Що лишилося з'ясувати</h2>
+    <ul class="stars">
+      <li><div><b>Чому <code>li</code> дає 0,47 на реальних кадрах, а на синтетиці ≈ 0,95.</b> На реальних рівновагах <code>li</code> чутливе до чогось, чого немає в розв'язках Соловйова. Перше, що варто перевірити: чим задано LCFS (сідлом чи дотиком до стінки) і як часто вона перескакує під шумом.</div></li>
+      <li><div><b>Чому трикутності нижче ½.</b> Імовірна причина: <i>R</i> береться в argmax <i>Z</i> серед дискретних точок контуру і змінюється стрибками. Перевірка: уточнити вершину контуру параболою.</div></li>
+      <li><div><b>Хвіст PCA.</b> На 28 розрядах дає розбиття C1 у 100 % повторень, але на MAST і синтетиці — 0 %. Базис PCA сам залежить від вибірки, тож це спостереження, а не підтримка C1.</div></li>
+      <li><div><b>Гіпотеза C3.</b> Кривизна на осі <i>λ</i> на 28 розрядах лежить у межах 0,13–3,6: розподіл широкий, головний спростовувач не спрацював. Але <i class="v">α</i> осі між терцилями <i>λ</i> змінюється слабко й непослідовно. Вердикту ще немає.</div></li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="label">Проєкт</span>
+    <h2>Що змінено</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Де</th><th>Що</th></tr></thead>
+      <tbody>
+        <tr><td>Реєстри <code>Our try/00-decisions/</code></td><td>C1 закрито → нова <b>R10</b>; нова <b>E36</b>; E2 з обмеженням «лише 3 розряди»; E1 з приміткою про тип шуму; E14 і R6 відтворено; C3 доповнено; журнал змін №93–100</td></tr>
+        <tr><td>Розбір D1 <code>findings.md</code></td><td>новий розділ «Перевірка C1» (укр. + English summary)</td></tr>
+        <tr><td>Код і дані <code>…/D1-psi-to-scalars/c1/</code></td><td>теорія й критерії, 9 скриптів, результати, рисунки; повне відтворення ~6 хв на 8 ядрах</td></tr>
+        <tr><td>Путівник</td><td>розд. 2: підрозділ «Перевірка C1»; оновлено розд. 0 і 10 та покажчик (160 пунктів); 83 с.</td></tr>
+        <tr><td>Методичка</td><td>розд. 3: рамка R10, опис E36, оновлена C3; 75 с.</td></tr>
+        <tr><td>Дані</td><td>+25 розрядів DIII-D з корпусу Fusion Equilibrium Challenge (359 МБ, CC BY 4.0)</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Відтворення</h3>
+<pre>cd "fusion equilibrium challenge/starter"
+P="../../Our try/03-deep-dives/D1-psi-to-scalars/c1"
+.venv/bin/python "$P/fetch_hf.py" --n 25       # один раз, ~0,36 ГБ
+.venv/bin/python "$P/step1_baseline.py"         # ~15 с
+.venv/bin/python "$P/local_models.py"           # ~30 с
+.venv/bin/python "$P/cf_xpoint.py"              # ~20 с
+.venv/bin/python "$P/real_sweep.py" 1000        # ~2 хв
+.venv/bin/python "$P/summarise.py"</pre>
+    <p class="small muted">Наступна перевірка: <a href="https://claude.ai/artifact/EqXuv2PCrL7Hr4F1Sf7jBM" target="_blank" rel="noopener">Перевірка гіпотези C2</a> — спектрально зважена втрата (спростовано → R11).</p>
+  </section>
+
+  <footer>
+    <p>Власний розрахунок проєкту «Моделювання потоку плазми в контурі токамаку». Код: <code>Our try/03-deep-dives/D1-psi-to-scalars/c1/</code>.</p>
+    <p>Дані рівноваг: Fusion Equilibrium Challenge (Sophelio / General Atomics), CC BY 4.0. Аналітичні рівноваги: Cerfon A. J., Freidberg J. P., Phys. Plasmas 17, 032502 (2010).</p>
+    <p class="data">30.09.2026</p>
+  </footer>
+</div>
+
+<script>
+const DATA = /*DATA*/null;
+const NS = "http://www.w3.org/2000/svg";
+const fmt = (x, d = 2) => x.toFixed(d).replace(".", ",");
+const pct = x => (Math.round(x * 1000) / 10).toString().replace(".", ",") + " %";
+function el(tag, attrs = {}, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const SERIES = {
+  demo: {color: "var(--muted)", shape: "circle"},
+  d28:  {color: "var(--blue)",  shape: "square"},
+  mast: {color: "var(--oak)",   shape: "triangle"},
+  cf:   {color: "var(--ink)",   shape: "diamond"},
+};
+function marker(g, shape, x, y, r, color) {
+  const a = {fill: color, stroke: color};
+  if (shape === "circle") return el("circle", {cx: x, cy: y, r, ...a}, g);
+  if (shape === "square") return el("rect", {x: x - r, y: y - r, width: 2 * r, height: 2 * r, ...a}, g);
+  if (shape === "triangle") return el("path", {d: `M${x},${y - r * 1.2} L${x + r * 1.1},${y + r * 0.8} L${x - r * 1.1},${y + r * 0.8} Z`, ...a}, g);
+  return el("path", {d: `M${x},${y - r * 1.3} L${x + r},${y} L${x},${y + r * 1.3} L${x - r},${y} Z`, ...a}, g);
+}
+function legendSwatch(shape, color) {
+  const s = el("svg", {width: 14, height: 14, viewBox: "0 0 14 14"});
+  marker(s, shape, 7, 7, 4, color);
+  return s;
+}
+
+// ---- verdict strip
+(function () {
+  const box = document.getElementById("freqs");
+  DATA.samples.forEach(s => {
+    const d = document.createElement("div");
+    d.className = "freq" + (s.c1 > 0.5 ? " hi" : "");
+    d.innerHTML = `<span class="big">${pct(s.c1)}</span><span class="cap">${s.label}</span>`;
+    box.appendChild(d);
+  });
+})();
+
+// ---- chart 1: alpha by scalar and sample
+(function () {
+  const W = 760, H = 330, L = 50, R = 12, T = 14, B = 40;
+  const y0 = 0.2, y1 = 1.05, n = DATA.names.length;
+  const X = i => L + (i + 0.5) * (W - L - R) / n;
+  const Y = v => T + (y1 - v) / (y1 - y0) * (H - T - B);
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`});
+  for (const [lo, hi] of [[0.53, 0.55], [0.35, 0.42], [0.695, 0.705]])
+    el("rect", {class: "band", x: L, width: W - L - R, y: Y(hi) - 1, height: Y(lo) - Y(hi) + 2}, svg);
+  for (let v = 0.2; v <= 1.0001; v += 0.1) {
+    el("line", {class: "grid", x1: L, x2: W - R, y1: Y(v), y2: Y(v)}, svg);
+    const t = el("text", {x: L - 8, y: Y(v) + 4, "text-anchor": "end"}, svg); t.textContent = fmt(v, 1);
+  }
+  el("line", {class: "axis", x1: L, x2: W - R, y1: H - B, y2: H - B}, svg);
+  const yl = el("text", {x: 12, y: T + (H - T - B) / 2, transform: `rotate(-90 12 ${T + (H - T - B) / 2})`, "text-anchor": "middle"}, svg);
+  yl.textContent = "α";
+  DATA.names.forEach((nm, i) => {
+    const t = el("text", {x: X(i), y: H - B + 20, "text-anchor": "middle"}, svg); t.textContent = nm;
+  });
+  DATA.samples.forEach((s, j) => {
+    const st = SERIES[s.key], off = (j - 1.5) * 15;
+    const g = el("g", {}, svg);
+    s.alpha.forEach((a, i) => {
+      const [lo, hi] = s.ci[i], x = X(i) + off;
+      el("line", {x1: x, x2: x, y1: Y(Math.min(hi, y1)), y2: Y(Math.max(lo, y0)), stroke: st.color, "stroke-width": 1.5}, g);
+      for (const v of [lo, hi]) el("line", {x1: x - 3, x2: x + 3, y1: Y(v), y2: Y(v), stroke: st.color, "stroke-width": 1.5}, g);
+      const m = marker(g, st.shape, x, Y(a), 4, st.color);
+      const tt = el("title", {}, m); tt.textContent = `${s.label}: ${nm(i)} α = ${fmt(a, 3)} [${fmt(lo)}; ${fmt(hi)}]`;
+    });
+  });
+  function nm(i) { return DATA.names[i]; }
+  document.getElementById("chart1").appendChild(svg);
+  const lg = document.getElementById("legend1");
+  DATA.samples.forEach(s => {
+    const sp = document.createElement("span");
+    sp.appendChild(legendSwatch(SERIES[s.key].shape, SERIES[s.key].color));
+    sp.append(`${s.label} — C1 у ${pct(s.c1)}`);
+    lg.appendChild(sp);
+  });
+})();
+
+// ---- alpha table
+(function () {
+  const t = document.getElementById("tbl-alpha");
+  let h = "<thead><tr><th>Вибірка</th>" + DATA.names.map(n => `<th class="n" style="text-transform:none">${n}</th>`).join("") + '<th class="n">C1</th></tr></thead><tbody>';
+  DATA.samples.forEach(s => {
+    h += `<tr><td>${s.label}</td>` + s.alpha.map(a => `<td class="n">${fmt(a)}</td>`).join("") +
+         `<td class="n${s.c1 > 0.5 ? " hl" : ""}">${pct(s.c1)}</td></tr>`;
+  });
+  t.innerHTML = h + "</tbody>";
+})();
+
+// ---- chart 2: P1 crossover
+(function () {
+  const m = DATA.m1, W = 760, H = 320, L = 50, R = 12, T = 14, B = 44;
+  const x0 = -4.5, x1 = 2.5, y0 = 0.2, y1 = 1.2;
+  const X = lx => L + (lx - x0) / (x1 - x0) * (W - L - R);
+  const Y = v => T + (y1 - v) / (y1 - y0) * (H - T - B);
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`});
+  for (let v = 0.2; v <= 1.2001; v += 0.2) {
+    el("line", {class: "grid", x1: L, x2: W - R, y1: Y(v), y2: Y(v)}, svg);
+    const t = el("text", {x: L - 8, y: Y(v) + 4, "text-anchor": "end"}, svg); t.textContent = fmt(v, 1);
+  }
+  const sup = {"-4": "⁻⁴", "-3": "⁻³", "-2": "⁻²", "-1": "⁻¹", "0": "⁰", "1": "¹", "2": "²"};
+  for (let e = -4; e <= 2; e++) {
+    el("line", {class: "grid", x1: X(e), x2: X(e), y1: T, y2: H - B}, svg);
+    const t = el("text", {x: X(e), y: H - B + 18, "text-anchor": "middle"}, svg); t.textContent = "10" + sup[e];
+  }
+  const xl = el("text", {x: L + (W - L - R) / 2, y: H - 6, "text-anchor": "middle"}, svg); xl.textContent = "η / η*";
+  el("line", {x1: L, x2: W - R, y1: Y(1), y2: Y(1), stroke: "var(--ink)", "stroke-width": 1}, svg);
+  el("line", {x1: L, x2: W - R, y1: Y(0.5), y2: Y(0.5), stroke: "var(--ink)", "stroke-width": 1, "stroke-dasharray": "5 4"}, svg);
+  el("line", {x1: X(0), x2: X(0), y1: T, y2: H - B, stroke: "var(--oak)", "stroke-width": 1.5}, svg);
+  const ta = el("text", {x: X(0) + 6, y: T + 12}, svg); ta.textContent = "η = η*";
+  const mids = m.etas.slice(1).map((e, j) => Math.sqrt(e * m.etas[j]));
+  m.lambdas.forEach((lam, k) => {
+    const es = lam * m.hR * m.hR / 2;
+    for (const fam of ["smooth", "white"]) {
+      const pts = m[fam][k].map((s, j) => [Math.log10(mids[j] / es), s])
+        .filter(([lx, s]) => lx >= x0 && lx <= x1 && s >= y0 && s <= y1);
+      el("path", {d: "M" + pts.map(([lx, s]) => `${X(lx).toFixed(1)},${Y(s).toFixed(1)}`).join(" L"),
+        fill: "none", stroke: fam === "white" ? "var(--blue)" : "var(--muted)",
+        "stroke-width": fam === "white" ? 1.6 : 1.4, "stroke-opacity": fam === "white" ? (0.5 + 0.1 * k) : 0.9,
+        "stroke-dasharray": fam === "white" ? "none" : "3 3"}, svg);
+    }
+  });
+  document.getElementById("chart2").appendChild(svg);
+  const lg = document.getElementById("legend2");
+  const line = (color, dash) => {
+    const s = el("svg", {width: 26, height: 10, viewBox: "0 0 26 10"});
+    el("line", {x1: 1, x2: 25, y1: 5, y2: 5, stroke: color, "stroke-width": 2, "stroke-dasharray": dash}, s);
+    return s;
+  };
+  for (const [c, d, t] of [["var(--blue)", "none", "білий шум, λ = 1, 2, 4, 8, 16"],
+                           ["var(--muted)", "3 3", "гладке збурення, ті самі λ"],
+                           ["var(--oak)", "none", "поріг η = η* = λh²/2"]]) {
+    const sp = document.createElement("span"); sp.appendChild(line(c, d)); sp.append(t); lg.appendChild(sp);
+  }
+})();
+
+// ---- E14 / R6 tables
+(function () {
+  const m = DATA.m1;
+  const pr = m.e14.map(r => r[0]), pz = m.e14.map(r => r[1]);
+  const spread = a => (Math.max(...a) - Math.min(...a)) / (a.reduce((s, v) => s + v, 0) / a.length) / 2;
+  document.getElementById("e14r").textContent = "±" + fmt(100 * spread(pr), 1) + " %";
+  document.getElementById("e14z").textContent = "±" + fmt(100 * spread(pz), 0) + " %";
+  let h = '<thead><tr><th class="n"><span class="nt">λ</span></th><th class="n"><span class="nt">|ΔR|·√λ</span></th><th class="n"><span class="nt">|ΔZ|·√λ</span></th></tr></thead><tbody>';
+  m.lambdas.forEach((l, i) => { h += `<tr><td class="n">${l}</td><td class="n">${fmt(pr[i], 4)}</td><td class="n">${fmt(pz[i], 4)}</td></tr>`; });
+  document.getElementById("tbl-e14").innerHTML = h + "</tbody>";
+  h = '<thead><tr><th class="n"><span class="nt">λ</span></th><th class="n"><span class="nt">α</span> у вікні</th></tr></thead><tbody>';
+  m.lambdas.forEach((l, i) => { h += `<tr><td class="n">${l}</td><td class="n">${fmt(m.r6[i], 3)}</td></tr>`; });
+  document.getElementById("tbl-r6").innerHTML = h + "</tbody>";
+})();
+</script>

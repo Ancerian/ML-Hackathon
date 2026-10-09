@@ -1,0 +1,50 @@
+# JET 1975 Design Proposal (EUR 5516e): outer axisymmetric 'rail' limiter (one of 3 rail limiters, p.301; Fig. IV.1-1 p.296,
+# plan Fig. IV.1-9 p.313). Plates: molybdenum 100 x 60 cm, 1 cm thick, 16 plates in the outer rail (p.314).
+# Poloidal cross-section of one plate, ASSUMED geometry: face at R = 4.21 m on the midplane (Re(plasma) = limiter-defined boundary,
+# Table I.3-1 p.83), 100 cm taken as the poloidal length (|Z| <= 0.5 m, assumption; 60 cm then toroidal), face curvature following the
+# Table IV.2-4 D-boundary near the midplane (fit R = 4.1998 -0.2119*Z^2, re-centred at 4.21 m), thickness 1 cm.
+# confidence: assumed (orientation 100/60 not stated; exact plate shape 'not yet defined in detail', p.314). Units: metres.
+part,R_m,Z_m
+plate_face,4.1570,-0.5000
+plate_face,4.1671,-0.4500
+plate_face,4.1761,-0.4000
+plate_face,4.1840,-0.3500
+plate_face,4.1909,-0.3000
+plate_face,4.1968,-0.2500
+plate_face,4.2015,-0.2000
+plate_face,4.2052,-0.1500
+plate_face,4.2079,-0.1000
+plate_face,4.2095,-0.0500
+plate_face,4.2100,0.0000
+plate_face,4.2095,0.0500
+plate_face,4.2079,0.1000
+plate_face,4.2052,0.1500
+plate_face,4.2015,0.2000
+plate_face,4.1968,0.2500
+plate_face,4.1909,0.3000
+plate_face,4.1840,0.3500
+plate_face,4.1761,0.4000
+plate_face,4.1671,0.4500
+plate_face,4.1570,0.5000
+plate_back,4.1670,0.5000
+plate_back,4.1771,0.4500
+plate_back,4.1861,0.4000
+plate_back,4.1940,0.3500
+plate_back,4.2009,0.3000
+plate_back,4.2068,0.2500
+plate_back,4.2115,0.2000
+plate_back,4.2152,0.1500
+plate_back,4.2179,0.1000
+plate_back,4.2195,0.0500
+plate_back,4.2200,0.0000
+plate_back,4.2195,-0.0500
+plate_back,4.2179,-0.1000
+plate_back,4.2152,-0.1500
+plate_back,4.2115,-0.2000
+plate_back,4.2068,-0.2500
+plate_back,4.2009,-0.3000
+plate_back,4.1940,-0.3500
+plate_back,4.1861,-0.4000
+plate_back,4.1771,-0.4500
+plate_back,4.1670,-0.5000
+plate_face,4.1570,-0.5000

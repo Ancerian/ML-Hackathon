@@ -1,0 +1,601 @@
+% Загальний аналіз опрацьованої літератури до теми
+% «Моделювання потоку плазми в контурі токамаку»
+% Компіляція: xelatex (двічі) або latexmk -xelatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{ukrainian}
+\setotherlanguage{english}
+\setmainfont{cmunrm}[Extension=.otf,BoldFont=cmunbx,ItalicFont=cmunti,BoldItalicFont=cmunbi]
+\setsansfont{cmunss}[Extension=.otf,BoldFont=cmunsx,ItalicFont=cmunsi,BoldItalicFont=cmunso]
+\setmonofont{cmuntt}[Extension=.otf,BoldFont=cmuntb,ItalicFont=cmunit,BoldItalicFont=cmuntx]
+
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=green!40!black,urlcolor=blue!60!black]{hyperref}
+\usepackage{xurl}
+
+\setlist{itemsep=2pt,topsep=4pt}
+\newcommand{\rel}[1]{\textbf{#1}}
+\newcommand{\file}[1]{\texttt{\small #1}}
+\renewcommand{\arraystretch}{1.15}
+
+\title{Моделювання потоку плазми в контурі токамаку:\\
+       загальний аналіз опрацьованої літератури}
+\author{Огляд корпусу джерел із теки \file{library}}
+\date{28 вересня 2026 р.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Проаналізовано 32 повнотекстові документи (1139 сторінок), завантажені з відкритих
+джерел за списком літератури до теми «Моделювання потоку плазми в контурі токамаку»
+(ключові слова: JET, динаміка плазми, токамак). Документи класифіковано за вісьмома
+тематичними кластерами й оцінено за релевантністю темі за шкалою 0–5. Ядро корпусу
+утворюють роботи з неокласичної теорії та експериментальних даних про тороїдальні й
+полоїдальні потоки плазми і радіальне електричне поле $E_r$
+\cite{Singh2004,Sigmar1987,Seto2014,Ida2001}. На їх основі запропоновано каркас
+математичної моделі для проєкту. Головна прогалина корпусу --- відсутність робіт,
+що безпосередньо моделюють потоки на JET: JET фігурує лише як верифікаційний розряд
+або довідкові параметри \cite{Hoppe2022,Tyshchenko2021,vanVugt2019}.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{Мета, обсяг і методика аналізу}
+
+\paragraph{Мета.} Визначити, які з опрацьованих джерел можуть лягти в основу
+математичної моделі потоку плазми в токамаці, які --- дають контекст або дані для
+валідації, а які є непрофільними; виявити прогалини в корпусі.
+
+\paragraph{Обсяг корпусу.} Зі списку літератури (\file{«Моделювання потоку плазми в
+контурі токамаку».md}, $\approx 80$ позицій) у відкритому доступі вдалося отримати
+32 документи:
+\begin{itemize}
+  \item CORE (агрегатор відкритого доступу) --- 20 документів;
+  \item Google Scholar (дисертації ХФТІ, ХНУ, УФЖ) --- 5;
+  \item Наукова періодика України (НБУВ) --- 3;
+  \item Репозитарій НТУ «ХПІ» --- 4.
+\end{itemize}
+Не отримано: ELAKPI (13 позицій; репозитарій доступний лише з мережі КПІ), друковані
+видання фонду Бібліотеки КПІ (6), статті SpringerLink (12; з них 4 у відкритому
+доступі, але сайт блокує автоматичне завантаження), три класичні статті
+\emph{Nuclear Fusion} (Арцимович 1972, Furth 1975, Муховатов--Шафранов 1971), книга
+R.~B.~White, а також матеріали з файлообмінника twirpx (свідомо не завантажувались).
+
+\paragraph{Методика.}
+\begin{enumerate}
+  \item Витяг текстового шару (\texttt{pdftotext}); для сканів 1987--1992 рр. і PDF
+        зі зламаним кодуванням шрифтів зміст і формули звірено з зображеннями сторінок.
+  \item Транскрипція всіх PDF у Markdown із формулами LaTeX інструментом
+        \textbf{Marker} (datalab, v2.0) --- результати в \file{library/transcripts/}.
+  \item Для кожного документа складено структуроване резюме: мета, модель і методи,
+        ключові рівняння, результати, релевантність (0--5), обмеження.
+  \item Зведення: класифікація, синтез моделі, аналіз прогалин.
+\end{enumerate}
+
+\paragraph{Шкала релевантності.} 5 --- безпосередня основа моделі потоку;
+4 --- пряма фізика потоків або дані для валідації; 3 --- суттєвий методичний
+внесок (коди, транспорт, JET-дані); 2 --- корисний контекст; 1 --- периферійно;
+0 --- непридатне/ненадійне.
+
+%======================================================================
+\section{Загальна характеристика корпусу}
+
+\begin{table}[h]
+\centering
+\caption{Розподіл документів за тематичними кластерами}
+\label{tab:clusters}
+\begin{tabularx}{\textwidth}{@{}lXc@{}}
+\toprule
+№ & Кластер & К-сть \\
+\midrule
+1 & Рівновага, МГД-стійкість, керування положенням і формою & 5 \\
+2 & Транспорт, обертання і потоки плазми (неокласика, турбулентність, домішки) & 9 \\
+3 & Крайова плазма, дивертор, взаємодія плазма--стінка, пил & 5 \\
+4 & Кінетика: електрони-утікачі, альфвенові хвилі, частинки в полі & 4 \\
+5 & Інтегроване моделювання і коди & 3 \\
+6 & Інженерія та матеріали установки & 2 \\
+7 & Загальні / оглядові & 2 \\
+8 & Непрофільні & 2 \\
+\midrule
+ & \textbf{Разом} & \textbf{32} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Хронологія.} 1980-ті --- 3; 1990-ті --- 4; 2000-ні --- 8;
+2010-ті --- 11; 2020-ті --- 6. Класичні неокласичні роботи (MIT, PPPL, 1987--1992)
+співіснують із сучасними інтегрованими кодами (Fenix 2022, STREAM 2022).
+
+\paragraph{Мови.} Англійська --- 20, українська --- 6, російська --- 6.
+Усі англомовні документи --- з CORE; вітчизняні джерела здебільшого
+стосуються суміжних тем (механіка котушок, пилова плазма, розрядна плазма).
+
+\paragraph{Релевантність.} 5 балів --- 2 документи; 4 --- 2; 3 --- 7; 2 --- 7;
+1 --- 12; 0 --- 2. Отже, лише $\approx 1/3$ корпусу (11 документів із балом $\ge 3$)
+безпосередньо працює на тему; решта --- контекст.
+
+\begin{longtable}{@{}p{0.9cm}>{\raggedright\arraybackslash}p{4.3cm}p{0.6cm}p{0.5cm}>{\raggedright\arraybackslash}p{8.6cm}@{}}
+\caption{Зведена таблиця джерел (Кл.\ --- кластер, Р --- релевантність 0--5)}
+\label{tab:all}\\
+\toprule
+Код & Автори, рік & Кл. & Р & Суть \\
+\midrule
+\endfirsthead
+\toprule
+Код & Автори, рік & Кл. & Р & Суть \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+C01 & Singh, Rogister, Kaw, 2004 \cite{Singh2004} & 2 & \rel{5} &
+  Неокласичне тороїдальне обертання на краю при полоїдально асиметричному напуску
+  газу; 1D-рівняння кутового моменту; зв'язок з $E_r$ і L--H переходом. \\
+C02 & Zou, Li, Lv, 2013 \cite{Zou2013} & 1 & 1 &
+  Теореми існування для задачі Ґреда--Шафранова з вільною межею та нелокальним тиском. \\
+C03 & Sigmar, Zanino, Hsu, 1987 \cite{Sigmar1987} & 2 & \rel{4} &
+  Рідинна модель паралельних/полоїдальних/тороїдальних потоків, $E_r$ і полоїдальної
+  асиметрії домішок в обертовій плазмі; рівняння для $\omega\propto E_r$. \\
+C04 & Wong, Cheng, 1987 \cite{Wong1987} & 2 & 3 &
+  Обертання підсилює неокласичну дифузію важких домішок на 1--2 порядки (TFTR). \\
+C05 & Ward, Jardin, 1992 \cite{Ward1992} & 1 & 1 &
+  Деформованість плазми і стабілізація вертикальної моди (NOVA-W). \\
+C06 & Hoppe, Ekmark, Berger, Fülöp, 2022 \cite{Hoppe2022} & 4 & 1 &
+  0D-код STREAM: утікачі й burn-through на старті; верифікація на JET \#77210. \\
+C07 & Mazzucato, 2000 \cite{Mazzucato2000} & 7 & 1 &
+  Скейлінгова оцінка ролі $B_T$ для експерименту з палаючою плазмою. \\
+C08 & Fable et al., 2022 \cite{Fable2022} & 5 & 3 &
+  «Тренажер польоту» Fenix (ASTRA + SPIDER): повний розряд ASDEX Upgrade, EU-DEMO. \\
+C09 & Park, Goldston, Taylor, 1989 \cite{Park1989} & 2 & 2 &
+  Інверсія інтерферометрії TFTR; $\tau_E$ корелює з піковістю густини. \\
+C10 & Seto, Fukuyama, 2014 \cite{Seto2014} & 2 & \rel{5} &
+  Єдина 2D-багаторідинна транспортна модель для ядра і SOL з неокласичним
+  замиканням; основа коду TASK/T2. \\
+C11 & van Vugt, Huijsmans et al., 2019 \cite{vanVugt2019} & 2 & 3 &
+  JOREK + трасування W у повній орбіті: $E\times B$-перенос під час ELM (ASDEX Upgrade). \\
+C12 & Ida et al., 2001 \cite{Ida2001} & 2 & \rel{4} &
+  Експеримент: структура $E_r$, спонтанні тороїдальні/полоїдальні потоки
+  (JFT-2M, CHS, LHD); недифузійний потік імпульсу $\propto\nabla T_i$. \\
+C13 & Hanada et al., 1990 \cite{Hanada1990} & 1 & 1 &
+  Придушення пилкоподібних коливань локалізованим ЕЦН (WT-3, PEST). \\
+C14 & Aho-Mantila, 2011 \cite{AhoMantila2011} & 3 & 3 &
+  SOLPS/ERO/ASCOT проти експериментів ASDEX Upgrade: дрейфи визначальні, потоки в
+  SOL занижено у 2--3 рази. \\
+C15 & Pigarov et al., 2006 \cite{Pigarov2006} & 3 & 1 &
+  Перенос пилу (DUSTT/UEDGE), DIII-D, NSTX. \\
+C16 & Merlo, 2011 \cite{Merlo2011} & 1 & 2 &
+  Вільнограничний розв'язувач Ґреда--Шафранова, реконструкція межі, LQG-керування
+  формою (RFX-mod). \\
+C17 & Hulse, 1992 \cite{Hulse1992} & 2 & 2 &
+  1D-модель зарядових станів домішок, дифузія + пінч; чутливість до атомних даних. \\
+C18 & Jardin et al., 2000 \cite{Jardin2000} & 5 & 2 &
+  Бенчмарк коду TSC на NSTX; балонна межа $\beta\approx12\,\%$. \\
+C19 & Fukuyama, Kasai, Furutani, 1992 \cite{Fukuyama1992} & 5 & 2 &
+  1.5D-код TASK/TR для палаючої плазми класу ITER. \\
+C20 & Wang, Lin, \dots, Lee et al., 2006 \cite{Wang2006} & 2 & 3 &
+  Гірокінетичний код GTC у загальній геометрії: ITG-турбулентність і зональні потоки. \\
+G1 & Марценюк, 2025 \cite{Martsenyuk2025} & 3 & 1 &
+  Тліючі та комбіновані розряди для кондиціонування стінок (Ураган-2М); 0D-модель. \\
+G2 & Марчук, 2025 \cite{Marchuk2025} & 4 & 2 &
+  0D-модель утікачів при зриві (T-10, EAST), НГР-хвилі, ермітова інтерполяція
+  швидкісних коефіцієнтів. \\
+G3 & Ромащенко, 2021 \cite{Romashchenko2021} & 3 & 1 &
+  Заряджання та нагрів макрочастинок у пучково-плазмових системах (автореферат). \\
+G4 & Тищенко, 2021 \cite{Tyshchenko2021} & 4 & 3 &
+  Альфвенові хвилі, острови, каналювання енергії $\alpha$-частинок; 1D-баланс
+  $T_e,T_i$ для розрядів JET DTE1. \\
+G5 & Толочкевич та ін., 2015 \cite{Tolochkevych2015} & 8 & 1 &
+  PIC-моделювання кільватерних полів згустків у незамагніченій плазмі. \\
+Н1 & Аксенов, 2015 \cite{Aksenov2015} & 8 & 0 &
+  Нестандартна теорія «самозбудження» поля в токамаці; науково ненадійна. \\
+Н2 & Дуба, 2018 \cite{Duba2018} & 1 & 2 &
+  Simulink-модель керування положенням шнура (3 входи, 3 виходи). \\
+Н3 & Москвитина, 2010 \cite{Moskvitina2010} & 4 & 3 &
+  Повноорбітне трасування $\alpha$-частинки в ITER з гофруванням поля; Рунге--Кутта 5-го порядку. \\
+Х1 & Зайцев, Асаёнок, 2003 \cite{Zaitsev2003} & 6 & 1 &
+  Термонапруження гвинтової обмотки торсатрона (МСЕ). \\
+Х2 & Зайцев, Шульженко, 2001 \cite{Zaitsev2001} & 6 & 1 &
+  Керування напруженим станом котушки тороїдального поля. \\
+Х3 & Зимников, 2016 \cite{Zimnikov2016} & 7 & 0 &
+  Студентські тези про термоядерний синтез (популярний рівень). \\
+Х4 & Беляева та ін., 2016 \cite{Belyaeva2016} & 3 & 1 &
+  Рекристалізація W-дзеркал ITER під нейтронами і розпиленням. \\
+\end{longtable}
+
+%======================================================================
+\section{Тематичний аналіз}
+
+\subsection{Потоки, обертання плазми та радіальне електричне поле (ядро теми)}
+
+Це центральний кластер для проєкту. Чотири документи
+\cite{Singh2004,Sigmar1987,Seto2014,Ida2001} разом дають повний ланцюжок
+«теорія $\to$ рівняння $\to$ експеримент».
+
+\paragraph{Радіальний баланс сил.} Спільним елементом усіх робіт кластера є
+зв'язок радіального електричного поля з потоками і градієнтом тиску іонів:
+\begin{equation}\label{eq:Er}
+  E_r=\frac{1}{Z_i e n_i}\frac{\partial p_i}{\partial r}-v_{\theta i}B_\varphi+v_{\varphi i}B_\theta .
+\end{equation}
+Singh та ін.\ \cite{Singh2004} використовують (\ref{eq:Er}) для пояснення впливу
+напуску газу на поріг L--H переходу; Ida \cite{Ida2001} наголошує, що в геліотронах
+$E_r$ визначається переважно полоїдальним потоком ($E_r\approx v_\theta B_\varphi$);
+Seto і Fukuyama \cite{Seto2014} отримують (\ref{eq:Er}) як рівняння нульового порядку
+за ларморівським радіусом у довільних координатах магнітних поверхонь.
+
+\paragraph{Структура потоку на магнітній поверхні.} Sigmar, Zanino, Hsu
+\cite{Sigmar1987} розкладають швидкість на паралельну компоненту і тверде обертання
+поверхні з частотою $\omega(\psi)\propto E_r$:
+\begin{equation}\label{eq:V0}
+  \mathbf V^{(0)}=\Big(V_\parallel+\omega\frac{I}{B}\Big)\mathbf b-\omega R^2\nabla\varphi,
+  \qquad \omega=c\,\frac{\partial\Phi}{\partial\psi},\quad I=RB_\varphi .
+\end{equation}
+Усереднене по поверхні рівняння для $\omega$ виявляється квадратичним,
+\begin{equation}\label{eq:omega}
+  \frac{\partial\omega}{\partial t}+C_1\omega^2+C_2\omega+C_3=0,
+\end{equation}
+де $C_1$ --- інерція, $C_2$ --- гальмування і паралельна в'язкість, $C_3$ ---
+джерела імпульсу (NBI). Два корені означають можливу біфуркацію стаціонарного
+обертання --- важливий якісний результат для чисельного моделювання.
+
+\paragraph{Рівняння тороїдального імпульсу.} Singh та ін.\ \cite{Singh2004}
+отримують 1D-рівняння дифузійного типу для густини кутового моменту з
+перезарядним гальмуванням, турбулентним/неокласичним радіальним потоком імпульсу
+і неокласичним джерелом, що залежить від полоїдальної асиметрії нейтралів
+$N_n=N_{0n}(1+\Delta_1\cos\chi)$:
+\begin{equation}\label{eq:mom}
+  \frac{\partial}{\partial t}\big(m_iN_iU_{\varphi}\big)+\nu_{cx}m_iN_iU_{\varphi}
+  +\frac{1}{r}\frac{\partial}{\partial r}\Big[r\,m_iN_i\big(\langle\tilde u_E\tilde u_{\varphi}\rangle+U_rU_{\varphi}\big)\Big]
+  =S_{\rm neo}\big(\partial_rU_\parallel,\partial_r\ln T_i,\Delta_1\big).
+\end{equation}
+Оцінка $U_\varphi\sim0.2\,c_i\sim10$~км/с без асиметрії та до $\sim30$~км/с при
+напуску з внутрішнього боку є, за зауваженням нашого аналізу, радше якісною: оцінений
+у тій самій роботі $\Delta_1\sim10^{-3}$ значно менший за значення, використане для
+ілюстрації.
+
+\paragraph{Експериментальні орієнтири.} Ida \cite{Ida2001} (JFT-2M, CHS, LHD)
+показує, що потік тороїдального імпульсу містить недифузійний доданок:
+\begin{equation}\label{eq:Gamma}
+  \Gamma_\varphi=-\chi_\varphi\frac{\partial(m_in_iv_\varphi)}{\partial r}+\alpha\,\nabla T_i,
+  \qquad \alpha/\chi_\varphi\sim0.1\text{--}0.3,
+\end{equation}
+причому напрям спонтанного (intrinsic) обертання в токамаках і геліотронах
+протилежний і визначається симетрією поля. Числові дані ($E_r$ до $+15$~кВ/м,
+полоїдальні потоки 10--20~км/с, тороїдальні до $5\times10^4$~м/с) придатні як
+порядки величин для валідації.
+
+\paragraph{Двовимірне узагальнення.} Seto і Fukuyama \cite{Seto2014} формулюють
+замкнену систему (8 рівнянь переносу на сорт + 5 електромагнітних) у координатах
+магнітних поверхонь $(\rho,\chi,\zeta)$, коректну і всередині, і поза сепаратрисою.
+Паралельна в'язкість зшиває форму Хіршмана--Сігмара (ядро) з Брагінським (SOL),
+а $E_\rho$ визначається із закону Гаусса, а не з квазінейтральності. Після
+усереднення модель відтворює неокласичне полоїдальне обертання. Робота суто
+формальна (без чисельних результатів), але найкраще підходить як теоретична основа.
+
+\paragraph{Вплив обертання на транспорт.} Wong і Cheng \cite{Wong1987} показують,
+що при $m_I\omega^2R^2\gg T_I$ неокласична дифузія важких домішок зростає на
+1--2 порядки (у режимі Пфірша--Шлютера $D_{\rm neo}$ залежить лише від $\omega^2$ і
+$\omega^4$). van Vugt та ін.\ \cite{vanVugt2019} і Wang та ін.\ \cite{Wang2006}
+демонструють домінантну роль $E\times B$-потоку --- відповідно під час ELM
+(10--20\,\% екранованого W проникає всередину) та в регуляції ITG-турбулентності
+зональними потоками.
+
+\paragraph{Висновок до кластера.} Усі теоретичні роботи обмежені режимом
+Пфірша--Шлютера (висока зіткненнєвість), великим аспектним відношенням і коловим
+перерізом. Для гарячої плазми JET (бананний режим у ядрі) потрібні відповідні
+неокласичні коефіцієнти, яких корпус не містить.
+
+\subsection{Транспорт і інтегроване моделювання розряду}
+
+Роботи \cite{Fukuyama1992,Fable2022,Jardin2000,Hulse1992,Park1989,Tyshchenko2021}
+задають стандартну 1.5D-архітектуру «транспорт + рівновага + кола котушок».
+
+Базова система в стандартній формі (TASK/TR \cite{Fukuyama1992}; аналогічні рівняння в ASTRA
+\cite{Fable2022}, TSC \cite{Jardin2000}, у моделі Тищенка \cite{Tyshchenko2021}):
+\begin{align}
+  \frac{\partial n_s}{\partial t}&=-\frac1r\frac{\partial}{\partial r}(r\Gamma_s)+S_s,
+  &\Gamma_s&=v_sn_s-D_s\frac{\partial n_s}{\partial r},\label{eq:n}\\
+  \frac{\partial}{\partial t}\Big(\tfrac32n_sT_s\Big)&=-\frac1r\frac{\partial}{\partial r}(rQ_s)+P_s,
+  &Q_s&=-n_s\chi_s\frac{\partial T_s}{\partial r}+\tfrac52T_s\Gamma_s,\label{eq:T}\\
+  \frac{\partial B_\theta}{\partial t}&=\frac{\partial E_z}{\partial r},
+  &E_z&=\eta\Big(\frac{1}{\mu_0r}\frac{\partial(rB_\theta)}{\partial r}-J_{\rm NB}-J_{\rm BS}\Big).\label{eq:B}
+\end{align}
+Замикання $\chi_s$ варіюється від моделей дрейфово-хвильової турбулентності
+з довжиною змішування \cite{Fukuyama1992} та гіро-Бомівської основи з неокласикою
+\cite{Fable2022} до сталих значень, узятих із TRANSP для JET
+($\chi_i=5000$~см$^2$/с, $\chi_e=2700$~см$^2$/с) \cite{Tyshchenko2021}.
+
+\paragraph{Цінність для проєкту.}
+\begin{itemize}
+  \item Тищенко \cite{Tyshchenko2021} --- єдина робота корпусу з власними
+        розрахунками для JET: 1D-баланс $T_e,T_i$ для розрядів DTE1 (\#41069,
+        \#42856, \#42847) з NBI, $\alpha$-нагрівом і каналюванням енергії хвилями.
+        Результат: $T_{i0}$ зростає з 13.35 (NBI) до 15.71 (NBI+$\alpha$) і 16.15~кеВ
+        (каналювання, $\nu=0.3$). Модель проста й відтворювана --- хороший перший тест.
+  \item Fable та ін.\ \cite{Fable2022} --- приклад валідації часових трас повного
+        розряду проти експерименту; обертання і перенос імпульсу, однак, не моделюються.
+  \item Hulse \cite{Hulse1992} --- неявна схема для $Z+1$ зв'язаних рівнянь
+        зарядових станів; наголошує, що похибка атомних даних удвічі еквівалентна
+        похибці $D$ удвічі.
+\end{itemize}
+Жоден документ кластера не містить рівняння тороїдального імпульсу в
+1.5D-системі --- його доведеться додати на основі (\ref{eq:mom})--(\ref{eq:Gamma}).
+
+\subsection{Рівновага, МГД-стійкість і керування положенням}
+
+Рівняння Ґреда--Шафранова є спільною основою \cite{Merlo2011,Zou2013,Jardin2000,Fable2022}:
+\begin{equation}\label{eq:GS}
+  \Delta^*\psi\equiv R\frac{\partial}{\partial R}\Big(\frac1R\frac{\partial\psi}{\partial R}\Big)
+  +\frac{\partial^2\psi}{\partial Z^2}=-\mu_0R^2\frac{dp}{d\psi}-F\frac{dF}{d\psi}.
+\end{equation}
+Merlo \cite{Merlo2011} дає практичний розв'язувач із вільною межею (Maxfea),
+параметризацію $J_\varphi(\bar\psi)$ і методи реконструкції межі (згадано XLOC, що
+використовується на JET), а також лінеаризовану модель плазма--провідники
+$L^*\dot{\mathbf I}+R\mathbf I=\mathbf V$ з LQG-регулятором. Ward і Jardin
+\cite{Ward1992} та Дуба \cite{Duba2018} стосуються вертикальної стабілізації;
+модель Дуби (кожен канал --- $1/(s^2+k)$) надто спрощена і не обґрунтована.
+Zou та ін.\ \cite{Zou2013} --- чиста математика (існування розв'язків).
+Hanada та ін.\ \cite{Hanada1990} --- придушення пилкоподібних коливань.
+
+Для проєкту кластер дає \emph{геометрію}: сітку магнітних поверхонь, на якій
+розв'язуються рівняння потоку, та зв'язок транспорт~$\leftrightarrow$~рівновага
+(схема FCT у \cite{Seto2014}).
+
+\subsection{Крайова плазма, дивертор, стінка}
+
+Aho-Mantila \cite{AhoMantila2011} --- найцінніше джерело кластера: валідація
+SOLPS5.0/ERO/ASCOT на ASDEX Upgrade. Ключові висновки для моделі потоку:
+без дрейфів $E\times B$ і діамагнітного розв'язки SOL незадовільні; паралельні потоки
+в головному SOL модель занижує у 2--3 рази (пряме поле). Граничні умови
+на мішені:
+\begin{equation}\label{eq:Bohm}
+  M=\frac{u_\parallel}{c_s}\ge1,\qquad c_s=\sqrt{\frac{ZT_e+\gamma T_i}{m_i}},\qquad
+  \frac{eV_{sh}}{T_e}\approx0.5\ln\Big[2\pi\frac{m_e}{m_i}\Big(1+\frac{T_i}{T_e}\Big)\Big].
+\end{equation}
+Pigarov та ін.\ \cite{Pigarov2006}, Ромащенко \cite{Romashchenko2021},
+Марценюк \cite{Martsenyuk2025}, Беляева та ін.\ \cite{Belyaeva2016} стосуються пилу,
+шарів біля стінки, кондиціонування та ерозії --- периферійно для теми, хоча
+Марценюк наводить мікрохвильову методику вимірювання обертання плазми
+($\omega\approx1.16\times10^4$~рад/с на стелараторі).
+
+\subsection{Кінетичні ефекти}
+
+Москвитина \cite{Moskvitina2010} --- повноорбітне трасування $\alpha$-частинки в
+полі ITER з гофруванням (реальні параметри, відтворювана схема; РК-5 в $\approx7$ разів
+ефективніший за РК-4). Hoppe та ін.\ \cite{Hoppe2022} і Марчук \cite{Marchuk2025} ---
+баланс електронів-утікачів
+\begin{equation}\label{eq:RE}
+  \frac{dn_{re}}{dt}=\gamma_{\rm D}+\frac{n_{re}}{t_{\rm av}}-\frac{n_{re}}{\tau_{re}},\qquad
+  E_c=\frac{e^3n_e\ln\Lambda}{4\pi\varepsilon_0^2m_ec^2},
+\end{equation}
+з верифікацією STREAM на розряді JET \#77210. Тищенко \cite{Tyshchenko2021} описує
+перенос енергії поперек поверхонь альфвеновими модами. Для моделі \emph{потоку}
+кластер допоміжний: трасування частинок --- спосіб перевірки полів, а утікачі
+важливі лише для сценаріїв старту і зриву.
+
+\subsection{Інженерія, загальні й непрофільні роботи}
+
+Зайцев та ін.\ \cite{Zaitsev2003,Zaitsev2001} --- МСЕ-механіка обмоток (корисні хіба
+для геометрії котушок). Mazzucato \cite{Mazzucato2000} --- скейлінги $\tau_E$ і ліміт
+Грінвальда (для вступу й оцінок порядків). Зимников \cite{Zimnikov2016} ---
+популярні тези, науковим джерелом не є. Толочкевич та ін.\ \cite{Tolochkevych2015}
+--- PIC-моделювання в незамагніченій плазмі (методичний приклад).
+Аксенов \cite{Aksenov2015} містить розмірнісні помилки й суперечить
+загальноприйнятій фізиці; \textbf{цитувати не рекомендується}.
+
+%======================================================================
+\section{Синтез: каркас моделі потоку плазми для проєкту}
+
+На основі корпусу пропонується ієрархічна модель (у дужках --- джерела-основи):
+
+\begin{enumerate}
+  \item \textbf{Геометрія.} Рівновага (\ref{eq:GS}) з фіксованою або вільною межею;
+        потокові координати $(\psi,\theta,\varphi)$
+        \cite{Merlo2011,Seto2014}. Для JET --- D-подібний переріз, $\kappa\approx1.7$.
+  \item \textbf{Транспорт 1.5D.} Рівняння (\ref{eq:n})--(\ref{eq:B}) для
+        $n_e,n_i,T_e,T_i,\psi$ \cite{Fukuyama1992,Tyshchenko2021}.
+  \item \textbf{Тороїдальний імпульс.} Додаткове рівняння для $L_\varphi=m_in_iRv_\varphi$
+        з дифузійним і недифузійним потоками (\ref{eq:Gamma}), перезарядним
+        гальмуванням (\ref{eq:mom}) і джерелом NBI \cite{Singh2004,Ida2001,Sigmar1987}.
+  \item \textbf{Полоїдальний потік і $E_r$.} Неокласичний полоїдальний потік
+        (у режимі Пфірша--Шлютера $U_\theta\approx-1.83\,\frac{T_i}{eB}\partial_r\ln T_i$
+        \cite{Singh2004}) та $E_r$ з балансу сил (\ref{eq:Er}).
+  \item \textbf{Зворотний зв'язок на транспорт.} Шир $E\times B$ пригнічує
+        турбулентність при $\gamma_E\ge\gamma_T$ \cite{Singh2004,Wang2006} ---
+        може бути введений як множник до $\chi_s$.
+  \item \textbf{Граничні умови.} На сепаратрисі --- задані $n,T,v_\varphi$ або
+        спрощена SOL-модель з умовами Бома (\ref{eq:Bohm}) \cite{AhoMantila2011}.
+  \item \textbf{Валідація.} Порядки величин $E_r$, $v_\theta$, $v_\varphi$
+        \cite{Ida2001}; профілі $T_{e,i}$ JET DTE1 \cite{Tyshchenko2021}; для
+        перевірки розв'язувача рівноваги --- дані \cite{Merlo2011}.
+\end{enumerate}
+
+\noindent Рівень 2D (ядро + SOL в єдиній моделі) описано в \cite{Seto2014}, але для
+студентського проєкту розумно почати з 1.5D і лише потім переходити до 2D.
+
+%======================================================================
+\section{Прогалини корпусу та рекомендації}
+
+\begin{enumerate}
+  \item \textbf{Немає робіт, що моделюють потоки на JET.} JET присутній лише як
+        верифікаційний розряд \cite{Hoppe2022}, параметри в таблиці \cite{vanVugt2019}
+        або розрахунок енергетичного балансу \cite{Tyshchenko2021}. Потрібні джерела
+        з вимірювань обертання на JET (CXRS) і моделювання кодами JINTRAC/JETTO.
+  \item \textbf{Немає неокласики для бананного режиму.} Усі теоретичні роботи про потоки
+        --- для високої зіткненнєвості. Потрібні класичні огляди
+        (Hinton--Hazeltine; Hirshman--Sigmar) та підручник рівня Wesson «Tokamaks».
+  \item \textbf{Не отримано ключові класичні статті зі списку}: Муховатов--Шафранов
+        (рівновага, 1971), Арцимович (1972), Furth (1975) і огляд De Tommasi
+        (магнітне керування, 2018). Вони у відкритому доступі --- варто завантажити
+        вручну через браузер.
+  \item \textbf{ELAKPI (13 позицій)} --- зокрема магістерська Трегубова (моделювання
+        магнітного підвісу) і тези Сливки (утримання плазми) --- доступні з мережі КПІ.
+  \item \textbf{Вітчизняний сегмент корпусу} майже не стосується потоків плазми;
+        для цієї теми опорними є англомовні джерела.
+\end{enumerate}
+
+%======================================================================
+\section{Якість джерел і уточнення метаданих}
+
+\paragraph{Невідповідності в назвах файлів.} У назвах файлів у теці \file{library}
+у кількох випадках вказано не першого автора. Коректні дані наведено в бібліографії
+нижче: C01 (перший автор Singh), C02 (Zou, Li, Lv), C03 (Sigmar), C04 (Wong),
+C06 (Hoppe), C08 (Fable), C11 (van Vugt), C12 (Ida), C15 (Pigarov), C19 (Fukuyama),
+C20 (W.\,X.~Wang). Запис CORE для C02 містить хибний DOI (J.\ Amer.\ Math.\ Soc., 1989),
+узятий, найімовірніше, з першого посилання статті.
+
+\paragraph{Якість тексту.} Скани 1987--1992 рр.\ (C03, C04, C05, C09, C13, C17) мають
+пошкоджений OCR; у C20, G1, Н1, Н2 текстовий шар зламаний (кодування). Зміст цих
+документів відновлено за зображеннями сторінок; формули варто звіряти з
+транскрипціями Marker або з оригіналом. C14 містить лише оглядову частину
+дисертації (статті I--V відсутні).
+
+\paragraph{Надійність.} Н1 \cite{Aksenov2015} --- ненадійне; Х3 \cite{Zimnikov2016}
+--- ненаукове; Н2 \cite{Duba2018} --- модель без обґрунтування параметрів.
+
+%======================================================================
+\begin{thebibliography}{99}
+\small
+
+\bibitem{Singh2004} Singh R., Rogister A., Kaw P. The effect of asymmetric gas puffing
+  on toroidal flow in the edge of tokamak plasma~// Physics of Plasmas. -- 2004. --
+  Vol.~11, No.~1. -- P.~129--139. -- DOI: 10.1063/1.1633558. [C01]
+
+\bibitem{Zou2013} Zou W., Li F., Lv B. On a nonlocal problem for a confined plasma in
+  a Tokamak~// Applications of Mathematics. -- 2013. -- Vol.~58, No.~6. --
+  P.~609--642. [C02]
+
+\bibitem{Sigmar1987} Sigmar D.\,J., Zanino R., Hsu C.\,T. Evolution of poloidal
+  variation of impurity density and ambipolar potential in rotating tokamak plasma.
+  Part~I~: Report PFC/RR-87-8. -- MIT Plasma Fusion Center, 1987. -- 16~p. [C03]
+
+\bibitem{Wong1987} Wong K.\,L., Cheng C.\,Z. Neoclassical diffusion of heavy
+  impurities in a rotating tokamak plasma~: Report PPPL-2470. -- Princeton Plasma
+  Physics Laboratory, 1987. -- 13~p. [C04]
+
+\bibitem{Ward1992} Ward D.\,J., Jardin S.\,C. The effects of plasma deformability on
+  the feedback stabilization of axisymmetric modes in tokamak plasmas~: Report
+  PPPL-2805. -- Princeton Plasma Physics Laboratory, 1992. -- 59~p. [C05]
+
+\bibitem{Hoppe2022} Hoppe M., Ekmark I., Berger E., Fülöp T. Runaway electron
+  generation during tokamak start-up~// Journal of Plasma Physics. -- 2022. --
+  Vol.~88. -- 905880317. -- DOI: 10.1017/S002237782200054X. [C06]
+
+\bibitem{Mazzucato2000} Mazzucato E. The importance of the toroidal magnetic field
+  for the feasibility of a tokamak burning plasma experiment~: preprint. -- Princeton
+  Plasma Physics Laboratory, 2000. -- 9~p. [C07]
+
+\bibitem{Fable2022} Fable E., Janky F., Treutterer W. et al. The modeling of a
+  tokamak plasma discharge, from first principles to a flight simulator~// Plasma
+  Physics and Controlled Fusion. -- 2022. -- Vol.~64. -- 044002. --
+  DOI: 10.1088/1361-6587/ac466b. [C08]
+
+\bibitem{Park1989} Park H.\,K., Goldston R.\,J., Taylor G. Study of electron density
+  and pressure profile behavior in a tokamak plasma~: Report PPPL-2660. -- Princeton
+  Plasma Physics Laboratory, 1989. -- 13~p. [C09]
+
+\bibitem{Seto2014} Seto H., Fukuyama A. Formulation of two-dimensional transport
+  modeling in tokamak plasmas~// Plasma and Fusion Research. -- 2014. -- Vol.~9. --
+  1403002. -- DOI: 10.1585/pfr.9.1403002. [C10]
+
+\bibitem{vanVugt2019} van Vugt D.\,C., Huijsmans G.\,T.\,A., Hoelzl M., Loarte A.
+  Kinetic modeling of ELM-induced tungsten transport in a tokamak plasma~// Physics of
+  Plasmas. -- 2019. -- Vol.~26, No.~4. -- 042508. -- DOI: 10.1063/1.5092319. [C11]
+
+\bibitem{Ida2001} Ida K., CHS Group, LHD Group, JFT-2M Group. Structure of the radial
+  electric field and toroidal/poloidal flow in high temperature toroidal plasma~//
+  J.~Plasma Fusion Res. SERIES. -- 2001. -- Vol.~4. -- P.~36--42. [C12]
+
+\bibitem{Hanada1990} Hanada K., Tanaka H., Iida M. et al. Sawtooth stabilization by
+  localized electron cyclotron heating in a tokamak plasma~: Report PPPL-2725. --
+  Princeton Plasma Physics Laboratory, 1990. -- 16~p. [C13]
+
+\bibitem{AhoMantila2011} Aho-Mantila L. Divertor plasma conditions and their effect on
+  carbon migration in the ASDEX Upgrade tokamak~: doctoral dissertation. -- Espoo~:
+  Aalto University; VTT Publications 773, 2011. [C14]
+
+\bibitem{Pigarov2006} Pigarov A.\,Yu., Smirnov R.\,D., Krasheninnikov S.\,I.,
+  Rognlien T.\,D., Rozenberg M. Transport of dust particles in tokamak devices~:
+  preprint UCRL-JRNL-221928. -- LLNL, 2006. -- 17~p. [C15]
+
+\bibitem{Merlo2011} Merlo P. Plasma boundary reconstruction and shape control of
+  tokamak discharges in RFX-mod~: tesi di laurea magistrale. -- Padova~: Università
+  degli Studi di Padova, 2011. -- 170~p. [C16]
+
+\bibitem{Hulse1992} Hulse R.\,A. Modeling of impurity transport in the core plasma~:
+  Report PPPL-CFP-2776. -- Princeton Plasma Physics Laboratory, 1992. -- 28~p. [C17]
+
+\bibitem{Jardin2000} Jardin S.\,C., Kaye S., Menard J., Kessel C., Glasser A.\,H.
+  Tokamak Simulation Code modeling of NSTX~: Report PPPL-3472. -- Princeton Plasma
+  Physics Laboratory, 2000. -- 7~p. [C18]
+
+\bibitem{Fukuyama1992} Fukuyama A., Kasai T., Furutani Y. Transport simulasion [sic]
+  in a burning tokamak plasma~// Memoirs of the Faculty of Engineering, Okayama
+  University. -- 1992. -- Vol.~26, No.~2. -- P.~93--109. [C19]
+
+\bibitem{Wang2006} Wang W.\,X., Lin Z., Tang W.\,M., Lee W.\,W. et al. Gyrokinetic
+  simulation of global turbulent transport properties in tokamak experiments~: Report
+  PPPL-4142. -- Princeton Plasma Physics Laboratory, 2006. -- 34~p. [C20]
+
+\bibitem{Martsenyuk2025} Марценюк Ю.\,П. Характеристики газорозрядної плазми та
+  розрядів різних типів у термоядерних дослідженнях~: дис. \ldots\ д-ра філософії~:
+  104. -- Харків~: ННЦ ХФТІ НАН України, 2025. -- 150~с. [G1]
+
+\bibitem{Marchuk2025} Марчук Ю.\,М. Моделювання електронів-утікачів, парних зіткнень
+  та процесів у нижньому гібридному резонансі в плазмі з магнітним полем~: дис.
+  \ldots\ д-ра філософії~: 104. -- Харків~: ІФП ННЦ ХФТІ НАН України, 2025. --
+  147~с. [G2]
+
+\bibitem{Romashchenko2021} Ромащенко О.\,В. Динаміка та фазові стани макрочастинок у
+  пучково-плазмових системах~: автореф. дис. \ldots\ д-ра фіз.-мат. наук~: 01.04.08.
+  -- Харків~: ХНУ ім. В.\,Н.~Каразіна, 2021. -- 36~с. [G3]
+
+\bibitem{Tyshchenko2021} Тищенко М.\,Г. Поширення альфвенових хвиль та перенесення
+  енергії поперек магнітних поверхонь у тороїдальній плазмі~: дис. \ldots\ канд.
+  фіз.-мат. наук~: 01.04.08. -- Харків, 2021. -- 140~с. [G4]
+
+\bibitem{Tolochkevych2015} Толочкевич Ю.\,М., Анісімов І.\,О., Літошенко Т.\,Є.
+  Динаміка заряджених згустків у збудженому ними в плазмі кільватерному полі~//
+  Український фізичний журнал. -- 2015. -- Т.~60, №~1. -- С.~16--22. [G5]
+
+\bibitem{Aksenov2015} Аксенов В.\,В. Векторный потенциал, эффект Ааронова--Бома и
+  электродинамика в токамаке~// Праці Міжнародного геометричного центру. -- 2015. --
+  Т.~8, №~3--4. -- С.~31--39. [Н1]
+
+\bibitem{Duba2018} Дуба І.\,Е. Сучасна цифрова багатозв'язна система управління
+  основним контуром -- положення плазмового шнура -- установки термоядерного синтезу
+  ТОКАМАК~// Вчені записки ТНУ ім. В.\,І.~Вернадського. Сер.: Технічні науки. --
+  2018. -- Т.~29(68), №~4(1). -- С.~132--137. [Н2]
+
+\bibitem{Moskvitina2010} Москвитина Ю.\,К. Численное моделирование влияния
+  гофрировки на движение заряженной частицы в токамаке ITER~// Вісник ХНУ ім.
+  В.\,Н.~Каразіна. Сер.: Математичне моделювання. -- 2010. -- №~925, вип.~14. --
+  С.~147--154. [Н3]
+
+\bibitem{Zaitsev2003} Зайцев Б.\,Ф., Асаёнок А.\,В. Напряженное состояние в винтовой
+  обмотке тороидальной магнитной системы электрофизической установки под действием
+  температуры~// Вестник НТУ «ХПИ». Динамика и прочность машин. -- 2003. -- №~12,
+  т.~1. -- С.~64--71. [Х1]
+
+\bibitem{Zaitsev2001} Зайцев Б.\,Ф., Шульженко Н.\,Г. Управление напряженным
+  состоянием плоской многослойной катушки тороидального магнитного поля~// Вестник
+  НТУ «ХПИ». Динамика и прочность машин. -- 2001. -- №~25. -- С.~86--90. [Х2]
+
+\bibitem{Zimnikov2016} Зимников О.\,О., Дьяконенко Н.\,Л., Макогон О.\,А.
+  Термоядерный синтез -- энергетика будущего~// Актуальні проблеми фізики та їх
+  інформаційне забезпечення~: тези доп. -- Харків~: НТУ «ХПІ», 2016. -- С.~82--83. [Х3]
+
+\bibitem{Belyaeva2016} Беляева А.\,И., Галуза А.\,А., Коленов И.\,В., Савченко А.\,А.
+  Роль рекристаллизации вольфрама в формировании шероховатости его поверхности под
+  влиянием последовательного воздействия нейтронов и распыления~// Металлофизика и
+  новейшие технологии. -- 2016. -- Т.~38, №~8. -- С.~1077--1102. [Х4]
+
+\end{thebibliography}
+
+\end{document}

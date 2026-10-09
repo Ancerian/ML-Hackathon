@@ -1,0 +1,57 @@
+\chapter{Перехід від гаусової системи (СГС) до СІ}\label{app:cgs}
+
+Частина джерел корпусу записує формули в гаусовій системі: \cite{Moskvitina2010},
+\cite{Sigmar1987}, \cite{Marchuk2025}, \cite{Tyshchenko2021}. У~\cite{Wong1987} рівняння вже мають СІ-форму,
+але числові параметри подано в гаусових одиницях (см$^{-3}$, кГс, см$^2$/с). У посібнику всі
+такі формули й числа переведено в СІ за правилами цього додатка. Правила стандартні й від корпусу не
+залежать.
+
+\begin{outofcorpus}[правило заміни символів]
+Гаусову формулу переводять у СІ такими замінами (величини праворуч --- в СІ):
+\[
+  e\to\frac{e}{\sqrt{4\pi\varepsilon_0}},\qquad
+  \vect E\to\sqrt{4\pi\varepsilon_0}\,\vect E,\qquad
+  \Phi\to\sqrt{4\pi\varepsilon_0}\,\Phi,\qquad
+  \Bvec\to\sqrt{\frac{4\pi}{\mu_0}}\,\Bvec,\qquad
+  \psi\to\sqrt{\frac{4\pi}{\mu_0}}\,\psi,
+\]
+а в кінці скрізь спрощують $c^2\varepsilon_0\mu_0=1$. Добуток $e\vect E$ від заміни не
+змінюється, а $e^2/r$ переходить у $e^2/(4\pi\varepsilon_0 r)$. Через це, наприклад, сила Лоренца $e(\vect E+\frac1c\vect v\times\Bvec)$
+переходить у $e(\vect E+\vect v\times\Bvec)$, а циклотронна частота $eB/(mc)$ --- у $eB/m$.
+Решту величин достатньо перевести в одиниці СІ:
+$\SI{1}{\per\cubic\centi\metre}=\SI{e6}{\per\cubic\metre}$,
+1~кГс~$=\SI{0.1}{\tesla}$,
+$\SI{1}{\centi\metre\squared\per\second}=\SI{e-4}{\metre\squared\per\second}$.
+\end{outofcorpus}
+
+\begin{table}[h]
+\centering
+\caption{Формули корпусу, записані в СГС, та їхній вигляд у СІ}\label{tab:cgs}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.4cm}>{\centering\arraybackslash}X>{\centering\arraybackslash}X@{}}
+\toprule
+Величина (джерело) & СГС & СІ \\
+\midrule
+Рівняння руху~\cite{Moskvitina2010} &
+$m\ddot{\vect r}=e\vect E+\dfrac ec\,\dot{\vect r}\times\Bvec$ &
+$m\ddot{\vect r}=e\vect E+e\,\dot{\vect r}\times\Bvec$ \\[6pt]
+Частота обертання через потенціал~\cite{Sigmar1987} &
+$\omega=c\,\dfrac{\pa\Phi}{\pa\psi}$ &
+$\omega=\dfrac{\pa\Phi}{\pa\psi}$ \ ($\psi$ на радіан) \\[6pt]
+Поле Драйсера~\cite{Marchuk2025} &
+$\ED=\dfrac{4\pi e^3n_e\lnL}{T_e}$ &
+$\ED=\dfrac{e^3n_e\lnL}{4\pi\varepsilon_0^2\,T_e}$ \\[6pt]
+Поле Коннора--Гасті~\cite{Marchuk2025} &
+$\Ec=\dfrac{4\pi e^3n_e\lnL}{m_ec^2}$ &
+$\Ec=\dfrac{e^3n_e\lnL}{4\pi\varepsilon_0^2\,m_ec^2}$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{derivation}[поле Драйсера]
+Підставляємо заміни в гаусову формулу:
+$\sqrt{4\pi\varepsilon_0}\,\ED=4\pi\,e^3n_e\lnL\,\big/\big[(4\pi\varepsilon_0)^{3/2}T_e\big]$.
+Звідси $\ED=4\pi e^3n_e\lnL/\big[(4\pi\varepsilon_0)^2T_e\big]=e^3n_e\lnL/(4\pi\varepsilon_0^2T_e)$.
+Отримана СІ-форма $\Ec$ збігається з рівнянням (2.24) у~\cite{Hoppe2022}; це незалежна перевірка
+правила. Для $\omega$ множники $\sqrt{4\pi\varepsilon_0}$ і $\sqrt{4\pi/\mu_0}$ дають
+$c\sqrt{\varepsilon_0\mu_0}=1$.
+\end{derivation}

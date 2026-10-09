@@ -1,0 +1,22 @@
+[  2665s] inst 0 start 5004: within=False chi2=84932.2 (true 124.1) nfev=15 42 min
+[  2981s] inst 0 start 5001: within=False chi2=66868.1 (true 124.1) nfev=15 47 min
+[  3358s] inst 1 start 5102: within=False chi2=113678.1 (true 113.6) nfev=14 53 min
+[  3800s] inst 0 start 5000: within=False chi2=153995.3 (true 124.1) nfev=16 61 min
+[  3891s] inst 1 start 5100: within=False chi2=189219.1 (true 113.6) nfev=16 62 min
+[  3943s] inst 0 start 5003: within=False chi2=60063.1 (true 124.1) nfev=16 64 min
+[  4838s] inst 0 start 5005: within=False chi2=87996.9 (true 124.1) nfev=18 78 min
+[  5340s] inst 0 start 5002: within=False chi2=116163.2 (true 124.1) nfev=20 87 min
+[  6382s] inst 1 start 5104: within=False chi2=177701.1 (true 113.6) nfev=15 54 min
+[  6956s] inst 2 start 5200: within=False chi2=35180.3 (true 112.1) nfev=18 50 min
+[  6965s] inst 1 start 5103: within=False chi2=96046.9 (true 113.6) nfev=19 69 min
+[  6967s] inst 2 start 5201: within=False chi2=33929.9 (true 112.1) nfev=16 49 min
+[  7274s] inst 1 start 5105: within=False chi2=81548.5 (true 113.6) nfev=14 62 min
+[  7811s] inst 2 start 5204: within=False chi2=46684.4 (true 112.1) nfev=16 39 min
+[  8229s] inst 1 start 5101: within=False chi2=57108.9 (true 113.6) nfev=20 135 min
+[  8382s] inst 2 start 5202: within=False chi2=89296.2 (true 112.1) nfev=20 72 min
+[  8441s] inst 2 start 5203: within=False chi2=44762.0 (true 112.1) nfev=17 58 min
+[  9413s] inst 2 start 5205: within=False chi2=129924.1 (true 112.1) nfev=19 48 min
+scan (0, 1): minima [(0, 1, 22104.0, True), (0, 6, 24629.1, True), (0, 10, 3139.5, False), (1, 4, 22254.7, True), (6, 0, 37851.2, True), (6, 3, 46846.7, True), (6, 7, 48500.7, True), (11, 4, 35013.4, True)]
+scan (1, 2): minima [(0, 10, 8806.5, True), (1, 2, 26474.1, True), (1, 7, 25528.6, True), (3, 1, 16254.5, True), (3, 5, 25613.0, True), (3, 10, 30271.5, True), (4, 8, 37615.4, True), (5, 2, 20971.8, True), (5, 6, 35928.1, True), (6, 9, 23040.8, True), (8, 6, 31676.2, True), (9, 3, 17675.6, True), (10, 11, 2184.4, False), (11, 6, 29056.5, True)]
+done in 3.19 h: success 0.000 spurious 0.000 tech-fail 0.056
+.venv/bin/python "$D/run_viz.py"  72725.28s user 12395.13s system 740% cpu 3:11:40.61 total

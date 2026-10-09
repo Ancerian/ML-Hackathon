@@ -1,0 +1,11 @@
+% Бібліографія путівника: кожен розділ додає свої записи у bib/refs_gNN.tex (\bibitem{...}).
+% Ключі мають бути унікальні; перед додаванням перевір grep -h '\\bibitem' bib/refs_*.tex.
+\begin{thebibliography}{99}
+\footnotesize\raggedright
+\addcontentsline{toc}{chapter}{Бібліографія}
+\InputIfFileExists{bib/refs_project}{}{}
+\InputIfFileExists{bib/refs_g00}{}{}\InputIfFileExists{bib/refs_g01}{}{}\InputIfFileExists{bib/refs_g02}{}{}
+\InputIfFileExists{bib/refs_g03}{}{}\InputIfFileExists{bib/refs_g04}{}{}\InputIfFileExists{bib/refs_g05}{}{}
+\InputIfFileExists{bib/refs_g06}{}{}\InputIfFileExists{bib/refs_g07}{}{}\InputIfFileExists{bib/refs_g08}{}{}
+\InputIfFileExists{bib/refs_g09}{}{}\InputIfFileExists{bib/refs_g10}{}{}
+\end{thebibliography}

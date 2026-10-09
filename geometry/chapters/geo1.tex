@@ -1,0 +1,49 @@
+\chapter{Як користуватися гайдом}\label{ch:geo1}
+
+Геометрія токамака --- це відповідь на три запитання. \emph{Де} лежать магнітні поверхні і як їх позначати? \emph{Якої форми} плазма і чому саме такої? \emph{Як з'єднано} поверхні між собою: де вісь, де X-точка, де закінчується замкнена область? Методичка~\cite{Manual} відповідає на них у трьох місцях: розд.~3 (рівновага), розд.~4 (геометричні ефекти) і розд.~5 (анатомія JET). Цей гайд збирає відповіді разом і до кожної формули показує рядки коду проєкту, де її обчислюють.
+
+\paragraph{Читач.} Студент ФМФ 3--4 курсу, який знає Python і читав розд.~1--3 методички. Нової фізики тут майже немає. Натомість кожне означення можна перевірити, запустивши код, і кожне число в тексті має джерело: реєстр проєкту, методичку або запуск скрипту.
+
+\paragraph{Два приклади.} Усі числа наведено для двох машин:
+\begin{itemize}
+\item \textbf{DIII-D \#203702}, кадр 75 ($t=\SI{1760}{мс}$, $\qnf=3{,}70$) --- реальна рівновага EFIT з набору Fusion Equilibrium Challenge~\cite{FEC2026}. Це робочий кадр 3D-візуалізації проєкту~\cite{ProjViz}: діверторна плазма з нижньою X-точкою.
+\item \textbf{JET 1975} --- проєкт машини~\cite{JET1975}, D-межа Міллера й аналітична рівновага Соловйова, побудована в проєкті~\cite{ProjJET}: лімітерна плазма без X-точки.
+\end{itemize}
+
+\section{Карта гайду}\label{sec:geo1-map}
+
+\begin{center}\small
+\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+Розд. & Про що & Головний код \\
+\midrule
+\ref{ch:geo2} & $(R,\tor,Z)$, потік $\psi$, поле $\Bvec$, знак $\psi$, нормування $\psiN$, магнітна вісь & \texttt{viz/src/tokviz/equilibrium.py}, \texttt{config.py} \\
+\ref{ch:geo3} & магнітні поверхні, $q(\psi)$, кут прямих силових ліній $\thetastar$, 3D-поверхні & \texttt{equilibrium.py}, \texttt{surfaces.py} \\
+\ref{ch:geo4} & параметри форми $R_{\mathrm{geo}}$, $a$, $A$, $\kappa$, $\delta$; форма Міллера; площа й об'єм & \texttt{surfaces.py}, \texttt{machine/components/plasma.py}, \texttt{geo/geom\_tour.py} \\
+\ref{ch:geo5} & критичні точки $\psi$: O- і X-точки, сепаратриса, LCFS & \texttt{fusion\_scoring/lcfs.py}, \texttt{topology\_probe.py} \\
+\ref{ch:geo6} & JET: аспектне відношення, D-котушка, гофрування, рівновага Соловйова & \texttt{machine/equilibrium\_analytic.py}, \texttt{machine/ripple.py} \\
+\ref{ch:geo7} & практикум і задачі (відповіді --- у дод.~\ref{ch:geoA}) & --- \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Умовні позначення і рамки}\label{sec:geo1-conv}
+
+Одиниці --- СІ. Полоїдальний потік $\psi$ --- \emph{на радіан} (Вб/рад), як в EFIT. $\tor$ --- лише тороїдальний кут, $\theta$ --- геометричний полоїдальний, $\thetastar$ --- кут прямих силових ліній. Позначення ті самі, що в методичці (файл \texttt{notation.sty} спільний). Рамки:
+\begin{itemize}
+\item \emph{Поза корпусом} --- стандартна теорія, якої немає в джерелах проєкту;
+\item \emph{Встановлено в проєкті [ID]} --- пункт реєстру (E --- \cite{RegEst}, VE/VR --- \cite{RegViz});
+\item \emph{Модель проєкту} --- числа нашої реконструкції JET;
+\item \emph{Нове спостереження} --- знайдено під час написання гайду, у реєстри ще не внесено;
+\item \emph{Практикум} --- що запустити і що змінити.
+\end{itemize}
+Код наведено \emph{безпосередньо з файлів} проєкту: номери рядків ліворуч збігаються з файлом. Префікси шляхів: \texttt{viz/} = \texttt{tokamak-3d-viz/}, \texttt{fec/} = \texttt{fusion equilibrium challenge/}, \texttt{ourtry/} = \texttt{Our try/}, \texttt{geo/} = \texttt{geometry/code/} (скрипт цього гайду).
+
+\section{Як відтворити всі числа}\label{sec:geo1-run}
+
+\begin{practicum}[один запуск]
+Потрібне середовище конкурсу (\texttt{numpy}, \texttt{scipy}, \texttt{scikit-image}, \texttt{pyarrow}); системний \texttt{python3} без них не підійде. З кореня проєкту:\\
+\texttt{PY="fusion equilibrium challenge/starter/.venv/bin/python"}\\
+\texttt{"\$PY" geometry/code/geom\_tour.py --figs}\\
+Скрипт працює $\approx\SI{6}{с}$. Він пише всі числа гайду в \texttt{geometry/code/geom\_tour.json} і перемальовує рисунки \texttt{geometry/figures/geo\_*.jpg}. Дані DIII-D (\texttt{d3d\_shot\_203702.parquet}) уже лежать у \texttt{fusion equilibrium challenge/starter/parquet\_data/}. Гайд збирається командою \texttt{cd geometry \&\& latexmk main.tex}.
+\end{practicum}

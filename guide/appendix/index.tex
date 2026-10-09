@@ -1,0 +1,58 @@
+\chapter{Покажчик пунктів реєстрів}\label{app:index}
+
+Тут зібрано \emph{кожен} пункт усіх реєстрів проєкту: батьківських
+(\texttt{Our try/00-decisions}: E, R, C, Q, D \cite{RegEst,RegConj,RegDec,RegQ}), журналу
+верифікації (V-\,\cite{RegVerif}), реєстру візуалізації (VE, VR, VC, VQ \cite{RegViz}) і трьох
+пунктів бекенда котушок (U1--U3), які в \texttt{tokamak-3d-viz/docs/COIL-BACKEND.md} не мають
+номерів (номери U дав путівник; див.\ розд.~\ref{ch:g09}).
+
+\paragraph{Як зроблено таблицю.} Тіло таблиці генерує скрипт
+\texttt{guide/tools/build\_index.py}. Він \emph{парсить} реєстри, тож ідентифікатори, статуси
+й номери рядків беруться з самих файлів (стан на 2026-10-07), а не переписуються вручну. Вручну
+задано лише три стовпці: суть (до 12 слів), посилання на код і розділ путівника. Скрипт
+завершується з помилкою, якщо в реєстрі з'явився пункт без рядка в покажчику (або навпаки), а
+також якщо посилання на код указує на файл чи функцію, яких немає. Після зміни реєстрів:
+\verb|cd guide && python3 tools/build_index.py|.
+
+{\raggedright\paragraph{Стовпці.} «Де в реєстрі»~--- файл і номер рядка (р.), з якого починається запис. «Код»~---
+\texttt{файл:функція} з тими самими префіксами, що й у фрагментах коду путівника
+(\texttt{ourtry/}~= \texttt{Our try/}; \texttt{viz/}~= \texttt{tokamak-3d-viz/};
+\texttt{gs/}~= \texttt{Tokamak-GS-solver/}; \texttt{fec/}~= \texttt{fusion equilibrium
+challenge/}; \texttt{manualcode/}~= \texttt{manual/code/}); «---» означає, що пункт прочитано в джерелі або
+він організаційний. «Розділ»~--- де пункт розповідається; «лише тут» позначає технічні пункти
+(рендер Blender, перевірки чисел Sophelio тощо), які путівник свідомо не розбирає.
+Стрілка $\to$ у стовпці «суть» вказує на пов'язаний пункт іншого реєстру.\par}
+
+\makeatletter\newcommand\gIndexRows{\@@input appendix/index_rows.tex }\makeatother
+{\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{1.05cm}
+                    >{\raggedright\arraybackslash}p{4.75cm}
+                    >{\raggedright\arraybackslash}p{2.35cm}
+                    >{\raggedright\arraybackslash}p{2.55cm}
+                    >{\raggedright\arraybackslash}p{3.4cm}
+                    >{\raggedright\arraybackslash}p{1.35cm}@{}}
+\toprule
+\textbf{ID} & \textbf{Суть} & \textbf{Статус} & \textbf{Де в реєстрі} & \textbf{Код} & \textbf{Розділ}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{ID} & \textbf{Суть} & \textbf{Статус} & \textbf{Де в реєстрі} & \textbf{Код} & \textbf{Розділ}\\
+\midrule
+\endhead
+\midrule
+\multicolumn{6}{r}{\emph{продовження на наступній сторінці}}\\
+\endfoot
+\bottomrule
+\endlastfoot
+\gIndexRows
+\end{longtable}
+}
+
+\paragraph{Підсумок за реєстрами.} E1--E40~--- 40; R1--R13~--- 13; C1--C10~--- 10 (C8 закрито~→ R9, C1~→ R10, C2~→ R11, C5~→ R13; половина C4~→ R12);
+Q1--Q13~--- 13 (Q11, Q12 закриті); D1--D9~--- 9; журнал верифікації V-A1\ldots V-C4~--- 17;
+VE1--VE33 разом із VE11a~--- 34; VR1--VR16~--- 16; VC1--VC7~--- 7; VQ1--VQ5~--- 5; U1--U3~--- 3.
+Разом \textbf{167} пунктів (лічильники друкує той самий скрипт). Шість відкинутих варіантів і
+три визнані ризики з \texttt{DECISIONS.md} номерів не мають і в покажчик не входять; їх
+розібрано в розд.~\ref{ch:g01}.

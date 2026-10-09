@@ -1,0 +1,250 @@
+\chapter{Як читати путівник}\label{ch:g00}
+
+Цей путівник --- не підручник і не звіт про успіх. Це історія проєкту, розказана через
+його \emph{гіпотези}: що ми припускали, як перевіряли, що підтвердилося, що впало --- і що
+виросло на місці спростованого. Фізику, на яку ми спираємося, викладено в методичці
+\cite{Manual}; тут вона з'являється рівно настільки, наскільки потрібна, щоб зрозуміти
+твердження й код, яким його перевіряли.
+
+Кожен пункт розказано за однією схемою: (1)~що стверджується, простими словами і
+формулою; (2)~звідки взялася ідея; (3)~що ми зробили (скрипт, параметри); (4)~що вийшло
+(числа --- лише з \texttt{results.json}, реєстрів або повторного запуску); (5)~що з цього
+випливло (статус і наступна ідея); (6)~де це в коді --- фрагмент, узятий \emph{безпосередньо}
+з файлу проєкту, з поясненням по блоках; (7)~як відтворити й розвинути.
+
+\section{Статуси і рамки}\label{sec:g00-status}
+
+Усі статуси взято з реєстрів проєкту в тому вигляді, в якому їх узгоджено 2026-09-29
+\cite{RegEst,RegConj,RegDec,RegQ,RegLog,RegViz}. Путівник статусів \emph{не присвоює}: якщо
+реєстри між собою розходяться, ми про це кажемо, а не «виправляємо» мовчки.
+
+\begin{center}\small
+\begin{tabularx}{\textwidth}{@{}p{3.3cm}p{2.3cm}X@{}}
+\toprule
+Статус & Мітки & Що означає \\
+\midrule
+встановлено: виміряно & E (розд.~A), VE & виміряно \emph{власним кодом}; є скрипт і число \\
+встановлено: прочитано & E (розд.~B) & прочитано у відкритому джерелі, з бібліографією \\
+гіпотеза & C, VC & ще не перевірено; записано, \emph{що її спростує} і скільки коштує перевірка \\
+спростовано & R, VR & власне твердження, яке перевірка збила; \emph{не видаляється} \\
+відкрито & Q, VQ & питання, на яке ми не можемо відповісти самі (адресат указано) \\
+відкладено & C9, C10 & гіпотеза, яку свідомо не перевіряємо (з причиною) \\
+рішення & D & ухвалене рішення з \emph{умовою перегляду} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+У тексті статуси позначено рамками:
+\begin{established}{ID}
+Рамка для встановленого (виміряного чи прочитаного). Число в ній --- з реєстру або з
+повторного запуску.
+\end{established}
+\begin{conjecture}{ID}
+Рамка для гіпотези. Завжди містить критерій спростування.
+\end{conjecture}
+\begin{refuted}{ID}
+Рамка для спростованого. Показує, \emph{чим} спростовано і що з цього вийшло.
+\end{refuted}
+\noindent Для короткої довідки про пункт, який детально розібрано в іншому розділі,
+вживаємо картку \texttt{itemcard} (ID і статус у заголовку).
+
+\paragraph{Правила реєстрів.} Їх варто знати, бо вся структура путівника з них випливає
+\cite{RegEst,RegConj}:
+\begin{itemize}
+\item \textbf{Правило входу} в реєстр встановленого: лише виміряне власним кодом або
+  прочитане у відкритому джерелі --- «не здогадка, не правдоподібність, не „так роблять
+  усі“».
+\item \textbf{Правило входу} в реєстр гіпотез: усе неперевірене, з критерієм
+  спростування і вартістю перевірки.
+\item \textbf{Правило виходу:} перевірену гіпотезу переносять у встановлене --- або в
+  розділ спростованого. \textbf{Нічого не зникає мовчки.} Кожна правка реєстрів має
+  рядок у журналі змін \cite{RegLog} (дата, файл, «було~→~стало», причина, доказ).
+\item \textbf{Правило цитування:} гіпотезу не можна вживати в концепті чи в матеріалах
+  для учасників без позначки «гіпотеза».
+\item Рішення (D) мають \emph{умову перегляду}; якщо вона настає, рішення переглядають,
+  а не успадковують.
+\end{itemize}
+Станом на 2026-10-07 тринадцять власних тверджень перевірено й спростовано (R1--R13; R9~--- колишня C8,
+зареєстрована 2026-09-29; R10 і R11~--- колишні C1 і C2, 2026-09-30; R12~--- половина C4 і
+R13~--- колишня C5, обидві 2026-10-01) \cite{RegEst,RegConj}. Реєстр гіпотез наголошує: це не ознака
+поганої роботи, а ознака того, що перевірка працює, а дві з них (R2, R7) після спростування дали
+кращий результат, ніж містили до нього. Реєстр також стверджує, що спростоване не потрапляло в
+концепт. Для R11 це не так: концепт подавав спектрально зважену втрату як «готове покращення»,
+і це виправлено лише 2026-10-06 \cite{RegLog}. Знаменник «близько чотирнадцяти висунутих
+гіпотез» у реєстрі з того часу не перераховувався.
+
+\section{Простори імен}\label{sec:g00-ids}
+
+Проєкт має кілька реєстрів із \emph{перетинними} мітками, тож завжди дивіться на префікс.
+\begin{itemize}
+\item \textbf{Батьківський реєстр} (\texttt{Our try/00-decisions/}): E1--E40 (виміряно:
+  E1--E17, E30--E38, E40; прочитано: E18--E29, E39), R1--R13, C1--C10, Q1--Q13 (Q11, Q12 закриті),
+  рішення D1--D9 \cite{RegEst,RegConj,RegQ,RegDec}.
+\item \textbf{Глибокі розбори} --- теки \texttt{03-deep-dives/D1-\ldots, D2-\ldots, D3-\ldots}.
+  Це \emph{не} рішення D1--D3! У путівнику пишемо «розбір~D1» проти «рішення~D1».
+\item \textbf{Журнал верифікації}: V-A1--V-A4, V-D1--V-D4, V-B1--V-B5, V-C1--V-C4
+  \cite{RegVerif}. До 2026-09-29 префікса \texttt{V-} не було, і «A2» чи «C3» зіткалися з
+  іншими реєстрами; у старих текстах можна натрапити на старі мітки.
+\item \textbf{Реєстр візуалізації} (\texttt{tokamak-3d-viz/\allowbreak findings.md}): VE1--VE33 (плюс
+  VE11a), VR1--VR16, VC1--VC7, VQ1--VQ5 \cite{RegViz}. Тут «V» --- від
+  \emph{visualization}: VC5 не має нічого спільного з C5.
+\item \textbf{U1--U3} --- мітки путівника для трьох ненумерованих пунктів
+  \texttt{tokamak-3d-viz/\allowbreak docs/\allowbreak COIL-BACKEND.md}: U1 (надлишок хаосу в
+  бекенді котушок спричиняє гребінка бічних смуг --- спростовано), U2 (підлога хаосу в бекенді
+  котушок: фізика чи числова похибка? --- відкрито), U3 (тримати векторний потенціал $\vect{A}$, а не поле $\Bvec$ на сітці;
+  $\Bvec=\grad\times\vect{A}$ --- встановлено). Див.
+  розділ~\ref{ch:g09}.
+\item \textbf{N1--N7} --- знахідки координатора (\texttt{manual/\allowbreak tools/\allowbreak COORD\_NOTES.md}).
+  Окремого реєстру вони не мають: 2026-09-29 їх зареєстровано в наявних \cite{RegLog}.
+  N1 (ширина острова з $\psi$ як імпульсом, помилка в $\sqrt q$)~→ рецидив R4 і VR15 (а
+  хибне пояснення, яке вона породила, --- VR16); N2 (функція Гріна отримувала $k$ замість
+  $m=k^2$)~→ E33; N3 (C8 нездійсненна без джерела даних)~→ примітка до C8; N4 (поріг
+  3\,\% у E10 пограничний)~→ уточнення E10, E11, E13; N5 (E14 без скрипта)~→ позначки в
+  E14 і R6; N6 (GS-нев'язка ледь розрізняє моделі)~→ частковий результат C4; N7
+  (GS-solver не запускався)~→ E34.
+\item \textbf{H5} --- стара назва гіпотези «провал перенесення має топологічну складову»;
+  окремого реєстру H-міток немає, H5 живе лише в R7 і в назві скрипта
+  \texttt{04-novelty/\allowbreak h5\_transfer\_topology.py}.
+\end{itemize}
+
+\section{Як запускати код}\label{sec:g00-run}
+
+Усі скрипти \texttt{Our try/}, код методички й більшість прикладів путівника
+запускаються інтерпретатором із віртуального середовища стартового набору конкурсу
+(Fusion Equilibrium Challenge \cite{FEC}); системний \texttt{python3} не має numpy.
+У цьому середовищі є numpy~2.5, scipy~1.18, scikit-learn, matplotlib, pyarrow і
+PyTorch~2.5 (перевірено 2026-09-29).
+\begin{verbatim}
+cd "fusion equilibrium challenge/starter"
+.venv/bin/python "../../Our try/03-deep-dives/D1-psi-to-scalars/conditioning.py" \
+    --frames 60 --seeds 3
+\end{verbatim}
+Де лежать дані:
+\begin{itemize}
+\item \texttt{fusion equilibrium challenge/starter/parquet\_data/} --- шість демо-розрядів
+  (DIII-D 203702--203704, MAST 28348, 28350, 28351), формат Parquet, карти
+  \texttt{efit\_psirz} $65\times65$;
+\item \texttt{\ldots/starter/fusion\_scoring/} --- скорер (лише numpy) і маски
+  (\texttt{masks/d3d\_envelope.npz}: сітка $R,Z$ і маска обвідної);
+\item повний корпус (103,86~ГБ) --- на Hugging Face, \texttt{Sophelio/\allowbreak fusion-equilibrium-challenge},
+  стрімінг без авторизації (розд.~\ref{ch:g01});
+\item \texttt{tokamak-3d-viz} має власне середовище (див. README репозиторію: \texttt{python -m venv .venv}, потім \texttt{pip install -r requirements.txt}), дані й результати аналізу --- у
+  \texttt{tokamak-3d-viz/data/};
+\item \texttt{Tokamak-GS-solver} --- власне середовище (conda або pip, README; перевірено
+  2026-09-29, Python~3.12).
+\end{itemize}
+Фрагменти коду в путівнику вставлено командою, що читає файл проєкту напряму через
+посилання \texttt{guide/src/}: \texttt{ourtry/}~→ \texttt{Our try/}, \texttt{viz/}~→
+\texttt{tokamak-3d-viz/}, \texttt{gs/}~→ \texttt{Tokamak-GS-solver/}, \texttt{fec/}~→
+\texttt{fusion equilibrium challenge/}, \texttt{manualcode/}~→ \texttt{manual/code/}.
+Номери рядків у лістингу --- справжні номери рядків файлу. Увага: деякі скрипти пишуть
+результати у свою ж теку (наприклад, \texttt{branch\_mean.py} перезаписує
+\texttt{results.json}); якщо хочете поекспериментувати, скопіюйте скрипт або скористайтеся
+параметром \texttt{--out}, де він є.
+
+\section{Карта: від спростування до нової ідеї}\label{sec:g00-map}
+
+Рисунок~\ref{fig:g00-chains} показує головні ланцюжки путівника. Колір вузла --- статус
+пункту \emph{зараз}; стрілка --- «з цього випливло». Більшість ланцюжків починається зі
+спростування або з гіпотези, яку перевірка перетворила на щось інше. Праворуч --- розділ,
+де ланцюжок розказано.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  font=\sffamily\scriptsize,
+  box/.style={draw,rounded corners=1.5pt,align=center,text width=2.12cm,
+              minimum height=0.95cm,inner sep=2pt,line width=0.6pt},
+  est/.style={box,fill=teal!10,draw=teal!60!black},
+  con/.style={box,fill=orange!12,draw=orange!70!black},
+  ref/.style={box,fill=red!8,draw=red!55!black},
+  dec/.style={box,fill=blue!6,draw=blue!50!black},
+  opn/.style={box,fill=gray!10,draw=gray!60!black},
+  go/.style={-{Stealth[length=4pt]},line width=0.6pt},
+  back/.style={go,dashed,red!55!black},
+  node distance=0.34cm and 0.36cm,
+  lab/.style={font=\sffamily\scriptsize\itshape,text=black!60}
+]
+% ряд 1: Бін
+\node[ref] (r2) {\textbf{R2}\\Бін = плазма?};
+\node[dec,right=of r2] (d8) {\textbf{D8}\\Бін як опуклий контроль};
+\node[est,right=of d8] (e4) {\textbf{E4/E5}\\середнє гілок --- не розв'язок};
+\node[con,right=of e4] (c7) {\textbf{C7}\\Deep Ritz: вибір гілки};
+\draw[go] (r2)--(d8); \draw[go] (d8)--(e4); \draw[go] (e4)--(c7);
+% ряд 2: перенесення
+\node[con,below=of r2] (h5) {\textbf{H5}\\провал перенесення топологічний?};
+\node[ref,right=of h5] (r7) {\textbf{R7}\\топологія вціліває};
+\node[est,right=of r7] (e15) {\textbf{E15/E16}\\скелет 1O/0X на обох машинах};
+\node[ref,right=of e15] (c8) {\textbf{C8$\to$R9}\\провали LCFS~--- артефакт знака};
+\draw[go] (h5)--(r7); \draw[go] (r7)--(e15); \draw[go] (e15)--(c8);
+% ряд 3: метрика
+\node[est,below=of h5] (dd) {\textbf{розбори D1, D2}\\E1--E3; E4};
+\node[est,right=of dd] (e6) {\textbf{E6--E8}\\GS-нев'язка лише з $\psi$};
+\node[dec,right=of e6] (d6) {\textbf{D6}\\метрика $S'$};
+\node[con,right=of d6] (c4) {\textbf{C4}\\GS-половина $\to$ R12};
+\draw[go] (dd)--(e6); \draw[go] (e6)--(d6); \draw[go] (d6)--(c4);
+% ряд 4: обернена задача
+\node[ref,below=of dd] (c5) {\textbf{C5$\to$R13}\\Рівень~3 за 48~год? Фіт 0/40};
+\node[est,right=of c5] (e30) {\textbf{E30--E32}\\пілот Tokamap};
+\node[ref,right=of e30] (r8) {\textbf{R8}\\сума мод не симплектична};
+\node[est,right=of r8] (ve21) {\textbf{VE21}\\$\Bvec=\grad\times(\psi\grad\tor)$};
+\node[est,right=of ve21] (ve22) {\textbf{VE22--VE25}\\складність --- у фазах};
+\node[est,right=of ve22] (ve30) {\textbf{VE30/VE31}\\слід; 2--6 мод};
+\draw[go] (c5)--(e30); \draw[go] (e30)--(r8); \draw[go] (r8)--(ve21);
+\draw[go] (ve21)--(ve22); \draw[go] (ve22)--(ve30);
+% ряд 5: котушки
+\node[con,below=of c5] (vc1) {\textbf{VC1}\\обвідна $\psiN^{m/2}$ = котушки?};
+\node[ref,right=of vc1] (vr14) {\textbf{VR14}\\показник гуляє};
+\node[est,right=of vr14] (u3) {\textbf{U3}\\тримати $\vect{A}$, а не $\Bvec$};
+\draw[go] (vc1)--(vr14); \draw[go] (vr14)--(u3);
+% ряд 6-7: острови і рецидив R4
+\node[ref,below=of vc1] (vr12) {\textbf{VR12}\\дефіцит ширини --- засів?};
+\node[est,right=of vr12] (ve18) {\textbf{VE18}\\маятникова формула (виправлена)};
+\node[ref,right=of ve18] (vr15) {\textbf{VR15/VR16}\\помилка в $\sqrt q$};
+\node[ref,below=of vr12] (r4) {\textbf{R4}\\$\psi$ як імпульс};
+\node[est,right=of r4] (e19) {\textbf{E19}\\імпульс --- тороїдальний потік};
+\draw[go] (vr12)--(ve18); \draw[go] (ve18)--(vr15);
+\draw[go] (r4)--(e19);
+\draw[back] (e19.east) -| node[pos=0.75,right,font=\sffamily\scriptsize,text=red!55!black]{рецидив у коді (N1)} (vr15.south);
+% підписи розділів
+\node[lab,anchor=west,xshift=1.5mm] at (c7.east) {розд.~\ref{ch:g03}};
+\node[lab,anchor=west,xshift=1.5mm] at (c8.east) {розд.~\ref{ch:g06}};
+\node[lab,anchor=west,xshift=1.5mm] at (c4.east) {розд.~\ref{ch:g02}, \ref{ch:g04}};
+\node[lab,anchor=north,yshift=-0.5mm] at (ve30.south) {розд.~\ref{ch:g07}};
+\node[lab,anchor=west,xshift=1.5mm] at (u3.east) {розд.~\ref{ch:g09}};
+\node[lab,anchor=west,xshift=1.5mm] at (vr15.east) {розд.~\ref{ch:g08}};
+% легенда
+\node[est,text width=1.75cm,minimum height=0.5cm,below=0.55cm of r4] (l1) {встановлено};
+\node[con,text width=1.75cm,minimum height=0.5cm,right=0.2cm of l1] (l2) {гіпотеза};
+\node[ref,text width=1.75cm,minimum height=0.5cm,right=0.2cm of l2] (l3) {спростовано};
+\node[dec,text width=1.75cm,minimum height=0.5cm,right=0.2cm of l3] (l4) {рішення};
+\draw[back] ([xshift=3mm]l4.east) -- ++(8mm,0) node[right,text=black]{повернення старої помилки};
+\end{tikzpicture}
+\caption{Головні ланцюжки «спростування~/ гіпотеза~→ нова ідея». Колір --- поточний статус
+за реєстрами на 2026-10-07 \cite{RegEst,RegConj,RegDec,RegViz}. VE18 після 2026-09-29
+переформульовано: старе пояснення «дефіцит ширини = стохастичний шар» тепер VR16.
+C5 закрито 2026-10-01: базовий нелінійний фіт не дійшов до рівня шуму (R13), бо ландшафт
+нев'язки «скляний» (E40).}
+\label{fig:g00-chains}
+\end{figure}
+
+Кілька ланцюжків варто прочитати вголос, бо вони задають тон решті путівника.
+\begin{itemize}
+\item \textbf{R2~→ D8~→ E4/E5~→ C7.} Гіпотеза «критичний стан Біна і вільна межа плазми ---
+  одна математика» впала на опуклості. Врятована версія --- Бін як \emph{опуклий
+  контроль} --- дала точний вимір: середнє двох гілок нелінійної задачі не є розв'язком
+  (розд.~\ref{ch:g03}).
+\item \textbf{H5~→ R7~→ E15/E16.} Ми чекали, що перенесення DIII-D~→ MAST ламає
+  топологію $\psi$. Вийшло навпаки: значення ламаються, топологія --- ні. Інверсія виявилась
+  кориснішою за гіпотезу (розд.~\ref{ch:g06}).
+\item \textbf{C5~→ \ldots~→ VE30/VE31.} Пілот оберненої задачі наштовхнувся на власну
+  помилку (R8: узагальнена мапа не зберігає потік); блокер зняв структурний прийом
+  $\Bvec=\grad\times(\psi\grad\tor)$ (VE21), і тоді з'ясувалося, що в лінеаризованій постановці
+  складність задачі задає вибір спостережуваного, а не фізика. Нелінійна перевірка закрила
+  гіпотезу: інформація в даних є, але базовий фіт застрягає на «скляному» ландшафті (R13, E40;
+  розд.~\ref{ch:g07}).
+\item \textbf{R4~→ E19~→ VR15.} Помилку «$\psi$ як канонічний імпульс» спростували ще в
+  рецензії літератури --- і вона однаково повернулася в коді візуалізації, завищивши ширину
+  острова в $\sqrt q$ разів. Звідси правило «нічого не зникає мовчки»: спростоване
+  лишається в реєстрі саме для того, щоб його впізнали при рецидиві (розд.~\ref{ch:g08}).
+\end{itemize}

@@ -1,0 +1,9 @@
+[F1 eps=0.5] smallest singular values: [2.38e+00 1.60e+00 1.50e+00 3.69e-12]
+   commuting affine field found; M =
+ [[-0.        1.        0.      ]
+ [-0.333333  0.        0.      ]
+ [-0.        0.        0.      ]] 
+   c = [-0. -0.  0.]
+   is p invariant under it?  max |v.grad p|/(|v||grad p|) = 0.619
+[F2 eps=1.08 S=3] smallest singular values: [0.58 0.47 0.43 0.37]
+   no affine symmetry of B

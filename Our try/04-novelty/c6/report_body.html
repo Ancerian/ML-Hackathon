@@ -1,0 +1,319 @@
+<div class="wrap">
+  <header class="doc-head">
+    <div>
+      <img class="crest crest-light" src="CREST_LIGHT" alt="Герб Фізико-математичного факультету">
+      <img class="crest crest-dark" src="CREST_DARK" alt="Герб Фізико-математичного факультету">
+    </div>
+    <div class="org">
+      <span class="u">КПІ імені Ігоря Сікорського</span>
+      <span class="f">Фізико-математичний факультет</span>
+      <span class="l">AI-лабораторія імені професора В.&nbsp;М.&nbsp;Горшкова</span>
+    </div>
+    <div class="logo-slot" aria-hidden="true">логотип лабораторії</div>
+  </header>
+
+  <div class="title">
+    <span class="label">Дослідження · Гіпотези C6 і C4 · 05.10.2026</span>
+    <h1>Перевірка гіпотез C6 і C4</h1>
+  </div>
+  <p class="lead">Чи можна дати учасникові конкурсу чесну смугу невизначеності на все поле ψ 65×65, і чи змінить член калібрування порядок моделей? Одночасна конформна смуга вийшла вузькою й працездатною. Але її покриття на восьми тестових розрядах залежить від одного-двох розрядів. Порядку моделей член калібрування не змінює.</p>
+
+  <div class="verdict">
+    <div class="chips">
+      <span class="chip info">C6 · уточнено</span>
+      <span class="chip bad">C4 (Calibration) · спростовано</span>
+      <span class="chip bad">C4 повністю (GS + Calibration) · стійкої зміни немає</span>
+      <span class="chip info">Розряд №61 · спостереження</span>
+    </div>
+    <div class="freqs" id="headcells"></div>
+  </div>
+
+  <section>
+    <span class="label">Контекст</span>
+    <h2>Що стверджували гіпотези</h2>
+    <p>Проєкт метрики <code>S′</code> пропонує, щоб учасники разом із ψ подавали смуги невизначеності на рівнях 50, 80, 90 і 95 %, а член <b>Calibration</b> порівнював емпіричне покриття з номінальним. ψ тут не скаляр, а поле з 4&nbsp;225 пікселів, тому поточкові інтервали дають 4&nbsp;225 окремих гарантій замість однієї спільної.</p>
+    <div class="two">
+      <div class="card">
+        <span class="label">C6</span>
+        <p>Одночасні конформні смуги на полі 65×65 — <b>правильна форма</b> UQ-члена. Спростує: емпіричне покриття недосяжне без абсурдної ширини.</p>
+      </div>
+      <div class="card">
+        <span class="label">C4, друга половина</span>
+        <p>Додавання Calibration <b>змінить упорядкування</b> бейзлайнів. Спростує: порядок той самий, що за <code>S</code>. Половину про GS_score спростовано раніше (R12).</p>
+      </div>
+    </div>
+    <p>Головна форма смуги (M) — студентизований максимум. Масштаб <i>s</i>(<i>x</i>) оцінюється на одній половині калібрувальних розрядів, квантиль максимуму — на другій:</p>
+    <div class="math-block"><i>e<sub>t</sub></i> = max<sub><i>x</i></sub> |<i>ψ<sub>t</sub></i>(<i>x</i>) − <i>ψ̂<sub>t</sub></i>(<i>x</i>)| / <i>s</i>(<i>x</i>), &nbsp;&nbsp; смуга: <i>ψ̂</i>(<i>x</i>) ± <i>Q<sub>a</sub></i> <i>s</i>(<i>x</i>)</div>
+    <div class="math-block">Calibration = Cov × Sharp, &nbsp; Cov = 1 − ¼ Σ<sub><i>a</i></sub> |emp(<i>a</i>) − <i>a</i>| / max(<i>a</i>, 1 − <i>a</i>), &nbsp; Sharp = ¼ Σ<sub><i>a</i></sub> clip(1 − <i>W<sub>a</sub></i> / <i>W</i><sub>N0,<i>a</i></sub>, 0, 1)</div>
+    <p class="small muted">N0 — «нульова» модель: середня карта ψ навчальних кадрів. Її смуга, відкалібрована так само, — еталон кліматологічної ширини. Гостроту додано, бо проєкт метрики вимагає захисту від геймінгу: нескінченно широка смуга має ідеальне покриття.</p>
+  </section>
+
+  <section>
+    <span class="label">Метод</span>
+    <h2>Як перевіряли</h2>
+    <ol class="steps">
+      <li><span class="k">0</span><div><b>Попередня реєстрація.</b> Означення смуг, мір і критеріїв записано в <code>c6/THEORY.md</code> до навчання моделей (SHA-256 <span class="num">e356ffa0…1fb12</span>). Деталі плану обрав виконавець, користувач окремо їх не затверджував.</div></li>
+      <li><span class="k">1</span><div><b>Калібрувальні дані.</b> 24 розряди DIII-D, рівномірно взяті з усього навчального набору конкурсу, <span class="num">5&nbsp;580</span> кадрів. Жоден не збігається з розрядами навчання (0–35), валідації (36–39) чи тесту (60–67). Ознаки й мітки обробляються так само, як на тесті. Розряди поділено на половини A (масштаб) і B (квантиль) по 12.</div></li>
+      <li><span class="k">2</span><div><b>Моделі.</b> Ті самі 8 бейзлайнів, що в C4, перенавчені тим самим кодом. Кожна модель дає прогнози і для калібрування, і для тесту. Перевірка відтворення: S і R²ψ збігаються з C4 точно, крім Conv Decoder (0,6509 проти 0,6524; недетермінізм MPS).</div></li>
+      <li><span class="k">3</span><div><b>Форми смуг.</b> M (одночасна, головна) і P (поточкова, для порівняння). Бонферроні на 5&nbsp;580 кадрах має нескінченну ширину на всіх рівнях, бо вимагає щонайменше 4&nbsp;225/(1 − <i>a</i>) − 1 кадрів.</div></li>
+      <li><span class="k">4</span><div><b>Міри на тесті</b> (8 розрядів, 1&nbsp;521 кадр). Спільне покриття — частка кадрів, де ψ всередині смуги в усіх пікселях. <i>κ</i>* — ширина, потрібна для фактичного покриття на тесті, поділена на таку саму для N0. Бутстреп 1000× одночасно по тестових розрядах і розрядах половини B.</div></li>
+      <li><span class="k">5</span><div><b>C4.</b> S′<sub>Cal</sub> = (1 − <i>w<sub>u</sub></i>)·[ваги проєкту метрики без нових членів] + <i>w<sub>u</sub></i>·Calibration. Головна вага <i>w<sub>u</sub></i> = 0,118, скан до 0,30. Стійка перестановка — у ≥ 95 % бутстреп-повторень, як у C4.</div></li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="label">Результат · C6</span>
+    <h2>Смуга вузька, але покриття залежить від розрядів</h2>
+    <p>Спростовувач C6 не спрацював для жодної моделі. Навіть розширена до фактичного 90 % покриття на нових розрядах, смуга чотирьох точних моделей становить <span class="num" id="kRange"></span> кліматологічної: поріг «абсурду» — 1, поріг підтвердження — 0,5. Підтвердження не вийшло через покриття. При номіналі 0,90 на тесті воно <span class="num" id="eRange"></span>, а критерій вимагав ≥ 0,85 для всіх чотирьох. Пройшла лише UNet_Lite. Усі довірчі інтервали містять 0,90.</p>
+    <figure>
+      <div class="chart" id="chartCov" role="img" aria-label="Спільне покриття на тесті залежно від номінального рівня для чотирьох точних моделей"></div>
+      <div class="legend" id="legendCov"></div>
+      <figcaption>Спільне покриття форми M на 8 тестових розрядах. Пунктир — ідеальне калібрування. Смуга — діапазон 5–95 % покриття на 2&nbsp;000 випадкових розбиттях пулу «половина B + тест», а пунктирна лінія всередині неї — середнє покриття. Смугу пораховано post-hoc, на вердикт вона не впливала.</figcaption>
+    </figure>
+    <div class="tbl"><table id="tblC6"></table></div>
+    <p class="small muted">Жирним — чотири «точні» моделі, за якими ухвалюється вердикт. ДІ — 95 % довірчий інтервал. P @0,90 — спільне покриття поточкової смуги. <i>c</i>* — у скільки разів довелося б розширити смугу, щоб на тесті вона справді покривала заданий рівень. W<sub>M</sub>/W<sub>P</sub> — ціна одночасності: у скільки разів одночасна смуга ширша за поточкову того самого рівня.</p>
+    <ul class="stars">
+      <li><div><b>Одночасність потрібна.</b> Поточкова смуга P дає спільне покриття лише <span class="num" id="pRange"></span> при номіналі 0,90. Одночасна коштує в <span class="num" id="priceRange"></span> раза більшої ширини, і для точних моделей це прийнятна ціна.</div></li>
+      <li><div><b>У лінійних моделей похибка — майже одна глобальна мода.</b> Медіана max|<i>r</i>|/<i>s</i> по 4&nbsp;225 пікселях становить ≈ 1,3 проти 2,2–3,6 у мереж. Тому їхня одночасна смуга лише в 1,6 раза ширша за поточкову.</div></li>
+      <li><div><b>Розкид покриття по тестових розрядах великий.</b> На розряді №63 покриття всіх чотирьох точних моделей при 0,90 становить лише 0,12–0,21, тоді як на чотирьох-п'яти розрядах з восьми — 0,95–1,0.</div></li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="label">Діагностика · post-hoc</span>
+    <h2>Розряд або цілком у смузі, або значною мірою поза нею</h2>
+    <p>Чи це систематичний зсув, чи невдалий набір тестових розрядів? Відповідь дав пул із 20 розрядів: 12 половини B і 8 тестових. Масштаб <i>s</i>(<i>x</i>) брався з половини A. На 2&nbsp;000 випадкових розбиттях пулу на 12 калібрувальних і 8 оцінювальних розрядів метод у середньому валідний: <span class="num" id="poolMean"></span> при номіналі 0,90 і <span class="num" id="poolMean50"></span> при 0,50. Проте на 8 розрядах реалізоване покриття розкидається від ≈ 0,7 до 1,0. Наш тест — на <span class="num" id="pctRange"></span> перцентилі при 0,90. Обробку даних перевірено окремо: ознаки й мітки з двох джерел збігаються до біта.</p>
+    <figure>
+      <div class="chart" id="chartShots" role="img" aria-label="Покриття кожного з 20 розрядів при номіналі 0,9, якщо смугу калібровано на решті 19"></div>
+      <div class="legend" id="legendShots"></div>
+      <figcaption>Покриття кожного розряду при номіналі 0,90, коли смугу відкалібровано на решті 19 (leave-one-shot-out). Більшість розрядів покрито на 0,9–1,0, а один-два з двадцяти — лише на 0,07–0,21. Затінено тестові розряди.</figcaption>
+    </figure>
+    <div class="note"><p><b>Що з цього випливає.</b> Конформна гарантія на рівні кадрів виконується лише в середньому по розрядах. Покриття, яке команда отримає на тесті з кількох розрядів, визначать один-два розряди. Якщо член калібрування лишати, одиницею має бути <b>розряд</b> (калібрування й покриття по розрядах), а тестових розрядів потрібно значно більше за вісім.</p></div>
+  </section>
+
+  <section>
+    <span class="label">Результат · C4</span>
+    <h2>Член калібрування не змінює порядку</h2>
+    <p>При головній вазі порядок за S′<sub>Cal</sub> точно такий самий, як за S (<i>τ</i> Кендалла = <span class="num" id="tauMain"></span>). Від <i>w<sub>u</sub></i> = 0,15 Random Forest піднімається з останнього на перше місце серед лінійних моделей. Але жодна перестановка в усьому скані не тримається навіть у половині бутстреп-повторень. Причина видна з таблиці: Calibration із гостротою майже повторює точність карти. Коефіцієнт Спірмена з R²ψ по моделях = <span class="num" id="spR2"></span>, з Consistency — <span class="num" id="spCons"></span>.</p>
+    <div class="tbl"><table id="tblC4"></table></div>
+    <figure>
+      <div class="chart" id="chartWu" role="img" aria-label="S prime з членом Calibration залежно від його ваги"></div>
+      <div class="legend" id="legendWu"></div>
+      <figcaption>S′<sub>Cal</sub> залежно від ваги члена Calibration. Вертикальна лінія — головна вага 0,118. Лінії мереж і лінійних моделей не перетинаються.</figcaption>
+    </figure>
+    <div class="tbl"><table id="tblRank"></table></div>
+    <p class="small muted">Довідково, не критерій. Calibration без гостроти (лише покриття) дає одну перестановку: Simple MLP над MLP (sklearn), бо MLP (sklearn) на тесті найгірше покрита. Вона тримається в 53 % повторень при головній вазі й у 83 % при 0,30. Повна S′ з обома новими членами за вагами проєкту метрики (тобто C4 у початковому формулюванні) піднімає MLP (sklearn) на перше місце, але лише в 51–54 % повторень.</p>
+  </section>
+
+  <section>
+    <span class="label">Побічне спостереження · post-hoc</span>
+    <h2>Один тестовий розряд визначає R²ψ лінійних моделей</h2>
+    <p>R²ψ ≈ 0,09, яке звіт C4 (E38) і <code>SCORE.md</code> приписують лінійним моделям, майже повністю дає один тестовий розряд №61. На інших 24 розрядах ці моделі мають R²ψ близько 0,9. Ознаки розряду №61 без пропусків і викидів (найбільше |<i>z</i>| = 3,1), а мережі на ньому працюють нормально.</p>
+    <div class="tbl"><table id="tbl61"></table></div>
+    <p class="small muted">Вердиктів R12 і C4 це не змінює: розрив між лінійними моделями й мережами за S лишається. Але число «≈ 0,09» описує радше один розряд, ніж клас моделей. Тому формулювання E38 і висновок <code>SCORE.md</code> («узагальнення між розрядами — уся проблема») варто перевірити на кількох тестових наборах.</p>
+  </section>
+
+  <section>
+    <span class="label">Проєкт</span>
+    <h2>Що змінено</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Де</th><th>Що</th></tr></thead>
+      <tbody>
+        <tr><td>Код і дані <code>04-novelty/c6/</code></td><td>попередня реєстрація, калібрувальні дані, навчання, смуги, аналіз C6, оцінка C4, дві post-hoc діагностики, <code>README.md</code>, цей звіт</td></tr>
+        <tr><td>Реєстри <code>00-decisions/</code></td><td><b>не змінено</b> за рішенням користувача (06.10.2026): результати C6 і C4 лишаються лише в цьому звіті й у <code>c6/</code></td></tr>
+        <tr><td><code>04-novelty/metric-design.md</code></td><td>не змінено</td></tr>
+        <tr><td>Путівник і методичка</td><td>не змінено (за вказівкою користувача)</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Відтворення (~30 хв, з них ~19 хв — три зерна UNet_Lite)</h3>
+<pre>cd "fusion equilibrium challenge/starter"
+P="../../Our try/04-novelty/c6"
+.venv/bin/python "$P/fetch_cal.py"       # ~1 хв
+.venv/bin/python "$P/train.py"           # ~22 хв
+.venv/bin/python "$P/bands.py"           # ~40 с
+.venv/bin/python "$P/analyse_c6.py"      # ~1 хв
+.venv/bin/python "$P/evaluate_c4.py"     # ~6 хв
+cd "$P" &amp;&amp; ../../../"fusion equilibrium challenge/starter/.venv/bin/python" diag_pool.py</pre>
+    <p class="small muted">Попередні перевірки: <a href="https://claude.ai/artifact/9oAEFD3T7tp7WBgan8idXJ" target="_blank" rel="noopener">C1</a> (R10) · <a href="https://claude.ai/artifact/EqXuv2PCrL7Hr4F1Sf7jBM" target="_blank" rel="noopener">C2</a> (R11) · <a href="https://claude.ai/artifact/1nMcrYyE8QDG9Yg6hUxCob" target="_blank" rel="noopener">C4, половина GS_score</a> (R12) · <a href="https://claude.ai/artifact/VdQ7a5zcf53K3TwT8p4SyL" target="_blank" rel="noopener">C5</a> (R13).</p>
+  </section>
+
+  <footer>
+    <p>Власний розрахунок проєкту «Моделювання потоку плазми в контурі токамаку». Код: <code>Our try/04-novelty/c6/</code>. Моделі — зі стартового набору конкурсу (MIT); скорер — офіційний, v3.1.</p>
+    <p>Дані рівноваг: Fusion Equilibrium Challenge (Sophelio / General Atomics), CC BY 4.0.</p>
+    <p class="data">05.10.2026</p>
+  </footer>
+</div>
+
+<script>
+const DATA = /*DATA*/null;
+const NS = "http://www.w3.org/2000/svg";
+const fmt = (x, d = 2) => (x < 0 ? "−" : "") + Math.abs(x).toFixed(d).replace(".", ",");
+const pct = x => Math.round(x * 100) + " %";
+function el(tag, attrs = {}, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function txt(parent, x, y, s, anchor = "middle") { const t = el("text", {x, y, "text-anchor": anchor}, parent); t.textContent = s; return t; }
+function mark(g, shape, x, y, r, color) {
+  if (shape === "circle") return el("circle", {cx: x, cy: y, r, fill: color}, g);
+  if (shape === "square") return el("rect", {x: x - r, y: y - r, width: 2 * r, height: 2 * r, fill: color}, g);
+  if (shape === "triangle") return el("path", {d: `M${x},${y - r * 1.2} L${x + r * 1.1},${y + r * 0.8} L${x - r * 1.1},${y + r * 0.8} Z`, fill: color}, g);
+  return el("path", {d: `M${x},${y - r * 1.3} L${x + r},${y} L${x},${y + r * 1.3} L${x - r},${y} Z`, fill: color}, g);
+}
+function legend(id, items) {
+  const box = document.getElementById(id);
+  items.forEach(([shape, color, label, dash]) => {
+    const sp = document.createElement("span");
+    const s = el("svg", {width: 26, height: 12, viewBox: "0 0 26 12"});
+    if (dash !== undefined) el("line", {x1: 1, x2: 25, y1: 6, y2: 6, stroke: color, "stroke-width": 2, "stroke-dasharray": dash}, s);
+    if (shape) mark(s, shape, 13, 6, 4, color);
+    sp.appendChild(s); sp.append(label); box.appendChild(sp);
+  });
+}
+const path = pts => "M" + pts.map(p => p.map(z => z.toFixed(1)).join(",")).join(" L");
+const set = (id, s) => { document.getElementById(id).textContent = s; };
+
+const ACC = ["MLP (sklearn)", "Simple MLP", "Conv Decoder", "UNet_Lite"];
+const NETS = ["Simple MLP", "Conv Decoder", "UNet_Lite"];
+// per-model identity for the four accurate models (C6 charts); group identity for the S' chart (as in C4)
+const ID = {"UNet_Lite": {c: "var(--blue)", s: "diamond"}, "Conv Decoder": {c: "var(--ink)", s: "square"},
+            "Simple MLP": {c: "var(--muted)", s: "circle"}, "MLP (sklearn)": {c: "var(--oak)", s: "triangle"}};
+const GROUP = m => NETS.includes(m) ? {c: "var(--blue)", s: m === "UNet_Lite" ? "diamond" : (m === "Conv Decoder" ? "square" : "circle")}
+  : m === "MLP (sklearn)" ? {c: "var(--oak)", s: "triangle"} : {c: "var(--muted)", s: "circle"};
+const LV = DATA.c6.levels, MAIN = 2;
+const F = DATA.c6.regions.full, C4 = DATA.c4, POOL = DATA.pool;
+const models = Object.keys(F).filter(m => m !== "_null");
+const range = (arr, d = 2) => fmt(Math.min(...arr), d) + "–" + fmt(Math.max(...arr), d);
+
+// ---- headline cells and inline numbers
+(function () {
+  const ks = ACC.map(m => F[m].kappa_star[MAIN]), es = ACC.map(m => F[m].M_emp_J[MAIN]);
+  const pm = ACC.map(m => POOL[m]["0.90"].mean), pm50 = ACC.map(m => POOL[m]["0.50"].mean);
+  const avg = a => a.reduce((x, y) => x + y, 0) / a.length;
+  const cells = [
+    [range(ks), "ширина смуги точних моделей відносно кліматологічної, якщо розширити її до фактичних 90 % (поріг «абсурду» — 1)", true],
+    [range(es), "спільне покриття на тесті при номіналі 0,90 (критерій — ≥ 0,85 для всіх чотирьох)", false],
+    [fmt(avg(pm), 3), "те саме в середньому по 2 000 розбиттях пулу розрядів (post-hoc)", false],
+    ["τ = " + fmt(C4.verdict.tau_main, 0), "порядок моделей за S′ з Calibration при головній вазі збігається з порядком за S", true]];
+  const box = document.getElementById("headcells");
+  cells.forEach(([big, cap, hi]) => { const c = document.createElement("div"); c.className = "freq" + (hi ? " hi" : "");
+    c.innerHTML = `<span class="big">${big}</span><span class="cap">${cap}</span>`; box.appendChild(c); });
+  set("kRange", range(ks)); set("eRange", range(es));
+  set("pRange", range(ACC.map(m => F[m].P_emp_J[MAIN])));
+  set("priceRange", range(ACC.map(m => F[m].price_M_over_P[MAIN]), 1));
+  set("poolMean", fmt(avg(pm), 3)); set("poolMean50", fmt(avg(pm50), 2));
+  set("pctRange", ACC.map(m => POOL[m]["0.90"].real_split_percentile).map(p => Math.round(p * 100)).sort((a, b) => a - b)
+    .filter((v, i, a) => i === 0 || i === a.length - 1).join("–") + "-му");
+  set("tauMain", fmt(C4.verdict.tau_main, 0));
+  set("spR2", "+" + fmt(C4.spearman_Cal_vs_r2psi, 2)); set("spCons", fmt(C4.spearman_Cal_vs_consistency, 2));
+})();
+
+// ---- C6 table
+(function () {
+  let h = '<thead><tr><th>Модель</th><th class="n" style="text-transform:none">emp_J (M) при 0,50 / 0,80 / 0,90 / 0,95</th><th class="n" style="text-transform:none">ДІ @0,90</th><th class="n" style="text-transform:none">κ* @0,90 [ДІ]</th><th class="n" style="text-transform:none">c*</th><th class="n" style="text-transform:none">P @0,90</th><th class="n" style="text-transform:none">W_M/W_P</th></tr></thead><tbody>';
+  const cov4 = v => v.map(x => fmt(x)).join(" / ");
+  models.forEach(m => { const v = F[m], b = ACC.includes(m), ci = v.M_emp_J_ci[MAIN], kc = v.kappa_star_ci[MAIN];
+    h += `<tr><td>${b ? "<b>" + m + "</b>" : m}</td><td class="n">${cov4(v.M_emp_J)}</td><td class="n">${fmt(ci[0])}–${fmt(ci[1])}</td>` +
+      `<td class="n${b ? " hl" : ""}">${fmt(v.kappa_star[MAIN])} [${fmt(kc[0])}–${fmt(kc[1])}]</td><td class="n">${fmt(v.c_star[MAIN])}</td>` +
+      `<td class="n">${fmt(v.P_emp_J[MAIN])}</td><td class="n">${fmt(v.price_M_over_P[MAIN], 1)}</td></tr>`; });
+  const n = F._null;
+  h += `<tr><td class="muted">N0 (середня карта)</td><td class="n muted">${cov4(n.M_emp_J)}</td><td class="n muted">—</td>` +
+    `<td class="n muted">1</td><td class="n muted">${fmt(n.c_star[MAIN])}</td><td class="n muted">—</td><td class="n muted">—</td></tr>`;
+  document.getElementById("tblC6").innerHTML = h + "</tbody>";
+})();
+
+// ---- coverage vs nominal
+(function () {
+  const W = 760, H = 340, L = 50, R = 16, T = 14, B = 44, x0 = 0.45, x1 = 1.0;
+  const X = v => L + (v - x0) / (x1 - x0) * (W - L - R), Y = v => T + (1 - v) * (H - T - B);
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`});
+  [0, 0.2, 0.4, 0.6, 0.8, 1.0].forEach(v => { el("line", {class: "grid", x1: L, x2: W - R, y1: Y(v), y2: Y(v)}, svg); txt(svg, L - 8, Y(v) + 4, fmt(v, 1), "end"); });
+  LV.forEach(v => { el("line", {class: "grid", x1: X(v), x2: X(v), y1: T, y2: H - B}, svg); txt(svg, X(v), H - B + 18, fmt(v, 2)); });
+  txt(svg, L + (W - L - R) / 2, H - 6, "номінальний рівень a");
+  txt(svg, 14, T + (H - T - B) / 2, "спільне покриття на тесті").setAttribute("transform", `rotate(-90 14 ${T + (H - T - B) / 2})`);
+  const keys = ["0.50", "0.80", "0.90", "0.95"];
+  const lo = keys.map(k => Math.min(...ACC.map(m => POOL[m][k].p05))), hi = keys.map(k => Math.max(...ACC.map(m => POOL[m][k].p95)));
+  const mean = keys.map(k => ACC.reduce((s, m) => s + POOL[m][k].mean, 0) / ACC.length);
+  el("path", {class: "band", d: path(LV.map((a, i) => [X(a), Y(hi[i])]).concat(LV.map((a, i) => [X(a), Y(lo[i])]).reverse())) + " Z"}, svg);
+  el("path", {d: path(LV.map((a, i) => [X(a), Y(mean[i])])), fill: "none", stroke: "var(--blue)", "stroke-width": 1.2, "stroke-dasharray": "2 3"}, svg);
+  el("line", {x1: X(x0), y1: Y(x0), x2: X(x1), y2: Y(x1), stroke: "var(--ink)", "stroke-width": 1, "stroke-dasharray": "5 4"}, svg);
+  ACC.forEach(m => { const st = ID[m], v = F[m].M_emp_J;
+    el("path", {d: path(LV.map((a, i) => [X(a), Y(v[i])])), fill: "none", stroke: st.c, "stroke-width": 2}, svg);
+    LV.forEach((a, i) => { const mk = mark(svg, st.s, X(a), Y(v[i]), 4.5, st.c);
+      el("title", {}, mk).textContent = `${m}, a = ${fmt(a, 2)}: покриття ${fmt(v[i], 3)} (пул: ${fmt(POOL[m][keys[i]].p05, 2)}–${fmt(POOL[m][keys[i]].p95, 2)})`; }); });
+  document.getElementById("chartCov").appendChild(svg);
+  legend("legendCov", ACC.map(m => [ID[m].s, ID[m].c, m, "none"]).concat([[null, "var(--ink)", "ідеальне калібрування", "5 4"], [null, "var(--blue)", "середнє по розбиттях пулу", "2 3"]]));
+})();
+
+// ---- per-shot LOSO coverage
+(function () {
+  const W = 760, H = 300, L = 50, R = 16, T = 14, B = 58, n = 20;
+  const X = i => L + (i + 0.5) / n * (W - L - R), Y = v => T + (1 - v) * (H - T - B);
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`});
+  el("rect", {class: "band", x: X(11.5), y: T, width: X(19.5) - X(11.5), height: H - T - B}, svg);
+  [0, 0.25, 0.5, 0.75, 1].forEach(v => { el("line", {class: "grid", x1: L, x2: W - R, y1: Y(v), y2: Y(v)}, svg); txt(svg, L - 8, Y(v) + 4, fmt(v, 2), "end"); });
+  el("line", {x1: L, x2: W - R, y1: Y(0.9), y2: Y(0.9), stroke: "var(--ink)", "stroke-dasharray": "5 4"}, svg);
+  for (let i = 0; i < n; i++) txt(svg, X(i), H - B + 16, i < 12 ? String(i + 1) : String(48 + i));
+  txt(svg, (X(0) + X(11)) / 2, H - B + 34, "калібрування, половина B (розряди 1–12)");
+  txt(svg, (X(12) + X(19)) / 2, H - B + 34, "тест (потокові розряди 60–67)");
+  const off = {"MLP (sklearn)": -7.5, "Simple MLP": -2.5, "Conv Decoder": 2.5, "UNet_Lite": 7.5};
+  ACC.forEach(m => { const st = ID[m];
+    POOL[m].loso_a090.forEach((v, i) => { const mk = mark(svg, st.s, X(i) + off[m], Y(v), 3.8, st.c);
+      el("title", {}, mk).textContent = `${m}, ${i < 12 ? "калібрувальний розряд " + (i + 1) : "тестовий розряд " + (48 + i)}: покриття ${fmt(v, 2)}`; }); });
+  document.getElementById("chartShots").appendChild(svg);
+  legend("legendShots", ACC.map(m => [ID[m].s, ID[m].c, m]).concat([[null, "var(--ink)", "номінал 0,90", "5 4"]]));
+})();
+
+// ---- C4 table (ordered by S)
+(function () {
+  const M = C4.models;
+  let h = '<thead><tr><th>Модель</th><th class="n">S</th><th class="n" style="text-transform:none">R²ψ</th><th class="n">Cov</th><th class="n">Sharp</th><th class="n">Calibration</th><th class="n" style="text-transform:none">S′_Cal @0,118</th><th class="n" style="text-transform:none">S′ повна</th></tr></thead><tbody>';
+  C4.rank_S.forEach(m => { const v = M[m];
+    h += `<tr><td>${m}</td><td class="n">${fmt(v.S, 3)}</td><td class="n">${fmt(v.r2_psi, 3)}</td><td class="n">${fmt(v.Cov, 3)}</td><td class="n">${fmt(v.Sharp, 3)}</td><td class="n hl">${fmt(v.Cal, 3)}</td><td class="n">${fmt(v.S_prime_cal_main, 3)}</td><td class="n">${fmt(v.S_prime_full, 3)}</td></tr>`; });
+  document.getElementById("tblC4").innerHTML = h + "</tbody>";
+})();
+
+// ---- S'_Cal vs w_u (computed from the stored terms: (1 - w)·W·t + w·Cal)
+(function () {
+  const M = C4.models, names = C4.rank_S;
+  const base = v => (0.40 * v.r2_psi + 0.10 * v.r2_qb + 0.10 * v.lcfs + 0.15 * v.consistency) / 0.75;
+  const ws = Object.keys(C4.scan).map(Number).sort((a, b) => a - b);
+  const W = 760, H = 320, L = 50, R = 16, T = 14, B = 44, x1 = 0.30, y0 = 0.15, y1 = 0.75;
+  const X = v => L + v / x1 * (W - L - R), Y = v => T + (y1 - v) / (y1 - y0) * (H - T - B);
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`});
+  [0.2, 0.3, 0.4, 0.5, 0.6, 0.7].forEach(v => { el("line", {class: "grid", x1: L, x2: W - R, y1: Y(v), y2: Y(v)}, svg); txt(svg, L - 8, Y(v) + 4, fmt(v, 1), "end"); });
+  [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30].forEach(v => txt(svg, X(v), H - B + 18, fmt(v, 2)));
+  txt(svg, L + (W - L - R) / 2, H - 6, "вага члена Calibration w_u");
+  el("line", {x1: X(0.10 / 0.85), x2: X(0.10 / 0.85), y1: T, y2: H - B, stroke: "var(--ink)", "stroke-dasharray": "5 4"}, svg);
+  names.forEach(m => { const st = GROUP(m), v = M[m];
+    const pts = ws.map(w => [X(w), Y((1 - w) * base(v) + w * v.Cal)]);
+    el("path", {d: path(pts), fill: "none", stroke: st.c, "stroke-width": 1.8}, svg);
+    pts.forEach((p, i) => { const mk = mark(svg, st.s, p[0], p[1], 3, st.c);
+      el("title", {}, mk).textContent = `${m}, w_u = ${fmt(ws[i], 3)}: S′ = ${fmt((1 - ws[i]) * base(v) + ws[i] * v.Cal, 3)}`; }); });
+  document.getElementById("chartWu").appendChild(svg);
+  legend("legendWu", [["circle", "var(--muted)", "лінійні, RF, PCA+Ridge", "none"], ["triangle", "var(--oak)", "MLP (sklearn)", "none"], ["diamond", "var(--blue)", "мережі з виходом-картою", "none"], [null, "var(--ink)", "головна вага", "5 4"]]);
+})();
+
+// ---- ranking table
+(function () {
+  const ws = Object.keys(C4.scan).sort((a, b) => +a - +b);
+  const maxFrac = v => v.swaps_majority.length ? pct(Math.max(...v.swaps_majority.map(s => s.frac))) : "< 50 %";
+  let h = '<thead><tr><th class="n" style="text-transform:none">w_u</th><th class="n" style="text-transform:none">τ Кендалла</th><th>Порядок за S′_Cal</th><th class="n">Найчастіша перестановка</th><th class="n">Стійких</th></tr></thead><tbody>';
+  h += `<tr><td class="n">S</td><td class="n">—</td><td>${C4.rank_S.join(" > ")}</td><td class="n">—</td><td class="n">—</td></tr>`;
+  ws.forEach(k => { const v = C4.scan[k], main = Math.abs(+k - 0.10 / 0.85) < 1e-3;
+    h += `<tr><td class="n${main ? " hl" : ""}">${fmt(+k, 3)}</td><td class="n">${fmt(v.tau, 3)}</td><td>${v.rank.join(" > ")}</td><td class="n">${maxFrac(v)}</td><td class="n">${v.robust_swaps.length}</td></tr>`; });
+  const f = C4.full_S_prime;
+  h += `<tr><td class="n">повна S′</td><td class="n">${fmt(f.tau, 3)}</td><td>${f.rank.join(" > ")}</td><td class="n">${maxFrac(f)}</td><td class="n">${f.robust_swaps.length}</td></tr>`;
+  document.getElementById("tblRank").innerHTML = h + "</tbody>";
+})();
+
+// ---- shot #61
+(function () {
+  let h = '<thead><tr><th>Модель</th><th class="n" style="text-transform:none">R²ψ, 24 калібр. розряди</th><th class="n" style="text-transform:none">R²ψ, тест (8)</th><th class="n" style="text-transform:none">тест без №61</th><th class="n">частка залишків від №61</th></tr></thead><tbody>';
+  Object.entries(DATA.s61).forEach(([m, v]) => {
+    h += `<tr><td>${m}</td><td class="n">${fmt(v.r2_cal24, 3)}</td><td class="n">${fmt(v.r2_test, 3)}</td><td class="n hl">${fmt(v.r2_test_without_61, 3)}</td><td class="n">${pct(v.share_ssres_61)}</td></tr>`; });
+  document.getElementById("tbl61").innerHTML = h + "</tbody>";
+})();
+</script>

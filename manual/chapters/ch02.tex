@@ -1,0 +1,183 @@
+\chapter{Рух заряджених частинок у полі токамака}\label{ch:particles}
+
+Рідинні моделі наступних розділів усереднюють рух окремих частинок; тут розглянемо одну частинку (заряд $e_s$, маса $m_s$) у заданих $\vect{E}$, $\Bvec$; $\Omc{s}=e_sB/m_s$, ларморів радіус $\rho_s=v_\perp/|\Omc{s}|$.
+
+\section{Рівняння Лоренца і чисельні інтегратори}\label{sec:02-lorentz}
+
+Без зіткнень рух описується рівнянням Ньютона з силою Лоренца (переведено з СГС~\cite{Moskvitina2010}):
+\begin{equation}\label{eq:02-lorentz}
+  m_s\,\dot{\vect{v}} = e_s\left(\vect{E}+\vect{v}\times\Bvec\right),\qquad \dot{\vect{r}}=\vect{v}.
+\end{equation}
+Для МеВ-іонів $\rho_s\sim\SI{10}{см}$, тому дрейфове наближення (п.~\ref{sec:02-gc}) стає неточним, і потрібні коди повної орбіти (full-orbit codes)~\cite{Moskvitina2010}.
+
+\textbf{Схема Боріса (Boris pusher).} Швидкості задано в півкроках, координати~--- у цілих кроках (схема типу leap-frog)~\cite{vanVugt2019}:
+\begin{equation}\label{eq:02-boris}
+  \frac{\vect{v}^{n+1/2}-\vect{v}^{n-1/2}}{\Delta t}=\frac{e_s}{m_s}\left[\vect{E}+\frac{\vect{v}^{n+1/2}+\vect{v}^{n-1/2}}{2}\times\Bvec\right].
+\end{equation}
+Підстановка
+\[
+  \vect{v}^{n\pm1/2}=\vect{v}^{\pm}\pm\frac{e_s\Delta t}{2m_s}\,\vect{E}
+  \quad\Longrightarrow\quad
+  \vect{v}^{+}-\vect{v}^{-}=\frac{e_s\Delta t}{2m_s}\,(\vect{v}^{+}+\vect{v}^{-})\times\Bvec
+\]
+повністю виключає $\vect{E}$ і лишає чистий поворот вектора, тож $|\vect{v}|$ у магнітному полі зберігається точно на кожному кроці. Заміна $f=e_s\Delta t/(2m_s)$ на $f'=\tan(f|\Bvec|)/|\Bvec|$ робить частоту обертання точно циклотронною~\cite{vanVugt2019}. Для іонів W у JOREK (ASDEX Upgrade) потрібно $\Delta t\lesssim\SI{e-8}{с}$, взято \SI{e-9}{с}~\cite{vanVugt2019}.
+
+\begin{corpusexample}[РК4 проти РК5 для α-частинки в ITER]
+\noindent\begin{minipage}[c]{0.53\linewidth}
+Москвитина~\cite{Moskvitina2010} порівнює класичну схему Рунге--Кутти 4-го порядку (РК4) і шеститочкову схему 5-го порядку (РК5) на α-частинці \SI{1}{МеВ}, $v_\parallel/v=0{,}1$, за $1000\,T_c$ ($T_c\approx\SI{2,48e-8}{с}$). Мірою точності є $\delta=\Delta E/E_0$ (без $\vect{E}$ енергія~--- інваріант).
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\linewidth}\centering\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Схема & $h/T_c$ & $\delta$ & $t_{\mathrm{CPU}}$, с \\
+\midrule
+РК5 & $10^{-2}$ & $\approx10^{-9}$ & 2,22 \\
+РК4 & $10^{-2}$ & $\approx10^{-4}$ & 1,45 \\
+РК4 & $10^{-3}$ & $\approx10^{-9}$ & 15,17 \\
+\bottomrule
+\end{tabular}
+\end{minipage}\par\smallskip
+За однакової точності РК4 повільніша в $6{,}8$ раза («у 7 разів» у статті). Обидві схеми насичуються на $\delta\approx10^{-12}$ (подвійна точність); порівняння з Борісом у статті немає.
+\end{corpusexample}
+
+\section{Ведучий центр і дрейфи}\label{sec:02-gc}
+
+\begin{outofcorpus}[дрейфове наближення]
+Нехай $\rho_s\ll L$ (масштаб неоднорідності) і $\omega\ll\Omc{s}$. Розкладемо $\vect{r}=\vect{X}+\vect{\rho}$, де $\vect{X}$~--- ведучий центр (guiding centre), а $\vect{\rho}$ обертається з фазою $\Theta$. Усереднивши \eqref{eq:02-lorentz} за $\Theta$ при сталій сторонній силі $\vect{F}_\perp$, дістанемо дрейф
+\begin{equation}\label{eq:02-Fdrift}
+  \vect{v}_F=\frac{\vect{F}\times\Bvec}{e_sB^2}.
+\end{equation}
+\emph{(а)} $\vect{F}=e_s\vect{E}$: $\vE=\ExB/B^2$ однаковий для всіх сортів, і струму він не несе. \emph{(б)} Усереднена сила на ларморове кільце в неоднорідному полі $\vect{F}=-\mu\grad B$, де $\mu=m_sv_\perp^2/(2B)$~--- магнітний момент: $\vect{v}_{\grad B}=\frac{m_sv_\perp^2}{2e_sB}\frac{\unitb\times\grad B}{B}$. \emph{(в)} Відцентрова сила при русі вздовж викривленої лінії $\vect{F}=-m_sv_\parallel^2\vect{\kappa}$, $\vect{\kappa}=\unitb\cdot\grad\unitb$: $\vect{v}_\kappa=\frac{m_sv_\parallel^2}{e_sB}\,\unitb\times\vect{\kappa}$. У полі з малим $\beta$ ($\grad\times\Bvec\approx0$) $\vect{\kappa}=\grad_\perp B/B$, і
+\begin{equation}\label{eq:02-vd}
+  \vect{v}_d=\frac{m_s}{e_sB}\Bigl(v_\parallel^2+\tfrac12v_\perp^2\Bigr)\frac{\unitb\times\grad B}{B}\;\approx\;\frac{m_s\bigl(v_\parallel^2+\tfrac12v_\perp^2\bigr)}{e_sRB}\,\hat{\vect{Z}}\quad(B\propto1/R,\ \Btor>0).
+\end{equation}
+Дрейф вертикальний і має різні знаки для іонів та електронів (для $\Btor>0$ іони дрейфують угору). У чисто тороїдальному полі розділення зарядів створює $E_Z$, і дрейф $\vE$ викидає плазму назовні. Полоїдальне поле (обертальне перетворення, $q$) переносить частинку то вгору, то вниз, і вертикальний дрейф усереднюється до нуля.
+\end{outofcorpus}
+
+Зв'язок з корпусом. (1)~Радіальну компоненту дрейфу в нормованому потоці $v_{\psiN}=(\ExB)\cdot\grad\psiN/B^2$ у~\cite{vanVugt2019} (рівн.~8) обчислено з полів ELM і порівняно з рухом іонів W. Швидкості $|v_{\psiN}|$ сягають \SI{5000}{с^{-1}}, тобто тисячі одиниць $\psiN$ за секунду (перетин малого радіуса за \SI{0,2}{мс}); розподіл симетричний. Без $\delta\vect{E}$ радіального переносу немає, без $\delta\Bvec$~--- є: W переносить саме $\vE$. (2)~У гірокінетичному коді GTC ведучі центри рухаються вздовж $\hat{\vect{b}}^*=\unitb+\rho_\parallel\unitb\times(\unitb\cdot\grad\unitb)$ з дрейфами $\vect{v}_{E_0}$, $\vE$, $\vect{v}_d$~\cite{Wang2006} (рівн.~13). (3)~Частота прецесії швидких електронів $\omega_{de}=W_\perp/(e\,rR\Bzero)$ ($W_\perp$~--- поперечна енергія)~\cite{Hanada1990}~--- це дрейф \eqref{eq:02-vd} при $v_\parallel\to0$, поділений на $r$; умова $\omega_{de}>\omega_{*e}/2$ на WT-3 дає $W_\perp\gtrsim T_eR/a\approx\SI{1,5}{кеВ}$.
+
+\section{Пролітні й захоплені частинки, бананові орбіти}\label{sec:02-banana}
+
+\begin{outofcorpus}[захоплення і ширина банана]
+На поверхні $r$ поле $B\approx\Bzero(1-\varepsilon\cos\theta)$, де $\varepsilon=\varepsilon(r)=r/R_0$ (локальне). Збереження $\mu$ і $E$ дає $v_\parallel^2=v^2-2\mu B/m_s$. Частинка з $(v_{\parallel0},v_{\perp0})$ на зовнішньому обводі ($\theta=0$) відбивається, якщо
+$v_{\parallel0}^2/v_{\perp0}^2<B_{\max}/B_{\min}-1=2\varepsilon/(1-\varepsilon)$.
+Частка захоплених становить $f_t\sim\sqrt{2\varepsilon}$. Ширину орбіти дає осесиметрія: канонічний тороїдальний момент
+\begin{equation}\label{eq:02-Pphi}
+  p_\varphi=m_sRv_\varphi+e_s\psi=\mathrm{const}
+\end{equation}
+(ψ~--- потік на радіан, $A_\varphi=\psi/R$). Між двома проходами площини $\theta=0$ з $v_\parallel=\pm v_{\parallel0}$ маємо $\Delta\psi=2m_sRv_{\parallel0}/e_s$, $\Delta r=\Delta\psi/(R\Bpol)$, тож
+\begin{equation}\label{eq:02-wb}
+  w_{\mathrm b}\approx\frac{2m_sv_{\parallel0}}{e_s\Bpol}=\frac{2q\,v_{\parallel0}}{\varepsilon\,\Omc{s}}\sim\frac{2\sqrt2\,q\,\rho_s}{\sqrt{\varepsilon}}.
+\end{equation}
+Порушення осесиметрії (гофрування, п.~\ref{sec:02-ripple}) руйнує \eqref{eq:02-Pphi}, і орбіта перестає бути замкненою.
+\end{outofcorpus}
+
+\begin{corpusexample}[банани в корпусі]
+\emph{ITER}: РК5-траєкторія α-частинки \SI{3,5}{МеВ}, $v_\parallel/v=0{,}1$, є «бананом» з періодом баунс-коливань $\tau_b=687\,T_c\approx\SI{1,7e-5}{с}$~\cite{Moskvitina2010}. \emph{Важкі домішки}: табл.~I у~\cite{vanVugt2019} дає для W в ядрі $\rho_s=\SIlist{1,1;1,5;1}{мм}$ і ширину банана $w_{\mathrm b}=\SIlist{40;60;10}{мм}$ (ASDEX Upgrade, JET, ITER). Відношення $w_{\mathrm b}/\rho_s\sim10$--$40$ узгоджується з \eqref{eq:02-wb}. \emph{Швидкі електрони} ECH з боку слабкого поля захоплюються на банани і не несуть струму~--- звідси асиметрія HFS/LFS стабілізації пилки на WT-3~\cite{Hanada1990}.
+\end{corpusexample}
+
+\section{Гофрування тороїдального поля}\label{sec:02-ripple}
+
+Скінченне число котушок $N_{\mathrm{TF}}$ робить поле періодичним по $\varphi$. У моделі~\cite{Moskvitina2010} (кругові поверхні, квазітороїдальні $(r,\theta,\varphi)$) $\Bvec=\Bvec^0+\Bvec^1$, $\Bvec^0=\frac{\Bzero R_0}{R_0-r\cos\theta}\bigl(0,\frac{r}{qR_0},1\bigr)$ і
+\begin{equation}\label{eq:02-ripple}
+  B^1_\varphi=\Bzero\,2k a_{\mathrm{TF}}K_1(ka_{\mathrm{TF}})\,I_0(kr)\cos(N_{\mathrm{TF}}\varphi),
+\end{equation}
+$B^1_\theta=0$, а $B^1_r\propto I_0'(kr)\sin(N_{\mathrm{TF}}\varphi)$ забезпечує $\grad\cdot\Bvec^1=0$. Тут $K_1$, $I_0$~--- модифіковані функції Бесселя (Макдональда і Бесселя), $a_{\mathrm{TF}}$~--- радіус котушок. Для ITER $a=\SI{2,0}{м}$, $R_0=\SI{6,2}{м}$, $a_{\mathrm{TF}}=\SI{4,0}{м}$, $\Bzero=\SI{5,3}{Тл}$, $k=\SI{2,9}{м^{-1}}$ (переведено з СГС)~\cite{Moskvitina2010}. Глибина гофрування $\dripple(r)=B^1_\varphi/\Bzero$ за \eqref{eq:02-ripple} становить $8{,}1\cdot10^{-5}$ на осі і $4{,}5\cdot10^{-3}$ при $r=a$ (наш розрахунок): вона зростає до краю експоненційно, як $I_0(kr)$.
+
+У JET тороїдальне поле створюють 32 D-подібні котушки~\cite[с.~77]{JET1975}, і проєкт 1975~р.
+задає гофрування \SI{3.6}{\percent} на зовнішньому краю плазми~\cite[с.~83]{JET1975}. Увага до
+означення: у проєкті $\eripple=2(B_{\max}-B_{\min})/(B_{\max}+B_{\min})$~\cite[с.~330]{JET1975},
+тобто це розмах, удвічі більший за амплітуду $\dripple$ з~\eqref{eq:02-ripple}. Наша
+реконструкція котушок за Біо--Саваром дає $\eripple=\SI{3.67}{\percent}$ при
+$R=\SI{4.21}{м}$ (невизначеність близько $\pm13\,\%$ через оцифровану форму котушки)~\cite{ProjJET};
+порівнюючи числа різних джерел, завжди з'ясовуйте, яке з двох означень ужито
+(детально --- розд.~\ref{ch:jet}).
+
+\begin{outofcorpus}[гофрувальні втрати]
+Частинки з малим $v_\parallel$ захоплюються в локальні ями вздовж $\varphi$ і без компенсації дрейфують \eqref{eq:02-vd} до стінки (ripple trapping); точки відбиття бананів випадково зсуваються, що дає стохастичну дифузію. Обидва механізми найсильніші для швидких іонів на периферії.
+\end{outofcorpus}
+
+\section{Обертова система відліку}\label{sec:02-rot}
+
+Нехай поверхні обертаються як жорсткі оболонки з $\omtor(r)$. У системі, що обертається з плазмою, силові лінії нерухомі, а рівняння руху домішки (заряд $Z_Ie$, маса $m_I$) набуває сил Коріоліса і відцентрової~\cite{Wong1987}:
+\begin{equation}\label{eq:02-rot}
+  m_I\dot{\vect{v}}=Z_Ie(\vect{E}+\vect{v}\times\Bvec)-2m_I\,\vect{\omega}\times\vect{v}-m_I\,\vect{\omega}\times[\vect{\omega}\times(\vect{R}_0+\vect{r})],\qquad \vect{\omega}=\omtor\hat{\vect{Z}}.
+\end{equation}
+Кожна нова сила дає свій дрейф \eqref{eq:02-Fdrift}: рівн.~(4) у~\cite{Wong1987}~--- це \eqref{eq:02-vd} з доданками Коріоліса й відцентровим. Відцентрова сила відтискає іони на зовнішній обвід, і квазінейтральність підтримує полоїдально змінний потенціал~\cite{Wong1987}
+\begin{equation}\label{eq:02-Phi1}
+  \Phi_1=\frac{\omtor^2}{2}\,\frac{m_i}{e}\,\frac{T_e}{T_i+Z_iT_e}\,\bigl(R^2-\fsa{R^2}\bigr).
+\end{equation}
+(таку саму складову $\tilde\Phi_0$ має рівноважний потенціал GTC~\cite{Wang2006}). Межа захоплення в просторі швидкостей стає гіперболічною поверхнею, у яку входять $\omtor^2$ і різниця $\Phi$ між максимумом і мінімумом $R$ на поверхні~\cite{Wong1987}. При $m_I\omtor^2R^2\gg T_I$ майже всі важкі іони захоплені. Для TFTR ($\Btor=\SI{4}{Тл}$, $\omtor(0)=\SI{2e5}{рад/с}$, $n_e(0)=\SI{2e19}{м^{-3}}$, $T_i(0)=\SI{10}{кеВ}$, $a=\SI{0,82}{м}$; переведено з СГС) банани домішок мають ширину кілька сантиметрів, а $D_{\mathrm{neo}}$ германію на 1--2 порядки більший, ніж без обертання, близький до потрібних $\SI{3}{м^2/с}$~\cite{Wong1987}. Як обертання формує радіальне поле й потоки, розглянуто в розд.~\ref{ch:flows}.
+
+\section{Гамільтонів опис силових ліній і магнітні острови}\label{sec:02-ham}
+
+Тищенко~\cite[с.~40--41]{Tyshchenko2021} зводить диференціальну форму ведучого центру в магнітних координатах до $\Gamma=J\,\dd\thetastar-\mathcal{H}\,\dd\varphi$, $J=\psit/\Bzero$. Тут $\psit=\Psit/2\pi$~--- тороїдальний потік \emph{на радіан} (у~\cite{Tyshchenko2021}~--- $\psi$; $J$~--- площа перерізу поверхні, поділена на $2\pi$). У одиницях потоку, з амплітудою $\tilde\psi_{mn}=\Bzero R_0^2\alpha$ замість її $\alpha$ (переведено з СГС) і $\rho_\parallel=v_\parallel/\Omc{s}$,
+\begin{equation}\label{eq:02-H}
+  \Bzero\mathcal H=\psi(\psit)-\rho_\parallel R_0\Bzero+\tilde\psi_{mn}(\psit)\cos(m\thetastar-n\varphi),\qquad
+  \frac{\dd\thetastar}{\dd\varphi}=\frac{\pa\mathcal H}{\pa J},\quad\frac{\dd J}{\dd\varphi}=-\frac{\pa\mathcal H}{\pa\thetastar}.
+\end{equation}
+Усі доданки мають розмірність потоку (\si{\tesla\metre\squared}), а $\mathcal H$ і $J$~--- площі (з потоками на радіан зайвих множників $2\pi$ немає). Кут $\thetastar$~--- координата, $\psit$~--- імпульс, полоїдальний потік $\psi$~--- гамільтоніан (з точністю до знака конвенції), $\varphi$~--- час. Чому гамільтоніаном є саме $\psi$, видно з поля в магнітних координатах $\Bvec=\grad\psit\times\grad\thetastar+\grad\tor\times\grad\psi$ (з точністю до знака): оскільки $\grad\psit=q\grad\psi$, чисельник і знаменник у
+\[
+  \frac{\dd\thetastar}{\dd\tor}=\frac{\Bvec\cdot\grad\thetastar}{\Bvec\cdot\grad\tor}=\frac{\dd\psi}{\dd\psit}=\frac1q
+\]
+містять той самий мішаний добуток $\grad\tor\cdot(\grad\psi\times\grad\thetastar)$, тож $\dd\thetastar/\dd\tor=\pa\psi/\pa\psit$~--- перше рівняння Гамільтона. При $\rho_\parallel=0$ \eqref{eq:02-H} описує силові лінії, при $\rho_\parallel\ne0$~--- ведучий центр пролітної частинки. Тищенко прямо зазначає, що одна мода при $\rho_\parallel=0$ хаосу не дає: у магнітних координатах гамільтоніан однієї моди залежить лише від гвинтової фази, тож система інтегровна~\cite{Tyshchenko2021}.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.88\textwidth,trim=0 0 0 55,clip]{poincare_analysis_fixed.jpg}
+  \caption{Переріз Пуанкаре DIII-D \#203702 ($t=\SI{1760}{мс}$, $\qnf=3{,}699$) з вакуумними модами 2/1 і 3/1, прогін після виправлення формули ширини (29.09.2026): A~--- класифіковані орбіти (амплітуда $10^{-3}$); B~--- $\nu=1/q$ з трасування і з рівноваги; C~--- виміряна $w_{mn}$ (кружки) проти маятникової формули~\eqref{eq:02-w} (лінії; в $\psiN$-одиницях); D~--- частка хаотичних орбіт проти $S$: жодна амплітуда скану не досягає $S=1$, а хаотичні орбіти є вже при $S\approx0{,}23$. Власний розрахунок~\cite{ProjViz}; дані рівноваги: Fusion Equilibrium Challenge (Sophelio / General Atomics), CC BY 4.0.}
+  \label{fig:02-poincare}
+\end{figure}
+
+\begin{established}{E18--E20}
+В осесиметрії ($\tilde\psi_{mn}=0$) $\Bvec\cdot\grad\psi=0$, система інтегровна, і переріз Пуанкаре~--- рівно контури ψ~\cite{ProjRegisters}. У \texttt{tokamak-3d-viz} це юніт-тест: дрейф ψ уздовж лінії за 200 обертів, $\max|\Delta\psi|/|\psib-\psiax|$ (тобто в одиницях $\psiN$), становить $10^{-7}$--$1{,}4\cdot10^{-6}$~\cite{ProjViz}. Острови з EFIT не виникають~--- їх вносять збуренням. \textbf{E19:} канонічний словник силових ліній: час~--- φ, координата~--- θ, імпульс~--- \emph{тороїдальний} потік, гамільтоніан~--- \emph{полоїдальний}~\cite{ProjRegisters}; таку структуру має \eqref{eq:02-H}~\cite{Tyshchenko2021}. \textbf{E20:} одна резонансна мода дає острови, але не хаос: у гвинтовому куті $m\thetastar-n\varphi$ система інтегровна~\cite{ProjRegisters,Tyshchenko2021}; хаос вимагає кількох мод, що перекриваються.
+\end{established}
+\begin{established}{E39 (прочитано й перевірено)}
+Обернене до E18 хибне: вкладені магнітні поверхні можливі й без осесиметрії. Landreman~\cite{Landreman2026} дав явні гладкі тороїдальні 3D-рівноваги МГД з $\grad p\ne0$ і відхиленням від осесиметрії порядку одиниці. Рівняння статті перевірено власним кодом проєкту до $10^{-10}$--$10^{-12}$, помилок не знайдено. Застереження: в одного з двох сімейств саме поле $\Bvec$ має точну неізометричну симетрію (лінійний образ поля Соловйова), яку порушують $|\Bvec|$, густина струму й тиск~\cite{ProjRegisters}.
+\end{established}
+\begin{refuted}{R4}
+«ψ~--- канонічний імпульс». Неправильно: імпульс~--- $\psit$, а ψ~--- гамільтоніан~\cite{ProjRegisters}. Ця помилка не лише термінологічна. Хто вважає ψ імпульсом, той у формулі ширини острова отримує зайвий множник $\sqrt q$ (див. нижче). Саме цю помилку мав код \texttt{tokamak-3d-viz} до 29.09.2026 (VR15~\cite{ProjViz}).
+\end{refuted}
+
+\begin{derivation}[ширина острова]
+Поблизу $q(\psi_{\mathrm{t},r})=m/n$ перейдемо до гвинтового кута $\xi=m\thetastar-n\varphi$ (твірна функція $F_2=\xi P$, $\psit=mP$): $K=\psi(mP)-nP+\tilde\psi_{mn}\cos\xi$. Розклад до другого порядку за $\Delta P$ дає маятник $K\approx\tfrac12m^2\psi''\Delta P^2+\tilde\psi_{mn}\cos\xi$, $\psi''=-q'/q^2$. Повна ширина сепаратриси в $\psit$ дорівнює $4\sqrt{\tilde\psi_{mn}q^2/|\dd q/\dd\psit|}$. Оскільки $\dd\psit=q\,\dd\psi$, у полоїдальному потоці
+\begin{equation}\label{eq:02-w}
+  w_{mn}=4\sqrt{\frac{\tilde\psi_{mn}\,q}{|\dd q/\dd\psi|}}\,.
+\end{equation}
+$m$ скорочується. Те саме дає пряме рівняння $\dd\psi/\dd\varphi=-q^{-1}\pa\tilde\psi/\pa\thetastar$. Перекриття сусідніх ланцюгів оцінює параметр Чирикова $S=(w_1+w_2)/(2|\psi_1-\psi_2|)$; $S\gtrsim1$~--- евристика, а не теорема.
+\end{derivation}
+
+\begin{established}{E30--E32 (D3)}
+Tokamap (Balescu--Vlad--Spineanu) \emph{точно симплектичний}: якобіан мапи $\mathsf D$: $\max|\det\mathsf D-1|=5{,}6\cdot10^{-8}$ (E30). Спостережувана з однієї початкової фази непридатна: рівень шуму $0{,}3244$, а з усередненням по 24 фазах~--- $0{,}0006$ (E31; застереження реєстру: два рівні виміряно на різних стендах --- тримодовій несимплектичній мапі й одномодовій Tokamap, тож їхнє відношення не є чистою мірою усереднення). Одну амплітуду $x_L$ відновити тривіально: зміна на 3\,\% дає SNR 57 (E32)~\cite{ProjRegisters,ProjDeepDives}.
+\end{established}
+\begin{refuted}{R8}
+«Структуру Tokamap можна перенести на суму мод підстановкою $V'(T)$». Симплектичність ламається: $\max|\det\mathsf D-1|=1{,}7$ при амплітуді $0{,}5$. Така мапа не зберігає потік і не є відображенням силових ліній~\cite{ProjRegisters,ProjDeepDives}.
+Корінь знайдено згодом (E35): поправка до $T'$ має брати первісну $h(T)$ з коефіцієнтами $a_k/m_k$, а не $V'(T)$ з $a_k m_k$ (різниця $m_k^2$); з виправленням $\max|\det\mathsf D-1|=3{,}6\cdot10^{-7}$ при амплітуді $0{,}5$~\cite{ProjRegisters}. Спростоване твердження лишається спростованим.
+\end{refuted}
+\begin{refuted}{R13 (була гіпотеза C5)}
+«Обернена задача „переріз Пуанкаре $\to$ спектр $(m,n)$“ розв'язна за 48~год зі starter kit». Перевірено 2026-10-01 за критеріями, записаними до запуску: базовий багатостартовий нелінійний МНК відновлює 3 амплітуди і 3 фази з фазово-роздільної екскурсії при 3\,\% шуму. На виправленій багатомодовій Tokamap (E35) успіхів 0 з 40, на стенді \texttt{tokamak-3d-viz} (DIII-D \#203702, моди 2/1, 5/2, 3/1)~--- 0 з 3. Хибних мінімумів немає, тож інформація в даних є, але жоден старт не дійшов до рівня шуму~\cite{ProjRegisters,ProjDeepDives}. Спростовано для базового розв'язувача, а не «нерозв'язно».
+\end{refuted}
+\begin{established}{E40}
+Ландшафт нев'язки екскурсійного спостережуваного «скляний». Екскурсія~--- розмах $\max-\min$ по дискретних точках орбіти, тож малий зсув параметра змінює, яка точка дає екстремум, і нев'язка стрибає. Старт в істині лишається на місці, а старт з істини $+5\,\%$ і $+10^\circ$ зупиняється в нев'язці, у 41--100 разів більшій за істинну; уздовж однієї фази в межах $\pm20^\circ$ є 8 локальних мінімумів~\cite{ProjRegisters,ProjGuide}. \emph{Студенту:} замінити розмах гладшою величиною (середнє чи квантиль по орбіті) і перевірити, чи зникнуть локальні мінімуми (\texttt{Our try/03-deep-dives/D3-poincare-inverse/c5/}); критерії записати до запуску.
+\end{established}
+
+\begin{practicum}[острови в DIII-D \#203702, \texttt{tokamak-3d-viz}]
+\textbf{1.} \texttt{python src/run\_bake.py --out data/bake01 --modes 2/1,3/1 --amp 1e-3} (потрібен \texttt{TOKVIZ\_DATA\_DIR} з parquet). Лог дає резонанси $\psiN=0{,}752$ ($q=2$) і $0{,}900$ ($q=3$), амплітуди, $\dd q/\dd\psiN$, ширини $w_{mn}$ і $S=0{,}458$ (\texttt{perturbation.py}). Збережений \texttt{data/bake01} перепечено 29.09.2026 з виправленою формулою: $w_{21}=0{,}0736$, $w_{31}=0{,}0619$, $S=0{,}458$; орбіти регулярні\,/\,в островах\,/\,хаотичні --- 41\,/\,12\,/\,15 (до виправлення 39\,/\,18\,/\,7).
+\textbf{2.} \texttt{python src/run\_analysis.py --out data/analysis} будує рис.~\ref{fig:02-poincare}. \textbf{Історія однієї помилки.} До 29.09.2026 код (\texttt{island\_width\_psin}) брав $w_{mn}=4\sqrt{\tilde\psi_{mn}q^2/|\dd q/\dd\psi|}$ (ψ як імпульс, R4) і завищував ширину в $\sqrt q$ разів; виміряна ширина виходила «замалою» (0,59--0,74 від теоретичної, тобто $1/\sqrt3$--$1/\sqrt2$), а документація пояснювала це стохастичним шаром сепаратриси. Формулу виправлено за~\eqref{eq:02-w}: трасування однієї моди (тест \texttt{test\_island\_width\_matches\_traced\_separatrix} у \texttt{tests/test\_physics.py}) дає відношення виміряної ширини до теоретичної $0{,}983$ (2/1) і $0{,}996$ (3/1); перерахунок збереженого прогону --- $0{,}95$--$1{,}02$; теоретичні $w_{21}=0{,}1041\to0{,}0736$, $w_{31}=0{,}1072\to0{,}0619$, $S=0{,}714\to0{,}458$. Обидва хибні твердження зареєстровано як спростовані: VR15 (формула) і VR16 (пояснення стохастичним шаром)~\cite{ProjViz}. \emph{Завдання:} відтворіть відношення з іншими \texttt{--amps}; покажіть, що при амплітуді $4\cdot10^{-3}$ (край, $S\approx0{,}9$) маятникова формула перестає працювати (відношення 1,1--1,3). Застереження: при новому засіві класифікатор островів (тест пласкості $\nu$) ненадійний (VQ4~\cite{ProjViz}). \textbf{3.} E30--E32: \texttt{tokamap.py}, \texttt{identifiability.py} у \texttt{Our try/03-deep-dives/D3-poincare-inverse}.
+\end{practicum}
+
+\subsection*{Контрольні запитання}
+\begin{enumerate}
+  \item Чому схема Боріса зберігає $|\vect{v}|$ у магнітному полі точно, а РК4 накопичує похибку енергії?
+  \item Виведіть \eqref{eq:02-vd} з \eqref{eq:02-Fdrift}. Чому $v_\parallel^2$ входить у дрейф з вагою 1, а $v_\perp^2$~--- з вагою $1/2$?
+  \item Звідки береться $\Phi_1$ \eqref{eq:02-Phi1}? Чому $D_{\mathrm{neo}}$ не залежить від знака обертання~\cite{Wong1987}?
+  \item Чому одна мода не дає хаосу (E20) і як помилка R4 змінює ширину острова?
+\end{enumerate}
+
+\subsection*{Задачі}
+\begin{enumerate}
+  \item (Москвитина~\cite{Moskvitina2010}.) Для α (\SI{5,3}{Тл}) знайдіть $T_c$, $\rho_\alpha$ при \SI{3,5}{МеВ}, $\tau_b$ у секундах і число кроків РК5 ($h=10^{-2}T_c$) на баунс.
+  \item За \eqref{eq:02-ripple} з параметрами ITER обчисліть $\dripple$ при $r=0$; \SI{1}{м}; \SI{2}{м} і перевірте, що $kR_0\approx18$.
+  \item (Wong--Cheng~\cite{Wong1987}.) TFTR: $\omtor\propto(1+4r^2/a^2)^{-1}$ (отже, $\omtor(a/2)=\omtor(0)/2$), $T_{e,i}\propto(1+9r^2/a^2)^{-1}$, $T_e(0)=\SI{4}{кеВ}$, $m_{\mathrm{Ge}}=72{,}6$~а.о.м. Для D ($Z_i=1$) і $R_0=\SI{2,5}{м}$ ($R_0$ у~\cite{Wong1987} не наведено; типове значення TFTR) оцініть $\Phi_1$ при $r=a/2$; порівняйте $m_{\mathrm{Ge}}\omtor^2R_0^2$ з $T_i$.
+  \item (\cite{ProjViz}, $\psiN$-одиниці.) Для 2/1 $\tilde\psi_{21}=7{,}52\cdot10^{-4}$, $\dd q/\dd\psiN=4{,}44$; для 3/1 $\tilde\psi_{31}=8{,}54\cdot10^{-4}$, $\dd q/\dd\psiN=10{,}70$; резонанси $\psiN=0{,}7520$ і $0{,}9001$. Знайдіть $w_{21}$, $w_{31}$, $S$ за \eqref{eq:02-w} і за старою формулою коду (до 29.09.2026, із $q^2$).
+\end{enumerate}

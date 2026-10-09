@@ -1,0 +1,199 @@
+\chapter{Токамак як магнітна пастка}\label{ch:trap}
+
+\section{Реакція D--T і енергетичний баланс}\label{sec:01-dt}
+
+Паливо реактора --- суміш дейтерію й тритію:
+\begin{equation}\label{eq:01-dt}
+  \mathrm{D}+\mathrm{T}\;\to\;{}^{4}\mathrm{He}\,(\SI{3.5}{\mega\electronvolt})
+  +\mathrm{n}\,(\SI{14.1}{\mega\electronvolt}),\qquad
+  \mathcal{E}_{\mathrm{DT}}\approx\SI{17.6}{\mega\electronvolt}
+\end{equation}
+($\mathcal{E}_{\mathrm{DT}}=\SI{17.58}{\mega\electronvolt}$~\cite{Merlo2011}; поділ енергії
+між продуктами за~\cite{Marchuk2025}). Нейтрон залишає плазму, тому гріти її може лише
+$\alpha$-частинка, тобто приблизно $1/5$ енергії реакції.
+
+\paragraph{Критерій Лоусона (Lawson criterion).} Ідея Лоусона --- розглядати реактор
+як замкнений енергетичний цикл. Нехай густини D і T рівні ($n/2$ кожного). Тоді на одиницю
+об'єму плазма виділяє термоядерну потужність $P_N$ і втрачає енергію двома каналами:
+транспортом ($P_T$) і гальмівним випромінюванням (bremsstrahlung, $P_B$)~\cite{Merlo2011}:
+\begin{equation}\label{eq:01-powers}
+  P_{N}=\frac{n^{2}}{4}\fsa{\sigma v}\mathcal{E}_{\mathrm{DT}},\qquad
+  P_{T}=\frac{3nT}{\tauE},\qquad P_{B}=C_{\mathrm{br}}\,n^{2}\sqrt{T}
+\end{equation}
+(стала $C_{\mathrm{br}}$ у~\cite{Merlo2011} має позначення $b$). У критерії Лоусона вважають,
+що вся потужність, яка виходить із плазми, $P_{\mathrm{out}}=P_N+P_T+P_B$, перетворюється з
+ККД $\eta$ і повертається як зовнішній нагрів $P_{\mathrm{ext}}=\eta P_{\mathrm{out}}$.
+Стаціонарний баланс $P_N+P_{\mathrm{ext}}=P_{\mathrm{out}}$, розв'язаний відносно $n\tauE$,
+дає~\cite{Merlo2011}
+\begin{equation}\label{eq:01-lawson}
+  n\tauE=\frac{3T}{\dfrac14\,\dfrac{\eta}{1-\eta}\fsa{\sigma v}\mathcal{E}_{\mathrm{DT}}-C_{\mathrm{br}}\sqrt{T}}.
+\end{equation}
+Знаменник додатний, лише коли частка $\eta/(1-\eta)$ термоядерної потужності переважає гальмівні втрати, тож права
+частина має мінімум за $T$ --- робочу точку $T\approx\SI{20}{\kilo\electronvolt}$,
+$n\approx\SI{e20}{\per\cubic\metre}$, $\tauE\approx\SI{1}{\second}$~\cite{Merlo2011}.
+
+\paragraph{Підсилення $Q=P_{\mathrm{fus}}/P_{\mathrm{ext}}$.} Енергобаланс DT-плазми
+в~\cite{Mazzucato2000} записано через $G=Q/(5+Q)$.
+\begin{derivation}[звідки береться $G=Q/(5+Q)$]
+У стаціонарі нагрів компенсує втрати: $W/\tauE=P_\alpha+P_{\mathrm{ext}}$, де
+$P_\alpha\approx P_{\mathrm{fus}}/5$ за~\eqref{eq:01-dt}. Тоді
+$W/\tauE=P_{\mathrm{fus}}(1/5+1/Q)$, і частка самонагріву
+$P_\alpha/(P_\alpha+P_{\mathrm{ext}})=Q/(5+Q)=G$. Оскільки $W\propto\beta B^{2}V$,
+а $P_{\mathrm{fus}}\propto\fsa{n^{2}\sigma v}V$, маємо~\cite{Mazzucato2000}
+\begin{equation}\label{eq:01-G}
+  B^{2}\beta\,\tauE\propto\frac{G}{N},\qquad N=\frac{\fsa{n^{2}\sigma v}}{B^{4}\beta^{2}} .
+\end{equation}
+Запалювання ($Q\to\infty$) означає $G\to1$; для $Q=10$ маємо $G=2/3$.
+\end{derivation}
+
+\begin{outofcorpus}[потрійний добуток]
+Поблизу $T\sim\SIrange{10}{20}{\kilo\electronvolt}$ маємо $\fsa{\sigma v}\propto T^{2}$, тому
+умова запалювання ($P_\alpha\ge P_T$ за $P_B\ll P_T$) набуває вигляду обмеження на добуток
+$nT\tauE\gtrsim\SI{3e21}{\per\cubic\metre\kilo\electronvolt\second}$.
+\end{outofcorpus}
+
+\section{Магнітна конфігурація: поля й запас стійкості}\label{sec:01-q}
+
+Тороїдальне поле $\Btor=F/R$ створюють котушки TF, полоїдальне $\Bpol$ --- струм плазми
+$\Ip$ і котушки PF, що керують положенням і формою шнура; обидві системи котушок і
+залізний магнітопровід трансформатора видно на рис.~\ref{fig:01-cutaway}.
+Разом вони дають спіральні силові лінії на вкладених магнітних поверхнях. Рівновагу
+$\vect J\times\Bvec=\grad p$ тримає переважно сила $\Jtor\Bpol$, а великий $\Btor$
+потрібен для стійкості~\cite{Merlo2011}.
+
+\begin{outofcorpus}[обертальне перетворення і загальне означення $q$]
+У чисто тороїдальному полі дрейфи $\grad B$ і кривизни розводять заряди по вертикалі,
+а дрейф $\ExB$ виносить плазму назовні. Закручування силових ліній замикає ці заряди
+вздовж поля. Міра закручування --- запас стійкості (safety factor): число тороїдальних
+обертів силової лінії за один полоїдальний,
+\begin{equation}\label{eq:01-qdef}
+  q(\psi)=\frac{1}{2\pi}\oint\frac{\Bvec\cdot\grad\tor}{\Bvec\cdot\grad\pol}\,\dd\pol
+  =\frac{F}{2\pi}\oint\frac{\dd l}{R\,|\grad\psi|}=\frac{1}{2\pi}\frac{\dd\Psit}{\dd\psi}.
+\end{equation}
+(інтеграл по полоїдальному контуру поверхні); обертальне перетворення (rotational transform) --- $1/q$.
+\end{outofcorpus}
+
+Останню рівність~\eqref{eq:01-qdef} дає~\cite{Tyshchenko2021}: $q^{-1}=\dd\psi_p/\dd\psi$
+(там $\psi$, $\psi_p$ --- тороїдальний і полоїдальний потоки на радіан), тобто
+$q=\dd\psit/\dd\psi$, де $\psit=\Psit/2\pi$ --- тороїдальний потік на радіан.
+Для кругового перерізу з великим аспектним відношенням~\cite{Merlo2011}
+\begin{equation}\label{eq:01-qcyl}
+  q(r)\approx\frac{r\,\Btor(r)}{R_0\,\Bpol(r)},\qquad
+  q(a)\approx\frac{2\pi a^{2}\Btor}{\mu_0R_0\Ip},
+\end{equation}
+де друга рівність випливає з закону Ампера $\Bpol(a)=\mu_0\Ip/(2\pi a)$. Збурення
+$\propto\cos(m\pol-n\tor)$ резонує з поверхнею, на якій $q=m/n$. Мінімальні умови
+стійкості: $q(0)\ge1$ (у~\cite{Merlo2011} названо межею Крускала--Шафранова; стандартно ця межа ---
+$q(a)>1$ для зовнішньої кінк-моди, а $q(0)\ge1$ --- умова стійкості внутрішньої моди $m=1$) і
+$q(a)\ge3$ для мод $m\le3$. Звідси $\Btor(a)\ge3(R_0/a)\Bpol(a)$~\cite{Merlo2011}.
+Отже, за $R_0/a\approx3$ маємо $\Btor\approx10\Bpol$, а $\Ip$ обмежено зверху при заданому $\Btor$.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.8\textwidth]{jet_C1.jpg}
+  \caption{JET за проєктом 1975~р.: загальний вигляд. Вісім стрижнів залізного ярма
+  (магнітопроводу) охоплюють котушки тороїдального поля (TF), кільцеві котушки
+  полоїдального поля (позначено PF\,3 і PF\,4), вакуумну камеру з жорстких секторів,
+  механічну структуру (кільце й оболонку) та порти; фігура людини \SI{1.8}{м} --- для
+  масштабу. За проєктом зовнішній діаметр машини \SI{14.8}{м}, висота \SI{11.5}{м}~\cite[с.~4]{JET1975};
+  плазми ззовні не видно (детально --- розд.~\ref{ch:jet}).
+  Власна 3D-реконструкція~\cite{ProjJET}; побудовано за даними~\cite[с.~4, 80, 83]{JET1975}.}
+  \label{fig:01-cutaway}
+\end{figure}
+
+\section{Токамак, стеларатор і пінч з оберненим полем}\label{sec:01-configs}
+
+\textbf{Токамак} закручує силові лінії струмом плазми, який наводить трансформатор,
+тому розряд імпульсний. \textbf{Стеларатори} (зокрема торсатрони й геліотрони) закручують силові
+лінії гвинтовими обмотками, тож струм плазми для утримання не потрібен. Торсатрон
+Ураган-2М має 16 котушок тороїдального поля, 2 гвинтові та 4 полоїдальні
+котушки~\cite{Martsenyuk2025}. Полюс гвинтової обмотки торсатрона Ураган-3 намотано
+на тор за законом
+$m\tor=-\pol+\alpha_{\mathrm{h}}\sin\pol+\beta_{\mathrm{h}}\sin2\pol$ з $m=3$,
+$\alpha_{\mathrm{h}}=0{,}2$, $\beta_{\mathrm{h}}=-0{,}0105$~\cite{Zaitsev2003}, де $m$ --- число обертів обмотки навколо кругової осі тора, а $\alpha_{\mathrm{h}}$ і
+$\beta_{\mathrm{h}}$ --- коефіцієнти модуляції (у~\cite{Zaitsev2003} їх позначено $\alpha$, $\beta$).
+Симетрія поля впливає й на потоки: спонтанне тороїдальне обертання в геліотронах
+спрямоване протилежно до токамачного~\cite{Ida2001} (розд.~\ref{ch:flows}). \textbf{Пінч з оберненим полем} (reversed-field pinch, RFP) має
+$\Btor\sim\Bpol$, причому $\Btor$ змінює знак біля краю. Стійкість тут забезпечує
+великий шир, а не великий $q$. Merlo~\cite{Merlo2011}, посилаючись на Тейлора, відносить до станів мінімальної енергії за
+збереженої спіральності і токамак, і RFP; у стандартній теорії релаксованим станом Тейлора
+($\grad\times\Bvec=\lambda\Bvec$, $\lambda=\mathrm{const}$) є саме RFP, а токамак від нього
+далекий. RFX-mod у режимі RFP несе до \SI{2}{\mega\ampere}, а в токамачному --- до
+\SI{200}{\kilo\ampere}~\cite{Merlo2011}. Перевірте за~\eqref{eq:01-qcyl}: за
+$\Btor\le\SI{0.6}{\tesla}$ умова $q(a)\ge3$ виконується лише до $\Ip\approx\SI{105}{\kilo\ampere}$,
+тож сильнострумові токамачні розряди RFX-mod мають $q(a)<3$.
+
+\begin{corpusexample}[магнітна система та її межі]
+\emph{Котушки TF.} У плоскій багатошаровій котушці TF повне скріплення шарів дає згинальні
+напруження з максимумом розтягу в міді \SI{41.6}{\mega\pascal}; часткове роз'єднання
+сталевих накладок і провідної частини з пружним опиранням знижує його до
+\SI{31.5}{\mega\pascal}~\cite{Zaitsev2001}. \emph{Гвинтова обмотка.} Під час рівномірного
+прогріву «безсилової» обмотки Ураган-3 до $T_0\approx\SI{90}{\celsius}$ напруження в сталевій
+оболонці сягають \SIrange{130}{140}{\mega\pascal}~\cite{Zaitsev2003}. \emph{Поле як важіль
+проєкту.} За сталих $A$, $\kappa$, $\qnf$ і $Q=10$ скейлінг утримання ELMy H-моди дає
+$a\propto T^{0{,}51}(G/N)^{0{,}38}B^{-1{,}32}(P_w/N)^{-0{,}02}$~\cite{Mazzucato2000}.
+Перерахунок ITER-FEAT ($B=\SI{5.3}{\tesla}$, $a=\SI{2.0}{\metre}$) на \SI{13}{\tesla}
+дає $a\approx\SI{0.53}{\metre}$, $R\approx\SI{1.63}{\metre}$. При цьому $n/\nGW$ падає
+з 0,85 до 0,39, а $\betaN$ --- з 1,77 до 0,99~\cite{Mazzucato2000}. Ціна --- магніти: надпровідники важко
+застосовувати вже за \SI{8}{\tesla}, тож пропонуються кріогенно охолоджені нормальні
+провідники~\cite{Mazzucato2000}.
+\end{corpusexample}
+
+\section{Установки корпусу}\label{sec:01-devices}
+
+У табл.~\ref{tab:01-devices} --- лише параметри, які джерела наводять \emph{явно}.
+
+\begin{table}[h]
+\centering\footnotesize\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{0.92}
+\caption{Параметри установок за джерелами корпусу («---» --- у корпусі немає)}\label{tab:01-devices}
+\begin{tabular}{@{}lllllll@{}}
+\toprule
+Установка & Тип & $R_0$, м & $a$, м & $\Bzero$, Тл & $\Ip$, МА & Джерело \\
+\midrule
+ITER-FEAT (проєкт) & токамак & 6,2 & 2,0 & 5,3 & 15 & \cite{Mazzucato2000,Moskvitina2010} \\
+ITER-клас (1992), $\kappa=2$ & токамак & 6 & 2 & 4,85 & 22 & \cite{Fukuyama1992} \\
+JET$^{a}$ & токамак & 2,96 / 3 & 1,25 & 2,4 / 3,45 & --- & \cite{Hoppe2022,Fukuyama1992} \\
+JET, проєкт 1975$^{h}$ & токамак & 2,96 & 1,25 & 2,77 / 3,45 & 3,8 / 4,8 & \cite[с.~83]{JET1975} \\
+ASDEX Upgrade & токамак & 1,65 & 0,5 & 2,5$^{b}$ & 0,8$^{b}$ & \cite{AhoMantila2011} \\
+DIII-D \#203702 & токамак & 1,68$^{c}$ & --- & 1,93$^{c}$ & --- & \cite{ProjViz} \\
+TFTR & токамак & --- & 0,82$^{d}$ & 4,0$^{d}$ & 0,8--1,8 & \cite{Wong1987,Park1989} \\
+NSTX & сфер.\ токамак & 1,0$^{e}$ & 0,85$^{e}$ & 0,45$^{e}$ & 1,0 & \cite{Tyshchenko2021,Jardin2000} \\
+JFT-2M & токамак & --- & --- & --- & 0,243 & \cite{Ida2001} \\
+WT-3 & токамак & 0,65 & 0,20 & $\le1{,}75$ & $\le0{,}15$ & \cite{Hanada1990} \\
+T-10 & токамак & 1,5 & 0,28--0,30 & 1,6--2,4 & 0,20--0,33 & \cite{Marchuk2025} \\
+EAST & токамак & 1,86 & 0,45 & 2,0 & 0,25 & \cite{Marchuk2025} \\
+RFX-mod & RFP/токамак & 2,0 & 0,459$^{f}$ & $\le0{,}6$ & $\le2$ / $\le0{,}2$ & \cite{Merlo2011} \\
+Ураган-2М & торсатрон & 1,7 & $<0{,}24$ & $<2{,}4$ & --- & \cite{Martsenyuk2025} \\
+Ураган-3 & торсатрон & 1,0$^{g}$ & --- & --- & --- & \cite{Zaitsev2003} \\
+\bottomrule
+\end{tabular}\\[2pt]
+\parbox{\textwidth}{\footnotesize $^{a}$~перше число --- сценарій пуску (прогоряння)~\cite{Hoppe2022}, друге --- розряд 1992~р.~\cite{Fukuyama1992} ($a=1{,}25\times2{,}1$~м);
+$^{b}$~розряд на рис.\ у~\cite{AhoMantila2011}; $^{c}$~$R$ магнітної осі та відкаліброване
+$\Btor$ на осі, $\qnf=3{,}70$; $^{d}$~модельні значення, $\Ip=\SI{0.7}{\mega\ampere}$
+у~\cite{Wong1987}; $^{e}$~модельні значення в~\cite{Tyshchenko2021}; $^{f}$~радіус першої
+стінки; $^{g}$~радіус обмотки (її внутрішній малий радіус \SI{0.203}{\metre}). $^{h}$~базовий / розширений варіант, D-подібна плазма з $b=\SI{2.10}{м}$ і $q(a)=6$
+(детально --- розд.~\ref{ch:jet}). $T$, $n_e$, $q$ для AUG, JET, ITER
+див. у табл.~I~\cite{vanVugt2019}.}
+\end{table}
+
+\subsection*{Контрольні запитання}
+\begin{enumerate}
+  \item Звідки в $G$ число 5? Чому дорівнювало б $G$, якби нейтрона не було?
+  \item Чому чисто тороїдальне поле не утримує плазму? Як це долають токамак і стеларатор?
+  \item Чому з $q(a)\ge3$ за $R_0/a\approx3$ випливає $\Btor\gg\Bpol$? Як без цього обходиться RFP?
+  \item Що означає раціональне $q=m/n$ для силової лінії і чому такі поверхні особливі?
+  \item Чому підвищення $\Bzero$ зменшує розмір установки з $Q=10$ і що обмежує $\Bzero$ згори?
+\end{enumerate}
+
+\subsection*{Задачі}
+\begin{enumerate}
+  \item ITER-FEAT: $Q=10$, $P_{\mathrm{fus}}=\SI{410}{\mega\watt}$~\cite{Mazzucato2000}. Знайдіть
+        $P_\alpha$, $P_{\mathrm{ext}}$, $G$ і повну потужність нагріву; порівняйте з
+        $P_{LH}=\SI{48}{\mega\watt}$ з тієї ж таблиці.
+  \item Оцініть $q(a)$ за~\eqref{eq:01-qcyl} для WT-3 за максимальних $\Bzero$ і
+        $\Ip$~\cite{Hanada1990}. Чи лежить він у діапазоні $q_L=2{,}2$--$6{,}0$, де там
+        бачили пилкоподібні коливання? За якого $\Ip$ було б $q(a)=3$?
+  \item Скейлінг~\cite{Mazzucato2000}: знайдіть $a$ за сталих $G$, $N$ для переходу ITER-FEAT
+        (\SI{5.3}{\tesla}, \SI{9}{\kilo\electronvolt}, $P_w=\SI{0.5}{\mega\watt\per\square\metre}$) $\to$
+        (\SI{13}{\tesla}, \SI{7}{\kilo\electronvolt}, \SI{1.5}{\mega\watt\per\square\metre}).
+\end{enumerate}

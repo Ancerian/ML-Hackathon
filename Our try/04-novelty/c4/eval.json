@@ -1,0 +1,367 @@
+{
+ "g_ref": 0.6340883948271788,
+ "g_true_median_test": 0.009742753577990504,
+ "models": {
+  "Linear Regression": {
+   "S": 0.192444,
+   "r2_psi": 0.086641,
+   "r2_qb": 0.0,
+   "lcfs": 0.909668,
+   "consistency": 0.269121,
+   "GS_score": 0.954187446202081,
+   "S_prime_main": 0.3434660743670135,
+   "g_pred_median": 0.03401977705286291
+  },
+  "Ridge (CV)": {
+   "S": 0.192639,
+   "r2_psi": 0.086981,
+   "r2_qb": 0.0,
+   "lcfs": 0.909668,
+   "consistency": 0.269161,
+   "GS_score": 0.9542463667281423,
+   "S_prime_main": 0.34363367223246816,
+   "g_pred_median": 0.033981728101286655
+  },
+  "Random Forest": {
+   "S": 0.173532,
+   "r2_psi": 0.114512,
+   "r2_qb": 0.0,
+   "lcfs": 0.894558,
+   "consistency": 0.105476,
+   "GS_score": 0.9823720643054753,
+   "S_prime_main": 0.33159756627313475,
+   "g_pred_median": 0.017006498852098553
+  },
+  "MLP (sklearn)": {
+   "S": 0.643401,
+   "r2_psi": 0.963542,
+   "r2_qb": 0.0,
+   "lcfs": 0.887189,
+   "consistency": 0.123667,
+   "GS_score": 0.20022478201524985,
+   "S_prime_main": 0.5807994081136528,
+   "g_pred_median": 0.5405685377812429
+  },
+  "Simple MLP": {
+   "S": 0.630782,
+   "r2_psi": 0.9586623333333334,
+   "r2_qb": 0.0,
+   "lcfs": 0.8717196666666666,
+   "consistency": 0.08172666666666666,
+   "GS_score": 0.0,
+   "S_prime_main": 0.536551,
+   "g_pred_median": 0.9633915802972388
+  },
+  "Conv Decoder": {
+   "S": 0.652381,
+   "r2_psi": 0.9667836666666667,
+   "r2_qb": 0.0,
+   "lcfs": 0.8981656666666668,
+   "consistency": 0.15416699999999997,
+   "GS_score": 0.0,
+   "S_prime_main": 0.5551723148148149,
+   "g_pred_median": 0.8105056571742689
+  },
+  "UNet_Lite": {
+   "S": 0.6633553333333334,
+   "r2_psi": 0.9758033333333334,
+   "r2_qb": 0.0,
+   "lcfs": 0.908489,
+   "consistency": 0.17907366666666666,
+   "GS_score": 0.0,
+   "S_prime_main": 0.5644792037037037,
+   "g_pred_median": 0.8564731823430447
+  },
+  "PCA+Ridge (SCORE.md)": {
+   "S": 0.194347,
+   "r2_psi": 0.089819,
+   "r2_qb": 0.0,
+   "lcfs": 0.909844,
+   "consistency": 0.269809,
+   "GS_score": 0.9547157815801097,
+   "S_prime_main": 0.34510079693001827,
+   "g_pred_median": 0.033808395483733183
+  }
+ },
+ "scan": {
+  "0.0000": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "MLP (sklearn)",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 1.0,
+   "S_prime": {
+    "Linear Regression": 0.22132179999999999,
+    "Ridge (CV)": 0.22151113333333333,
+    "Random Forest": 0.20144266666666666,
+    "MLP (sklearn)": 0.6569143333333334,
+    "Simple MLP": 0.6438611999999999,
+    "Conv Decoder": 0.6662067777777778,
+    "UNet_Lite": 0.6773750444444444,
+    "PCA+Ridge (SCORE.md)": 0.2231778
+   },
+   "swaps_majority": [],
+   "robust_swaps": []
+  },
+  "0.0500": {
+   "rank": [
+    "UNet_Lite",
+    "MLP (sklearn)",
+    "Conv Decoder",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 0.9285714285714286,
+   "S_prime": {
+    "Linear Regression": 0.25796508231010407,
+    "Ridge (CV)": 0.2581478950030738,
+    "Random Forest": 0.2404891365486071,
+    "MLP (sklearn)": 0.6340798557674292,
+    "Simple MLP": 0.6116681399999999,
+    "Conv Decoder": 0.6328964388888889,
+    "UNet_Lite": 0.6435062922222221,
+    "PCA+Ridge (SCORE.md)": 0.2597546990790055
+   },
+   "swaps_majority": [],
+   "robust_swaps": []
+  },
+  "0.1000": {
+   "rank": [
+    "MLP (sklearn)",
+    "UNet_Lite",
+    "Conv Decoder",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 0.8571428571428571,
+   "S_prime": {
+    "Linear Regression": 0.2946083646202081,
+    "Ridge (CV)": 0.2947846566728142,
+    "Random Forest": 0.27953560643054753,
+    "MLP (sklearn)": 0.6112453782015251,
+    "Simple MLP": 0.5794750799999999,
+    "Conv Decoder": 0.5995861,
+    "UNet_Lite": 0.60963754,
+    "PCA+Ridge (SCORE.md)": 0.29633159815801097
+   },
+   "swaps_majority": [
+    {
+     "S_above": "Conv Decoder",
+     "Sprime_above": "MLP (sklearn)",
+     "frac": 0.525
+    }
+   ],
+   "robust_swaps": []
+  },
+  "0.1500": {
+   "rank": [
+    "MLP (sklearn)",
+    "UNet_Lite",
+    "Conv Decoder",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 0.8571428571428571,
+   "S_prime": {
+    "Linear Regression": 0.3312516469303121,
+    "Ridge (CV)": 0.3314214183425547,
+    "Random Forest": 0.3185820763124879,
+    "MLP (sklearn)": 0.5884109006356207,
+    "Simple MLP": 0.5472820199999999,
+    "Conv Decoder": 0.5662757611111111,
+    "UNet_Lite": 0.5757687877777777,
+    "PCA+Ridge (SCORE.md)": 0.33290849723701643
+   },
+   "swaps_majority": [
+    {
+     "S_above": "Conv Decoder",
+     "Sprime_above": "MLP (sklearn)",
+     "frac": 0.706
+    },
+    {
+     "S_above": "UNet_Lite",
+     "Sprime_above": "MLP (sklearn)",
+     "frac": 0.702
+    }
+   ],
+   "robust_swaps": []
+  },
+  "0.1667": {
+   "rank": [
+    "MLP (sklearn)",
+    "UNet_Lite",
+    "Conv Decoder",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 0.8571428571428571,
+   "S_prime": {
+    "Linear Regression": 0.3434660743670135,
+    "Ridge (CV)": 0.34363367223246816,
+    "Random Forest": 0.33159756627313475,
+    "MLP (sklearn)": 0.5807994081136528,
+    "Simple MLP": 0.536551,
+    "Conv Decoder": 0.5551723148148149,
+    "UNet_Lite": 0.5644792037037037,
+    "PCA+Ridge (SCORE.md)": 0.34510079693001827
+   },
+   "swaps_majority": [
+    {
+     "S_above": "Conv Decoder",
+     "Sprime_above": "MLP (sklearn)",
+     "frac": 0.735
+    },
+    {
+     "S_above": "UNet_Lite",
+     "Sprime_above": "MLP (sklearn)",
+     "frac": 0.753
+    }
+   ],
+   "robust_swaps": []
+  },
+  "0.2000": {
+   "rank": [
+    "MLP (sklearn)",
+    "UNet_Lite",
+    "Conv Decoder",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 0.8571428571428571,
+   "S_prime": {
+    "Linear Regression": 0.3678949292404162,
+    "Ridge (CV)": 0.3680581800122952,
+    "Random Forest": 0.3576285461944284,
+    "MLP (sklearn)": 0.5655764230697167,
+    "Simple MLP": 0.5150889599999999,
+    "Conv Decoder": 0.5329654222222223,
+    "UNet_Lite": 0.5419000355555555,
+    "PCA+Ridge (SCORE.md)": 0.36948539631602195
+   },
+   "swaps_majority": [
+    {
+     "S_above": "Conv Decoder",
+     "Sprime_above": "MLP (sklearn)",
+     "frac": 0.793
+    },
+    {
+     "S_above": "UNet_Lite",
+     "Sprime_above": "MLP (sklearn)",
+     "frac": 0.852
+    }
+   ],
+   "robust_swaps": []
+  },
+  "0.2500": {
+   "rank": [
+    "MLP (sklearn)",
+    "UNet_Lite",
+    "Conv Decoder",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 0.8571428571428571,
+   "S_prime": {
+    "Linear Regression": 0.4045382115505202,
+    "Ridge (CV)": 0.40469494168203557,
+    "Random Forest": 0.3966750160763688,
+    "MLP (sklearn)": 0.5427419455038125,
+    "Simple MLP": 0.48289589999999993,
+    "Conv Decoder": 0.49965508333333336,
+    "UNet_Lite": 0.5080312833333334,
+    "PCA+Ridge (SCORE.md)": 0.4060622953950275
+   },
+   "swaps_majority": [
+    {
+     "S_above": "Conv Decoder",
+     "Sprime_above": "MLP (sklearn)",
+     "frac": 0.825
+    },
+    {
+     "S_above": "UNet_Lite",
+     "Sprime_above": "MLP (sklearn)",
+     "frac": 0.917
+    }
+   ],
+   "robust_swaps": []
+  },
+  "0.3000": {
+   "rank": [
+    "MLP (sklearn)",
+    "UNet_Lite",
+    "Conv Decoder",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 0.8571428571428571,
+   "S_prime": {
+    "Linear Regression": 0.4411814938606242,
+    "Ridge (CV)": 0.4413317033517761,
+    "Random Forest": 0.43572148595830923,
+    "MLP (sklearn)": 0.5199074679379083,
+    "Simple MLP": 0.4507028399999999,
+    "Conv Decoder": 0.46634474444444446,
+    "UNet_Lite": 0.47416253111111106,
+    "PCA+Ridge (SCORE.md)": 0.44263919447403294
+   },
+   "swaps_majority": [
+    {
+     "S_above": "Conv Decoder",
+     "Sprime_above": "MLP (sklearn)",
+     "frac": 0.842
+    },
+    {
+     "S_above": "UNet_Lite",
+     "Sprime_above": "MLP (sklearn)",
+     "frac": 0.944
+    }
+   ],
+   "robust_swaps": []
+  }
+ },
+ "rank_S": [
+  "UNet_Lite",
+  "Conv Decoder",
+  "MLP (sklearn)",
+  "Simple MLP",
+  "PCA+Ridge (SCORE.md)",
+  "Ridge (CV)",
+  "Linear Regression",
+  "Random Forest"
+ ],
+ "verdict": {
+  "C4_GS": "REFUTED",
+  "tau_main": 0.8571428571428571,
+  "n_robust_swaps": 0,
+  "first_wr_with_robust_swap": null
+ },
+ "spearman_GS_vs_consistency": 0.4285714285714286,
+ "spearman_GS_vs_r2psi": -0.5952380952380953
+}

@@ -1,0 +1,96 @@
+\documentclass[11pt,a4paper,oneside,notitlepage]{report}
+% (преамбула винесена з main.tex; спільна для main і драйверів розділів)
+
+% ---------- мова і шрифти ----------
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{ukrainian}
+\setotherlanguage{english}
+\gappto\captionsukrainian{\renewcommand{\bibname}{Бібліографія}\renewcommand{\refname}{Бібліографія}}
+\setmainfont{cmunrm}[Extension=.otf,BoldFont=cmunbx,ItalicFont=cmunti,BoldItalicFont=cmunbi]
+\setsansfont{cmunss}[Extension=.otf,BoldFont=cmunsx,ItalicFont=cmunsi,BoldItalicFont=cmunso]
+\setmonofont{cmuntt}[Extension=.otf,BoldFont=cmuntb,ItalicFont=cmunit,BoldItalicFont=cmuntx]
+
+% ---------- верстка ----------
+\usepackage[a4paper,top=2cm,bottom=2.2cm,left=2.2cm,right=2cm]{geometry}
+\usepackage{titlesec}
+\titleformat{\chapter}[hang]{\Large\bfseries\sffamily}{\thechapter.}{0.6em}{}
+\titlespacing*{\chapter}{0pt}{-10pt}{12pt}
+\titleformat{\section}{\large\bfseries\sffamily}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries\sffamily}{\thesubsection}{0.6em}{}
+\usepackage{enumitem}
+\usepackage{tocloft}
+\usepackage{multicol}
+\setlength{\cftbeforechapskip}{2pt}
+\renewcommand{\cftsecfont}{\small}\renewcommand{\cftsecpagefont}{\small}
+\setlength{\cftbeforetoctitleskip}{0pt}
+\renewcommand{\cfttoctitlefont}{\large\bfseries\sffamily}
+\setlength{\cftaftertoctitleskip}{4pt}
+\setlength{\cftbeforesecskip}{0pt}
+
+\setlist{itemsep=1pt,topsep=3pt,parsep=0pt}
+\setlength{\emergencystretch}{3em}% довгі шляхи файлів у \texttt
+\usepackage{booktabs,array,tabularx,longtable}
+\renewcommand{\arraystretch}{1.12}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage[font=small,labelfont=bf,labelsep=period]{caption}
+\usepackage{subcaption}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.markings,positioning,shapes.geometric}
+
+% ---------- математика і позначення ----------
+\usepackage{notation}
+\numberwithin{equation}{chapter}
+
+% ---------- рамки ----------
+\usepackage[most]{tcolorbox}
+\tcbset{enhanced,breakable,boxrule=0.5pt,arc=1.5pt,left=5pt,right=5pt,top=3pt,bottom=3pt,
+        fonttitle=\sffamily\bfseries\small\hypersetup{citecolor=white,linkcolor=white},before skip=6pt,after skip=6pt}
+% стандартна теорія поза корпусом (рішення Q1)
+\newtcolorbox{outofcorpus}[1][]{colback=gray!5,colframe=gray!60!black,
+  title={Поза корпусом: стандартна теорія\ifx&#1&\else{} --- #1\fi}}
+% приклад з корпусу: реальні установки й числа
+\newtcolorbox{corpusexample}[1][]{colback=blue!3,colframe=blue!50!black,
+  title={Приклад з корпусу\ifx&#1&\else{} --- #1\fi}}
+% виведення з пропущеними рутинними кроками
+\newtcolorbox{derivation}[1][]{colback=white,colframe=black!40,
+  title={Виведення\ifx&#1&\else{} --- #1\fi}}
+% практикум на коді проєкту
+\newtcolorbox{practicum}[1][]{colback=green!4,colframe=green!40!black,
+  title={Практикум\ifx&#1&\else{} --- #1\fi}}
+% дослідницький трек: статуси з реєстрів Our try/00-decisions
+\newtcolorbox{established}[1]{colback=teal!4,colframe=teal!60!black,
+  title={Встановлено в проєкті [#1]}}
+\newtcolorbox{conjecture}[1]{colback=orange!6,colframe=orange!70!black,
+  title={Гіпотеза [#1] --- не перевірено}}
+\newtcolorbox{refuted}[1]{colback=red!4,colframe=red!55!black,
+  title={Спростовано [#1] --- повчальний приклад}}
+
+
+% ---------- код (путівник) ----------
+% minted (Pygments через latexminted); збірка: latexmk (див. latexmkrc: -shell-escape, PATH до Pygments).
+% listings відмовились: під XeLaTeX він зсуває нумерацію, якщо над фрагментом є не-ASCII символи.
+\usepackage{minted}
+\usepackage{needspace}
+\setminted{fontsize=\scriptsize,linenos,numbersep=6pt,breaklines,breakanywhere,frame=single,
+  framesep=2mm,rulecolor=black!25,bgcolor=black!2,style=default}
+% \code{шлях}{перший}{останній}{підпис} — фрагмент БЕЗПОСЕРЕДНЬО з файлу проєкту (через src/-посилання)
+\newcommand{\code}[4]{\par\needspace{7\baselineskip}\noindent
+  {\footnotesize\texttt{\detokenize{#1}}, рядки #2--#3\quad #4}\par\nopagebreak[4]\vspace{-2pt}
+  \inputminted[firstline=#2,lastline=#3,firstnumber=#2]{python}{src/#1}}
+% ---------- картки пунктів реєстру ----------
+\newtcolorbox{itemcard}[2]{colback=black!2,colframe=black!55,title={#1\quad\normalfont\small #2}}
+
+% ---------- посилання ----------
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=green!40!black,
+            urlcolor=blue!60!black,bookmarksnumbered]{hyperref}
+\usepackage{xurl}
+\usepackage[ukrainian,nameinlink]{cleveref}
+
+\title{\sffamily\bfseries Фізика плазми всередині токамака\\[4pt]
+       \large Навчальний посібник (методичка)}
+\author{На основі корпусу джерел проєкту «Моделювання потоку плазми в контурі токамаку»}
+\date{2026}
+

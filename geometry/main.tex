@@ -1,0 +1,28 @@
+% Гайд «Геометрія токамака: від ψ(R,Z) до котушок JET»
+% Компіляція: latexmk main.tex   (latexmkrc вмикає XeLaTeX, -shell-escape і Pygments для minted)
+% Числа й рисунки: code/geom_tour.py (див. розд. 1).
+\input{preamble}
+\begin{document}
+\thispagestyle{plain}
+\begin{center}
+{\LARGE\bfseries\sffamily Геометрія токамака}\\[3pt]
+{\large\sffamily Гайд: координати, магнітні поверхні, форма перерізу, топологія і JET --- з кодом проєкту}\\[2pt]
+{\small Для студентів ФМФ КПІ \,·\, 2026}
+\end{center}
+\vspace{-1.5em}
+{\footnotesize\renewcommand{\cftchapfont}{\bfseries\footnotesize}\renewcommand{\cftchappagefont}{\bfseries\footnotesize}
+\renewcommand{\cftsecfont}{\footnotesize}\renewcommand{\cftsecpagefont}{\footnotesize}
+\begin{multicols}{2}
+\tableofcontents
+\end{multicols}}
+\input{chapters/geo1}
+\input{chapters/geo2}
+\input{chapters/geo3}
+\input{chapters/geo4}
+\input{chapters/geo5}
+\input{chapters/geo6}
+\input{chapters/geo7}
+\appendix
+\input{chapters/geoA}
+\input{bib/references}
+\end{document}

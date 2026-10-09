@@ -1,0 +1,38 @@
+# JET 1975 Design Proposal (EUR 5516e), Fig. IV.3-14 'Ring Assembly', PDF p.378 (+ text p.374-379).
+# Upper and lower mechanical rings: conical inner part ('collar', magnetic steel, 8 sectors) + horizontal outer part (cast light alloy,
+# 8 sectors, each with an opening for the vertical ports), outer diameter 7320 mm, total height 900 mm (both printed).
+# Cross-section DIGITIZED from the partial section (drawn right half, truncated before the outer rim): scale from the printed 900 mm
+# (0.27 px/mm at 300 dpi); the horizontal scale of that sketch is inconsistent with the printed d7320, so R beyond the break is set
+# to the printed outer radius 3.660 m. The inner-cylinder face (R~1.11) agrees with the PF coil 1 outer radius (1.085) + 4 cm cylinder.
+# Vertical placement is ASSUMED: collar/ring top at |Z| = 3.04 m (digitized from Fig. IV.4-1, p.386). The ring carries wedge blocks
+# between the 32 TF coils, so in R-Z it overlaps the TF coil section - this is expected, not an error.
+# confidence: digitized (section shape, +-30 mm) / assumed (Z placement, +-0.15 m). Units: metres.
+part,R_m,Z_m
+upper_ring,1.0852,3.0400
+upper_ring,1.0852,2.6252
+upper_ring,1.1852,2.6252
+upper_ring,1.1852,2.1252
+upper_ring,1.3889,2.1252
+upper_ring,1.7222,2.3437
+upper_ring,1.7222,2.7252
+upper_ring,1.9815,2.7252
+upper_ring,1.9815,2.8733
+upper_ring,2.1296,2.8733
+upper_ring,2.1296,2.4770
+upper_ring,3.6600,2.4770
+upper_ring,3.6600,3.0400
+upper_ring,1.0852,3.0400
+lower_ring,1.0852,-3.0400
+lower_ring,1.0852,-2.6252
+lower_ring,1.1852,-2.6252
+lower_ring,1.1852,-2.1252
+lower_ring,1.3889,-2.1252
+lower_ring,1.7222,-2.3437
+lower_ring,1.7222,-2.7252
+lower_ring,1.9815,-2.7252
+lower_ring,1.9815,-2.8733
+lower_ring,2.1296,-2.8733
+lower_ring,2.1296,-2.4770
+lower_ring,3.6600,-2.4770
+lower_ring,3.6600,-3.0400
+lower_ring,1.0852,-3.0400

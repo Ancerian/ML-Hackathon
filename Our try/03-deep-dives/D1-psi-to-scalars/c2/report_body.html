@@ -1,0 +1,298 @@
+<div class="wrap">
+  <header class="doc-head">
+    <div>
+      <img class="crest crest-light" src="CREST_LIGHT" alt="Герб Фізико-математичного факультету">
+      <img class="crest crest-dark" src="CREST_DARK" alt="Герб Фізико-математичного факультету">
+    </div>
+    <div class="org">
+      <span class="u">КПІ імені Ігоря Сікорського</span>
+      <span class="f">Фізико-математичний факультет</span>
+      <span class="l">AI-лабораторія імені професора В.&nbsp;М.&nbsp;Горшкова</span>
+    </div>
+    <div class="logo-slot" aria-hidden="true">логотип лабораторії</div>
+  </header>
+
+  <div class="title">
+    <span class="label">Дослідження · Гіпотеза C2 · 30.09.2026</span>
+    <h1>Перевірка гіпотези C2</h1>
+  </div>
+  <p class="lead">Чи покращує реальні моделі втрата, зважена за спектральною чутливістю скалярів S(<i class="v">k</i>)? Ні: лінійна модель на вагу не реагує, а нейромережа з будь-якою вагою стає трохи гіршою, в межах шуму. Натомість на навченій моделі видно розчеплення точності ψ і точності скалярів.</p>
+
+  <div class="verdict">
+    <div class="chips">
+      <span class="chip bad">C2 → R11 · спростовано</span>
+      <span class="chip good">E37 · встановлено</span>
+      <span class="chip info">S(k) · переміряно на 28 розрядах</span>
+    </div>
+    <div>
+      <p class="small muted" style="margin-bottom:8px">Зміна Consistency відносно пласкої MSE на 8 відкладених розрядах DIII-D. UNet_Lite — середнє 3 зерен; у дужках 95 % бутстреп-інтервал.</p>
+      <div class="freqs" id="deltas"></div>
+    </div>
+  </div>
+
+  <section>
+    <span class="label">Контекст</span>
+    <h2>Що стверджувала C2</h2>
+    <p>Розбір D1 показав, що скаляри рівноваги по-різному чутливі до збурень ψ на різних хвильових числах <i class="v">k</i>: це крива S(<i class="v">k</i>). Звідси ідея: якщо навчати модель на втраті, зваженій за S(<i class="v">k</i>), вона менше помилятиметься саме там, де помилки найдорожче коштують скалярам.</p>
+    <div class="math-block"><i>L<sub>w</sub></i> = Σ<sub><i>k</i></sub> <i>w</i>(<i>k</i>) · |<i>δψ̂</i>(<i>k</i>)|<sup class="up">2</sup> &nbsp;/&nbsp; (<i>N</i><sup class="up">2</sup>)<sup class="up">2</sup>, &nbsp;&nbsp; <i>w</i> ≡ 1 &nbsp;⇒&nbsp; звичайна MSE</div>
+    <p><b>Що спростує C2:</b> бейзлайн, навчений із вагою і без неї, має однаковий S′. S′ ще не реалізовано: член калібрування потребує невизначеності, якої бейзлайни не видають. Тому до запуску мірою записали <b>Consistency</b> (середнє <i class="v">R</i>² семи скалярів, головна) і композитний <b>S</b> офіційного скорера.</p>
+  </section>
+
+  <section>
+    <span class="label">Метод</span>
+    <h2>Як перевіряли</h2>
+    <ol class="steps">
+      <li><span class="k">0</span><div><b>Попередня реєстрація.</b> До навчання записали правило виведення ваги з S(<i>k</i>), три контролі, протокол навчання й критерії вердикту.</div></li>
+      <li><span class="k">1</span><div><b>Дані.</b> Розбиття, як у нашому бейзлайні: навчання на потокових розрядах DIII-D 0–35 (7 587 кадрів), валідація 36–39, тест 60–67.</div></li>
+      <li><span class="k">2</span><div><b>S(<i>k</i>) переміряно</b> на 28 розрядах (урок C1: три демо-розряди — замала вибірка) при <i>e</i> = 0,1; 0,3; 1,0.</div></li>
+      <li><span class="k">3</span><div><b>Робоча точка.</b> Пласка PCA+Ridge на валідації: <i>R</i>²<sub>ψ</sub> = <span class="num" id="r2val"></span>, тобто <i>e</i><sub>op</sub> = <span class="num" id="eop"></span>; за правилом береться крива при <i>e</i> = <span class="num" id="eused"></span>.</div></li>
+      <li><span class="k">4</span><div><b>Навчання.</b> PCA+Ridge (вага діє через зважену PCA) і UNet_Lite зі стартового набору (вага прямо у втраті, 3 зерна) — по чотири вагові схеми.</div></li>
+      <li><span class="k">5</span><div><b>Оцінка</b> функціями офіційного скорера; парні різниці з пласкою MSE; бутстреп 1000× по тестових розрядах; вердикт — лише за критеріями кроку 0.</div></li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="label">Вага</span>
+    <h2>S(k) у робочій точці моделей</h2>
+    <p>На ширшій вибірці й за більших похибок крива змінила форму: у D1 (3 розряди, <i>e</i> = 0,1) найшкідливішими були середні <i>k</i>, а в робочій точці моделей — <b>низькі</b>. Саме ця крива і стала вагою S(<i>k</i>).</p>
+    <figure>
+      <div class="chart" id="chartSk" role="img" aria-label="Нормована чутливість скалярів за кільцями хвильових чисел"></div>
+      <div class="legend" id="legendSk"></div>
+      <figcaption>Середня по семи скалярах чутливість S<sub>j</sub>(<i>k</i>) / max<sub>k</sub> S<sub>j</sub>, для кожної кривої нормована на її максимум.</figcaption>
+    </figure>
+    <figure>
+      <div class="chart" id="chartW" role="img" aria-label="Три вагові схеми за кільцями хвильових чисел"></div>
+      <div class="legend" id="legendW"></div>
+      <figcaption>Три вагові схеми (кожна нормована на свій максимум). H¹ = 1 + (<i>k</i>/<i>k<sub>c</sub></i>)² має той самий розмах, що й S(<i>k</i>), але зростає з <i>k</i>; перемішана — ті самі 8 чисел в іншому порядку.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <span class="label">Результат</span>
+    <h2>Вага не покращила жодну модель</h2>
+    <figure>
+      <div class="chart" id="chartRes" role="img" aria-label="Consistency для двох моделей і чотирьох вагових схем"></div>
+      <div class="legend" id="legendRes"></div>
+      <figcaption>Consistency на 8 відкладених розрядах. Великі маркери — PCA+Ridge і середнє UNet_Lite; дрібні — окремі зерна UNet_Lite.</figcaption>
+    </figure>
+    <div class="tbl"><table id="tblRes"></table></div>
+    <ul class="stars">
+      <li><div><b>PCA+Ridge на вагу не реагує</b> (|Δ| &lt; 10⁻⁴). У лінійній моделі кожен вихід навчається незалежно, тож вага діє лише через базис PCA, а 50 компонент зважених і незважених даних охоплюють практично той самий простір.</div></li>
+      <li><div><b>UNet_Lite з будь-якою вагою точково трохи гірша</b> за пласку MSE, а всі інтервали містять нуль. S(<i>k</i>) не краща ні за H¹, ні за перемішану вагу.</div></li>
+      <li><div><b>Розкид між зернами більший за ефект будь-якої ваги:</b> Consistency окремих зерен — від <span class="num" id="seedMin"></span> до <span class="num" id="seedMax"></span>.</div></li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="label">Встановлено · E37</span>
+    <h2>Точна карта потоку — ще не точні скаляри</h2>
+    <p>UNet_Lite відновлює ψ майже ідеально, а PCA+Ridge — майже ніяк. Але похідні скаляри в нейромережі <b>гірші</b>. Це теза D1 про розчеплення <i class="v">R</i>²<sub>ψ</sub> і Consistency, тепер уже на навченій моделі, а не на штучних збуреннях.</p>
+    <div class="two">
+      <div class="card">
+        <span class="label">UNet_Lite · пласка MSE</span>
+        <div class="kv"><span>R²ψ</span><b class="num" id="u_r2"></b></div>
+        <div class="kv"><span>Consistency</span><b class="num" id="u_c"></b></div>
+        <div class="kv"><span>композитний S</span><b class="num" id="u_s"></b></div>
+      </div>
+      <div class="card">
+        <span class="label">PCA+Ridge · пласка PCA</span>
+        <div class="kv"><span>R²ψ</span><b class="num" id="p_r2"></b></div>
+        <div class="kv"><span>Consistency</span><b class="num" id="p_c"></b></div>
+        <div class="kv"><span>композитний S</span><b class="num" id="p_s"></b></div>
+      </div>
+    </div>
+    <figure>
+      <div class="chart" id="chartSc" role="img" aria-label="R квадрат кожного з семи скалярів для двох моделей"></div>
+      <div class="legend" id="legendSc"></div>
+      <figcaption><i>R</i>² кожного скаляра (пласкі версії обох моделей). Значення нижче нуля означають, що прогноз гірший за середнє по вибірці.</figcaption>
+    </figure>
+    <div class="note"><p><b>Що з цього випливає.</b> Перерозподіл <i>L</i>²-похибки за хвильовими числами розчеплення не лікує. Потрібна або пряма мета на скаляри (друга «голова» мережі), або диференціальний член — нев'язка рівняння Ґреда–Шафранова. Це гіпотеза C4, наступна в черзі.</p></div>
+  </section>
+
+  <section>
+    <span class="label">Обмеження</span>
+    <h2>Що варто пам'ятати</h2>
+    <ul class="stars">
+      <li><div>Одна архітектура мережі, три зерна, вісім тестових розрядів.</div></li>
+      <li><div>Ваги відрізнялися лише в 1,85 раза. Сильніша вага (крива при <i>e</i> = 1,0 чи ваги в степені) не перевірялась — це задача для студентів у путівнику.</div></li>
+      <li><div>Бутстреп тримає знак ψ і середні повного тестового набору (невелике, заявлене наближення).</div></li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="label">Проєкт</span>
+    <h2>Що змінено</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Де</th><th>Що</th></tr></thead>
+      <tbody>
+        <tr><td>Реєстри <code>Our try/00-decisions/</code></td><td>C2 закрито → нова <b>R11</b>; нова <b>E37</b>; журнал змін №101–107</td></tr>
+        <tr><td>Розбір D1 <code>findings.md</code></td><td>новий розділ «Перевірка C2»; до результату 3 додано примітку про R11</td></tr>
+        <tr><td>Код і дані <code>…/D1-psi-to-scalars/c2/</code></td><td>попередня реєстрація, 6 скриптів, результати, рисунок; повне відтворення ~80 хв</td></tr>
+        <tr><td>Путівник</td><td>розд. 2: підрозділ «Перевірка C2» з фрагментом коду зваженої втрати; оновлено розд. 0, 1, 10 і покажчик (162 пункти); 85 с.</td></tr>
+        <tr><td>Методичка</td><td>розд. 12: рамка R11 з E37; 75 с.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Відтворення</h3>
+<pre>cd "fusion equilibrium challenge/starter"
+P="../../Our try/03-deep-dives/D1-psi-to-scalars/c2"
+.venv/bin/python "$P/fetch_split.py"      # один раз, 48 розрядів
+.venv/bin/python "$P/sk_remeasure.py"     # ~40 с
+.venv/bin/python "$P/train.py"            # ~75 хв (12 прогонів UNet на MPS)
+.venv/bin/python "$P/evaluate.py"         # ~4 хв
+.venv/bin/python "$P/summarise.py"</pre>
+    <p class="small muted">Попередня перевірка: <a href="https://claude.ai/artifact/9oAEFD3T7tp7WBgan8idXJ" target="_blank" rel="noopener">Перевірка гіпотези C1</a> — кластери показників підсилення (спростовано → R10).</p>
+    <p class="small muted">Наступна перевірка: <a href="https://claude.ai/artifact/1nMcrYyE8QDG9Yg6hUxCob" target="_blank" rel="noopener">Перевірка гіпотези C4</a> — нев'язка ГШ у метриці (половина спростована → R12).</p>
+  </section>
+
+  <footer>
+    <p>Власний розрахунок проєкту «Моделювання потоку плазми в контурі токамаку». Код: <code>Our try/03-deep-dives/D1-psi-to-scalars/c2/</code>. Моделі UNet_Lite і PCA+Ridge — зі стартового набору конкурсу (MIT).</p>
+    <p>Дані рівноваг: Fusion Equilibrium Challenge (Sophelio / General Atomics), CC BY 4.0.</p>
+    <p class="data">30.09.2026</p>
+  </footer>
+</div>
+
+<script>
+const DATA = /*DATA*/null;
+const NS = "http://www.w3.org/2000/svg";
+const fmt = (x, d = 2) => (x < 0 ? "−" : "") + Math.abs(x).toFixed(d).replace(".", ",");
+const sgn = (x, d = 3) => (x > 0 ? "+" : "") + fmt(x, d);
+function el(tag, attrs = {}, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function txt(parent, x, y, s, anchor = "middle") { const t = el("text", {x, y, "text-anchor": anchor}, parent); t.textContent = s; return t; }
+function mark(g, shape, x, y, r, color) {
+  if (shape === "circle") return el("circle", {cx: x, cy: y, r, fill: color}, g);
+  if (shape === "square") return el("rect", {x: x - r, y: y - r, width: 2 * r, height: 2 * r, fill: color}, g);
+  if (shape === "triangle") return el("path", {d: `M${x},${y - r * 1.2} L${x + r * 1.1},${y + r * 0.8} L${x - r * 1.1},${y + r * 0.8} Z`, fill: color}, g);
+  return el("path", {d: `M${x},${y - r * 1.3} L${x + r},${y} L${x},${y + r * 1.3} L${x - r},${y} Z`, fill: color}, g);
+}
+function legend(id, items) {
+  const box = document.getElementById(id);
+  items.forEach(([shape, color, label, dash]) => {
+    const sp = document.createElement("span");
+    const s = el("svg", {width: 26, height: 12, viewBox: "0 0 26 12"});
+    if (dash !== undefined) el("line", {x1: 1, x2: 25, y1: 6, y2: 6, stroke: color, "stroke-width": 2, "stroke-dasharray": dash}, s);
+    if (shape) mark(s, shape, 13, 6, 4, color);
+    sp.appendChild(s); sp.append(label); box.appendChild(sp);
+  });
+}
+function axesY(svg, L, R, W, Y, ticks, d) {
+  ticks.forEach(v => { el("line", {class: "grid", x1: L, x2: W - R, y1: Y(v), y2: Y(v)}, svg); txt(svg, L - 8, Y(v) + 4, fmt(v, d), "end"); });
+}
+const BANDLAB = DATA.bands.map(([a, b]) => `${a}–${b}`);
+
+// ---- verdict deltas
+(function () {
+  const box = document.getElementById("deltas");
+  const cells = [["pca: sk - flat", "PCA+Ridge · вага S(k)"], ["unet: sk - flat", "UNet_Lite · вага S(k)"],
+                 ["unet: h1 - flat", "UNet_Lite · вага H¹"], ["unet: shuffled - flat", "UNet_Lite · перемішана"]];
+  cells.forEach(([k, lab]) => {
+    const d = DATA.ev.delta[k].consistency;
+    const small = Math.abs(d.point) < 1e-4;
+    const c = document.createElement("div"); c.className = "freq";
+    c.innerHTML = `<span class="big">${small ? "≈ 0" : sgn(d.point, 3)}</span><span class="cap">${lab}<br>${small ? "|Δ| < 10⁻⁴" : `[${sgn(d.ci95[0], 3)}; ${sgn(d.ci95[1], 3)}]`}</span>`;
+    box.appendChild(c);
+  });
+  document.getElementById("r2val").textContent = fmt(DATA.w.val_r2_psi_flat_pca, 3);
+  document.getElementById("eop").textContent = fmt(DATA.w.e_op, 3);
+  document.getElementById("eused").textContent = fmt(DATA.w.eps_used, 1);
+})();
+
+// ---- generic band line chart
+function bandChart(id, series, y0, y1, ticks) {
+  const W = 760, H = 280, L = 50, R = 12, T = 14, B = 40, n = BANDLAB.length;
+  const X = i => L + (i + 0.5) * (W - L - R) / n;
+  const Y = v => T + (y1 - v) / (y1 - y0) * (H - T - B);
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`});
+  axesY(svg, L, R, W, Y, ticks, 1);
+  el("line", {class: "axis", x1: L, x2: W - R, y1: H - B, y2: H - B}, svg);
+  BANDLAB.forEach((b, i) => txt(svg, X(i), H - B + 18, b));
+  txt(svg, L + (W - L - R) / 2, H - 4, "кільце хвильових чисел |k|");
+  series.forEach(s => {
+    el("path", {d: "M" + s.v.map((v, i) => `${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" L"), fill: "none",
+      stroke: s.color, "stroke-width": 2, "stroke-dasharray": s.dash || "none"}, svg);
+    s.v.forEach((v, i) => { const m = mark(svg, s.shape, X(i), Y(v), 3.5, s.color); el("title", {}, m).textContent = `${s.label}, ${BANDLAB[i]}: ${fmt(v, 3)}`; });
+  });
+  document.getElementById(id).appendChild(svg);
+}
+(function () {
+  const norm = a => { const m = Math.max(...a); return a.map(v => v / m); };
+  const curve = M => norm(M.map(row => row.reduce((s, v, j) => s + v / Math.max(...M.map(r => r[j])), 0) / row.length));
+  const S = DATA.sk;
+  const d1 = BANDLAB.map((_, b) => S.d1[b]);
+  const series = [
+    {v: curve(d1), color: "var(--muted)", shape: "circle", dash: "4 3", label: "D1: 3 демо-розряди, e = 0,1"},
+    {v: curve(S.e01), color: "var(--ink)", shape: "square", label: "28 розрядів, e = 0,1"},
+    {v: curve(S.e03), color: "var(--blue)", shape: "diamond", label: "28 розрядів, e = 0,3 — вага S(k)"},
+    {v: curve(S.e10), color: "var(--oak)", shape: "triangle", label: "28 розрядів, e = 1,0"},
+  ];
+  bandChart("chartSk", series, 0.3, 1.02, [0.4, 0.6, 0.8, 1.0]);
+  legend("legendSk", series.map(s => [s.shape, s.color, s.label, s.dash || "none"]));
+  const n1 = norm(DATA.w.band_weights_sk), n2 = norm(DATA.w.h1_at_centres), n3 = norm(DATA.w.band_weights_shuffled);
+  const ws = [{v: n1, color: "var(--blue)", shape: "diamond", label: "S(k)"},
+              {v: n2, color: "var(--oak)", shape: "triangle", label: "H¹ = 1 + (k/k_c)²"},
+              {v: n3, color: "var(--muted)", shape: "circle", dash: "4 3", label: "перемішана"}];
+  bandChart("chartW", ws, 0.3, 1.02, [0.4, 0.6, 0.8, 1.0]);
+  legend("legendW", ws.map(s => [s.shape, s.color, s.label, s.dash || "none"]));
+})();
+
+// ---- results chart + table
+(function () {
+  const arms = [["flat", "пласка MSE"], ["sk", "S(k)"], ["h1", "H¹"], ["shuffled", "перемішана"]];
+  const W = 760, H = 300, L = 54, R = 12, T = 14, B = 40, y0 = 0.10, y1 = 0.30;
+  const X = i => L + (i + 0.5) * (W - L - R) / arms.length;
+  const Y = v => T + (y1 - v) / (y1 - y0) * (H - T - B);
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`});
+  axesY(svg, L, R, W, Y, [0.10, 0.15, 0.20, 0.25, 0.30], 2);
+  el("line", {class: "axis", x1: L, x2: W - R, y1: H - B, y2: H - B}, svg);
+  arms.forEach(([a, lab], i) => {
+    txt(svg, X(i), H - B + 18, lab);
+    const p = DATA.ev.point[`pca_${a}`].consistency, u = DATA.ev.point[`unet_${a}`].consistency;
+    const mp = mark(svg, "square", X(i) - 26, Y(p), 6, "var(--ink)"); el("title", {}, mp).textContent = `PCA+Ridge, ${lab}: ${fmt(p, 4)}`;
+    DATA.ev.seeds[`unet_${a}`].forEach((s, j) => { const m = mark(svg, "circle", X(i) + 26 + (j - 1) * 7, Y(s.consistency), 3, "var(--blue)"); m.setAttribute("fill-opacity", "0.5"); el("title", {}, m).textContent = `UNet_Lite, зерно ${j}: ${fmt(s.consistency, 3)}`; });
+    const mu = mark(svg, "circle", X(i) + 26, Y(u), 6.5, "var(--blue)"); el("title", {}, mu).textContent = `UNet_Lite, ${lab}, середнє: ${fmt(u, 3)}`;
+  });
+  txt(svg, 14, T + (H - T - B) / 2, "Consistency").setAttribute("transform", `rotate(-90 14 ${T + (H - T - B) / 2})`);
+  document.getElementById("chartRes").appendChild(svg);
+  legend("legendRes", [["square", "var(--ink)", "PCA+Ridge"], ["circle", "var(--blue)", "UNet_Lite (великий — середнє, малі — зерна)"]]);
+  let h = '<thead><tr><th>Модель</th><th>Вага</th><th class="n">Consistency</th><th class="n">Δ до пласкої [95 % ДІ]</th><th class="n">S</th><th class="n" style="text-transform:none">R²ψ</th></tr></thead><tbody>';
+  for (const model of ["pca", "unet"]) arms.forEach(([a, lab]) => {
+    const pt = DATA.ev.point[`${model}_${a}`];
+    let d = "—";
+    if (a !== "flat") { const x = DATA.ev.delta[`${model}: ${a} - flat`].consistency; d = Math.abs(x.point) < 1e-4 ? "|Δ| < 10⁻⁴" : `${sgn(x.point)} [${sgn(x.ci95[0])}; ${sgn(x.ci95[1])}]`; }
+    h += `<tr><td>${model === "pca" ? "PCA+Ridge" : "UNet_Lite"}</td><td>${lab}</td><td class="n">${fmt(pt.consistency, 3)}</td><td class="n">${d}</td><td class="n">${fmt(pt.S, 3)}</td><td class="n">${fmt(pt.r2_psi, 3)}</td></tr>`;
+  });
+  document.getElementById("tblRes").innerHTML = h + "</tbody>";
+  const all = Object.values(DATA.ev.seeds).flat().map(s => s.consistency);
+  document.getElementById("seedMin").textContent = fmt(Math.min(...all), 3);
+  document.getElementById("seedMax").textContent = fmt(Math.max(...all), 3);
+})();
+
+// ---- E37 cards + per-scalar chart
+(function () {
+  const u = DATA.ev.point.unet_flat, p = DATA.ev.point.pca_flat;
+  const set = (id, v) => { document.getElementById(id).textContent = fmt(v, 3); };
+  set("u_r2", u.r2_psi); set("u_c", u.consistency); set("u_s", u.S);
+  set("p_r2", p.r2_psi); set("p_c", p.consistency); set("p_s", p.S);
+  const names = DATA.names, U = DATA.ev.per_scalar.unet_flat, P = DATA.ev.per_scalar.pca_flat;
+  const W = 760, H = 300, L = 50, R = 12, T = 14, B = 40, y0 = -2.2, y1 = 1.0;
+  const X = i => L + (i + 0.5) * (W - L - R) / names.length, bw = 22;
+  const Y = v => T + (y1 - v) / (y1 - y0) * (H - T - B);
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`});
+  axesY(svg, L, R, W, Y, [-2, -1.5, -1, -0.5, 0, 0.5, 1], 1);
+  el("line", {x1: L, x2: W - R, y1: Y(0), y2: Y(0), stroke: "var(--ink)", "stroke-width": 1}, svg);
+  names.forEach((n, i) => {
+    txt(svg, X(i), H - B + 18, n);
+    [[P[n], -1, "var(--ink)", "PCA+Ridge"], [U[n], 1, "var(--blue)", "UNet_Lite"]].forEach(([v, s, c, lab]) => {
+      const x = X(i) + s * (bw / 2 + 1), top = Math.min(Y(v), Y(0)), hgt = Math.abs(Y(v) - Y(0));
+      const r = el("rect", {x: x - bw / 2, y: top, width: bw, height: Math.max(hgt, 1), fill: c}, svg);
+      el("title", {}, r).textContent = `${lab}, ${n}: R² = ${fmt(v, 3)}`;
+    });
+  });
+  document.getElementById("chartSc").appendChild(svg);
+  legend("legendSc", [["square", "var(--ink)", "PCA+Ridge (R²ψ = " + fmt(p.r2_psi, 3) + ")"], ["square", "var(--blue)", "UNet_Lite (R²ψ = " + fmt(u.r2_psi, 3) + ")"]]);
+})();
+</script>

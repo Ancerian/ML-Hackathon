@@ -1,0 +1,66 @@
+\chapter{Відповіді та розв'язки задач}\label{app:solutions}
+{\footnotesize
+\newcommand{\rz}[1]{\par\smallskip\noindent\textbf{Розд.~\ref{#1}.}~}
+\setlength{\parindent}{0pt}\sloppy
+Еталонні скрипти в \texttt{manual/code/}: \texttt{ch05\_\{collisions,\allowbreak problems,\allowbreak te\_ti\_balance\}.py}, \texttt{flows\_1d.py} (розд.~\ref{ch:flows}), \texttt{ch07\_limits.py}, \texttt{ch08\_sheath\_2pm.py}, \texttt{ch10\_heating.py}, \texttt{ch11\_gs\_residual\_baseline.py}.
+
+\begin{multicols}{2}
+\rz{ch:trap}
+1.~$P_\alpha=P_{\mathrm{fus}}/5=\SI{82}{МВт}$, $P_{\mathrm{ext}}=P_{\mathrm{fus}}/Q=\SI{41}{МВт}$, $G=Q/(5+Q)=2/3$; повний нагрів \SI{123}{МВт}${}\approx2{,}6\,P_{LH}$.
+2.~$q(a)=2\pi a^2\Bzero/(\mu_0R_0\Ip)\approx3{,}6$ (\SI{1,75}{Тл}, \SI{150}{кА}) --- у межах 2,2--6,0; $q(a)=3$ при $\Ip\approx\SI{180}{кА}>\Ip^{\max}$.
+3.~$a=2{,}0\,(5{,}3/13)^{1{,}32}(7/9)^{0{,}51}3^{-0{,}02}\approx\SI{0,53}{м}$ (лише за полем \SI{0,61}{м}).
+
+\rz{ch:particles}
+1.~$T_c=\SI{2,48e-8}{с}$, $v=\SI{1,30e7}{м/с}$, $\rho_\alpha\approx\SI{5,1}{см}$; $\tau_b=687\,T_c=\SI{1,70e-5}{с}$, $\approx\num{68700}$ кроків РК5.
+2.~$ka_{\mathrm{TF}}=11{,}6$; $\dripple=\num{8,1e-5}$; \num{3,6e-4}; \num{4,5e-3}; $kR_0=17{,}98\approx18$.
+3.~$T_e=\SI{1,23}{кеВ}$, $T_i=\SI{3,08}{кеВ}$, $\omtor=\SI{e5}{рад/с}$, $R^2-\fsa{R^2}\approx2R_0r$ $\Rightarrow$ $\Phi_1\approx\pm\SI{61}{В}$; $m_{\mathrm{Ge}}\omtor^2R_0^2\approx\SI{47}{кеВ}\gg T_i$.
+4.~За \eqref{eq:02-w}: $w_{21}=0{,}074$, $w_{31}=0{,}062$, $S=0{,}46$; за старою формулою коду (до 29.09.2026; завищення в $\sqrt q$): 0,104; 0,107; 0,71.
+
+\rz{ch:equilibrium}
+1.~(а)~$\mu_0\Ip/(4\pi R_0)=\SI{7,5}{мТл}$, $\ln(8R_0/r_a)=3{,}551$; $\aJ=3$: $\Lambda=-0{,}36$, $B_{v,\mathrm{eq}}=\SI{-20,2}{мТл}$; $\aJ=1$: $\Lambda=-0{,}24$, \SI{-21,1}{мТл}; різниця $\approx4{,}5\,\%$. (б)~$\Delta_{\mathrm S}(0)\sim(r_a^2/2R_0)\cdot0{,}76\approx\SI{4}{см}$.
+2.~(а)~$(\theta/4)\tanh(\theta/4)=1$ $\Rightarrow$ $\theta_c=4{,}799$, $\lambda_{\mathrm B}^*=3{,}514$. (б)~$\theta=1{,}517$ і $10{,}939$; $u_{\max}=2\ln\cosh(\theta/4)=0{,}141$ і $4{,}091$. (в)~середнє $u_{\max}=2{,}116$, нев'язка $-30{,}4+8{,}3=-22{,}1$ (як на рис.~\ref{fig:03-d2}(b)); за AM--GM вона $\le0$.
+3.~$\tilde p(s)=c^2p(s/c)$, $\tilde F(s)=cF(s/c)$ $\Rightarrow$ $c\psi$ --- розв'язок, $\psiN$ інваріантна; шум не є функцією $\psi$, а $\GSop$ підсилює його як $1/h^2$.
+
+\rz{ch:geometry}
+1.~$A=3{,}31$; $0{,}403\pi$: $R=\SI{2,380}{м}$, $Z=\SI{1,257}{м}$; $0{,}448\pi$: \SI{2,289}{м}, \SI{1,300}{м}; зсув $0{,}097\pi\approx17{,}5^\circ$.
+2.~$\rho_{\mathrm G}=\arcsin r$; частка $r>0{,}9$: $1-\tfrac2\pi\arcsin0{,}9=0{,}287$; крок у $\sqrt{100}=10$ разів менший.
+3.~(а)~$N_O-N_X=0$ $\Rightarrow$ 10~O і 10~X. (б)~сума $0\ne1$ $\Rightarrow$ межа перетинає сепаратрису; брати область усередині LCFS з ерозією.
+
+\rz{ch:jet}
+1.~$\Bzero=\SI{2,770}{Тл}$, $W=\SI{0,941}{ГДж}$; $\Tcoil=\SI{3,42}{МН}$, $\sigma=\SI{52,7}{МПа}=5{,}38$~кгс/мм$^2$ ($-9\,\%$ від 5,9); при \SI{51}{МА} \SI{5,29}{МН}${}\approx539$~тс.
+2.~$\Lv/\Rv=\SI{4,8}{мс}$ (1983: $\approx\SI{4,2}{мс}$ за тієї самої $\Lv$); при \SI{0,6}{мОм}: \SI{23,3}{кА} (3,9\,\%), $R_{\mathrm{pl}}\approx\Vloop/\Ip=\SI{23}{мкОм}$; \SI{2,17}{кА} (0,11\,\%), \SI{0,68}{мкОм} (верхні оцінки: індуктивну частину $\Vloop$ не віднято); суцільна камера: \SI{233}{кА} (39\,\%) і \SI{21,7}{кА} (1,1\,\%); $\Delta R\approx\SI{30}{мм}$.
+3.~(а)~$N=32$: $\dripple\approx1{,}61\,\%$, $\eripple\approx3{,}2\,\%$; $N=16$: 12,7 і 25,4\,\% (0,88 і 0,86 від Біо--Савара). (б)~\SI{40,9}{МА}. (в)~$q(a)=5{,}99$ (модель на 3\,\% менше).
+
+\rz{ch:transport}
+1.~$\lnL=18{,}0$; $\tau_e=\SI{5,0e-4}{с}$, $\tau_i=\SI{6,7e-2}{с}$; $\nu_{*e}=\num{4,6e-3}$, $\nu_{*i}=\num{1,8e-3}$ (банан); $\rho_i=\SI{4,8}{мм}$; $\chis{i}^{\mathrm{neo}}=\SI{7,3e-3}{м^2/с}$ $\Rightarrow$ у $\approx68$ разів.
+2.~(а)~$3^2=9$ (а $n_Z/n_e$ --- у~3). (б)~$\tau_z=\SI{4e-4}{с}$. (в)~$m_{\mathrm{Ge}}\omtor^2R^2=\SI{47,1}{кеВ}$, $A=0{,}826$ $\Rightarrow$ підсилення $\approx53$.
+3.~(а)~$\tauE=\SI{2,15}{с}$, $\times1{,}5$: \SI{3,23}{с}; $B\times2$: скейлінг $\times1{,}15$, TASK/TR $\times2$. (б)~$P_{\mathrm{LH}}=\SI{1,73}{МВт}$, $S=\SI{45,4}{м^2}$; $Q_{i,\mathrm{ped}}=\SI{0,44}{МВт}$ ($10^{19}$) чи \SI{0,038}{МВт} ($10^{20}$) $\Rightarrow$ правдоподібні $10^{19}$~м$^{-3}$ і МВт.
+
+\rz{ch:flows}
+1.~а)~$\Btor=\Er/u_\theta\approx\SI{1}{Тл}$ (0,5--2). б)~$2\pi/\omega=\SI{542}{мкс}$; $90^\circ$: \SI{135}{мкс}; $47^\circ$: \SI{71}{мкс}.
+2.~$(\rho_i)_p=\SI{5,35e-3}{м}$, $L_T=\SI{6,2}{см}$; $u_\theta\approx\SI{657}{м/с}$; доданки: тиск 1,6, пол.\ 1,5, тор.\ \SI{1,9}{кВ/м}.
+3.~Внутр.: 30,4; 12,9; \SI{10,3}{км/с}; зовн.: \SI{7,1}{км/с}; 30~км/с лише при $|\Delta_1|=2/(5q^2)$, у 7--70 разів більшому за реалістичні.
+4.~$\omega_\pm=(-C_2\pm\sqrt\Delta)/(2C_1)$, $\Delta=C_2^2-4C_1C_3$; $\delta\dot\omega=\mp\sqrt\Delta\,\delta\omega$ $\Rightarrow$ стійкий $\omega_+$, час $1/\sqrt\Delta$; $\Delta=0$ --- складка (злиття коренів), $\Delta<0$ --- стаціонару немає; СІ: $D=\sum\fsa{mn}+\varepsilon_0\fsa{B^2}$, $\Er=R\Bpol\omega$.
+
+\rz{ch:stability}
+1.~ITER-FEAT: $\betaN=1{,}77$, $\nGW=\SI{1,19e20}{м^{-3}}$, $\bar n=\SI{1,01e20}{м^{-3}}$, запас 0,63; 13~Тл: $\betaN=0{,}99$, $\nGW=\SI{1,10e21}{м^{-3}}$, $\bar n=\SI{4,3e20}{м^{-3}}$, запас 0,35; ні --- абсолютна густина $\sim4\times$ вища.
+2.~(а)~$\gamma=\SI{16,5}{с^{-1}}\approx4\times$PBX-M; $\tau_{\mathrm{vert}}/\tauKF\approx16$, $\tau_{\mathrm{vert}}/\tauLQR\approx1{,}6$. (б)~$\omega=\SI{9,22e3}{рад/с}$, $f\approx\SI{1,47}{кГц}$, $T\approx\SI{0,68}{мс}$ ($\approx14{,}7$ періодів). (в)~$Z/F=1/[M(p^2-\gamma_A^2)]$, полюси $\pm\gamma_A$ (один у правій півплощині) проти $\pm\mathrm i\sqrt k$.
+3.~$q_L=3{,}50$ (джерело 3,4); $P_{\mathrm{OH}}=120$ і \SI{64}{кВт}; $3{,}5\cdot120=420>213$ --- ні, $3{,}5\cdot64\approx224\approx213$ --- так (береться $P_{\mathrm{OH}}$ під ECH); $T_eR/a\approx\SI{1,6}{кеВ}\approx\Teh/37$; $r_{\mathrm{mix}}\approx\sqrt2\,r_1\approx\SI{9,9}{см}\approx0{,}49a$.
+
+\rz{ch:wall}
+1.~$eV_{\mathrm{sh}}=-2{,}84T_e=\SI{-56,8}{еВ}$; з передшаром $3{,}53T_e=\SI{70,6}{еВ}$; $\gamma_{\mathrm{sh}}=7{,}34$; $E_{\mathrm{imp}}\approx3ZT_e+2T_i$: D$^+$ \SI{100}{еВ} (нижче порогу W), W$^{4+}$ \SI{280}{еВ} --- самороз\-пилення можливе.
+2.~$n_u=\num{2e19}$: $T_u=\SI{64,2}{еВ}$, $T_t=\SI{18,1}{еВ}$, $n_t=\SI{3,55e19}{м^{-3}}$; $n_u=\num{4e19}$: \SI{64,0}{еВ}, \SI{4,55}{еВ}, \SI{2,81e20}{м^{-3}}; напуск $\times2^3=8$.
+3.~$\lambda_D=\SI{23,5}{мкм}$, $a/\lambda_D=0{,}043$ (OML ок); $e\Phi/T_e=-2{,}78$ ($\approx\SI{-27,8}{В}$); $Z_d\approx-\num{2,0e4}$; подвоєння за \SI{100}{с}.
+
+\rz{ch:disruptions}
+1.~(а)~$\Ec=\SI{2,94e-4}{В/м}$, $E/\Ec\approx1020$. (б)~$T_e\approx\SI{15}{еВ}$. (в)~$n_e\ge\SI{2,56e18}{м^{-3}}$ ($\approx6{,}7\times$); тоді $E/\Ec\approx150$ --- лавина лишається, гасне лише затравка Драйсера; при тиску $\times0{,}1$: поріг при $T_e\approx\SI{1,5}{еВ}$, треба $\sim67\times$.
+2.~$\ED=12{,}8$ і \SI{10,8}{В/м}; $\Ec=\SI{6,9e-3}{В/м}$; $\tauav=49$; 7,9; \SI{3,1}{мс}; $\int E\,\dd t=\SI{8,25e-4}{\volt\second\per\metre}$ $\Rightarrow$ показник 0,021, підсилення $\approx1{,}02$ $\Rightarrow$ $\Delta\nre$ визначає первинна генерація.
+
+\rz{ch:heating}
+1.~а)~$B_{\mathrm{res}}=\SI{1,000}{Тл}$: на осі при $\Bzero=\SI{1,00}{Тл}$, на $R_0-\SI{5}{см}$ при \SI{0,923}{Тл}, у плазмі при 0,69--\SI{1,31}{Тл}; при \SI{1,75}{Тл} $R_{\mathrm{res}}=\SI{1,14}{м}$ --- поза плазмою. б)~$n_c=\SI{3,89e19}{м^{-3}}$ (O), \SI{1,95e19}{м^{-3}} (X у шарі) $\Rightarrow$ 13 і 26\,\%, доступ є. в)~$P_{\mathrm{OH}}$: $120\to\SI{64}{кВт}$; Спітцер $\Vloop=\SI{1,00}{В}$ проти 0,8 (струм гарячих електронів, профілі, $\Zeff$).
+2.~D 1~МеВ: $\tau_{\mathrm s}=\SI{1,06}{с}$, $\Ecr=\SI{165}{кеВ}$, $y=2{,}46$, $h_i=0{,}27$, $\tau_b=\SI{0,39}{с}$, іонам $\approx40$ з \SI{150}{МВт}; α: \SI{0,53}{с}, \SI{328}{кеВ}, 3,27, 0,17, \SI{0,22}{с}; D 80~кеВ у D: $\Ecr=\SI{186}{кеВ}$, $y=0{,}66$, $h_i=0{,}90$.
+
+\rz{ch:modelling}
+1.~Consistency${}=1{,}7738/7=0{,}2534$; $\mathcal S=0{,}0352+0+0{,}0904+0{,}0507=0{,}176$; $\mathcal S=0{,}5$ при $R^2_\psi\approx0{,}653$.
+2.~(а)~$N_rN_Z=7500$: $\approx\num{2,8e11}$ проти \num{2,1e8}, відношення $\tfrac{2}{15}N_r^2\approx\num{1,3e3}$. (б)~$(250/26)^3\approx889$; потрібна мала $2\sum_{i>26}\sigma_i$.
+\end{multicols}}

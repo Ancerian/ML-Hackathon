@@ -1,0 +1,48 @@
+\chapter{Відповіді і шпаргалка}\label{ch:geoA}
+
+\section{Відповіді до задач}\label{sec:geoA-ans}
+
+\begin{enumerate}
+\item На $t=\pi/2$: $\sin t=1$, $Z=\kappa a$ --- максимум $Z$, отже $\kappa=Z_{\max}/a$; $R=R_0+a\cos(\pi/2+\arcsin\delta)=R_0-a\sin(\arcsin\delta)=R_0-a\delta$, отже $(R_{\mathrm{geo}}-R_{Z_{\max}})/a=\delta$. JET: $R_{Z_{\max}}=2{,}96-1{,}25\cdot0{,}3476=\SI{2,5255}{м}$ (збігається з \texttt{geom\_tour.json}).
+\item З $\kappa$: $q_{\mathrm{cyl}}=3{,}08$; без $\kappa$: 1,59. Реальне $\qnf=3{,}70$ ще на 20\,\% більше: формула~\eqref{eq:geo4-qcyl} не враховує тороїдальності ($\epsilon=0{,}37$), трикутності й того, що $\qnf$ береться поблизу X-точки, де $q$ круто зростає (п.~\ref{sec:geo5-x}).
+\item Еліпс: $S=\pi a^2\kappa=\SI{8,25}{м^2}$, $V=2\pi R_0S=\SI{153,4}{м^3}$. Міллер: $S=\SI{8,12}{м^2}$ ($-1{,}6\,\%$), $V=\SI{145,5}{м^3}$ ($-5{,}2\,\%$). Трикутність переносить верх і низ перерізу всередину: центроїд зсувається з $R_0=\SI{2,96}{м}$ на $R_{\mathrm c}=\SI{2,852}{м}$, а $V=2\pi R_{\mathrm c}S$ чутливий до $R_{\mathrm c}$.
+\item $\kappa_0=\sqrt{3{,}473/2{,}288}=1{,}23$. $\det\mathsf{H}_\psi=3{,}473\cdot2{,}288-0{,}036^2=7{,}95$; $q_0=3{,}2334/(1{,}6782\cdot\sqrt{7{,}95})=0{,}68$. Виведення: еліпс $\frac12\vect x^{\mathsf T}\mathsf{H}\vect x=\delta\psi$ має площу $2\pi\delta\psi/\sqrt{\det\mathsf H}$; тороїдальний потік на радіан $\psit=\Btor\cdot\text{площа}/2\pi=F\,\delta\psi/(\Rax\sqrt{\det\mathsf H})$; $q=\dd\psit/\dd\psi$.
+\item Нульова лінія $\lambda_1u^2+\lambda_2v^2=0$: $v/u=\pm\sqrt{0{,}743/0{,}710}=\pm1{,}023$, кут кожної гілки до осі $u$ --- $45{,}7^\circ$, між гілками --- $91{,}3^\circ$. $|\Jtor|=|\lambda_1+\lambda_2|/(\mu_0R_X)=0{,}033/(1{,}257\cdot10^{-6}\cdot1{,}241)\approx\SI{2,1e4}{А/м^2}$; $|\Ip|/S=1{,}359\cdot10^6/1{,}769=\SI{7,7e5}{А/м^2}$, відношення $\approx3\,\%$.
+\item $\kD=\frac12\ln(4{,}790/1{,}304)=0{,}651$; $\rho(R_1)=\SI{0,85}{м}$, $\rho(R_2)=\SI{3,12}{м}$ --- у $R_2/R_1=3{,}67$ раза менший.
+\item $(4{,}21/4{,}79)^{32}=1{,}6\,\%$ проти 1,83\,\% --- непогано. На осі $(2{,}96/4{,}79)^{32}=2\cdot10^{-7}$ --- порядок збігається випадково: на осі вже важать внески внутрішніх ніг ($\propto(R_1/R)^{32}$) і скінченна довжина контуру, яких оцінка не містить.
+\end{enumerate}
+
+\paragraph{Практикуми.} Розд.~\ref{ch:geo5}, п.~(1): зі старту біля осі метод знаходить саму вісь (1,67817; 0,02623)~м --- у ній теж $|\grad\psi|=0$. П.~(2): верхня критична точка лежить у $(\SI{1,170}{м},\,\SI{1,149}{м})$, $\psiN=1{,}058$, $\det\mathsf{H}_\psi=-0{,}32$ --- сідло поза LCFS. Розряд однонульовий, але друга X-точка лише на $\Delta\psiN\approx0{,}06$ «зовні». Інші практикуми відкриті; числа --- з вашого запуску.
+
+\section{Шпаргалка}\label{sec:geoA-cheat}
+
+\begin{cheat}[формули гайду]
+\small
+\begin{tabular}{@{}p{0.33\textwidth}p{0.62\textwidth}@{}}
+Поле & $\Bvec=\grad\psi\times\grad\tor+F\grad\tor$; $\BR=-\psi_Z/R$, $\BZ=\psi_R/R$, $\Btor=F/R$, $\Bpol=|\grad\psi|/R$\\[2pt]
+Нормований потік & $\psiN=(\psi-\psiax)/(\psib-\psiax)$\\[2pt]
+Запас стійкості & $q=\frac{F}{2\pi}\oint\frac{\dd\ell}{R|\grad\psi|}$, \quad $q_0=\frac{F}{\Rax\sqrt{\det\mathsf{H}_\psi}}$\\[2pt]
+Кут прямих ліній & $\thetastar=2\pi\int_0^\ell\frac{\dd\ell'}{R|\grad\psi|}\Big/\oint\frac{\dd\ell'}{R|\grad\psi|}$, \quad $\dd\thetastar/\dd\tor=1/q$\\[2pt]
+Форма & $R_{\mathrm{geo}}=\frac{R_{\max}+R_{\min}}2$, $a=\frac{R_{\max}-R_{\min}}2$, $\kappa=\frac{Z_{\max}-Z_{\min}}{2a}$, $\delta_{\mathrm{u,l}}=\frac{R_{\mathrm{geo}}-R_{Z_{\max,\min}}}a$\\[2pt]
+Міллер & $R=R_0+a\cos(t+\arcsin\delta\sin t)$, $Z=\kappa a\sin t$\\[2pt]
+Площа, об'єм & $S=\frac12\sum(R_iZ_{i+1}-R_{i+1}Z_i)$, \quad $V=2\pi R_{\mathrm c}S$\\[2pt]
+Струм плазми & $\Ip=\mu_0^{-1}\oint\Bpol\cdot\dd\vect{\ell}$ по LCFS\\[2pt]
+Критичні точки & $\grad\psi=0$; $\det\mathsf{H}_\psi>0$ --- O, $<0$ --- X; у X-точці $\psi_{RR}+\psi_{ZZ}=-\mu_0R\Jtor$\\[2pt]
+D-котушка & $\rho=\kD R$, $\kD=\frac12\ln(R_2/R_1)$\\[2pt]
+Гофрування & $\dripple=\frac{B_{\max}-B_{\min}}{B_{\max}+B_{\min}}$, JET 1975: $\eripple=2\dripple$\\
+\end{tabular}
+\end{cheat}
+
+\begin{cheat}[числа прикладів]
+\small
+\begin{tabular}{@{}lll@{}}
+& DIII-D \#203702, кадр 75 & JET 1975 (модель)\\\midrule
+вісь $(\Rax,\Zax)$, м & (1,678; 0,026) & (3,183; 0)\\
+$R_{\mathrm{geo}}$, $a$, $A$ & 1,656~м; 0,605~м; 2,74 & 2,96~м; 1,25~м; 2,37\\
+$\kappa$; $\dup/\dlo$ & 1,70; 0,38/0,69 & 1,68; 0,348/0,348\\
+$S$, $V$ & 1,77~м$^2$; 17,7~м$^3$ & 8,12~м$^2$; 145,5~м$^3$\\
+$|\Ip|$; $\Btor$ на осі & 1,36~МА; 1,93~Тл & 3,80~МА; 2,77~Тл (вакуум, $R_0$)\\
+$q_0$; $\qnf$ & 0,68--0,71; 3,70 & 2,80; 5,51\\
+X-точка & (1,241; $-1{,}096$)~м, $\psiN=1$ & немає (лімітер)\\
+\end{tabular}
+\end{cheat}

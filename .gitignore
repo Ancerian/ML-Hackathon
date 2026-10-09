@@ -1,0 +1,23 @@
+.DS_Store
+__pycache__/
+.pytest_cache/
+.venv/
+node_modules/
+catboost_info/
+*.blend1
+# дані й прогнози не зберігаються в репозиторії
+fusion equilibrium challenge/downloaded_huggingface/
+fusion equilibrium challenge/starter/parquet_data/
+preds/
+library/*.pdf
+# проміжні файли LaTeX
+guide/build/
+manual/build/
+_minted*/
+*.aux
+*.fls
+*.fdb_latexmk
+*.xdv
+*.toc
+*.out
+*.synctex.gz

@@ -1,0 +1,4 @@
+# Путівник: minted потребує -shell-escape і Pygments (є у venv конкурсу)
+$ENV{PATH} = "/Users/illia_nakonecnyi/Desktop/ТОКАМАК ПРОДЖЕКТ/fusion equilibrium challenge/starter/.venv/bin:" . $ENV{PATH};
+$pdf_mode = 5;
+$xelatex = 'xelatex -shell-escape -interaction=nonstopmode %O %S';

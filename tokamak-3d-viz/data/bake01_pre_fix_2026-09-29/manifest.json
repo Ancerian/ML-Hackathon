@@ -1,0 +1,505 @@
+{
+  "created_utc": "2026-09-26T16:40:49+00:00",
+  "python": "3.12.14",
+  "numpy": "2.5.3",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "objects": {
+    "punctures": {
+      "file": "punctures.npz",
+      "arrays": {
+        "points": [
+          12800,
+          3
+        ],
+        "psi_n": [
+          12800
+        ],
+        "seed_id": [
+          12800
+        ],
+        "R": [
+          12800
+        ],
+        "Z": [
+          12800
+        ],
+        "shape": [
+          2
+        ],
+        "label_id": [
+          12800
+        ],
+        "label_names": [
+          4
+        ],
+        "nu": [
+          12800
+        ]
+      }
+    },
+    "fieldlines": {
+      "file": "fieldlines.npz",
+      "arrays": {
+        "xyz": [
+          12,
+          801,
+          3
+        ],
+        "psi_n0": [
+          12
+        ]
+      }
+    },
+    "flux_surfaces": {
+      "file": "flux_surfaces.npz",
+      "arrays": {
+        "v_000": [
+          30720,
+          3
+        ],
+        "f_000": [
+          30720,
+          4
+        ],
+        "v_001": [
+          30720,
+          3
+        ],
+        "f_001": [
+          30720,
+          4
+        ],
+        "v_002": [
+          30720,
+          3
+        ],
+        "f_002": [
+          30720,
+          4
+        ],
+        "v_003": [
+          30720,
+          3
+        ],
+        "f_003": [
+          30720,
+          4
+        ],
+        "v_004": [
+          30720,
+          3
+        ],
+        "f_004": [
+          30720,
+          4
+        ],
+        "v_005": [
+          30720,
+          3
+        ],
+        "f_005": [
+          30720,
+          4
+        ],
+        "v_006": [
+          30720,
+          3
+        ],
+        "f_006": [
+          30720,
+          4
+        ],
+        "v_007": [
+          30720,
+          3
+        ],
+        "f_007": [
+          30720,
+          4
+        ],
+        "v_008": [
+          30720,
+          3
+        ],
+        "f_008": [
+          30720,
+          4
+        ],
+        "v_009": [
+          30720,
+          3
+        ],
+        "f_009": [
+          30720,
+          4
+        ],
+        "v_010": [
+          30720,
+          3
+        ],
+        "f_010": [
+          30720,
+          4
+        ],
+        "v_011": [
+          30720,
+          3
+        ],
+        "f_011": [
+          30720,
+          4
+        ],
+        "v_012": [
+          30720,
+          3
+        ],
+        "f_012": [
+          30720,
+          4
+        ],
+        "v_013": [
+          30720,
+          3
+        ],
+        "f_013": [
+          30720,
+          4
+        ],
+        "keys": [
+          14
+        ]
+      }
+    },
+    "lcfs": {
+      "file": "lcfs.npz",
+      "arrays": {
+        "verts": [
+          30720,
+          3
+        ],
+        "faces": [
+          30720,
+          4
+        ],
+        "profile": [
+          160,
+          2
+        ]
+      }
+    },
+    "vessel": {
+      "file": "vessel.npz",
+      "arrays": {
+        "verts": [
+          30720,
+          3
+        ],
+        "faces": [
+          30720,
+          4
+        ],
+        "profile": [
+          160,
+          2
+        ]
+      }
+    },
+    "pf_coils": {
+      "file": "pf_coils.npz",
+      "arrays": {
+        "v_000": [
+          256,
+          3
+        ],
+        "f_000": [
+          256,
+          4
+        ],
+        "v_001": [
+          256,
+          3
+        ],
+        "f_001": [
+          256,
+          4
+        ],
+        "v_002": [
+          256,
+          3
+        ],
+        "f_002": [
+          256,
+          4
+        ],
+        "v_003": [
+          256,
+          3
+        ],
+        "f_003": [
+          256,
+          4
+        ],
+        "v_004": [
+          256,
+          3
+        ],
+        "f_004": [
+          256,
+          4
+        ],
+        "v_005": [
+          256,
+          3
+        ],
+        "f_005": [
+          256,
+          4
+        ],
+        "v_006": [
+          256,
+          3
+        ],
+        "f_006": [
+          256,
+          4
+        ],
+        "v_007": [
+          256,
+          3
+        ],
+        "f_007": [
+          256,
+          4
+        ],
+        "v_008": [
+          256,
+          3
+        ],
+        "f_008": [
+          256,
+          4
+        ],
+        "v_009": [
+          256,
+          3
+        ],
+        "f_009": [
+          256,
+          4
+        ],
+        "v_010": [
+          256,
+          3
+        ],
+        "f_010": [
+          256,
+          4
+        ],
+        "v_011": [
+          256,
+          3
+        ],
+        "f_011": [
+          256,
+          4
+        ],
+        "v_012": [
+          256,
+          3
+        ],
+        "f_012": [
+          256,
+          4
+        ],
+        "v_013": [
+          256,
+          3
+        ],
+        "f_013": [
+          256,
+          4
+        ],
+        "v_014": [
+          256,
+          3
+        ],
+        "f_014": [
+          256,
+          4
+        ],
+        "v_015": [
+          256,
+          3
+        ],
+        "f_015": [
+          256,
+          4
+        ],
+        "v_016": [
+          256,
+          3
+        ],
+        "f_016": [
+          256,
+          4
+        ],
+        "v_017": [
+          256,
+          3
+        ],
+        "f_017": [
+          256,
+          4
+        ],
+        "v_018": [
+          256,
+          3
+        ],
+        "f_018": [
+          256,
+          4
+        ],
+        "keys": [
+          19
+        ]
+      }
+    },
+    "tf_profile": {
+      "file": "tf_profile.npz",
+      "arrays": {
+        "profile": [
+          160,
+          2
+        ]
+      }
+    },
+    "psi_n_grid": {
+      "file": "psi_n_grid.npz",
+      "arrays": {
+        "psi_n": [
+          65,
+          65
+        ],
+        "R": [
+          65
+        ],
+        "Z": [
+          65
+        ],
+        "R_scaled": [
+          65
+        ],
+        "Z_scaled": [
+          65
+        ]
+      }
+    },
+    "q_profile": {
+      "file": "q_profile.npz",
+      "arrays": {
+        "psi_n": [
+          140
+        ],
+        "q": [
+          140
+        ],
+        "dq_dpsin": [
+          140
+        ]
+      }
+    }
+  },
+  "provenance": {
+    "shot_file": "d3d_shot_203702.parquet",
+    "machine": "DIII-D",
+    "frame_index": 75,
+    "time_ms": 1760.0,
+    "efit_q95": 3.6994683742523193,
+    "efit_beta_n": 0.3755275309085846,
+    "efit_li": 1.228461503982544,
+    "efit_r_axis": 1.6781737804412842,
+    "efit_z_axis": 0.026232896372675896,
+    "grid": [
+      65,
+      65
+    ],
+    "R_range": [
+      0.8399999737739563,
+      2.5399999618530273
+    ],
+    "Z_range": [
+      -1.600000023841858,
+      1.600000023841858
+    ],
+    "data_licence": "CC BY 4.0, Sophelio + General Atomics (not redistributed)"
+  },
+  "equilibrium": {
+    "r_axis": 1.678173623491526,
+    "z_axis": 0.026232982344205465,
+    "psi_axis": -0.29322142185515826,
+    "psi_bdy": 0.07524261310908979,
+    "axis_sign": -1.0,
+    "F_calibrated": 3.233413934745861,
+    "B_phi_on_axis": 1.9267457725968649,
+    "F_method": "solved so q(psi_n=0.95) equals the dataset's efit_q95; the dataset ships no fpol",
+    "q0_approx": 0.7097105887116354,
+    "q_edge": 5.011817599867245
+  },
+  "geometry": {
+    "scale": 3.0,
+    "scale_note": "uniform similarity scale; preserves aspect ratio, so q(psi) and the field-line topology are invariant",
+    "R0_scaled": 5.034520870474578,
+    "n_pol": 160,
+    "n_tor": 192
+  },
+  "perturbation": {
+    "kind": "prescribed vacuum-like resonant perturbation on psi",
+    "divergence_free": "exact: B = curl(psi_total grad phi)",
+    "angle": "straight-field-line theta*, so mode m resonates at q=m/n",
+    "caveat": "a vacuum section OVERESTIMATES stochasticity; the plasma screens resonant components",
+    "modes": [
+      {
+        "m": 2,
+        "n": 1,
+        "q_res": 2.0,
+        "amp_fraction": 0.001,
+        "phase": 0.0,
+        "envelope": "vacuum",
+        "psi_n_res": 0.7520285893422582,
+        "eps_effective": 0.0007520285893422582,
+        "island_width_psin": 0.10407129034031436
+      },
+      {
+        "m": 3,
+        "n": 1,
+        "q_res": 3.0,
+        "amp_fraction": 0.001,
+        "phase": 0.0,
+        "envelope": "vacuum",
+        "psi_n_res": 0.9000941830758454,
+        "eps_effective": 0.0008539489966182756,
+        "island_width_psin": 0.10722781262268133
+      }
+    ],
+    "chirikov_S": 0.7135320827578076,
+    "chirikov_note": "S >= 1 is a heuristic for stochasticity onset, not a theorem"
+  },
+  "orbit_classification": {
+    "method": "weighted Birkhoff convergence + rotation-number locking",
+    "n_regular": 39,
+    "n_island": 18,
+    "n_chaotic": 7,
+    "label_ids": {
+      "regular": 0,
+      "island": 1,
+      "chaotic": 2,
+      "escaped": 3
+    }
+  },
+  "qa": {
+    "axis_dR_mm": 0.00015694975807889477,
+    "axis_dZ_mm": 8.597152956896226e-05,
+    "invariant_drift_60_turns": 4.4482161035392377e-07,
+    "integrator": "scipy solve_ivp DOP853, rtol 1e-9, atol 1e-11"
+  }
+}

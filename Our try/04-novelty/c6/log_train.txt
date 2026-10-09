@@ -1,0 +1,16 @@
+train frames 7587, val 1039, test shots 8 (1521 fr), cal shots 24 (5580 fr)
+  null_mean
+  pca_ridge: 5s
+  linear_regression: 3s
+  ridge_cv: 3s
+  random_forest: 5s
+  mlp_sklearn: 6s
+  simple_mlp_s0: 18s
+  simple_mlp_s1: 17s
+  simple_mlp_s2: 16s
+  conv_decoder_s0: 35s
+  conv_decoder_s1: 34s
+  conv_decoder_s2: 34s
+  unet_lite_s0: 390s
+  unet_lite_s1: 380s
+  unet_lite_s2: 378s

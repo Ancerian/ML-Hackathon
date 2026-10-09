@@ -1,0 +1,288 @@
+# JET as designed in 1975 — sourced dimension database (phase F1)
+# Source: "The JET Project — Design Proposal for the Joint European Torus", EUR 5516e
+#         (issued as EUR-JET-R5, Sept. 1975; reprinted with minor corrections March 1976), (c) CECA/CEE/CEEA 1976.
+#         File: library/JET_1975_Design_Proposal_EUR5516e.pdf.  `page` = PDF page number (NOT the printed page number).
+# Every value was read on the rendered page image (the OCR layer was used only to locate pages).
+# Values in SI (m, m^2, m^3, kg, A, T, W, Pa-free units kept as noted). Notes quote the printed number exactly.
+# confidence: text      = stated in running text
+#             table     = read from a printed table
+#             drawing   = printed dimension on a drawing
+#             digitized = measured on a drawing/plot image with a stated calibration
+#             assumed   = our assumption (no source value); see note
+# derived: true = computed by us from sourced values (the arithmetic is in the note).
+# Nothing here reproduces the figures; only facts/dimensions are extracted.
+
+meta:
+  machine: JET (design proposal 1975)
+  source_id: JET1975
+  source: "EUR 5516e (EUR-JET-R5), The JET Project - Design Proposal, CEC 1975/1976"
+  page_convention: pdf_page
+  units: SI
+  coordinate_system: "cylindrical (R, phi, Z); Z=0 = equatorial plane (midplane); machine axis at R=0"
+
+plasma:
+  - {id: R0, value: 2.96, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "Plasma mean major radius R0 = 2.96 m; also abstract p.6"}
+  - {id: a, value: 1.25, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "Maximum horizontal plasma radius a = 1.25 m"}
+  - {id: b, value: 2.10, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "Maximum vertical plasma radius b = 2.10 m"}
+  - {id: aspect_ratio, value: 2.37, unit: "-", source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "R0/a = 2.37"}
+  - {id: elongation_b_over_a, value: 1.68, unit: "-", source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "b/a = 1,68 (D-shape at full aperture)"}
+  - {id: R_outer_plasma, value: 4.21, unit: m, source: JET1975, page: 83, table: "Table I.3-1 'Outer radii'", confidence: table, note: "Re(plasma) = 4.21 m, 16 cm inside rigid vessel Re = 4.37"}
+  - {id: R_inner_plasma, value: 1.71, unit: m, source: JET1975, page: 83, table: "Table I.3-1 'Inner radii'", confidence: table, note: "Ri(plasma) = 1.71 m, 5 cm from rigid vessel Ri = 1.66; also '1710' in Fig. IV.1-1 p.296"}
+  - {id: plasma_width_fig, value: 2.50, unit: m, source: JET1975, page: 296, figure: "Fig. IV.1-1", confidence: drawing, note: "dimension 2500 (horizontal plasma extent, dashed D)"}
+  - {id: plasma_height_fig, value: 4.20, unit: m, source: JET1975, page: 296, figure: "Fig. IV.1-1", confidence: drawing, note: "dimension 4200 (vertical extent of dashed D). NB 2*b = 4.20 m"}
+  - {id: R0_fig, value: 2.96, unit: m, source: JET1975, page: 296, figure: "Fig. IV.1-1 (plan)", confidence: drawing, note: "radius 2960 in plan view"}
+  - {id: major_diameter_p4, value: 5.9, unit: m, source: JET1975, page: 4, figure: "frontispiece 'Principal Dimensions'", confidence: text, note: "Major diameter of torus 5,9 m (=2*2.96 rounded)"}
+  - {id: horizontal_plasma_diameter_p4, value: 2.5, unit: m, source: JET1975, page: 4, confidence: text, note: "Horizontal plasma diameter 2,5 m"}
+  - {id: vertical_plasma_elongation_p4, value: 4.2, unit: m, source: JET1975, page: 4, confidence: text, note: "'Vertical plasma elongation' 4,2 m (= vertical plasma diameter 2b)"}
+  - {id: major_diameter_p36, value: 6.0, unit: m, source: JET1975, page: 36, confidence: text, note: "Preface: major diameter 6 metres; horizontal plasma diameter 2.5; vertical plasma elongation 4 metres (D-shaped). Rounded values - see README"}
+  - {id: minor_radius_range_min, value: 0.6, unit: m, source: JET1975, page: 6, confidence: text, note: "Abstract: minor radii 0.6 -> 1.25 m"}
+  - {id: aspect_ratio_range_max, value: 5.0, unit: "-", source: JET1975, page: 6, confidence: text, note: "Abstract: R0/a = 2.37 -> 5"}
+  - {id: elongation_range_max, value: 3.5, unit: "-", source: JET1975, page: 6, confidence: text, note: "Abstract: b/a = 1 -> 3.5 (only for small a: 2.10/0.6 = 3.5; at a=1.25 max b/a = 1.68)"}
+  - {id: plasma_current_range_abstract, value: 3.0e6, unit: A, source: JET1975, page: 6, confidence: text, note: "Abstract: plasma currents in the 1 -> 3 MA range"}
+  - {id: Ip_round, value: 2.6e6, unit: A, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "Round plasma Ip = 2.6 MA for q(a)=2.8"}
+  - {id: Ip_D_basic, value: 3.8e6, unit: A, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "D-shape plasma 3.8 MA basic (4.8 extended), q(a)=6"}
+  - {id: Ip_D_extended, value: 4.8e6, unit: A, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "(4.8) extended"}
+  - {id: Btor_R0_basic, value: 2.77, unit: T, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "Toroidal field at R=R0 2.77 T basic, (3.45) extended"}
+  - {id: Btor_R0_extended, value: 3.45, unit: T, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "(3.45)"}
+  - {id: TF_ripple, value: 0.036, unit: "-", source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "TF ripple 3.6 %; Table IV.2-4 p.332 gives 3.5534 % at the outer boundary point (4.1963, 0.1282)"}
+  - {id: volt_seconds_available_basic, value: 25.0, unit: V*s, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "25 basic (34 maximum)"}
+  - {id: compression_R1, value: 3.43, unit: m, source: JET1975, page: 83, table: "Table I.3-1 'Compression'", confidence: table, note: "Ip=1.5 MA, R1/R2 ~ 1.47, q(a)=4, b/a=1.5: R1 = 3.43, a1 = 0.78; also 'R1 = 3430' in Fig. I.3-2 p.80"}
+  - {id: compression_a1, value: 0.78, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "a1 = 0.78"}
+  - {id: compression_R2, value: 2.34, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "R2 = 2.34, a2 = 0.64; 'R2 = 2340' in Fig. I.3-2 p.80"}
+  - {id: compression_a2, value: 0.64, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "a2 = 0.64"}
+  - {id: compression_ratio, value: 1.47, unit: "-", source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "R1/R2 ~ 1.47 (3.43/2.34 = 1.466)"}
+  - {id: boundary_table_points, value: 30, unit: count, source: JET1975, page: 332, table: "Table IV.2-4", confidence: table, note: "30 (R,Z) points of the D boundary, upper-outboard quadrant only -> profiles/plasma_boundary.csv"}
+  - {id: boundary_table_Zmax, value: 2.1951, unit: m, source: JET1975, page: 332, table: "Table IV.2-4", confidence: table, note: "last row R=230.79 cm, Z=219.51 cm - exceeds b = 2.10 by 9.5 cm (see README, contradictions)"}
+  - {id: boundary_table_Rmax, value: 4.1963, unit: m, source: JET1975, page: 332, table: "Table IV.2-4", confidence: table, note: "first row R=419.63 cm at Z=12.82 cm; extrapolated R(Z=0) = 4.200 m vs Re(plasma) 4.21"}
+
+vessel:
+  - {id: n_rigid_sectors, value: 32, unit: count, source: JET1975, page: 295, confidence: text, note: "32 rigid wedge-shaped sectors (= number of TF coils), joined by parallel (double) bellows"}
+  - {id: n_octants, value: 8, unit: count, source: JET1975, page: 297, confidence: text, note: "4 rigid sectors + 4 bellows sections = 1 octant; 8 octants welded together in the middle of the outermost rigid sectors (p.299)"}
+  - {id: octant_angle, value: 45.0, unit: deg, source: JET1975, page: 296, figure: "Fig. IV.1-1 (plan)", confidence: drawing, note: "45 deg octant"}
+  - {id: bellows_per_section, value: 2, unit: count, source: JET1975, page: 295, confidence: text, note: "each bellows section = two bellows fitted concentrically; interspace pumped (shell vacuum)"}
+  - {id: bellows_wall_thickness, value: 0.0017, unit: m, source: JET1975, page: 306, confidence: text, note: "stress calc. for plane bellows with wall thickness 1.7 mm"}
+  - {id: horizontal_diameter_table, value: 2.63, unit: m, source: JET1975, page: 310, table: "Table IV.1-2", confidence: table, note: "'Diameter in horizontal direction: 2.63 m' = 4.33 - 1.70 (bellows-shield/limiter radii, Table I.3-1), NOT the rigid-sector wall (2.725 inner, 2.965 outer). See README"}
+  - {id: vertical_diameter_table, value: 4.18, unit: m, source: JET1975, page: 310, table: "Table IV.1-2", confidence: table, note: "'Diameter in vertical direction: 4.18 m' - rigid sector gives 4.270 (inner wall) / 4.630 (outer wall); presumably clear bore inside bellows shields"}
+  - {id: wall_thickness_Ri_Ra, value: 0.12, unit: m, source: JET1975, page: 310, table: "Table IV.1-2", confidence: table, note: "Wall (box) thickness on Ri and Ra: 12 cm (= dims 120 on Fig. IV.1-3)"}
+  - {id: wall_thickness_max, value: 0.18, unit: m, source: JET1975, page: 310, table: "Table IV.1-2", confidence: table, note: "Maximum wall thickness 18 cm (= dim 180 at top, Fig. IV.1-3; 965-785 = 1560-1380 = 180)"}
+  - {id: total_weight, value: 68000.0, unit: kg, source: JET1975, page: 310, table: "Table IV.1-2", confidence: table, note: "68 t"}
+  - {id: octant_weight, value: 8500.0, unit: kg, source: JET1975, page: 310, table: "Table IV.1-2", confidence: table, note: "8.5 t (8 x 8.5 = 68)"}
+  - {id: volume, value: 190.0, unit: m^3, source: JET1975, page: 310, table: "Table IV.1-2", confidence: table, note: "~190 m3"}
+  - {id: wall_area_smooth, value: 220.0, unit: m^2, source: JET1975, page: 310, table: "Table IV.1-2", confidence: table, note: "~220 m2 equivalent smooth torus; ~450 m2 with bellows convolutions; ~780 m2 incl. bellows shields and ports"}
+  - {id: resistance_toroidal, value: 5.2e-4, unit: ohm, source: JET1975, page: 310, table: "Table IV.1-2", confidence: table, note: "0.52 mOhm (toroidal); poloidal (all rigid sectors in parallel) 0.03 mOhm; self-inductance ~2.5 uH (p.304)"}
+  - {id: material_rigid_sectors, value: "Inconel 600 / Nicrofer 7216", unit: "-", source: JET1975, page: 310, table: "Table IV.1-2", confidence: table, note: "p.301: reactor grade, Co < 0.1 %"}
+  - {id: material_bellows, value: "Inconel 625 / Nicrofer 6020", unit: "-", source: JET1975, page: 310, table: "Table IV.1-2", confidence: table, note: ""}
+  - {id: thermal_insulation, value: 0.025, unit: m, source: JET1975, page: 310, table: "Table IV.1-2", confidence: table, note: "Triton Kaowool 2.5 cm thick"}
+  - {id: bake_temperature, value: 773.15, unit: K, source: JET1975, page: 299, confidence: text, note: "bakeable up to 500 C (hot inert gas in double-wall interspace); p.77 says 300-500 C"}
+  - {id: bake_thermal_expansion, value: 0.030, unit: m, source: JET1975, page: 312, confidence: text, note: "thermal expansion of the vacuum vessel about 30 mm"}
+  - {id: base_pressure, value: 2.0e-10, unit: Torr, source: JET1975, page: 315, confidence: text, note: "base pressure of about 2 x 10^-10 Torr (exponent read on the image; OCR drops it)"}
+  - {id: wrapper_plate_inner_straight, value: 0.020, unit: m, source: JET1975, page: 298, confidence: text, note: "wrapper plates 20 mm along the straight inboard part (dims 20 on Fig. IV.1-3)"}
+  - {id: wrapper_plate_outer, value: 0.012, unit: m, source: JET1975, page: 298, confidence: text, note: "changes to 12 mm at the outer-radius portion (dims 12 on Fig. IV.1-3)"}
+  # Fig. IV.1-3 (p.298) printed dimensions, mm -> m
+  - {id: rs_centre_line_R, value: 2.509, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "2509: R of the vertical line carrying the centres of R785/R965 and R1380/R1560"}
+  - {id: rs_half_height_outer, value: 2.315, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "2315 = 965 + 1350 (midplane to top of exterior wall)"}
+  - {id: rs_C1_height, value: 1.350, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "1350: Z of centre C1 (R785/R965)"}
+  - {id: rs_C2_height, value: 0.755, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "755: Z of centre C2 (R1380/R1560)"}
+  - {id: rs_inboard_offset, value: 0.845, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "845: plasma-side wall at inner midplane to centre line -> R = 1.664"}
+  - {id: rs_overall_width, value: 2.965, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "2965: exterior wall, inner to outer midplane"}
+  - {id: rs_R785, value: 0.785, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "plasma-side wall, centre C1"}
+  - {id: rs_R965, value: 0.965, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "exterior wall, centre C1"}
+  - {id: rs_R1380, value: 1.380, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "plasma-side wall, centre C2"}
+  - {id: rs_R1560, value: 1.560, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "exterior wall, centre C2"}
+  - {id: rs_R2200, value: 2.200, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "plasma-side wall, outboard"}
+  - {id: rs_R2428, value: 2.428, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "exterior wall, outboard"}
+  - {id: rs_R16002, value: 16.002, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "plasma-side wall, inboard 'straight' part"}
+  - {id: rs_wall_120, value: 0.120, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "120 at inner and outer midplane"}
+  - {id: rs_wall_180, value: 0.180, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, note: "180 at the top"}
+  # derived geometry of the arc chain (profiles/vessel_*.csv)
+  - {id: rs_R_inner_wall_inboard, value: 1.664, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, derived: true, note: "2.509-0.845; Table I.3-1 Ri(rigid vessel) = 1.66 (p.83)"}
+  - {id: rs_R_outer_wall_inboard, value: 1.544, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, derived: true, note: "1.664-0.120 = 2.509-0.965 (both routes agree exactly)"}
+  - {id: rs_R_outer_wall_outboard, value: 4.509, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, derived: true, note: "1.544+2.965"}
+  - {id: rs_R_inner_wall_outboard, value: 4.389, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, derived: true, note: "4.509-0.120; Table I.3-1 Re(rigid vessel) = 4.37 (p.83), 19 mm less"}
+  - {id: rs_Z_inner_wall_top, value: 2.135, unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, derived: true, note: "1.350+0.785 = 0.755+1.380"}
+  - {id: rs_C3_inner, value: [2.189, 0.0], unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, derived: true, note: "centre of R2200 = (4.389-2.200, 0); |C2-C3i| = 0.82002 vs 2.200-1.380 = 0.820 (tangency closes to 0.02 mm)"}
+  - {id: rs_C3_outer, value: [2.081, 0.0], unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, derived: true, note: "centre of R2428 = (4.509-2.428, 0); |C2-C3o| = 0.86788 vs 0.868 (0.12 mm)"}
+  - {id: rs_C16, value: [17.666, 0.0], unit: m, source: JET1975, page: 298, figure: "Fig. IV.1-3", confidence: drawing, derived: true, note: "centre of R16002 = (1.664+16.002, 0); |C1-C16| = 15.2170 = 16.002-0.785 exactly"}
+  - {id: rs_vessel_Re_table, value: 4.37, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "Re (rigid vessel), radius at centre of sector"}
+  - {id: rs_vessel_Ri_table, value: 1.66, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "Ri (rigid vessel)"}
+
+tf_coils:
+  - {id: n_coils, value: 32, unit: count, source: JET1975, page: 77, confidence: text, note: "32 D-shaped, water-cooled coils (also p.295)"}
+  - {id: pancakes_per_coil, value: 2, unit: count, source: JET1975, page: 324, confidence: text, note: "two pancakes with 12 turns per pancake"}
+  - {id: turns_per_pancake, value: 12, unit: count, source: JET1975, page: 324, confidence: text, note: ""}
+  - {id: turns_per_coil, value: 24, unit: count, source: JET1975, page: 324, confidence: text, derived: true, note: "2 x 12"}
+  - {id: overall_height, value: 5.68, unit: m, source: JET1975, page: 327, table: "Table IV.2-2", confidence: table, note: "Overall height 5.68 m; Fig. IV.2-1 p.325 dim 5680 is taken over the upper/lower SUPPORT PADS (digitized casing height without pads = 5.59 m)"}
+  - {id: overall_width, value: 3.86, unit: m, source: JET1975, page: 327, table: "Table IV.2-2", confidence: table, note: "Overall width 3.86 m; Fig. IV.2-1 dim 3857"}
+  - {id: overall_width_fig, value: 3.857, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1", confidence: drawing, note: "3857"}
+  - {id: overall_height_fig, value: 5.680, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1", confidence: drawing, note: "5680 (over support pads)"}
+  - {id: straight_inner_leg, value: 2.872, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1", confidence: drawing, note: "2872 straight part of inner leg (between locating tabs, half-length 1.436); the digitized fit gives a straight bore for |Z| <= 1.52 m and straight casing for |Z| <= 1.70 m - see README"}
+  - {id: inner_leg_radial_thickness, value: 0.3735, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1 Section A-A; Fig. IV.2-3 p.326", confidence: drawing, note: "373.5"}
+  - {id: outer_leg_radial_thickness, value: 0.371, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1 Section A-A; Fig. IV.2-3 p.326", confidence: drawing, note: "371"}
+  - {id: outer_leg_toroidal_width, value: 0.338, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1 Section A-A; Fig. IV.2-3", confidence: drawing, note: "338 (Table I.3-1: full width 0.34)"}
+  - {id: inner_leg_toroidal_width_wedge, value: 0.260, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1 Section A-A", confidence: drawing, note: "260 at wedge (Table I.3-1: 0.26 at wedge); Fig. IV.2-3 p.326 shows 264 at the inner cross-section base"}
+  - {id: inner_leg_toroidal_width_264, value: 0.264, unit: m, source: JET1975, page: 326, figure: "Fig. IV.2-3", confidence: drawing, note: "264"}
+  - {id: section_nose_radius, value: 0.196, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1 Section A-A", confidence: drawing, note: "R=196: radius of the rounded inboard nose of the wedge-shaped inner leg in Section A-A (horizontal cut), NOT a D-profile radius"}
+  - {id: coil_thickness_table, value: 0.37, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "TF coil thickness 0.37; width full 0.34 (0.26 at wedge)"}
+  - {id: bore_R_inner, value: 1.49, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "Rci (bore toroidal field coils) = 1.49"}
+  - {id: bore_R_outer, value: 4.60, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "Rce (bore toroidal field coils) = 4.60 (measured at the bellows shields' azimuth per table heading)"}
+  - {id: weight, value: 12000.0, unit: kg, source: JET1975, page: 327, table: "Table IV.2-2", confidence: table, note: "12 t per coil"}
+  - {id: cu_section_inner, value: 2.7e-3, unit: m^2, source: JET1975, page: 327, table: "Table IV.2-2", confidence: table, note: "copper per turn, inner part 2700 mm2 (70 % of outer, p.324)"}
+  - {id: cu_section_outer, value: 3.9e-3, unit: m^2, source: JET1975, page: 327, table: "Table IV.2-2", confidence: table, note: "outer part 3900 mm2"}
+  - {id: insulation_turn, value: 0.002, unit: m, source: JET1975, page: 327, table: "Table IV.2-2", confidence: table, note: "between turns 2 mm; between pancakes 8 mm; ground 6 mm (text p.327 says 2 + 2 + 4 mm)"}
+  - {id: insulation_pancake, value: 0.008, unit: m, source: JET1975, page: 327, table: "Table IV.2-2", confidence: table, note: "8 mm"}
+  - {id: insulation_ground, value: 0.006, unit: m, source: JET1975, page: 327, table: "Table IV.2-2", confidence: table, note: "6 mm"}
+  - {id: conductor_width, value: 0.160, unit: m, source: JET1975, page: 324, figure: "Fig. IV.2-2", confidence: drawing, note: "typical conductor 160 x 28 mm, two cooling holes d15, key groove 20 x 5"}
+  - {id: conductor_thickness, value: 0.028, unit: m, source: JET1975, page: 324, figure: "Fig. IV.2-2", confidence: drawing, note: "28"}
+  - {id: conductor_cooling_hole_d, value: 0.015, unit: m, source: JET1975, page: 324, figure: "Fig. IV.2-2", confidence: drawing, note: "2 x d15"}
+  - {id: total_TF_current_basic, value: 4.1e7, unit: A, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "Ic = 41 MA basic (51 extended)"}
+  - {id: total_TF_current_extended, value: 5.1e7, unit: A, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "(51)"}
+  - {id: current_per_turn_basic, value: 5.34e4, unit: A, source: JET1975, page: 83, confidence: table, derived: true, note: "41 MA / (32 x 24) = 53.4 kA (check: mu0*41MA/(2*pi*2.96) = 2.77 T)"}
+  - {id: TF_power_flat_top, value: 1.75e8, unit: W, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "175 MW basic (270 ext) at start of flat top; max 245 (380) MW on 13 s rise"}
+  - {id: copper_conductivity, value: 5.6e7, unit: S/m, source: JET1975, page: 324, table: "Table IV.2-1", confidence: table, note: "OFHC + 0.1 % Ag, yield 20-25 kg/mm2"}
+  - {id: casing_outer_Rin_fit, value: 1.1165, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1", confidence: digitized, note: "fixed in the fit to bore - 0.3735 (printed); free fit gave 1.144 (the outer strip on the inner leg vs coil body)"}
+  - {id: casing_outer_Rout_fit, value: 4.990, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1", confidence: digitized, note: "fit; 4.60 + 0.371 = 4.971 from table+dims; fitted overall width 3.873 vs 3857 printed"}
+  - {id: casing_outer_Zmax_fit, value: 2.796, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1", confidence: digitized, note: "fit; height without pads 5.59 m"}
+  - {id: bore_Zmax_fit, value: 2.420, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1", confidence: digitized, note: "fit (profiles/tf_coil_inner.csv)"}
+  - {id: support_pad_Z_outer, value: 2.83, unit: m, source: JET1975, page: 325, figure: "Fig. IV.2-1", confidence: digitized, note: "|Z| of the outer face of the upper/lower support pads (R ~ 2.9-3.4 m): 2.834 / 2.828 measured -> 5.66 m vs printed 5680; casing max |Z| = 2.796 (fit), so pads protrude 0.03-0.11 m depending on R; +-0.01"}
+
+pf_coils:
+  - {id: n_pf_coils_total, value: 16, unit: count, source: JET1975, page: 399, confidence: text, note: "16 water-cooled copper coils: 10 x coil 1, 2 x coil 2, 2 x coil 3, 2 x coil 4"}
+  # Table IV.4-3 (p.401), columns coil 1 | 2 | 3 | 4
+  - {id: coil1_count, value: 10, unit: count, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "Number of coils required 10 / 2 / 2 / 2"}
+  - {id: coil2_count, value: 2, unit: count, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: ""}
+  - {id: coil3_count, value: 2, unit: count, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: ""}
+  - {id: coil4_count, value: 2, unit: count, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: ""}
+  - {id: coil1_mean_diameter, value: 1.816, unit: m, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "1.816 (also d1816 Fig. IV.4-13 p.402)"}
+  - {id: coil2_mean_diameter, value: 4.3, unit: m, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "4.3"}
+  - {id: coil3_mean_diameter, value: 7.94, unit: m, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "7.94 (R3970 Fig. IV.4-14b p.405)"}
+  - {id: coil4_mean_diameter, value: 10.486, unit: m, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "10.486 (R5242 Fig. IV.4-14c p.406; text p.399 '10.8 m diameter for coil 4' = outer)"}
+  - {id: coil2_Z, value: 3.65, unit: m, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "mean distance above/below equatorial plane: coil 1 '-', coil 2 3.65, coil 3 2.86, coil 4 1.075"}
+  - {id: coil3_Z, value: 2.86, unit: m, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: ""}
+  - {id: coil4_Z, value: 1.075, unit: m, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: ""}
+  - {id: coil1_turns, value: 63, unit: count, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "series turns/coil 63 / 48 / 120 / 96; coil 1 = 7 layers x 9 turns (p.400); 5+5 coils series, sets in parallel -> 315 effective"}
+  - {id: coil2_turns, value: 48, unit: count, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: ""}
+  - {id: coil3_turns, value: 120, unit: count, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "5 double pancakes x 24 turns (p.403)"}
+  - {id: coil4_turns, value: 96, unit: count, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "12 single pancakes x 8 turns (p.403)"}
+  - {id: coil1_conductor, value: [0.044, 0.044], unit: m, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "44x44 / 44x44 / 29x29 / 29x52 mm; cooling holes 15 / 15 / 12 / 12x22 mm"}
+  - {id: coil3_conductor, value: [0.029, 0.029], unit: m, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "29x29"}
+  - {id: coil4_conductor, value: [0.029, 0.052], unit: m, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "29x52"}
+  - {id: coil1_section_area, value: 0.157, unit: m^2, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "total C.S. incl. insulation 0.157 / 0.161 / 0.1738 / 0.2270 m2"}
+  - {id: coil2_section_area, value: 0.161, unit: m^2, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: ""}
+  - {id: coil3_section_area, value: 0.1738, unit: m^2, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "= 0.388 x 0.448 (Fig. IV.4-14b)"}
+  - {id: coil4_section_area, value: 0.2270, unit: m^2, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "= 0.264 x 2 x 0.430 (Fig. IV.4-14c)"}
+  - {id: coil1_cu_mass, value: 5700.0, unit: kg, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "weight of copper/coil 5.7 / 10 / 20.2 / 35.9 t; insulation 0.4 / 1.2 / 2.8 / 4.2 t; support ring (coil 1) 2.3 t"}
+  - {id: coil2_cu_mass, value: 10000.0, unit: kg, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: ""}
+  - {id: coil3_cu_mass, value: 20200.0, unit: kg, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: ""}
+  - {id: coil4_cu_mass, value: 35900.0, unit: kg, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: ""}
+  - {id: coil1_max_current_per_conductor, value: 3.4e4, unit: A, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "34 / 34 / 11.8 / 13 kA; max current density 19.3 / 19.3 / 1.62 / 10.2 MA/m2"}
+  - {id: coil1_max_axial_force, value: 1.5e6, unit: kgf, source: JET1975, page: 401, table: "Table IV.4-3", confidence: table, note: "1500 t / - / 220 t / 100 t"}
+  # drawing details
+  - {id: coil1_outer_diameter, value: 2.170, unit: m, source: JET1975, page: 402, figure: "Fig. IV.4-13", confidence: drawing, note: "d2170"}
+  - {id: coil1_support_cylinder_bore, value: 1.040, unit: m, source: JET1975, page: 402, figure: "Fig. IV.4-13", confidence: drawing, note: "d1040 (bore of the 200 mm steel support cylinder)"}
+  - {id: coil1_winding_radial, value: 0.327, unit: m, source: JET1975, page: 402, figure: "Fig. IV.4-13", confidence: drawing, note: "327 winding radial build; 200 steel support cylinder"}
+  - {id: coil1_support_cylinder_radial, value: 0.200, unit: m, source: JET1975, page: 402, figure: "Fig. IV.4-13", confidence: drawing, note: "200 (text p.400: 200 mm thick split steel rings)"}
+  - {id: coil1_pitch_height, value: 0.497, unit: m, source: JET1975, page: 402, figure: "Fig. IV.4-13", confidence: drawing, note: "497 per coil incl. 65 end insulation and 10+10 gaps; 10 coils -> stack ~4.97 m (derived)"}
+  - {id: coil1_conductor_pitch, value: 0.045, unit: m, source: JET1975, page: 402, figure: "Fig. IV.4-13", confidence: drawing, note: "45 pitch, 44 Cu, 14 insulation to cylinder, 2 interlayer, 1 interturn"}
+  - {id: coil3_R, value: 3.970, unit: m, source: JET1975, page: 405, figure: "Fig. IV.4-14(b)", confidence: drawing, note: "R3970"}
+  - {id: coil3_width, value: 0.388, unit: m, source: JET1975, page: 405, figure: "Fig. IV.4-14(b)", confidence: drawing, note: "388 radial"}
+  - {id: coil3_height, value: 0.448, unit: m, source: JET1975, page: 405, figure: "Fig. IV.4-14(b)", confidence: drawing, note: "448; 5 pancakes of 88 mm"}
+  - {id: coil4_R, value: 5.242, unit: m, source: JET1975, page: 406, figure: "Fig. IV.4-14(c)", confidence: drawing, note: "R5242"}
+  - {id: coil4_width, value: 0.264, unit: m, source: JET1975, page: 406, figure: "Fig. IV.4-14(c)", confidence: drawing, note: "264 radial"}
+  - {id: coil4_block_height, value: 0.430, unit: m, source: JET1975, page: 406, figure: "Fig. IV.4-14(c)", confidence: drawing, note: "two blocks of 430 (6 pancakes x 70 mm each) per coil"}
+  - {id: coil4_overall_height, value: 1.080, unit: m, source: JET1975, page: 406, figure: "Fig. IV.4-14(c)", confidence: drawing, note: "1080 over both blocks -> gap 0.22 m; coil spans |Z| = 0.535..1.615 (derived with Z=1.075)"}
+  - {id: coil2_section_assumed, value: [0.40, 0.40], unit: m, source: JET1975, page: 386, figure: "Fig. IV.4-1", confidence: assumed, note: "no dimensioned drawing; square 0.161 m2 section assumed (sqrt=0.401); position digitized in Fig. IV.4-1 R~2.12 m, Z~3.47 m (table: 2.15, 3.65)"}
+
+iron_core:
+  - {id: n_limbs, value: 8, unit: count, source: JET1975, page: 415, confidence: text, note: "8 vertical limbs (7), 8 upper (6) and 8 lower (5) radial arms, 2 centre pieces (9), 1 central pillar (10), feet (8); 27 main parts"}
+  - {id: mass_lower_radial_arm, value: 71000.0, unit: kg, source: JET1975, page: 415, confidence: table, note: "71 t each"}
+  - {id: mass_upper_radial_arm, value: 71000.0, unit: kg, source: JET1975, page: 415, confidence: table, note: "71 t each"}
+  - {id: mass_vertical_limb, value: 88000.0, unit: kg, source: JET1975, page: 415, confidence: table, note: "88 t each (126 t with extra steel for extended performance)"}
+  - {id: mass_feet_structural, value: 200000.0, unit: kg, source: JET1975, page: 415, confidence: table, note: "200 t total"}
+  - {id: mass_centre_piece, value: 90000.0, unit: kg, source: JET1975, page: 415, confidence: table, note: "90 t each (2)"}
+  - {id: mass_central_pillar, value: 43000.0, unit: kg, source: JET1975, page: 415, confidence: table, note: "43 t"}
+  - {id: mass_total, value: 2263000.0, unit: kg, source: JET1975, page: 415, confidence: table, note: "Total 2263 t (2567 t extended); sum checks exactly"}
+  - {id: area_central_core, value: 9.9, unit: m^2, source: JET1975, page: 412, table: "Table IV.4-5", confidence: table, note: "central core (non-saturated region) 9.9 m2"}
+  - {id: area_radial_arms, value: 11.2, unit: m^2, source: JET1975, page: 412, table: "Table IV.4-5", confidence: table, note: "all 8 arms: 11.2 m2 -> 1.40 m2 per arm (derived)"}
+  - {id: area_vertical_arms_basic, value: 11.2, unit: m^2, source: JET1975, page: 412, table: "Table IV.4-5", confidence: table, note: "11.2 basic, 16 extended -> 1.40 / 2.0 m2 per limb"}
+  - {id: area_vertical_arms_extended, value: 16.0, unit: m^2, source: JET1975, page: 412, table: "Table IV.4-5", confidence: table, note: ""}
+  - {id: B_iron_max, value: 1.9, unit: T, source: JET1975, page: 411, confidence: text, note: "flux density in iron < 1.9 T (non-saturated parts); central saturated region 6.6 T (7.8) in iron"}
+  - {id: lamination_thickness_max, value: 0.005, unit: m, source: JET1975, page: 412, confidence: text, note: "max lamination 5 mm (outer limbs, radial arms laminated)"}
+  - {id: pillar_slots, value: 32, unit: count, source: JET1975, page: 413, confidence: text, note: "32 slots, 20 cm deep (option 25 cm)"}
+  - {id: flux_swing_basic, value: 25.0, unit: Wb, source: JET1975, page: 412, table: "Table IV.4-5", confidence: table, derived: true, note: "central core -15 to +10 Wb basic (-18 to +15 extended)"}
+  # digitized geometry (profiles/iron_core_outline.csv), Fig. I.3-2 p.80 with dims 14800/11500
+  - {id: limb_R_inner, value: 5.99, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: digitized, note: "+-0.03; p.386 GA gives 6.02"}
+  - {id: limb_R_outer, value: 7.38, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: digitized, note: "= overall radius 14800/2 = 7.40 within 0.02"}
+  - {id: limb_radial_depth, value: 1.39, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: digitized, note: "7.38-5.99"}
+  - {id: limb_toroidal_width, value: 1.01, unit: m, source: JET1975, page: 412, confidence: table, derived: true, note: "1.40 m2 / 1.385 m; ASSUMED rectangular section"}
+  - {id: limb_extra_steel_R_outer, value: 8.1, unit: m, source: JET1975, page: 386, figure: "Fig. IV.4-1", confidence: digitized, note: "dash-dot outline of optional extra steel (extended performance), +-0.1"}
+  - {id: upper_arm_Z_top, value: 5.79, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: digitized, note: "+-0.03"}
+  - {id: upper_arm_Z_bottom, value: 4.39, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: digitized, note: "p.386 GA: 4.39"}
+  - {id: lower_arm_Z_top, value: -4.35, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: digitized, note: ""}
+  - {id: lower_arm_Z_bottom, value: -5.63, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: digitized, note: "foot/floor line -5.72"}
+  - {id: arm_toroidal_width, value: 1.0, unit: m, source: JET1975, page: 412, confidence: table, derived: true, note: "1.40 m2 / ~1.40 m arm depth; ASSUMED rectangular"}
+  - {id: central_pillar_R, value: 0.518, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: digitized, note: "consistent with d1040 bore of coil-1 support cylinder (p.402) -> 0.52"}
+  - {id: centre_piece_R_outer, value: 1.73, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: digitized, note: "p.386 GA: 1.83; axisymmetric model p.394: 1.91"}
+  - {id: centre_piece_Z_range, value: [2.98, 4.39], unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: digitized, note: "|Z|, between collar top and radial arm"}
+  - {id: pillar_hub_Z_top, value: 6.22, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: digitized, note: "hub on top of the pillar protrudes ~0.43 m above the arms; NOT included in 11.5 m"}
+  - {id: model_limb_shell_R, value: [6.53, 6.83], unit: m, source: JET1975, page: 394, figure: "Fig. IV.4-10", confidence: digitized, note: "axisymmetric equivalent shell used in flux calcs"}
+
+structure:
+  - {id: ring_outer_diameter, value: 7.320, unit: m, source: JET1975, page: 378, figure: "Fig. IV.3-14", confidence: drawing, note: "d7320"}
+  - {id: ring_height, value: 0.900, unit: m, source: JET1975, page: 378, figure: "Fig. IV.3-14", confidence: drawing, note: "900"}
+  - {id: ring_sectors, value: 8, unit: count, source: JET1975, page: 376, confidence: text, note: "outer part: cast light alloy (yield ~18 kg/mm2), 8 sectors, each with a large opening for the vertical ports; collar: magnetic steel, 8 sectors"}
+  - {id: ring_Z_top, value: 3.04, unit: m, source: JET1975, page: 386, figure: "Fig. IV.4-1", confidence: assumed, note: "digitized collar top +-0.15 m; used to place ring_structure.csv"}
+  - {id: inner_cylinder_sectors, value: 8, unit: count, source: JET1975, page: 374, confidence: text, note: "8 identical sectors, stainless steel, vertical grooves for TF coils"}
+  - {id: inner_cylinder_thickness, value: 0.04, unit: m, source: JET1975, page: 374, confidence: text, note: "average thickness 4 cm"}
+  - {id: inner_cylinder_R, value: 1.11, unit: m, source: JET1975, page: 378, figure: "Fig. IV.3-14", confidence: digitized, note: "face at ~1.11 m (coil-1 outer 1.085 + 0.04); consistent with TF inner leg outer face 1.1165 (1.49-0.3735)"}
+  - {id: shell_description, value: "thin metallic shell of wedge blocks (cast Al AU5GT) + bolted Al-alloy plates (A-U4G), glass-epoxy insulated", unit: "-", source: JET1975, page: 380, confidence: text, note: "p.364, 368, 380, 382; octant = 4 TF coils + blocks + plates + upper/lower trays"}
+  - {id: machine_weight, value: 3.0e6, unit: kg, source: JET1975, page: 414, confidence: text, note: "weight of the whole machine about 3000 t (carried by lower arms)"}
+
+ports:
+  - {id: horizontal_port_width, value: 0.46, unit: m, source: JET1975, page: 301, confidence: text, note: "openings 460 mm wide and 960 mm high; p.77 'radial ports 46 x 96 cm'; p.83 'radial 0.46 x 0.96'"}
+  - {id: horizontal_port_height, value: 0.96, unit: m, source: JET1975, page: 301, confidence: text, note: "960 mm"}
+  - {id: horizontal_port_count, value: 8, unit: count, source: JET1975, page: 315, confidence: text, note: "'four (out of the eight) large horizontal ports' carry pumping units; one per octant in the middle rigid sector (p.297, Fig. IV.1-1)"}
+  - {id: tangential_access, value: [0.28, 0.96], unit: m, source: JET1975, page: 83, table: "Table I.3-1 'Access (a)'", confidence: table, note: "'tangential to Ri' 0.28 x 0.96 m; injection at 45 deg to magnetic axis, max beam diameter 280 mm (p.301)"}
+  - {id: vertical_port_large, value: [0.14, 0.83], unit: m, source: JET1975, page: 77, confidence: text, note: "straight-through vertical ports 14 x 83 cm (long side radial - digitized in Fig. I.3-2)"}
+  - {id: vertical_port_small, value: [0.07, 0.28], unit: m, source: JET1975, page: 77, confidence: text, note: "7 x 28 cm"}
+  - {id: vertical_port_large_R_range, value: [2.53, 3.41], unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2 item 10", confidence: digitized, note: "centre ~2.97 (= R0); flange top Z ~ +-3.22; +-0.05"}
+  - {id: vertical_port_small_R_range, value: [3.00, 3.31], unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2 item 11", confidence: digitized, note: "centre ~3.15; top Z ~ +-3.24; +-0.05"}
+  - {id: vertical_ports_per_octant, value: 1, unit: count, source: JET1975, page: 376, confidence: assumed, note: "ring sector per octant has 'a large opening for the vertical ports'; exact count/azimuth of 14x83 and 7x28 ports not stated - assume one of each type top and bottom per octant"}
+  - {id: horizontal_port_beam_d300, value: 0.300, unit: m, source: JET1975, page: 296, figure: "Fig. IV.1-1 (plan)", confidence: drawing, note: "d300 beam/duct through the horizontal port at 45 deg"}
+
+limiters:
+  - {id: n_rail_limiters, value: 3, unit: count, source: JET1975, page: 301, confidence: text, note: "set of three axisymmetric rail limiters (outer midplane + two near top/bottom, Fig. IV.1-1), plates adjustable from outside, gas-cooled"}
+  - {id: outer_limiter_plates, value: 16, unit: count, source: JET1975, page: 314, confidence: text, note: "16 plates constitute the outer rail limiter (2 per octant, derived)"}
+  - {id: plate_size, value: [1.00, 0.60, 0.01], unit: m, source: JET1975, page: 314, confidence: text, note: "Mo plate 1 cm thick, surface 100 x 60 cm2; ~1 t Mo for 16 plates (16 x 0.06 m3... 16*0.006 m3*10.2 t/m3 = 0.98 t, consistent)"}
+  - {id: plate_material, value: molybdenum, unit: "-", source: JET1975, page: 314, confidence: text, note: "reference design; heavy refractory metal, may change to low-Z (p.301)"}
+  - {id: outer_limiter_R, value: 4.21, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, derived: true, note: "limiter defines Re(plasma) = 4.21"}
+  - {id: bellows_shield_Re, value: 4.33, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "Re (fixed poloidal limiters) = 4.33 = bellows shields"}
+  - {id: bellows_shield_Ri, value: 1.70, unit: m, source: JET1975, page: 83, table: "Table I.3-1", confidence: table, note: "Ri (fixed poloidal limiter) = 1.70"}
+  - {id: upper_lower_rail_limiter_position, value: [2.3, 1.95], unit: m, source: JET1975, page: 296, figure: "Fig. IV.1-1", confidence: digitized, note: "(R, |Z|) of the upper/lower rail limiter plates, from a figure with inconsistent x/y scale; +-0.15 m"}
+  - {id: plate_orientation, value: "100 cm poloidal x 60 cm toroidal", unit: "-", source: JET1975, page: 314, confidence: assumed, note: "orientation not stated"}
+
+nbi:
+  - {id: injectors_per_port, value: 6, unit: count, source: JET1975, page: 426, confidence: text, note: "six quasi-tangential injectors on one JET port (System A Fig. IV.5-4 p.427; System B Fig. IV.5-6 p.429)"}
+  - {id: plan_angle_A, value: 25.0, unit: deg, source: JET1975, page: 427, figure: "Fig. IV.5-4", confidence: drawing, note: "25 deg TYP between injectors in sectional plan"}
+  - {id: vertical_angle_A, value: 27.0, unit: deg, source: JET1975, page: 427, figure: "Fig. IV.5-4", confidence: drawing, note: "27 deg TYP in sectional side view (upper/lower rows)"}
+  - {id: plan_angle_B, value: 25.0, unit: deg, source: JET1975, page: 429, figure: "Fig. IV.5-6", confidence: drawing, note: "25 deg TYP"}
+  - {id: vertical_angle_B, value: 22.0, unit: deg, source: JET1975, page: 429, figure: "Fig. IV.5-6", confidence: drawing, note: "22 deg TYP"}
+  - {id: injection_angle_to_axis, value: 45.0, unit: deg, source: JET1975, page: 301, confidence: text, note: "horizontal ports allow injection at 45 deg to the magnetic axis"}
+  - {id: gate_valve_bore, value: 0.20, unit: m, source: JET1975, page: 423, confidence: text, note: "beam passes a 20 cm bore gate valve (15 cm bakeable valves exist, p.419)"}
+  - {id: beam_divergence, value: 0.02, unit: rad, source: JET1975, page: 419, confidence: text, note: "+-2x10^-2 rad assumed for the tangential aperture"}
+  - {id: neutral_power_per_injector, value: 1.0e6, unit: W, source: JET1975, page: 432, table: "Table IV.5-1", confidence: table, note: "1.0 MW (H at 80 keV); unit size 0.5-1 MW (p.418)"}
+  - {id: beam_energy_H, value: 80.0, unit: keV, source: JET1975, page: 418, confidence: text, note: ">= 80 keV H0; <= 160 keV D0, 3He0"}
+  - {id: total_power_goal, value: 2.5e7, unit: W, source: JET1975, page: 418, confidence: text, note: "raised in stages to ~25 MW (initial 15-25 MW, final > 50 MW)"}
+  - {id: neutraliser_length_A, value: 0.30, unit: m, source: JET1975, page: 423, confidence: text, note: "System A neutraliser 30 cm"}
+  - {id: cryopump_speed, value: 250.0, unit: m^3/s, source: JET1975, page: 426, confidence: text, note: "200 000 l/s around electrodes + 50 000 l/s further pump"}
+  - {id: tank_length_A, value: 1.58, unit: m, source: JET1975, page: 427, figure: "Fig. IV.5-4 side view", confidence: digitized, note: "main (source/pump) tank of middle injector, scale bar 0-4 m (122.8 px/m @300dpi); +-0.05"}
+  - {id: tank_height_A, value: 1.21, unit: m, source: JET1975, page: 427, figure: "Fig. IV.5-4 side view", confidence: digitized, note: "+-0.05"}
+  - {id: duct_length_A, value: 2.0, unit: m, source: JET1975, page: 427, figure: "Fig. IV.5-4 side view", confidence: digitized, note: "gate valve to tank; overall injector ~4.0 m; +-0.1"}
+
+overall:
+  - {id: overall_diameter, value: 14.8, unit: m, source: JET1975, page: 4, confidence: text, note: "Overall diameter 14,8 m; Fig. I.3-2 p.80 dim 14800; Preface p.36 says 15 m (rounded)"}
+  - {id: overall_height, value: 11.5, unit: m, source: JET1975, page: 4, confidence: text, note: "Overall height 11,5 m; Fig. I.3-2 dim 11500 (top of upper arms to underside of feet; excludes the pillar hub ~+0.43 m)"}
+  - {id: overall_diameter_fig, value: 14.800, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: drawing, note: "14800"}
+  - {id: overall_height_fig, value: 11.500, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: drawing, note: "11500"}
+  - {id: torus_major_diameter_fig, value: 5.920, unit: m, source: JET1975, page: 80, figure: "Fig. I.3-2", confidence: drawing, note: "5920 = 2 x R0 (also 'R0 = 2960')"}
+  - {id: machine_weight, value: 3.0e6, unit: kg, source: JET1975, page: 414, confidence: text, note: "about 3000 t"}
+

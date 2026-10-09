@@ -1,0 +1,4 @@
+A: iota(axis)=5.6889 iota(edge)=6.2184  rel.shear=+9.31%
+B: iota(axis)=4.3623 iota(edge)=4.3012  rel.shear=-1.40%
+C: iota(axis)=3.8899 iota(edge)=3.7890  rel.shear=-2.59%
+(3.27): iota(axis)=2.2869 iota(edge)=2.2878  rel.shear=+0.04%

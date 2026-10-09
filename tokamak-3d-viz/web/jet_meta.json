@@ -1,0 +1,1741 @@
+{
+ "schema": "tokviz.jet_meta/1",
+ "units": "SI (м, кг, А, Т)",
+ "page_convention": "«с. N» = номер сторінки PDF документа (як у базі даних проєкту)",
+ "files": {
+  "jet1975": "jet1975.glb",
+  "jet1983": "jet1983.glb"
+ },
+ "machines": {
+  "jet1975": {
+   "title": "JET (design proposal 1975)",
+   "lineage": [
+    "jet1975"
+   ],
+   "file": "jet1975.glb",
+   "bytes": 1467220,
+   "triangles_rendered": 230564,
+   "subsystems": {
+    "TF": {
+     "label_uk": "Котушки тороїдального поля (TF)",
+     "colour": "#b5b6ba",
+     "components": [
+      "tf_coils"
+     ],
+     "key_dims": {
+      "n_coils": {
+       "value": 32,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 77,
+       "cite": "EUR 5516e, с. 77"
+      },
+      "overall_height": {
+       "value": 5.68,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 327,
+       "cite": "EUR 5516e, с. 327",
+       "ref": "Table IV.2-2"
+      },
+      "overall_width": {
+       "value": 3.86,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 327,
+       "cite": "EUR 5516e, с. 327",
+       "ref": "Table IV.2-2"
+      },
+      "bore_R_inner": {
+       "value": 1.49,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "bore_R_outer": {
+       "value": 4.6,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "outer_leg_toroidal_width": {
+       "value": 0.338,
+       "unit": "m",
+       "confidence": "drawing",
+       "source": "EUR 5516e",
+       "page": 325,
+       "cite": "EUR 5516e, с. 325",
+       "ref": "Fig. IV.2-1 Section A-A; Fig. IV.2-3"
+      },
+      "turns_per_coil": {
+       "value": 24,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 324,
+       "cite": "EUR 5516e, с. 324"
+      },
+      "weight": {
+       "value": 12000.0,
+       "unit": "kg",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 327,
+       "cite": "EUR 5516e, с. 327",
+       "ref": "Table IV.2-2"
+      },
+      "total_TF_current_basic": {
+       "value": 41000000.0,
+       "unit": "A",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      }
+     },
+     "confidence_counts": {
+      "assumed": 6,
+      "digitized": 4,
+      "table": 5,
+      "drawing": 4,
+      "text": 3
+     },
+     "triangles": 25344
+    },
+    "Vessel": {
+     "label_uk": "Вакуумна камера",
+     "colour": "#cbc8c2",
+     "components": [
+      "vessel"
+     ],
+     "key_dims": {
+      "n_rigid_sectors": {
+       "value": 32,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 295,
+       "cite": "EUR 5516e, с. 295"
+      },
+      "n_octants": {
+       "value": 8,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 297,
+       "cite": "EUR 5516e, с. 297"
+      },
+      "rs_R_inner_wall_inboard": {
+       "value": 1.664,
+       "unit": "m",
+       "confidence": "drawing",
+       "source": "EUR 5516e",
+       "page": 298,
+       "cite": "EUR 5516e, с. 298",
+       "ref": "Fig. IV.1-3"
+      },
+      "rs_R_inner_wall_outboard": {
+       "value": 4.389,
+       "unit": "m",
+       "confidence": "drawing",
+       "source": "EUR 5516e",
+       "page": 298,
+       "cite": "EUR 5516e, с. 298",
+       "ref": "Fig. IV.1-3"
+      },
+      "rs_Z_inner_wall_top": {
+       "value": 2.135,
+       "unit": "m",
+       "confidence": "drawing",
+       "source": "EUR 5516e",
+       "page": 298,
+       "cite": "EUR 5516e, с. 298",
+       "ref": "Fig. IV.1-3"
+      },
+      "wall_thickness_Ri_Ra": {
+       "value": 0.12,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 310,
+       "cite": "EUR 5516e, с. 310",
+       "ref": "Table IV.1-2"
+      },
+      "wall_thickness_max": {
+       "value": 0.18,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 310,
+       "cite": "EUR 5516e, с. 310",
+       "ref": "Table IV.1-2"
+      },
+      "total_weight": {
+       "value": 68000.0,
+       "unit": "kg",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 310,
+       "cite": "EUR 5516e, с. 310",
+       "ref": "Table IV.1-2"
+      },
+      "volume": {
+       "value": 190.0,
+       "unit": "m^3",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 310,
+       "cite": "EUR 5516e, с. 310",
+       "ref": "Table IV.1-2"
+      },
+      "material_rigid_sectors": {
+       "value": "Inconel 600 / Nicrofer 7216",
+       "unit": "-",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 310,
+       "cite": "EUR 5516e, с. 310",
+       "ref": "Table IV.1-2"
+      }
+     },
+     "confidence_counts": {
+      "assumed": 5,
+      "text": 8,
+      "digitized": 2,
+      "drawing": 5,
+      "table": 3
+     },
+     "triangles": 96800
+    },
+    "Bellows": {
+     "label_uk": "Сильфони камери",
+     "colour": "#d1cec8",
+     "components": [
+      "bellows"
+     ],
+     "key_dims": {
+      "bellows_per_section": {
+       "value": 2,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 295,
+       "cite": "EUR 5516e, с. 295"
+      },
+      "bellows_wall_thickness": {
+       "value": 0.0017,
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 306,
+       "cite": "EUR 5516e, с. 306"
+      },
+      "material_bellows": {
+       "value": "Inconel 625 / Nicrofer 6020",
+       "unit": "-",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 310,
+       "cite": "EUR 5516e, с. 310",
+       "ref": "Table IV.1-2"
+      }
+     },
+     "confidence_counts": {
+      "assumed": 7,
+      "text": 9,
+      "digitized": 2,
+      "drawing": 2,
+      "table": 1
+     },
+     "triangles": 12288
+    },
+    "Ports": {
+     "label_uk": "Порти камери",
+     "colour": "#c4c4c5",
+     "components": [
+      "ports"
+     ],
+     "key_dims": {
+      "horizontal_port_width": {
+       "value": 0.46,
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 301,
+       "cite": "EUR 5516e, с. 301"
+      },
+      "horizontal_port_height": {
+       "value": 0.96,
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 301,
+       "cite": "EUR 5516e, с. 301"
+      },
+      "horizontal_port_count": {
+       "value": 8,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 315,
+       "cite": "EUR 5516e, с. 315"
+      },
+      "vertical_port_large": {
+       "value": [
+        0.14,
+        0.83
+       ],
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 77,
+       "cite": "EUR 5516e, с. 77"
+      },
+      "vertical_port_small": {
+       "value": [
+        0.07,
+        0.28
+       ],
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 77,
+       "cite": "EUR 5516e, с. 77"
+      }
+     },
+     "confidence_counts": {
+      "assumed": 12,
+      "digitized": 4,
+      "text": 8,
+      "table": 1,
+      "drawing": 1
+     },
+     "triangles": 16384
+    },
+    "PF": {
+     "label_uk": "Котушки полоїдального поля (PF)",
+     "colour": "#e7b38e",
+     "components": [
+      "pf_coils"
+     ],
+     "key_dims": {
+      "n_pf_coils_total": {
+       "value": 16,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 399,
+       "cite": "EUR 5516e, с. 399"
+      }
+     },
+     "confidence_counts": {
+      "drawing": 13,
+      "table": 12,
+      "assumed": 1,
+      "text": 1
+     },
+     "triangles": 7296
+    },
+    "IronCore": {
+     "label_uk": "Залізний магнітопровід",
+     "colour": "#7c8582",
+     "components": [
+      "iron_core"
+     ],
+     "key_dims": {
+      "n_limbs": {
+       "value": 8,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 415,
+       "cite": "EUR 5516e, с. 415"
+      },
+      "mass_total": {
+       "value": 2263000.0,
+       "unit": "kg",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 415,
+       "cite": "EUR 5516e, с. 415"
+      },
+      "limb_R_outer": {
+       "value": 7.38,
+       "unit": "m",
+       "confidence": "digitized",
+       "source": "EUR 5516e",
+       "page": 80,
+       "cite": "EUR 5516e, с. 80",
+       "ref": "Fig. I.3-2"
+      },
+      "upper_arm_Z_top": {
+       "value": 5.79,
+       "unit": "m",
+       "confidence": "digitized",
+       "source": "EUR 5516e",
+       "page": 80,
+       "cite": "EUR 5516e, с. 80",
+       "ref": "Fig. I.3-2"
+      },
+      "lower_arm_Z_bottom": {
+       "value": -5.63,
+       "unit": "m",
+       "confidence": "digitized",
+       "source": "EUR 5516e",
+       "page": 80,
+       "cite": "EUR 5516e, с. 80",
+       "ref": "Fig. I.3-2"
+      },
+      "B_iron_max": {
+       "value": 1.9,
+       "unit": "T",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 411,
+       "cite": "EUR 5516e, с. 411"
+      },
+      "overall_diameter": {
+       "value": 14.8,
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 4,
+       "cite": "EUR 5516e, с. 4"
+      },
+      "overall_height": {
+       "value": 11.5,
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 4,
+       "cite": "EUR 5516e, с. 4"
+      }
+     },
+     "confidence_counts": {
+      "table": 3,
+      "digitized": 11,
+      "text": 3,
+      "assumed": 2
+     },
+     "triangles": 2944
+    },
+    "Structure": {
+     "label_uk": "Механічна структура",
+     "colour": "#e7e7e5",
+     "components": [
+      "structure"
+     ],
+     "key_dims": {
+      "ring_outer_diameter": {
+       "value": 7.32,
+       "unit": "m",
+       "confidence": "drawing",
+       "source": "EUR 5516e",
+       "page": 378,
+       "cite": "EUR 5516e, с. 378",
+       "ref": "Fig. IV.3-14"
+      },
+      "ring_height": {
+       "value": 0.9,
+       "unit": "m",
+       "confidence": "drawing",
+       "source": "EUR 5516e",
+       "page": 378,
+       "cite": "EUR 5516e, с. 378",
+       "ref": "Fig. IV.3-14"
+      },
+      "inner_cylinder_R": {
+       "value": 1.11,
+       "unit": "m",
+       "confidence": "digitized",
+       "source": "EUR 5516e",
+       "page": 378,
+       "cite": "EUR 5516e, с. 378",
+       "ref": "Fig. IV.3-14"
+      },
+      "inner_cylinder_thickness": {
+       "value": 0.04,
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 374,
+       "cite": "EUR 5516e, с. 374"
+      },
+      "shell_description": {
+       "value": "thin metallic shell of wedge blocks (cast Al AU5GT) + bolted Al-alloy plates (A-U4G), glass-epoxy insulated",
+       "unit": "-",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 380,
+       "cite": "EUR 5516e, с. 380"
+      }
+     },
+     "confidence_counts": {
+      "digitized": 9,
+      "assumed": 12,
+      "drawing": 6,
+      "text": 11,
+      "table": 1
+     },
+     "triangles": 33088
+    },
+    "Limiters": {
+     "label_uk": "Лімітери",
+     "colour": "#c5c7c8",
+     "components": [
+      "limiters"
+     ],
+     "key_dims": {
+      "outer_limiter_plates": {
+       "value": 16,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 314,
+       "cite": "EUR 5516e, с. 314"
+      },
+      "plate_size": {
+       "value": [
+        1.0,
+        0.6,
+        0.01
+       ],
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 314,
+       "cite": "EUR 5516e, с. 314"
+      },
+      "plate_material": {
+       "value": "molybdenum",
+       "unit": "-",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 314,
+       "cite": "EUR 5516e, с. 314"
+      },
+      "outer_limiter_R": {
+       "value": 4.21,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "bellows_shield_Re": {
+       "value": 4.33,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      }
+     },
+     "confidence_counts": {
+      "assumed": 9,
+      "text": 7,
+      "table": 9,
+      "digitized": 1,
+      "drawing": 3
+     },
+     "triangles": 18240
+    },
+    "NBI": {
+     "label_uk": "Інжекція нейтральних пучків (NBI)",
+     "colour": "#c4c4c5",
+     "components": [
+      "nbi"
+     ],
+     "key_dims": {
+      "injectors_per_port": {
+       "value": 6,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 426,
+       "cite": "EUR 5516e, с. 426"
+      },
+      "beam_energy_H": {
+       "value": 80.0,
+       "unit": "keV",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 418,
+       "cite": "EUR 5516e, с. 418"
+      },
+      "neutral_power_per_injector": {
+       "value": 1000000.0,
+       "unit": "W",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 432,
+       "cite": "EUR 5516e, с. 432",
+       "ref": "Table IV.5-1"
+      },
+      "total_power_goal": {
+       "value": 25000000.0,
+       "unit": "W",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 418,
+       "cite": "EUR 5516e, с. 418"
+      },
+      "injection_angle_to_axis": {
+       "value": 45.0,
+       "unit": "deg",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 301,
+       "cite": "EUR 5516e, с. 301"
+      }
+     },
+     "confidence_counts": {
+      "assumed": 9,
+      "digitized": 3,
+      "text": 6,
+      "table": 2,
+      "drawing": 4
+     },
+     "triangles": 648
+    },
+    "Plasma": {
+     "label_uk": "Плазма",
+     "colour": "#ffbc95",
+     "components": [
+      "plasma"
+     ],
+     "key_dims": {
+      "R0": {
+       "value": 2.96,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "a": {
+       "value": 1.25,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "b": {
+       "value": 2.1,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "elongation_b_over_a": {
+       "value": 1.68,
+       "unit": "-",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "Ip_D_basic": {
+       "value": 3800000.0,
+       "unit": "A",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "Btor_R0_basic": {
+       "value": 2.77,
+       "unit": "T",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "TF_ripple": {
+       "value": 0.036,
+       "unit": "-",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      }
+     },
+     "confidence_counts": {
+      "assumed": 1,
+      "table": 8,
+      "drawing": 3
+     },
+     "triangles": 16896
+    },
+    "FieldLines": {
+     "label_uk": "Силові лінії поля",
+     "colour": "#ffeda0",
+     "components": [
+      "fieldlines (physics bake)"
+     ],
+     "key_dims": {
+      "n_lines": {
+       "value": 7,
+       "unit": "count"
+      },
+      "q_values": {
+       "value": [
+        3.0,
+        3.5,
+        4.0,
+        5.0,
+        3.618,
+        4.618,
+        2.962
+       ],
+       "unit": "-"
+      }
+     },
+     "confidence_counts": {},
+     "triangles": 0
+    },
+    "Human": {
+     "label_uk": "Людина (масштаб)",
+     "colour": "#c4bfb8",
+     "components": [
+      "human"
+     ],
+     "key_dims": {},
+     "confidence_counts": {
+      "assumed": 3,
+      "digitized": 1
+     },
+     "triangles": 636
+    },
+    "Extras1983": {
+     "label_uk": "Нове у 1983 (зовнішні вузли)",
+     "colour": "#c4c4c5",
+     "components": [],
+     "key_dims": {},
+     "confidence_counts": {},
+     "triangles": 0
+    }
+   },
+   "facts": {
+    "tf_coils.n_coils": {
+     "value": 32,
+     "unit": "count",
+     "confidence": "text",
+     "source": "EUR 5516e",
+     "page": 77,
+     "cite": "EUR 5516e, с. 77"
+    },
+    "vessel.n_rigid_sectors": {
+     "value": 32,
+     "unit": "count",
+     "confidence": "text",
+     "source": "EUR 5516e",
+     "page": 295,
+     "cite": "EUR 5516e, с. 295"
+    },
+    "vessel.n_octants": {
+     "value": 8,
+     "unit": "count",
+     "confidence": "text",
+     "source": "EUR 5516e",
+     "page": 297,
+     "cite": "EUR 5516e, с. 297"
+    },
+    "pf_coils.n_pf_coils_total": {
+     "value": 16,
+     "unit": "count",
+     "confidence": "text",
+     "source": "EUR 5516e",
+     "page": 399,
+     "cite": "EUR 5516e, с. 399"
+    },
+    "pf_coils.coil1_count": {
+     "value": 10,
+     "unit": "count",
+     "confidence": "table",
+     "source": "EUR 5516e",
+     "page": 401,
+     "cite": "EUR 5516e, с. 401",
+     "ref": "Table IV.4-3"
+    },
+    "iron_core.n_limbs": {
+     "value": 8,
+     "unit": "count",
+     "confidence": "text",
+     "source": "EUR 5516e",
+     "page": 415,
+     "cite": "EUR 5516e, с. 415"
+    },
+    "vessel.total_weight": {
+     "value": 68000.0,
+     "unit": "kg",
+     "confidence": "table",
+     "source": "EUR 5516e",
+     "page": 310,
+     "cite": "EUR 5516e, с. 310",
+     "ref": "Table IV.1-2"
+    },
+    "iron_core.mass_total": {
+     "value": 2263000.0,
+     "unit": "kg",
+     "confidence": "table",
+     "source": "EUR 5516e",
+     "page": 415,
+     "cite": "EUR 5516e, с. 415"
+    },
+    "overall.machine_weight": {
+     "value": 3000000.0,
+     "unit": "kg",
+     "confidence": "text",
+     "source": "EUR 5516e",
+     "page": 414,
+     "cite": "EUR 5516e, с. 414"
+    }
+   }
+  },
+  "jet1983": {
+   "title": "JET as built, 1983 (first plasma, limiter era)",
+   "lineage": [
+    "jet1975",
+    "jet1983"
+   ],
+   "file": "jet1983.glb",
+   "bytes": 1667460,
+   "triangles_rendered": 236412,
+   "subsystems": {
+    "TF": {
+     "label_uk": "Котушки тороїдального поля (TF)",
+     "colour": "#b5b6ba",
+     "components": [
+      "tf_coils"
+     ],
+     "key_dims": {
+      "n_coils": {
+       "value": 32,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 77,
+       "cite": "EUR 5516e, с. 77"
+      },
+      "overall_height": {
+       "value": 5.68,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 327,
+       "cite": "EUR 5516e, с. 327",
+       "ref": "Table IV.2-2"
+      },
+      "overall_width": {
+       "value": 3.86,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 327,
+       "cite": "EUR 5516e, с. 327",
+       "ref": "Table IV.2-2"
+      },
+      "bore_R_inner": {
+       "value": 1.49,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "bore_R_outer": {
+       "value": 4.6,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "outer_leg_toroidal_width": {
+       "value": 0.338,
+       "unit": "m",
+       "confidence": "drawing",
+       "source": "EUR 5516e",
+       "page": 325,
+       "cite": "EUR 5516e, с. 325",
+       "ref": "Fig. IV.2-1 Section A-A; Fig. IV.2-3"
+      },
+      "turns_per_coil": {
+       "value": 24,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 324,
+       "cite": "EUR 5516e, с. 324"
+      },
+      "weight": {
+       "value": 12000.0,
+       "unit": "kg",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 327,
+       "cite": "EUR 5516e, с. 327",
+       "ref": "Table IV.2-2"
+      },
+      "total_TF_current_basic": {
+       "value": 41000000.0,
+       "unit": "A",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      }
+     },
+     "confidence_counts": {
+      "assumed": 6,
+      "digitized": 4,
+      "table": 5,
+      "drawing": 4,
+      "text": 3
+     },
+     "triangles": 25344
+    },
+    "Vessel": {
+     "label_uk": "Вакуумна камера",
+     "colour": "#cbc8c2",
+     "components": [
+      "vessel"
+     ],
+     "key_dims": {
+      "n_rigid_sectors": {
+       "value": 40,
+       "unit": "count",
+       "confidence": "text",
+       "source": "JET JU Progress Report 1983 (EUR 9472)",
+       "page": 24,
+       "cite": "JET JU Progress Report 1983 (EUR 9472), с. 24"
+      },
+      "n_octants": {
+       "value": 8,
+       "unit": "count",
+       "confidence": "text",
+       "source": "JET JU Progress Report 1983 (EUR 9472)",
+       "page": 24,
+       "cite": "JET JU Progress Report 1983 (EUR 9472), с. 24"
+      },
+      "rs_R_inner_wall_inboard": {
+       "value": 1.664,
+       "unit": "m",
+       "confidence": "drawing",
+       "source": "EUR 5516e",
+       "page": 298,
+       "cite": "EUR 5516e, с. 298",
+       "ref": "Fig. IV.1-3"
+      },
+      "rs_R_inner_wall_outboard": {
+       "value": 4.389,
+       "unit": "m",
+       "confidence": "drawing",
+       "source": "EUR 5516e",
+       "page": 298,
+       "cite": "EUR 5516e, с. 298",
+       "ref": "Fig. IV.1-3"
+      },
+      "rs_Z_inner_wall_top": {
+       "value": 2.135,
+       "unit": "m",
+       "confidence": "drawing",
+       "source": "EUR 5516e",
+       "page": 298,
+       "cite": "EUR 5516e, с. 298",
+       "ref": "Fig. IV.1-3"
+      },
+      "wall_thickness_Ri_Ra": {
+       "value": 0.12,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 310,
+       "cite": "EUR 5516e, с. 310",
+       "ref": "Table IV.1-2"
+      },
+      "wall_thickness_max": {
+       "value": 0.18,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 310,
+       "cite": "EUR 5516e, с. 310",
+       "ref": "Table IV.1-2"
+      },
+      "total_weight": {
+       "value": 108000.0,
+       "unit": "kg",
+       "confidence": "table",
+       "source": "JET JU Progress Report 1983 (EUR 9472)",
+       "page": 13,
+       "cite": "JET JU Progress Report 1983 (EUR 9472), с. 13"
+      },
+      "volume": {
+       "value": 190.0,
+       "unit": "m^3",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 310,
+       "cite": "EUR 5516e, с. 310",
+       "ref": "Table IV.1-2"
+      },
+      "material_rigid_sectors": {
+       "value": "Nicrofer 7216 LC (vacuum melted, equivalent to Inconel 600)",
+       "unit": "-",
+       "confidence": "text",
+       "source": "JET JU Progress Report 1983 (EUR 9472)",
+       "page": 24,
+       "cite": "JET JU Progress Report 1983 (EUR 9472), с. 24"
+      }
+     },
+     "confidence_counts": {
+      "assumed": 6,
+      "text": 9,
+      "digitized": 2,
+      "drawing": 5,
+      "table": 2
+     },
+     "triangles": 90656
+    },
+    "Bellows": {
+     "label_uk": "Сильфони камери",
+     "colour": "#d1cec8",
+     "components": [
+      "bellows"
+     ],
+     "key_dims": {
+      "bellows_per_section": {
+       "value": 2,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 295,
+       "cite": "EUR 5516e, с. 295"
+      },
+      "bellows_wall_thickness": {
+       "value": 0.002,
+       "unit": "m",
+       "confidence": "text",
+       "source": "JET JU Progress Report 1983 (EUR 9472)",
+       "page": 24,
+       "cite": "JET JU Progress Report 1983 (EUR 9472), с. 24"
+      },
+      "material_bellows": {
+       "value": "Inconel 625 / Nicrofer 6020",
+       "unit": "-",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 310,
+       "cite": "EUR 5516e, с. 310",
+       "ref": "Table IV.1-2"
+      }
+     },
+     "confidence_counts": {
+      "text": 10,
+      "digitized": 3,
+      "assumed": 6,
+      "drawing": 2,
+      "table": 1
+     },
+     "triangles": 12288
+    },
+    "Ports": {
+     "label_uk": "Порти камери",
+     "colour": "#c4c4c5",
+     "components": [
+      "ports",
+      "limiter_port"
+     ],
+     "key_dims": {
+      "horizontal_port_width": {
+       "value": 0.46,
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 301,
+       "cite": "EUR 5516e, с. 301"
+      },
+      "horizontal_port_height": {
+       "value": 0.96,
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 301,
+       "cite": "EUR 5516e, с. 301"
+      },
+      "horizontal_port_count": {
+       "value": 8,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 315,
+       "cite": "EUR 5516e, с. 315"
+      },
+      "vertical_port_large": {
+       "value": [
+        0.14,
+        0.83
+       ],
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 77,
+       "cite": "EUR 5516e, с. 77"
+      },
+      "vertical_port_small": {
+       "value": [
+        0.07,
+        0.28
+       ],
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 77,
+       "cite": "EUR 5516e, с. 77"
+      }
+     },
+     "confidence_counts": {
+      "text": 12,
+      "assumed": 23,
+      "digitized": 4,
+      "table": 1,
+      "drawing": 2
+     },
+     "triangles": 20480
+    },
+    "PF": {
+     "label_uk": "Котушки полоїдального поля (PF)",
+     "colour": "#e7b38e",
+     "components": [
+      "pf_coils"
+     ],
+     "key_dims": {
+      "n_pf_coils_total": {
+       "value": 14,
+       "unit": "count",
+       "confidence": "table",
+       "source": "JET JU Brochure 1982 (EUR 8306)",
+       "page": 15,
+       "cite": "JET JU Brochure 1982 (EUR 8306), с. 15"
+      }
+     },
+     "confidence_counts": {
+      "digitized": 2,
+      "drawing": 12,
+      "table": 13,
+      "assumed": 1
+     },
+     "triangles": 6528
+    },
+    "IronCore": {
+     "label_uk": "Залізний магнітопровід",
+     "colour": "#7c8582",
+     "components": [
+      "iron_core"
+     ],
+     "key_dims": {
+      "n_limbs": {
+       "value": 8,
+       "unit": "count",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 415,
+       "cite": "EUR 5516e, с. 415"
+      },
+      "mass_total": {
+       "value": 2800000.0,
+       "unit": "kg",
+       "confidence": "table",
+       "source": "JET JU Progress Report 1983 (EUR 9472)",
+       "page": 13,
+       "cite": "JET JU Progress Report 1983 (EUR 9472), с. 13"
+      },
+      "limb_R_outer": {
+       "value": 7.38,
+       "unit": "m",
+       "confidence": "digitized",
+       "source": "EUR 5516e",
+       "page": 80,
+       "cite": "EUR 5516e, с. 80",
+       "ref": "Fig. I.3-2"
+      },
+      "upper_arm_Z_top": {
+       "value": 5.79,
+       "unit": "m",
+       "confidence": "digitized",
+       "source": "EUR 5516e",
+       "page": 80,
+       "cite": "EUR 5516e, с. 80",
+       "ref": "Fig. I.3-2"
+      },
+      "lower_arm_Z_bottom": {
+       "value": -5.63,
+       "unit": "m",
+       "confidence": "digitized",
+       "source": "EUR 5516e",
+       "page": 80,
+       "cite": "EUR 5516e, с. 80",
+       "ref": "Fig. I.3-2"
+      },
+      "B_iron_max": {
+       "value": 1.9,
+       "unit": "T",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 411,
+       "cite": "EUR 5516e, с. 411"
+      },
+      "overall_diameter": {
+       "value": 14.8,
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 4,
+       "cite": "EUR 5516e, с. 4"
+      },
+      "overall_height": {
+       "value": 11.5,
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 4,
+       "cite": "EUR 5516e, с. 4"
+      }
+     },
+     "confidence_counts": {
+      "table": 3,
+      "digitized": 11,
+      "text": 3,
+      "assumed": 2
+     },
+     "triangles": 2944
+    },
+    "Structure": {
+     "label_uk": "Механічна структура",
+     "colour": "#797c7c",
+     "components": [
+      "structure"
+     ],
+     "key_dims": {
+      "ring_outer_diameter": {
+       "value": 7.32,
+       "unit": "m",
+       "confidence": "drawing",
+       "source": "EUR 5516e",
+       "page": 378,
+       "cite": "EUR 5516e, с. 378",
+       "ref": "Fig. IV.3-14"
+      },
+      "ring_height": {
+       "value": 0.9,
+       "unit": "m",
+       "confidence": "drawing",
+       "source": "EUR 5516e",
+       "page": 378,
+       "cite": "EUR 5516e, с. 378",
+       "ref": "Fig. IV.3-14"
+      },
+      "inner_cylinder_R": {
+       "value": 1.11,
+       "unit": "m",
+       "confidence": "digitized",
+       "source": "EUR 5516e",
+       "page": 378,
+       "cite": "EUR 5516e, с. 378",
+       "ref": "Fig. IV.3-14"
+      },
+      "inner_cylinder_thickness": {
+       "value": 0.04,
+       "unit": "m",
+       "confidence": "text",
+       "source": "EUR 5516e",
+       "page": 374,
+       "cite": "EUR 5516e, с. 374"
+      },
+      "shell_description": {
+       "value": "external shell of 8 identical sectors + upper/lower rings and collars in austenitic nodular (ductile) cast iron; inner cylinder stainless steel 304 with 32 flutes; octant joints by insulated shear keys",
+       "unit": "-",
+       "confidence": "table",
+       "source": "JET JU Brochure 1982 (EUR 8306)",
+       "page": 17,
+       "cite": "JET JU Brochure 1982 (EUR 8306), с. 17"
+      }
+     },
+     "confidence_counts": {
+      "digitized": 9,
+      "assumed": 12,
+      "drawing": 6,
+      "text": 10,
+      "table": 2
+     },
+     "triangles": 33088
+    },
+    "Limiters": {
+     "label_uk": "Лімітери",
+     "colour": "#c5c7c8",
+     "components": [
+      "limiter_C1",
+      "limiter_C2",
+      "limiter_C3",
+      "limiter_C4",
+      "limiter_Ni1",
+      "limiter_Ni2",
+      "limiter_Ni3",
+      "limiter_Ni4",
+      "limiter_Ni5",
+      "limiter_Ni6",
+      "limiter_Ni7",
+      "limiter_Ni8"
+     ],
+     "key_dims": {},
+     "confidence_counts": {
+      "assumed": 12
+     },
+     "triangles": 816
+    },
+    "NBI": {
+     "label_uk": "Інжекція нейтральних пучків (NBI)",
+     "colour": "#c4c4c5",
+     "components": [
+      "nbi_adaptor_oct4",
+      "nbi_adaptor_oct8"
+     ],
+     "key_dims": {},
+     "confidence_counts": {
+      "text": 10,
+      "assumed": 10
+     },
+     "triangles": 24
+    },
+    "Plasma": {
+     "label_uk": "Плазма",
+     "colour": "#ffbc95",
+     "components": [
+      "plasma"
+     ],
+     "key_dims": {
+      "R0": {
+       "value": 2.96,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "a": {
+       "value": 1.25,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "b": {
+       "value": 2.1,
+       "unit": "m",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "elongation_b_over_a": {
+       "value": 1.68,
+       "unit": "-",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "Ip_D_basic": {
+       "value": 3800000.0,
+       "unit": "A",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "Btor_R0_basic": {
+       "value": 2.77,
+       "unit": "T",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      },
+      "TF_ripple": {
+       "value": 0.036,
+       "unit": "-",
+       "confidence": "table",
+       "source": "EUR 5516e",
+       "page": 83,
+       "cite": "EUR 5516e, с. 83",
+       "ref": "Table I.3-1"
+      }
+     },
+     "confidence_counts": {
+      "assumed": 1,
+      "table": 8,
+      "drawing": 3
+     },
+     "triangles": 16896
+    },
+    "FieldLines": {
+     "label_uk": "Силові лінії поля",
+     "colour": "#ffeda0",
+     "components": [
+      "fieldlines (physics bake)"
+     ],
+     "key_dims": {
+      "n_lines": {
+       "value": 7,
+       "unit": "count"
+      },
+      "q_values": {
+       "value": [
+        3.0,
+        3.5,
+        4.0,
+        5.0,
+        3.618,
+        4.618,
+        2.962
+       ],
+       "unit": "-"
+      }
+     },
+     "confidence_counts": {},
+     "triangles": 0
+    },
+    "Human": {
+     "label_uk": "Людина (масштаб)",
+     "colour": "#c4bfb8",
+     "components": [
+      "human"
+     ],
+     "key_dims": {},
+     "confidence_counts": {
+      "assumed": 3,
+      "digitized": 1
+     },
+     "triangles": 636
+    },
+    "Extras1983": {
+     "label_uk": "Нове у 1983 (зовнішні вузли)",
+     "colour": "#c4c4c5",
+     "components": [
+      "vessel_restraint_rings",
+      "pump_chamber_oct1",
+      "pump_chamber_oct5",
+      "rotary_valve_oct4",
+      "rotary_valve_oct8",
+      "gas_introduction_oct2",
+      "gas_introduction_oct6"
+     ],
+     "key_dims": {},
+     "confidence_counts": {
+      "assumed": 52,
+      "text": 38,
+      "drawing": 1,
+      "digitized": 4
+     },
+     "triangles": 26712
+    }
+   },
+   "facts": {
+    "tf_coils.n_coils": {
+     "value": 32,
+     "unit": "count",
+     "confidence": "text",
+     "source": "EUR 5516e",
+     "page": 77,
+     "cite": "EUR 5516e, с. 77"
+    },
+    "vessel.n_rigid_sectors": {
+     "value": 40,
+     "unit": "count",
+     "confidence": "text",
+     "source": "JET JU Progress Report 1983 (EUR 9472)",
+     "page": 24,
+     "cite": "JET JU Progress Report 1983 (EUR 9472), с. 24"
+    },
+    "vessel.n_octants": {
+     "value": 8,
+     "unit": "count",
+     "confidence": "text",
+     "source": "JET JU Progress Report 1983 (EUR 9472)",
+     "page": 24,
+     "cite": "JET JU Progress Report 1983 (EUR 9472), с. 24"
+    },
+    "pf_coils.n_pf_coils_total": {
+     "value": 14,
+     "unit": "count",
+     "confidence": "table",
+     "source": "JET JU Brochure 1982 (EUR 8306)",
+     "page": 15,
+     "cite": "JET JU Brochure 1982 (EUR 8306), с. 15"
+    },
+    "pf_coils.coil1_count": {
+     "value": 8,
+     "unit": "count",
+     "confidence": "table",
+     "source": "JET JU Brochure 1982 (EUR 8306)",
+     "page": 15,
+     "cite": "JET JU Brochure 1982 (EUR 8306), с. 15"
+    },
+    "iron_core.n_limbs": {
+     "value": 8,
+     "unit": "count",
+     "confidence": "text",
+     "source": "EUR 5516e",
+     "page": 415,
+     "cite": "EUR 5516e, с. 415"
+    },
+    "vessel.total_weight": {
+     "value": 108000.0,
+     "unit": "kg",
+     "confidence": "table",
+     "source": "JET JU Progress Report 1983 (EUR 9472)",
+     "page": 13,
+     "cite": "JET JU Progress Report 1983 (EUR 9472), с. 13"
+    },
+    "iron_core.mass_total": {
+     "value": 2800000.0,
+     "unit": "kg",
+     "confidence": "table",
+     "source": "JET JU Progress Report 1983 (EUR 9472)",
+     "page": 13,
+     "cite": "JET JU Progress Report 1983 (EUR 9472), с. 13"
+    },
+    "overall.machine_weight": {
+     "value": 3000000.0,
+     "unit": "kg",
+     "confidence": "text",
+     "source": "EUR 5516e",
+     "page": 414,
+     "cite": "EUR 5516e, с. 414"
+    }
+   }
+  }
+ },
+ "global": {
+  "R0": {
+   "value": 2.96,
+   "unit": "m",
+   "confidence": "table",
+   "source": "EUR 5516e",
+   "page": 83,
+   "cite": "EUR 5516e, с. 83",
+   "ref": "Table I.3-1"
+  },
+  "a": {
+   "value": 1.25,
+   "unit": "m",
+   "confidence": "table",
+   "source": "EUR 5516e",
+   "page": 83,
+   "cite": "EUR 5516e, с. 83",
+   "ref": "Table I.3-1"
+  },
+  "b": {
+   "value": 2.1,
+   "unit": "m",
+   "confidence": "table",
+   "source": "EUR 5516e",
+   "page": 83,
+   "cite": "EUR 5516e, с. 83",
+   "ref": "Table I.3-1"
+  },
+  "kappa": {
+   "value": 1.68,
+   "unit": "-",
+   "confidence": "table",
+   "source": "EUR 5516e",
+   "page": 83,
+   "cite": "EUR 5516e, с. 83",
+   "ref": "Table I.3-1"
+  },
+  "B0": {
+   "value": 2.77,
+   "unit": "T",
+   "confidence": "table",
+   "source": "EUR 5516e",
+   "page": 83,
+   "cite": "EUR 5516e, с. 83",
+   "ref": "Table I.3-1"
+  },
+  "B0_extended": {
+   "value": 3.45,
+   "unit": "T",
+   "confidence": "table",
+   "source": "EUR 5516e",
+   "page": 83,
+   "cite": "EUR 5516e, с. 83",
+   "ref": "Table I.3-1"
+  },
+  "I_p": {
+   "value": 3800000.0,
+   "unit": "A",
+   "confidence": "table",
+   "source": "EUR 5516e",
+   "page": 83,
+   "cite": "EUR 5516e, с. 83",
+   "ref": "Table I.3-1"
+  },
+  "I_p_extended": {
+   "value": 4800000.0,
+   "unit": "A",
+   "confidence": "table",
+   "source": "EUR 5516e",
+   "page": 83,
+   "cite": "EUR 5516e, с. 83",
+   "ref": "Table I.3-1"
+  },
+  "q95": {
+   "value": 5.51,
+   "unit": "-",
+   "source": "модель Solov'ev (Cerfon-Freidberg), I_p = 3,8 МА",
+   "note": "проєктне q(a) = 6 (EUR 5516e, с. 83); модельне q95 = 5,51"
+  },
+  "ripple": {
+   "model_pct": 3.67,
+   "source_pct": 3.6,
+   "R_m": 4.21,
+   "text_uk": "Гофрування TF на R = 4,21 м: 3,67 % (модель: 32 котушки, 1 нитка на котушку) проти 3,6 % (EUR 5516e, с. 83)",
+   "convention": "2(Bmax-Bmin)/(Bmax+Bmin) -- Fig. IV.2-4 caption p.330; Table I.3-1 '3.6 %' and Table IV.2-4 use it"
+  },
+  "overall_diameter": {
+   "value": 14.8,
+   "unit": "m",
+   "confidence": "text",
+   "source": "EUR 5516e",
+   "page": 4,
+   "cite": "EUR 5516e, с. 4"
+  },
+  "overall_height": {
+   "value": 11.5,
+   "unit": "m",
+   "confidence": "text",
+   "source": "EUR 5516e",
+   "page": 4,
+   "cite": "EUR 5516e, с. 4"
+  },
+  "masses": {
+   "jet1975": {
+    "machine": {
+     "value": 3000000.0,
+     "unit": "kg",
+     "confidence": "text",
+     "source": "EUR 5516e",
+     "page": 414,
+     "cite": "EUR 5516e, с. 414"
+    },
+    "iron_core": {
+     "value": 2263000.0,
+     "unit": "kg",
+     "confidence": "table",
+     "source": "EUR 5516e",
+     "page": 415,
+     "cite": "EUR 5516e, с. 415"
+    },
+    "vessel": {
+     "value": 68000.0,
+     "unit": "kg",
+     "confidence": "table",
+     "source": "EUR 5516e",
+     "page": 310,
+     "cite": "EUR 5516e, с. 310",
+     "ref": "Table IV.1-2"
+    },
+    "tf_coil_each": {
+     "value": 12000.0,
+     "unit": "kg",
+     "confidence": "table",
+     "source": "EUR 5516e",
+     "page": 327,
+     "cite": "EUR 5516e, с. 327",
+     "ref": "Table IV.2-2"
+    }
+   },
+   "jet1983": {
+    "machine": {
+     "value": 3000000.0,
+     "unit": "kg",
+     "confidence": "text",
+     "source": "EUR 5516e",
+     "page": 414,
+     "cite": "EUR 5516e, с. 414"
+    },
+    "iron_core": {
+     "value": 2800000.0,
+     "unit": "kg",
+     "confidence": "table",
+     "source": "JET JU Progress Report 1983 (EUR 9472)",
+     "page": 13,
+     "cite": "JET JU Progress Report 1983 (EUR 9472), с. 13"
+    },
+    "vessel": {
+     "value": 108000.0,
+     "unit": "kg",
+     "confidence": "table",
+     "source": "JET JU Progress Report 1983 (EUR 9472)",
+     "page": 13,
+     "cite": "JET JU Progress Report 1983 (EUR 9472), с. 13"
+    },
+    "tf_coil_each": {
+     "value": 12000.0,
+     "unit": "kg",
+     "confidence": "table",
+     "source": "EUR 5516e",
+     "page": 327,
+     "cite": "EUR 5516e, с. 327",
+     "ref": "Table IV.2-2"
+    }
+   }
+  }
+ },
+ "changes_1983": [
+  "Вакуумна камера: 40 жорстких деталей замість 32 (октант = 5 жорстких секторів + 4 сильфони; торцеві сектори октанта — окремі половинки); 32-кратна симетрія збережена (JET JU Progress Report 1983, с. 24).",
+  "Камера важча: 108 т замість 68 т; тороїдальний опір 0,6 мОм замість 0,52 мОм; матеріал Nicrofer 7216 LC (≈ Inconel 600).",
+  "Сильфони: лист 2 мм (було 1,7 мм), гофри 120 мм, паралельні фланці; з'явилися два кільця жорсткості на Z = ±1 м.",
+  "Лімітери: замість трьох рейкових Mo-лімітерів — 12 дискретних модулів 0,40 × 0,80 м на зовнішньому екваторі (4 графітові + 8 CuCr з Ni-плакуванням); у 1983 працювали лише графітові.",
+  "Нові зовнішні вузли: насосні камери на октантах 1 і 5, адаптери NBI на октантах 4 і 8, модулі напуску газу на октантах 2 і 6, лімітерні порти; поворотний клапан встановлено лише в січні 1984.",
+  "Нагріву в 1983 не було: розділ NBI (6 інжекторів на порт, концепція 1975) прибрано; перший бокс NBI — вересень 1984, ICRH — з 1985.",
+  "PF: котушка 1 — 8 блоків замість 10 (усього 14 PF-котушок замість 16), струм 40 кА.",
+  "Залізний магнітопровід: 2800 т (проєкт 1975: 2263 т), зовнішній контур без змін (габарит 11,5 × 14,8 м).",
+  "Механічна оболонка: аустенітний високоміцний чавун замість литого Al-сплаву, внутрішній циліндр — SS 304 з 32 пазами (≈ 470 т).",
+  "Котушки TF — без змін: 32 котушки, 24 витки, 5,68 × 3,86 м."
+ ],
+ "changes_1983_source": "machines/jet1983/README.md"
+}

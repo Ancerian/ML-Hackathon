@@ -1,0 +1,498 @@
+{
+ "rank_S": [
+  "UNet_Lite",
+  "Conv Decoder",
+  "MLP (sklearn)",
+  "Simple MLP",
+  "PCA+Ridge (SCORE.md)",
+  "Ridge (CV)",
+  "Linear Regression",
+  "Random Forest"
+ ],
+ "models": {
+  "Linear Regression": {
+   "S": 0.192444,
+   "r2_psi": 0.086641,
+   "r2_qb": 0.0,
+   "lcfs": 0.909668,
+   "consistency": 0.269121,
+   "GS_score": 0.954187446202081,
+   "Cal": 0.3599464930302283,
+   "Cov": 0.6182031000688221,
+   "Sharp": 0.5822463410328368,
+   "emp_M_test": [
+    0.10190664036817883,
+    0.5042735042735043,
+    0.7310979618671927,
+    0.7850098619329389
+   ],
+   "S_prime_cal_main": 0.23763058741532098,
+   "S_prime_full": 0.34511411623333493,
+   "C4_S": 0.192444,
+   "C4_r2_psi": 0.086641,
+   "C4_GS_score": 0.954187446202081
+  },
+  "Ridge (CV)": {
+   "S": 0.192639,
+   "r2_psi": 0.086981,
+   "r2_qb": 0.0,
+   "lcfs": 0.909668,
+   "consistency": 0.269161,
+   "GS_score": 0.9542463667281423,
+   "Cal": 0.3603494687176402,
+   "Cov": 0.6185231803484166,
+   "Sharp": 0.5825965463649299,
+   "emp_M_test": [
+    0.1012491781722551,
+    0.5069033530571992,
+    0.7310979618671927,
+    0.7843523997370151
+   ],
+   "S_prime_cal_main": 0.23784505514325177,
+   "S_prime_full": 0.3453052518809854,
+   "C4_S": 0.192639,
+   "C4_r2_psi": 0.086981,
+   "C4_GS_score": 0.9542463667281423
+  },
+  "Random Forest": {
+   "S": 0.173532,
+   "r2_psi": 0.114512,
+   "r2_qb": 0.0,
+   "lcfs": 0.894558,
+   "consistency": 0.105476,
+   "GS_score": 0.9823720643054753,
+   "Cal": 0.4964442667077133,
+   "Cov": 0.7317489359493408,
+   "Sharp": 0.6784352423603419,
+   "emp_M_test": [
+    0.16568047337278108,
+    0.6120973044049968,
+    0.8284023668639053,
+    0.8645627876397107
+   ],
+   "S_prime_cal_main": 0.23614873725973096,
+   "S_prime_full": 0.34808223631659263,
+   "C4_S": 0.173532,
+   "C4_r2_psi": 0.114512,
+   "C4_GS_score": 0.9823720643054753
+  },
+  "MLP (sklearn)": {
+   "S": 0.643401,
+   "r2_psi": 0.963542,
+   "r2_qb": 0.0,
+   "lcfs": 0.887189,
+   "consistency": 0.123667,
+   "GS_score": 0.20022478201524985,
+   "Cal": 0.4906775048932163,
+   "Cov": 0.6126783510386749,
+   "Sharp": 0.8008729279586422,
+   "emp_M_test": [
+    0.0973044049967127,
+    0.41946088099934253,
+    0.7731755424063116,
+    0.8290598290598291
+   ],
+   "S_prime_cal_main": 0.637357059399202,
+   "S_prime_full": 0.5717872177916091,
+   "C4_S": 0.643401,
+   "C4_r2_psi": 0.963542,
+   "C4_GS_score": 0.20022478201524985
+  },
+  "Simple MLP": {
+   "S": 0.630782,
+   "r2_psi": 0.9586623333333334,
+   "r2_qb": 0.0,
+   "lcfs": 0.8717196666666666,
+   "consistency": 0.08172666666666666,
+   "GS_score": 0.0,
+   "Cal": 0.5030870806064313,
+   "Cov": 0.7633128084657549,
+   "Sharp": 0.6596577702238233,
+   "emp_M_test": [
+    0.1643655489809336,
+    0.6754328292789831,
+    0.846592154284462,
+    0.9005040543502082
+   ],
+   "S_prime_cal_main": 0.6272995388948741,
+   "S_prime_full": 0.5332046080606432,
+   "C4_S": 0.630782,
+   "C4_r2_psi": 0.9586623333333334,
+   "C4_GS_score": 0.0
+  },
+  "Conv Decoder": {
+   "S": 0.6508946666666667,
+   "r2_psi": 0.9663849999999999,
+   "r2_qb": 0.0,
+   "lcfs": 0.8982053333333333,
+   "consistency": 0.14781133333333332,
+   "GS_score": 0.0,
+   "Cal": 0.6006902449070667,
+   "Cov": 0.7948805257903323,
+   "Sharp": 0.7550771895502058,
+   "emp_M_test": [
+    0.24698663160201625,
+    0.6528599605522682,
+    0.7964058733289502,
+    0.9353495507341661
+   ],
+   "S_prime_cal_main": 0.6571944209694587,
+   "S_prime_full": 0.55861525782404,
+   "C4_S": 0.652381,
+   "C4_r2_psi": 0.9667836666666667,
+   "C4_GS_score": 0.0
+  },
+  "UNet_Lite": {
+   "S": 0.6633553333333334,
+   "r2_psi": 0.9758033333333334,
+   "r2_qb": 0.0,
+   "lcfs": 0.908489,
+   "consistency": 0.17907366666666666,
+   "GS_score": 0.0,
+   "Cal": 0.6171553589540705,
+   "Cov": 0.7883920916140889,
+   "Sharp": 0.7828874159254098,
+   "emp_M_test": [
+    0.1648038571115494,
+    0.7186061801446417,
+    0.8772737234275696,
+    0.9298706991014684
+   ],
+   "S_prime_cal_main": 0.6702903755632239,
+   "S_prime_full": 0.5697468192287404,
+   "C4_S": 0.6633553333333334,
+   "C4_r2_psi": 0.9758033333333334,
+   "C4_GS_score": 0.0
+  },
+  "PCA+Ridge (SCORE.md)": {
+   "S": 0.194347,
+   "r2_psi": 0.089819,
+   "r2_qb": 0.0,
+   "lcfs": 0.909844,
+   "consistency": 0.269809,
+   "GS_score": 0.9547157815801097,
+   "Cal": 0.3608151174155738,
+   "Cov": 0.6161444455978868,
+   "Sharp": 0.5856015095055355,
+   "emp_M_test": [
+    0.10256410256410256,
+    0.4983563445101907,
+    0.7297830374753451,
+    0.7843523997370151
+   ],
+   "S_prime_cal_main": 0.23937042557830282,
+   "S_prime_full": 0.34667222897857386,
+   "C4_S": 0.194347,
+   "C4_r2_psi": 0.089819,
+   "C4_GS_score": 0.9547157815801097
+  }
+ },
+ "scan": {
+  "0.0000": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "MLP (sklearn)",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 1.0,
+   "swaps_majority": [],
+   "robust_swaps": []
+  },
+  "0.0500": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "MLP (sklearn)",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 1.0,
+   "swaps_majority": [],
+   "robust_swaps": []
+  },
+  "0.1000": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "MLP (sklearn)",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 1.0,
+   "swaps_majority": [],
+   "robust_swaps": []
+  },
+  "0.1176": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "MLP (sklearn)",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 1.0,
+   "swaps_majority": [],
+   "robust_swaps": []
+  },
+  "0.1500": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "MLP (sklearn)",
+    "Simple MLP",
+    "Random Forest",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression"
+   ],
+   "tau": 0.7857142857142857,
+   "swaps_majority": [],
+   "robust_swaps": []
+  },
+  "0.2000": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "MLP (sklearn)",
+    "Simple MLP",
+    "Random Forest",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression"
+   ],
+   "tau": 0.7857142857142857,
+   "swaps_majority": [],
+   "robust_swaps": []
+  },
+  "0.2500": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "MLP (sklearn)",
+    "Simple MLP",
+    "Random Forest",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression"
+   ],
+   "tau": 0.7857142857142857,
+   "swaps_majority": [],
+   "robust_swaps": []
+  },
+  "0.3000": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "MLP (sklearn)",
+    "Simple MLP",
+    "Random Forest",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression"
+   ],
+   "tau": 0.7857142857142857,
+   "swaps_majority": [],
+   "robust_swaps": []
+  }
+ },
+ "scan_cov_only": {
+  "0.0000": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "MLP (sklearn)",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 1.0,
+   "swaps_majority": [],
+   "robust_swaps": []
+  },
+  "0.0500": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "MLP (sklearn)",
+    "Simple MLP",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 1.0,
+   "swaps_majority": [],
+   "robust_swaps": []
+  },
+  "0.1000": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "Simple MLP",
+    "MLP (sklearn)",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 0.9285714285714286,
+   "swaps_majority": [],
+   "robust_swaps": []
+  },
+  "0.1176": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "Simple MLP",
+    "MLP (sklearn)",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression",
+    "Random Forest"
+   ],
+   "tau": 0.9285714285714286,
+   "swaps_majority": [
+    {
+     "S_above": "MLP (sklearn)",
+     "Sprime_above": "Simple MLP",
+     "frac": 0.532
+    }
+   ],
+   "robust_swaps": []
+  },
+  "0.1500": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "Simple MLP",
+    "MLP (sklearn)",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Random Forest",
+    "Linear Regression"
+   ],
+   "tau": 0.8571428571428571,
+   "swaps_majority": [
+    {
+     "S_above": "MLP (sklearn)",
+     "Sprime_above": "Simple MLP",
+     "frac": 0.604
+    }
+   ],
+   "robust_swaps": []
+  },
+  "0.2000": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "Simple MLP",
+    "MLP (sklearn)",
+    "Random Forest",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression"
+   ],
+   "tau": 0.7142857142857143,
+   "swaps_majority": [
+    {
+     "S_above": "MLP (sklearn)",
+     "Sprime_above": "Simple MLP",
+     "frac": 0.72
+    }
+   ],
+   "robust_swaps": []
+  },
+  "0.2500": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "Simple MLP",
+    "MLP (sklearn)",
+    "Random Forest",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression"
+   ],
+   "tau": 0.7142857142857143,
+   "swaps_majority": [
+    {
+     "S_above": "MLP (sklearn)",
+     "Sprime_above": "Simple MLP",
+     "frac": 0.797
+    }
+   ],
+   "robust_swaps": []
+  },
+  "0.3000": {
+   "rank": [
+    "UNet_Lite",
+    "Conv Decoder",
+    "Simple MLP",
+    "MLP (sklearn)",
+    "Random Forest",
+    "PCA+Ridge (SCORE.md)",
+    "Ridge (CV)",
+    "Linear Regression"
+   ],
+   "tau": 0.7142857142857143,
+   "swaps_majority": [
+    {
+     "S_above": "MLP (sklearn)",
+     "Sprime_above": "Simple MLP",
+     "frac": 0.832
+    }
+   ],
+   "robust_swaps": []
+  }
+ },
+ "full_S_prime": {
+  "rank": [
+   "MLP (sklearn)",
+   "UNet_Lite",
+   "Conv Decoder",
+   "Simple MLP",
+   "Random Forest",
+   "PCA+Ridge (SCORE.md)",
+   "Ridge (CV)",
+   "Linear Regression"
+  ],
+  "tau": 0.6428571428571429,
+  "swaps_majority": [
+   {
+    "S_above": "Conv Decoder",
+    "Sprime_above": "MLP (sklearn)",
+    "frac": 0.544
+   },
+   {
+    "S_above": "UNet_Lite",
+    "Sprime_above": "MLP (sklearn)",
+    "frac": 0.505
+   }
+  ],
+  "robust_swaps": []
+ },
+ "verdict": {
+  "C4_Cal": "REFUTED",
+  "tau_main": 1.0,
+  "n_robust_swaps": 0,
+  "first_wu_with_robust_swap": null
+ },
+ "spearman_Cal_vs_r2psi": 0.9285714285714287,
+ "spearman_Cal_vs_consistency": -0.523809523809524
+}
