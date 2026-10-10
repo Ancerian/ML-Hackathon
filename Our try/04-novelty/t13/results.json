@@ -1,0 +1,68 @@
+{
+  "task": "T13",
+  "title": "Grad-Shafranov Relaxation Post-Processing for UNet_Lite",
+  "verdict": "\u041f\u0406\u0414\u0422\u0412\u0415\u0420\u0414\u0416\u0415\u041d\u041e (CONFIRMED)",
+  "verdict_en": "CONFIRMED",
+  "runtime_sec": 126.15647602081299,
+  "preregistered_hyperparameters": {
+    "tuned_on_split": "TRAIN (shots #000..#035)",
+    "dt": 0.0002,
+    "n_iter": 8,
+    "epsilon": 0.02
+  },
+  "baseline_raw_unet": {
+    "S": 0.647563,
+    "ci_95_S": [
+      0.628936025,
+      0.667114075
+    ],
+    "r2_psi": 0.976962,
+    "consistency": 0.101512,
+    "dlcfs": 0.100683,
+    "median_g": 0.8618350021069817,
+    "median_g_alt_E6": 0.9802370893384771,
+    "mean_N_spurious": 0.2176199868507561,
+    "S_prime_gate": 0.4202061133796151,
+    "ci_95_Sp": [
+      0.3718786015901122,
+      0.4709816559219544
+    ]
+  },
+  "relaxed_unet": {
+    "S": 0.652206,
+    "ci_95_S": [
+      0.63131255,
+      0.67866215
+    ],
+    "r2_psi": 0.977111,
+    "consistency": 0.120448,
+    "dlcfs": 0.092952,
+    "median_g": 0.38378907879358615,
+    "median_g_alt_E6": 0.9328676425683649,
+    "mean_N_spurious": 0.028928336620644313,
+    "S_prime_gate": 0.6194696309002015,
+    "ci_95_Sp": [
+      0.5878990795437112,
+      0.645677600702941
+    ]
+  },
+  "deltas": {
+    "delta_S": 0.004642999999999953,
+    "delta_r2_psi": 0.00014899999999995472,
+    "delta_consistency": 0.018935999999999995,
+    "delta_g": -0.47804592331339557,
+    "relative_delta_g": -0.554683810874108,
+    "delta_mean_N_spurious": -0.18869165023011178,
+    "delta_S_prime_gate": 0.19926351752058635,
+    "ci_95_delta_S_prime": [
+      0.16010434078533373,
+      0.23631029082845428
+    ]
+  },
+  "criteria_checks": {
+    "g_reduced_by_20pct": true,
+    "r2_drop_within_epsilon": true,
+    "consistency_drop_within_epsilon": true,
+    "spurious_axes_not_increased": true
+  }
+}

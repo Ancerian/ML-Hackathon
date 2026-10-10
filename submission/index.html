@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f7f2"><title>Картинка — ще не рівновага</title>
+<style>
+:root{--paper:#f7f7f2;--ink:#132239;--muted:#657184;--line:#d8dde1;--coral:#f06449;--cyan:#2d8f9c;--wash:#e7efed;--gold:#e3b84b;--serif:Georgia,'Times New Roman',serif;--sans:Inter,'Aptos','Segoe UI',sans-serif}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--paper);color:var(--ink);font-family:var(--sans)}body{font-size:clamp(16px,1.65vw,25px)}.deck{height:100dvh;width:100vw;position:relative}.slide{position:absolute;inset:0;display:grid;align-content:center;padding:7vh 9vw 8vh;opacity:0;visibility:hidden;transform:translateY(1.1rem);transition:opacity .48s ease,transform .58s cubic-bezier(.2,.7,.2,1),visibility .58s;overflow:hidden}.slide.active{opacity:1;visibility:visible;transform:none}.slide::before{content:"";position:absolute;left:0;top:0;width:7px;height:100%;background:var(--coral);transform:scaleY(0);transform-origin:top;transition:transform .8s .1s}.slide.active::before{transform:scaleY(1)}.eyebrow{font-size:.66em;text-transform:uppercase;letter-spacing:.17em;font-weight:700;color:var(--cyan);margin:0 0 1.25em}.slide h1,.slide h2{font-family:var(--serif);font-weight:500;letter-spacing:-.035em;line-height:1.02;margin:0;max-width:14ch}.slide h1{font-size:clamp(3.2rem,7.5vw,8rem)}.slide h2{font-size:clamp(2.6rem,5.4vw,5.7rem);margin-bottom:.55em}.lead{font-size:1.24em;line-height:1.35;max-width:26ch;color:#39475a}.small{font-size:.72em;line-height:1.5;color:var(--muted)}.accent{color:var(--coral)}.cyan{color:var(--cyan)}.rule{width:4rem;height:3px;background:var(--coral);margin:1.7em 0}.split{display:grid;grid-template-columns:1.05fr .95fr;gap:6vw;align-items:center}.cover{padding-right:5vw}.cover h1{max-width:10ch}.cover .lead{max-width:23ch;margin-top:1.2em}.cover-art{position:absolute;right:3.6vw;top:15%;width:47vw;height:69%;overflow:hidden;clip-path:polygon(13% 0,100% 0,100% 100%,0 87%,0 17%);background:var(--wash)}.cover-art img{width:100%;height:100%;object-fit:cover;filter:saturate(.74);animation:drift 16s ease-in-out infinite alternate}.cover-art::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--paper) 0%,transparent 36%),linear-gradient(0deg,rgba(19,34,57,.28),transparent 45%)}.covercopy{position:relative;z-index:2}.meta{margin-top:2.6em;font-size:.72em;letter-spacing:.06em;color:var(--muted)}.number{position:absolute;right:8vw;top:8vh;font:italic 1em var(--serif);color:var(--muted)}.cols{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:start}.claim{font:clamp(2rem,4.4vw,4.7rem)/1.08 var(--serif);max-width:12ch}.bodycopy{max-width:34ch;line-height:1.48;color:#39475a}.equation{font:clamp(1.5rem,3vw,3rem) var(--serif);padding:.8em 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:1em 0}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:2.4em;border-top:1px solid var(--line)}.step{padding:1.2em 1.4em 0 0;border-right:1px solid var(--line)}.step:last-child{border:0}.step b{display:block;font:2.6em var(--serif);color:var(--coral);margin-bottom:.25em}.step span{font-size:.78em;line-height:1.35;color:var(--muted)}.metrics{display:flex;gap:5vw;align-items:baseline;margin:2.2em 0}.metric strong{display:block;font:clamp(2.8rem,6vw,6rem)/1 var(--serif);color:var(--coral);font-weight:400}.metric span{font-size:.72em;max-width:12ch;display:block;color:var(--muted);margin-top:.5em}.chart-wrap{background:#fff;padding:1.25em 1.25em .85em;border:1px solid var(--line)}.chart-wrap img{width:100%;height:auto;display:block}.rank{margin-top:1.25em;display:grid;grid-template-columns:1fr auto;gap:.5em 1.4em;align-items:center;font-size:.8em}.rank .old{color:var(--muted)}.rank .new{font-weight:700}.pill{font-size:.67em;letter-spacing:.04em;border:1px solid var(--line);padding:.42em .68em;color:var(--muted);white-space:nowrap}.barrow{display:grid;grid-template-columns:7.5em 1fr 4.2em;gap:.8em;align-items:center;margin:1.05em 0;font-size:.77em}.bar{height:1em;background:#e7e9e7;position:relative}.bar i{display:block;height:100%;background:var(--cyan);width:var(--w);transform-origin:left;transform:scaleX(.01);transition:transform 1.1s cubic-bezier(.16,1,.3,1)}.active .bar i{transform:scaleX(1)}.barrow.highlight .bar i{background:var(--coral)}.barrow b{font-variant-numeric:tabular-nums}.decision{border-left:3px solid var(--coral);padding:.1em 0 .1em 1.1em;font:clamp(1.6rem,3.7vw,3.5rem)/1.15 var(--serif);max-width:20ch}.foot{position:absolute;left:9vw;bottom:4vh;font-size:.58em;color:var(--muted);letter-spacing:.06em}.nav{position:fixed;z-index:9;right:4vw;bottom:3vh;display:flex;gap:.6em;align-items:center}.nav button{border:1px solid var(--line);background:rgba(247,247,242,.88);color:var(--ink);width:2.5em;height:2.5em;border-radius:50%;font-size:.85em;cursor:pointer;transition:background .2s,border .2s}.nav button:hover,.nav button:focus-visible{background:var(--wash);border-color:var(--cyan);outline:none}.counter{font-size:.62em;color:var(--muted);min-width:4em;text-align:center;font-variant-numeric:tabular-nums}.progress{position:fixed;z-index:8;left:0;bottom:0;height:3px;background:var(--coral);width:0;transition:width .45s ease}.keyhint{position:fixed;z-index:8;left:4vw;bottom:3.5vh;color:var(--muted);font-size:.57em;letter-spacing:.04em}.source{font-size:.58em;color:var(--muted);margin-top:1.2em}.animated{opacity:0;transform:translateY(12px);transition:opacity .55s .16s,transform .65s .16s}.active .animated{opacity:1;transform:none}.active .delay1{transition-delay:.28s}.active .delay2{transition-delay:.43s}.active .delay3{transition-delay:.58s}.contour{position:absolute;right:8vw;bottom:10vh;width:20vw;opacity:.18;pointer-events:none}.contour path{fill:none;stroke:var(--cyan);stroke-width:1.2;stroke-dasharray:600;stroke-dashoffset:600}.active .contour path{animation:draw 2.6s ease forwards}.final h2{font-size:clamp(3rem,7vw,7rem);max-width:11ch}.final .lead{max-width:24ch}.final .rule{margin:2.4em 0 1.5em}@keyframes draw{to{stroke-dashoffset:0}}@keyframes drift{to{transform:scale(1.06) translate(-1%,1%)}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}@media(max-width:760px){.slide{padding:8vh 8vw 10vh}.split,.cols{grid-template-columns:1fr;gap:3vh}.cover-art{right:0;top:38%;width:80vw;height:51%;opacity:.72}.covercopy{align-self:start}.cover h1{font-size:clamp(3rem,14vw,6rem);max-width:9ch}.cover .lead{font-size:1em;max-width:22ch}.meta{margin-top:1em}.cols .chart-wrap{max-height:34vh;overflow:hidden}.cols .chart-wrap img{object-fit:contain;max-height:30vh}.steps{gap:1em}.step{padding-right:.5em}.step b{font-size:1.9em}.step span{font-size:.65em}.foot{left:8vw;bottom:3vh}.keyhint{display:none}.number{right:8vw;top:4vh}.metrics{gap:6vw;margin:1.2em 0}.metric strong{font-size:2.8rem}.contour{width:42vw;right:4vw}.barrow{grid-template-columns:6.8em 1fr 3.4em;font-size:.68em}}
+</style>
+<style>
+.score-table{display:grid;grid-template-columns:1.05fr repeat(3,1fr);align-items:center;margin:1em 0 1.4em;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:.72em}.score-table>div{padding:.65em .55em;border-bottom:1px solid #e8e9e6}.score-table .th{font-size:.72em;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.score-table .model{font-weight:650}.score{font-variant-numeric:tabular-nums}.score i{display:block;height:4px;margin-top:.35em;background:#e6e9e7;position:relative;overflow:hidden}.score i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--cyan);transform:scaleX(.01);transform-origin:left;transition:transform 1s cubic-bezier(.16,1,.3,1)}.score.highlight i::after{background:var(--coral)}.active .score i::after{transform:scaleX(1)}.statline{display:flex;align-items:baseline;gap:1em;flex-wrap:wrap}.statline strong{font:clamp(2.4rem,5vw,4.8rem) var(--serif);color:var(--coral);font-weight:400}.statline span{font-size:.8em;color:var(--muted);max-width:30ch}@media(max-width:760px){.score-table{font-size:.58em}.score-table>div{padding:.55em .3em}.score-table .th{font-size:.63em}}
+</style>
+<style>
+/* Stable 16:9 slide frame; captions, navigation and type scale with the frame. */
+body{display:grid;place-items:center;background:#e9ece9}
+.deck{width:min(100vw,177.7778dvh);height:min(100dvh,56.25vw);aspect-ratio:16/9;background:var(--paper);container-type:size;overflow:hidden}
+body{font-size:clamp(16px,1.65cqw,25px)}
+.slide{padding:7cqh 9cqw 8cqh}
+.slide h1{font-size:clamp(3.2rem,7.5cqw,8rem)}
+.slide h2{font-size:clamp(2.6rem,5.4cqw,5.7rem)}
+.cover{padding-right:5cqw}.cover-art{right:3.6cqw;width:47cqw;height:69cqh}
+.number{right:8cqw;top:8cqh}.foot{left:9cqw;bottom:4cqh}
+.split{gap:6cqw}.cols{gap:5cqw}.metrics{gap:5cqw}
+.nav{position:absolute;right:4cqw;bottom:2.5cqh}.progress{position:absolute}.keyhint{position:absolute;left:4cqw;bottom:3.5cqh}
+.nav .keyhint{position:static;left:auto;bottom:auto;font-size:.56em;white-space:nowrap;margin-right:.7em}
+.cover-art img,.cover-art video{width:100%;height:100%;object-fit:cover;filter:saturate(.74);animation:drift 16s ease-in-out infinite alternate}
+ .cover-art{background:var(--wash) url("assets/tokamak-plasma.jpg") center/cover no-repeat}
+@media(prefers-reduced-motion:reduce){.cover-art video{display:none}}
+@media(max-aspect-ratio:4/5){.deck{width:100vw;height:100dvh;aspect-ratio:auto}.slide{padding:8vh 8vw 10vh}.number{right:8vw;top:4vh}.foot{left:8vw;bottom:3vh}.nav{right:4vw;bottom:2.5vh}.keyhint{left:4vw;bottom:3.5vh}}
+@media(max-width:760px){.slide{align-content:start;overflow-y:auto;padding-bottom:12vh}.slide h1{font-size:clamp(3rem,14cqw,6rem)}.slide h2{font-size:clamp(2rem,8cqw,3.3rem)}.score-table{font-size:.58em}.score-table>div{padding:.55em .3em}.score-table .th{font-size:.63em}}
+</style>
+<style>
+/* Additional motion is tied to the story: reveal the machine, trace its field, then expose the evidence. */
+.slide{transform:translateX(1.8vw);filter:blur(3px);transition:opacity .52s ease,transform .72s cubic-bezier(.2,.7,.2,1),filter .55s ease,visibility .72s}
+.slide.active{transform:none;filter:none}
+.slide::after{content:"";position:absolute;z-index:0;inset:0;background:linear-gradient(110deg,transparent 34%,rgba(45,143,156,.06) 50%,transparent 66%);transform:translateX(-100%);pointer-events:none}
+.slide.active::after{animation:lightSweep 1.05s .08s ease-out both}
+.cover-art{clip-path:polygon(13% 0,100% 0,100% 100%,0 87%,0 17%);animation:artReveal 1.1s cubic-bezier(.2,.7,.2,1) both}
+.render-scene{position:relative;margin:0;min-height:clamp(230px,42cqh,560px);overflow:hidden;background:#101a25;clip-path:polygon(7% 0,100% 0,100% 90%,0 100%,0 12%);isolation:isolate}
+.render-scene video,.render-scene img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.01);filter:saturate(.72) contrast(1.04);transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.active .render-scene video,.active .render-scene img{transform:scale(1.09);animation:renderFloat 14s ease-in-out 1s infinite alternate}
+.render-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,20,30,.7),transparent 38%),linear-gradient(90deg,rgba(11,20,30,.25),transparent 62%);pointer-events:none}
+.render-caption{position:absolute;z-index:2;left:1.1em;right:1.1em;bottom:1em;color:#fff;font-size:.66em;line-height:1.35;letter-spacing:.02em}
+.render-caption strong{display:block;color:#f4c96b;font-weight:600;margin-bottom:.28em}
+.visual-slide{grid-template-columns:.88fr 1.12fr;gap:5cqw;align-items:center}
+.visual-slide h2{max-width:11ch}
+.visual-slide .bodycopy{max-width:31ch}
+.visual-slide .number{z-index:2}
+.visual-slide .foot{z-index:2}
+.barrow{--row:0;animation:rowIn .55s calc(.08s + var(--row)*.11s) both}
+.score-table>div{--row:0;animation:rowIn .55s calc(.08s + var(--row)*.055s) both}
+.metric strong{animation:numberIn .75s .25s both}
+.showcase{position:relative;max-width:100%;overflow:hidden;background:#e8eeec;padding:.65em}
+.showcase img{display:block;width:100%;max-height:52cqh;object-fit:contain;animation:photoIn .9s .2s both}
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:2em;align-items:center;margin:1em 0}
+.comparison .side{border-top:2px solid var(--line);padding-top:.8em}
+.comparison .side:first-child{animation:numberIn .75s .25s both}
+.comparison .side:last-child{animation:numberIn .75s .48s both}
+.comparison .side strong{display:block;font:clamp(2.4rem,5vw,5rem)/1 var(--serif);font-weight:400;color:var(--coral);font-variant-numeric:tabular-nums}
+.comparison .side small{display:block;color:var(--muted);font-size:.7em;margin-top:.45em}
+.gate-note{margin-top:.6em;font-size:.69em;line-height:1.4;color:var(--muted);max-width:58ch}
+@keyframes lightSweep{to{transform:translateX(100%)}}
+@keyframes artReveal{from{clip-path:polygon(0 0,0 0,0 100%,0 100%);opacity:.4}to{clip-path:polygon(13% 0,100% 0,100% 100%,0 87%,0 17%);opacity:1}}
+@keyframes renderFloat{to{transform:scale(1.13) translate(-.8%,.5%)}}
+@keyframes rowIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+@keyframes numberIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes photoIn{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:scale(1)}}
+@media(max-width:760px){.visual-slide{grid-template-columns:1fr;gap:2.5vh}.render-scene{min-height:32vh;max-height:42vh}.visual-slide h2{max-width:16ch}.comparison{gap:1em}.comparison .side strong{font-size:2.7rem}}
+@media(max-aspect-ratio:4/5){.render-scene{min-height:34vh}}
+@media(prefers-reduced-motion:reduce){.slide,.slide.active,.cover-art,.render-scene video,.render-scene img,.metric strong,.barrow,.score-table>div{animation:none!important;transition:none!important;filter:none!important;transform:none!important}.slide::after{display:none}}
+
+/* Clear media framing and intentional visual balance */
+.slide>figure{margin:0}.side-image{position:absolute;right:8vw;top:27vh;width:31vw;height:42vh;margin:0;overflow:hidden;clip-path:polygon(8% 0,100% 0,100% 90%,0 100%,0 12%);background:#101a25;box-shadow:0 24px 60px rgba(19,34,57,.14)}.side-image img{width:100%;height:100%;object-fit:cover;animation:renderFloat 18s ease-in-out infinite alternate}.side-image figcaption{position:absolute;bottom:0;left:0;right:0;padding:2.5em 1em .8em;color:white;font-size:.58em;background:linear-gradient(transparent,rgba(11,20,30,.72))}.slide[aria-label="Парадокс точності й фізичної узгодженості"]{padding-right:44vw}.method-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:3vw;align-items:center}.method-visual{margin:1.5em 0;overflow:hidden;background:#151c24;clip-path:polygon(5% 0,100% 0,100% 92%,0 100%,0 10%)}.method-visual img{width:100%;height:24vh;object-fit:cover;display:block;animation:photoIn .9s .2s both}.method-visual small{display:block;padding:.55em .8em;color:#fff;background:#151c24;font-size:.57em}.step{transition:transform .35s ease,color .35s}.active .step:nth-child(1){animation:stepRise .65s .15s both}.active .step:nth-child(2){animation:stepRise .65s .35s both}.active .step:nth-child(3){animation:stepRise .65s .55s both}.step:hover{transform:translateY(-5px)}.render-caption{backdrop-filter:blur(2px)}.visual-slide .render-scene{box-shadow:0 24px 60px rgba(19,34,57,.14)}.final::before{width:7px}.final:after{background:radial-gradient(ellipse at 88% 53%,rgba(45,143,156,.09),transparent 34%)}.metric strong{display:inline-block}.active .metric:nth-child(1) strong{animation:numberIn .7s .1s both}.active .metric:nth-child(2) strong{animation:numberIn .7s .3s both}.active .metric:nth-child(3) strong{animation:numberIn .7s .5s both}@keyframes stepRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media(max-width:760px){.slide[aria-label="Парадокс точності й фізичної узгодженості"]{padding-right:8vw}.side-image{position:relative;right:auto;top:auto;width:100%;height:23vh;margin-top:1em}.method-layout{grid-template-columns:1fr;gap:1vh}.method-visual{display:none}}
+</style>
+</head>
+<body>
+<main class="deck" aria-label="Презентація про фізично узгоджене оцінювання реконструкції рівноваги токамака">
+<section class="slide cover active" aria-label="Титульний слайд">
+ <div class="cover-art"><video autoplay muted loop playsinline poster="assets/tokamak-plasma.jpg" aria-label="Анімований 3D-розріз токамака DIII-D"><source src="assets/renders/tokamak-cutaway-clean.mp4" type="video/mp4"></video></div>
+ <div class="covercopy"><p class="eyebrow">ML-хакатон · ФМФ КПІ · 2026</p><h1>Картинка — ще не <span class="accent">рівновага</span></h1><p class="lead">Як перевірити, чи прогноз машинного навчання узгоджується з фізикою плазми</p><div class="rule"></div><p class="meta">Оцінювання реконструкції магнітного потоку токамака</p></div>
+ <div class="number">01 / 12</div><div class="foot">ПРОЄКТНЕ ДОСЛІДЖЕННЯ · DIII-D · Власний 3D-рендер; дані рівноваги: Fusion Equilibrium Challenge, CC BY 4.0</div>
+</section>
+<section class="slide" aria-label="Парадокс точності й фізичної узгодженості">
+ <p class="eyebrow">Парадокс</p><h2>Високий R². Чи це фізика?</h2>
+ <div class="metrics animated"><div class="metric"><strong>0,977</strong><span>R²ψ · UNet_Lite</span></div><div class="metric"><strong>0,8618</strong><span>нев'язка g · та сама модель</span></div></div>
+ <p class="bodycopy animated delay1">Карта майже збігається з еталоном за R², але її нев'язка перевищує контрольний поріг <strong>g<sub>ref</sub> = 0,6341</strong>, отриманий з еталонного поля з 1% шуму.</p>
+ <p class="small animated delay2">Чи може майже ідеальна картинка приховувати фізичну помилку?</p>
+ <figure class="side-image animated delay2"><img src="assets/tokamak-plasma.jpg" alt="Схематична візуалізація плазми й магнітних поверхонь DIII-D"><figcaption>Ілюстративний рендер DIII-D · не кадр тестового набору</figcaption></figure><div class="number">02 / 12</div><div class="foot">ПИТАННЯ РОБОТИ</div>
+</section>
+<section class="slide visual-slide" aria-label="Магнітні поверхні токамака">
+ <div><p class="eyebrow">Об'єкт дослідження</p><h2>Усередині магнітної пастки</h2><p class="bodycopy animated delay1">У токамаку плазму утримує магнітне поле. Його геометрія задає поверхні магнітного потоку ψ, які й відновлює модель.</p><p class="small animated delay2">Пояснювальний 3D-рендер команди. Це візуалізація, а не кадр експериментального вимірювання.</p></div>
+ <figure class="render-scene animated delay1"><video autoplay muted loop playsinline poster="assets/tokamak-plasma.jpg" aria-label="Рендер магнітних поверхонь у токамаку"><source src="assets/renders/magnetic-surfaces-clean.mp4" type="video/mp4"></video><figcaption class="render-caption"><strong>Магнітні поверхні</strong>Візуалізація власного коду команди · CC BY 4.0</figcaption></figure>
+ <div class="number">03 / 12</div><div class="foot">МАГНІТНІ ПОВЕРХНІ · СХЕМАТИЧНИЙ РЕНДЕР</div>
+</section>
+<section class="slide visual-slide" aria-label="Рівняння рівноваги та лінії магнітного поля">
+ <div><p class="eyebrow">Фізична перевірка</p><h2>Метрика бачить карту, фізика — похідні</h2><div class="equation animated delay1">Δ*ψ = −μ₀R²p′(ψ) − F(ψ)F′(ψ)</div><p class="bodycopy animated delay2">Рівняння Ґреда—Шафранова містить другі просторові похідні. Невелика похибка карти може сильніше проявитися в рівнянні; тут ми вимірюємо її через нев'язку g(ψ).</p></div>
+ <figure class="render-scene animated delay1"><video autoplay muted loop playsinline poster="assets/tokamak-plasma.jpg" aria-label="Рендер ліній магнітного поля"><source src="assets/renders/field-lines-clean.mp4" type="video/mp4"></video><figcaption class="render-caption"><strong>Лінії магнітного поля</strong>Пояснювальний рендер · не пряме вимірювання плазми</figcaption></figure>
+ <div class="number">04 / 12</div><div class="foot">ФІЗИКА ЯК ДОДАТКОВИЙ КРИТЕРІЙ ЯКОСТІ</div>
+</section>
+<section class="slide" aria-label="Експеримент на розрядах DIII-D">
+ <p class="eyebrow">Експеримент</p><h2>Перевірка на розрядах DIII-D</h2>
+ <p class="bodycopy animated">Порівняв чотири моделі зі стартового набору за офіційним балом S, а потім оцінив їх із фізичним контролем g.</p>
+ <div class="metrics animated delay1"><div class="metric"><strong>8</strong><span>тестових розрядів</span></div><div class="metric"><strong>1&nbsp;521</strong><span>кадр у тесті</span></div><div class="metric"><strong>1&nbsp;000</strong><span>бутстреп-вибірок за розрядами</span></div></div>
+ <div class="number">05 / 12</div><div class="foot">РОЗРЯДИ #060–#067 · РЕЗУЛЬТАТИ T1</div>
+</section>
+<section class="slide" aria-label="Метод визначення порога й оцінювання моделей">
+ <p class="eyebrow">Метод</p><h2>Поріг — до порівняння моделей</h2>
+ <div class="method-layout"><div class="steps animated"><div class="step"><b>01</b><span>Оцінив контрольну нев'язку на еталонному полі з 1% шуму</span></div><div class="step"><b>02</b><span>Зафіксував поріг g<sub>ref</sub> = 0,6341</span></div><div class="step"><b>03</b><span>Перевірив жорсткий і сигмоїдний шлюзи</span></div></div>
+ <div class="method-visual animated delay2"><img src="assets/renders/diii-d-poincare.jpg" alt="Переріз Пуанкаре з 3D-візуалізації DIII-D"><small>Переріз Пуанкаре · окремий ілюстративний рендер</small></div></div><p class="gate-note animated delay2">Стійкість порівняння оцінював бутстрепом за розрядами. Результати — діагностичний експеримент на публічному тестовому спліті.</p>
+ <div class="number">06 / 12</div><div class="foot">ПЕРЕДРЕЄСТРОВАНИЙ T1 · ПОРОГ З КОНТРОЛЬНОГО ШУМУ</div>
+</section>
+<section class="slide" aria-label="Початковий рейтинг моделей за офіційним балом">
+ <p class="eyebrow">Початковий рейтинг</p><h2>UNet попереду — за схожістю</h2>
+ <div class="split"><div><div class="barrow highlight" style="--row:0"><span>UNet_Lite</span><div class="bar"><i style="--w:100%"></i></div><b>0,6476</b></div><div class="barrow" style="--row:1"><span>MLP</span><div class="bar"><i style="--w:99.4%"></i></div><b>0,6437</b></div><div class="barrow" style="--row:2"><span>PCA+Ridge</span><div class="bar"><i style="--w:29.7%"></i></div><b>0,1926</b></div><div class="barrow" style="--row:3"><span>Linear</span><div class="bar"><i style="--w:29.7%"></i></div><b>0,1924</b></div><p class="source">Офіційний композитний бал S; це не окрема оцінка фізичної рівноваги.</p></div><p class="claim animated delay1">Але що приховано за близькими балами UNet і MLP?</p></div>
+ <div class="number">07 / 12</div><div class="foot">ОФІЦІЙНИЙ БАЛ S · ВИЩЕ ЗНАЧЕННЯ — КРАЩЕ</div>
+</section>
+<section class="slide" aria-label="Порівняння балу й фізичної нев'язки UNet і MLP">
+ <p class="eyebrow">Різниця, якої не видно в рейтингу</p><h2>Майже однаковий S — різне g</h2>
+ <div class="comparison animated"><div class="side"><span class="small">UNet_Lite · S</span><strong>0,6476</strong><small>нев'язка g = 0,8618 · вище порога</small></div><div class="side"><span class="small">MLP · S</span><strong>0,6437</strong><small>нев'язка g = 0,5098 · нижче порога</small></div></div>
+ <p class="bodycopy animated delay1">Різниця балів UNet і MLP: −0,0015. 95% довірчий інтервал [−0,0121; +0,0089] охоплює нуль — за S їх не вдалося надійно розрізнити.</p>
+ <p class="small animated delay2">Контрольний поріг g<sub>ref</sub> = 0,6341.</p>
+ <div class="number">08 / 12</div><div class="foot">ПАРНИЙ БУТСТРЕП · 95% ДІ</div>
+</section>
+<section class="slide" aria-label="Бал моделей після застосування фізичних шлюзів">
+ <p class="eyebrow">Діагностична перевірка</p><h2>Фізичний шлюз змінює рейтинг</h2>
+ <div class="score-table animated"><div class="th">Модель</div><div class="th">Початковий S</div><div class="th">Жорсткий шлюз</div><div class="th">Сигмоїдний шлюз</div>
+ <div class="model" style="--row:0">Лінійна</div><div class="score" style="--row:0">0,1924<i style="--w:29.6%"></i></div><div class="score" style="--row:0">0,1924<i style="--w:29.6%"></i></div><div class="score" style="--row:0">0,1924<i style="--w:29.6%"></i></div>
+ <div class="model" style="--row:1">PCA + Ridge</div><div class="score" style="--row:1">0,1926<i style="--w:29.6%"></i></div><div class="score" style="--row:1">0,1926<i style="--w:29.6%"></i></div><div class="score" style="--row:1">0,1926<i style="--w:29.6%"></i></div>
+ <div class="model" style="--row:2">MLP</div><div class="score" style="--row:2">0,6437<i style="--w:99%"></i></div><div class="score" style="--row:2">0,6437<i style="--w:99%"></i></div><div class="score" style="--row:2">0,5642<i style="--w:86.8%"></i></div>
+ <div class="model" style="--row:3">UNet_Lite</div><div class="score highlight" style="--row:3">0,6476<i style="--w:100%"></i></div><div class="score highlight" style="--row:3">0,0000<i style="--w:0%"></i></div><div class="score highlight" style="--row:3">0,0174<i style="--w:2.7%"></i></div></div>
+ <p class="gate-note animated delay1">Жорсткий шлюз обнуляє бал вище порога; сигмоїдний зменшує його поступово. Це не офіційний бал хакатону.</p>
+ <div class="statline animated delay2"><strong>99,8%</strong><span>бутстреп-вибірок, де PCA+Ridge і Linear випереджали UNet_Lite після шлюзу</span></div>
+ <div class="number">09 / 12</div><div class="foot">ПОРІВНЯННЯ ДІАГНОСТИЧНИХ ВАРІАНТІВ</div>
+</section>
+<section class="slide" aria-label="Рекомендація з оцінювання реконструкцій">
+ <p class="eyebrow">Практичний висновок</p><h2>Показувати дві оцінки поруч</h2>
+ <div class="split"><p class="decision animated">Схожість карти — разом із перевіркою фізичної узгодженості.</p><div class="bodycopy animated delay1"><p>Шлюз допоміг побачити різницю, яку один лише бал S приховував у цьому експерименті.</p><p>Поріг слід визначати на контрольних даних і фіксувати до фінального тесту. Сигмоїда може пом'якшити різкий перехід біля межі.</p></div></div>
+ <div class="number">10 / 12</div><div class="foot">РЕКОМЕНДАЦІЯ ДЛЯ НАСТУПНОГО ЕТАПУ ОЦІНЮВАННЯ</div>
+</section>
+<section class="slide" aria-label="Обмеження і наступні кроки">
+ <p class="eyebrow">Межі результату</p><h2>Що ще треба перевірити</h2>
+ <div class="cols"><div class="bodycopy animated"><p><strong>Це не новий офіційний бал.</strong> Шлюз — діагностичний експеримент; правила хакатону оцінюють за S.</p><p><strong>Публічний тест.</strong> Розряди #060–#067 вже переглядалися, тому є ризик підглядання в тест.</p></div><div class="bodycopy animated delay1"><p><strong>Нев'язка не бачить усього.</strong> Вона може пропустити гладку похибку або усічення PCA.</p><p><strong>Наступний крок:</strong> зафіксувати шлюз і перевірити його на нових розрядах разом із точністю карти, топологією та невизначеністю.</p></div></div>
+ <div class="number">11 / 12</div><div class="foot">ОБМЕЖЕННЯ — ЧАСТИНА РЕЗУЛЬТАТУ</div>
+</section>
+<section class="slide final" aria-label="Підсумок">
+ <p class="eyebrow">Головна думка</p><h2>Картинка — ще не <span class="accent">рівновага</span></h2><div class="rule"></div><p class="lead">Оцінювати потрібно і схожість прогнозу, і його фізичну узгодженість.</p><p class="meta">Дякую. Готовий відповісти на ваші запитання.</p><div class="number">12 / 12</div><div class="foot">ML-ХАКАТОН · ФМФ КПІ · 2026</div>
+</section>
+<div class="progress" id="progress"></div>
+<nav class="nav" aria-label="Керування слайдами"><span class="keyhint">← → · F — повний екран</span><button id="prev" aria-label="Попередній слайд">←</button><span class="counter" id="counter">01 / 12</span><button id="next" aria-label="Наступний слайд">→</button></nav>
+</main>
+<script>
+(()=>{const slides=[...document.querySelectorAll('.slide')],counter=document.querySelector('#counter'),progress=document.querySelector('#progress');let index=0;function show(n){index=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,i)=>{s.classList.toggle('active',i===index);s.setAttribute('aria-hidden',i===index?'false':'true');s.querySelectorAll('video').forEach(v=>{if(i===index)v.play().catch(()=>{});else v.pause()})});counter.textContent=`${String(index+1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;progress.style.width=`${(index+1)/slides.length*100}%`}document.querySelector('#prev').onclick=()=>show(index-1);document.querySelector('#next').onclick=()=>show(index+1);document.addEventListener('keydown',e=>{if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();show(index+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(index-1)}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);if(e.key.toLowerCase()==='f'){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()}});let x=null;document.addEventListener('touchstart',e=>x=e.changedTouches[0].clientX,{passive:true});document.addEventListener('touchend',e=>{if(x===null)return;const dx=e.changedTouches[0].clientX-x;if(Math.abs(dx)>60)show(index+(dx<0?1:-1));x=null},{passive:true});show(0)})();
+</script>
+</body></html>

@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "title": "TokaBench-GS Film Verified Number Registry",
+    "laboratory": "AI-лабораторія ім. В. М. Горшкова, Фізико-математичний факультет КПІ ім. Ігоря Сікорського",
+    "date": "2026-10-10",
+    "branch": "presentation-prep",
+    "rule": "Кожне число на екрані повинно мати data-source і відповідати перевіреному файлу."
+  },
+  "registry": [
+    {
+      "id": "r2_psi_unet",
+      "value": 0.976962,
+      "display": "R²ψ = 0.977",
+      "source": "bench/results/unet_lite.json#official.r2_psi",
+      "context": "S0, S1, S3: Початковий контур і парадокс L2-точності"
+    },
+    {
+      "id": "g_ground_truth_f147",
+      "value": 0.006487,
+      "display": "g(істина) = 0.0065",
+      "source": "motion/data/equilibrium_meta.json#g_ground_truth",
+      "context": "S3: Медіанний кадр #062:147 для Ground Truth"
+    },
+    {
+      "id": "g_unet_lite_f147",
+      "value": 0.861835,
+      "display": "g(UNet_Lite) = 0.8618",
+      "source": "motion/data/equilibrium_meta.json#g_unet_lite",
+      "context": "S3: Медіанний кадр #062:147 для UNet_Lite"
+    },
+    {
+      "id": "g_ref_train_split",
+      "value": 0.6328,
+      "display": "g_ref = 0.6328",
+      "source": "bench/results/pca_ridge.json#extended_s_prime.g_ref",
+      "context": "S3, S4: Опорний поріг нев'язки на тренувальних розрядах 0–35 з 1% шумом"
+    },
+    {
+      "id": "g_clean_efit_e6",
+      "value": 0.009,
+      "display": "g(clean EFIT) ≈ 0.009",
+      "source": "README.md#§5.3(E6)",
+      "context": "S3: Еталонна нев'язка істини без шуму за README організаторів"
+    },
+    {
+      "id": "g_truth_1pct_noise_e6",
+      "value": 0.65,
+      "display": "g(істина + 1% шуму) = 0.650",
+      "source": "README.md#§5.3(E6)",
+      "context": "S3: Стрибок нев'язки у 70 разів при 1% білого шуму"
+    },
+    {
+      "id": "s_unet_lite_c2",
+      "value": 0.6476,
+      "ci_95": [
+        0.6289,
+        0.6671
+      ],
+      "display": "S(UNet_Lite) = 0.6476 [0.6289 .. 0.6671]",
+      "source": "team/LEADERBOARD.md#Table1(UNet_Lite)",
+      "context": "S5: Офіційний бал UNet_Lite на тестовому спліті 60–67"
+    },
+    {
+      "id": "s_mlp_sklearn_c2",
+      "value": 0.6437,
+      "ci_95": [
+        0.6239,
+        0.6622
+      ],
+      "display": "S(MLP) = 0.6437 [0.6239 .. 0.6622]",
+      "source": "team/LEADERBOARD.md#Table1(MLP)",
+      "context": "S5: Офіційний бал MLP (sklearn) на тестовому спліті 60–67"
+    },
+    {
+      "id": "s_pca_ridge_c2",
+      "value": 0.1926,
+      "ci_95": [
+        0.1053,
+        0.5985
+      ],
+      "display": "S(PCA+Ridge) = 0.1926 [0.1053 .. 0.5985]",
+      "source": "team/LEADERBOARD.md#Table1(PCA+Ridge)",
+      "context": "S5: Офіційний бал лінійного бейзлайну на 60–67"
+    },
+    {
+      "id": "delta_s_unet_mlp",
+      "value": -0.0015,
+      "ci_95": [
+        -0.0121,
+        0.0089
+      ],
+      "display": "ΔS(UNet - MLP) = -0.0015 [-0.0121 .. +0.0089]",
+      "source": "team/LEADERBOARD.md#Table2(UNet-MLP)",
+      "context": "S5: 0 в CI — моделі статистично нерозрізненні за офіційною метрикою S"
+    },
+    {
+      "id": "s_prime_mlp_c2",
+      "value": 0.5331,
+      "ci_95": [
+        0.4003,
+        0.636
+      ],
+      "display": "S'-gate(MLP) = 0.5331 [0.4003 .. 0.6360]",
+      "source": "team/LEADERBOARD.md#Table1(MLP.S_prime)",
+      "context": "S4, S5: Ранг 1 за шлюзом GS завдяки низькій нев'язці g=0.503"
+    },
+    {
+      "id": "s_prime_unet_c2",
+      "value": 0.4202,
+      "ci_95": [
+        0.3719,
+        0.471
+      ],
+      "display": "S'-gate(UNet) = 0.4202 [0.3719 .. 0.4710]",
+      "source": "team/LEADERBOARD.md#Table1(UNet.S_prime)",
+      "context": "S4, S5: Ранг 2 за шлюзом GS через штраф G_GS=0.721"
+    },
+    {
+      "id": "delta_s_prime_unet_mlp",
+      "value": -0.1129,
+      "ci_95": [
+        -0.2044,
+        -0.0006
+      ],
+      "display": "ΔS'-gate(UNet - MLP) = -0.1129 [-0.2044 .. -0.0006]",
+      "source": "team/LEADERBOARD.md#Table2(UNet-MLP.S_prime)",
+      "context": "S5: 0 не в CI — зміна рангів за шлюзом GS на користь MLP"
+    },
+    {
+      "id": "chirikov_s_keyframe",
+      "value": 1.0025,
+      "display": "S_Chirikov ≈ 1.0–1.1",
+      "source": "motion/data/poincare_highres_chaos.json#frames[1].chirikov_S",
+      "context": "S7: Початок перекриття резонансних островів при амплітуді A=4.8e-3"
+    },
+    {
+      "id": "ftle_k_scene_203702",
+      "value": 2.02,
+      "display": "k = FTLE(хаос)/FTLE(регул) = 2.02",
+      "source": "team/presentation/QA_JURY.md#1.6",
+      "context": "S7: Відношення ляпуновських показників у сцені #203702 при A=4.8e-3"
+    },
+    {
+      "id": "island_width_analytic",
+      "value": "порядку 3 см",
+      "display": "Ширина острова 2/1 порядку 3 см (аналітична оцінка)",
+      "source": "team/presentation/QA_JURY.md#1.6",
+      "context": "S7: Фізична ширина острова магнітного резонансу 2/1"
+    },
+    {
+      "id": "t13_operator_relaxation_drop",
+      "value_before": 0.862,
+      "value_after": 0.384,
+      "display": "g (оператор релаксації): 0.862 → 0.384 (-55.5%)",
+      "source": "Our try/04-novelty/t13/results.json#relaxation.median_g",
+      "context": "S8: Падіння нев'язки за оператором релаксації T13"
+    },
+    {
+      "id": "t13_independent_5pt_drop",
+      "value_before": 0.98,
+      "value_after": 0.933,
+      "display": "g_alt (незалежна 5-точкова схема): 0.980 → 0.933 (-4.8%)",
+      "source": "Our try/04-novelty/t13/results.json#relaxation.median_g_alt_E6",
+      "context": "S8: Незалежна перевірка: покращення специфічне для оператора релаксації"
+    }
+  ]
+}

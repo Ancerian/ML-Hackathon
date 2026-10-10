@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOKAMLD // Magnetic Equilibrium & Motion Cinema</title>
+  
+  <!-- GSAP 3 CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       01. DESIGN TOKENS & RESET
+       ========================================================================== */
+    :root {
+      --bg: #05070e;
+      --bg-panel: rgba(10, 15, 28, 0.82);
+      --border: rgba(0, 242, 255, 0.22);
+      --border-focus: rgba(0, 242, 255, 0.7);
+      
+      --plasma-cyan: #00f2ff;
+      --plasma-amber: #ffaa00;
+      --plasma-crimson: #ff2a55;
+      --plasma-emerald: #00ffa3;
+      
+      --text-main: #f0f6fc;
+      --text-muted: #8b9bb4;
+      --text-dim: #4c5a6f;
+      
+      --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+      
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-display);
+    }
+
+    /* ==========================================================================
+       02. SUBTLE PROCEDURAL BACKGROUND CANVAS
+       ========================================================================== */
+    #plasmaCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      opacity: 0.22;
+      pointer-events: none;
+    }
+
+    .ambient-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(0, 242, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 242, 255, 0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .ambient-vignette {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 75% 50%, transparent 20%, rgba(5, 7, 14, 0.85) 75%, #05070e 100%);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* Transition lock bar */
+    .lock-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--plasma-cyan);
+      transform: scaleX(0);
+      transform-origin: left;
+      z-index: 100;
+      box-shadow: 0 0 10px var(--plasma-cyan);
+    }
+
+    /* ==========================================================================
+       03. FIXED THREE-TIER VIEWPORT (HEADER, STAGE, FOOTER)
+       ========================================================================== */
+    .viewport {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    /* Top HUD Navigation Bar */
+    header.hud-header {
+      height: 52px;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(5, 7, 14, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 20;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(0, 242, 255, 0.12);
+      border: 1px solid rgba(0, 242, 255, 0.35);
+      color: var(--plasma-cyan);
+      letter-spacing: 0.08em;
+    }
+    .brand-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .telemetry-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .tele-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Bottom HUD Timeline Bar */
+    footer.hud-footer {
+      height: 56px;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(5, 7, 14, 0.90);
+      backdrop-filter: blur(12px);
+      z-index: 20;
+    }
+
+    .timeline-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .timeline-dot {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      opacity: 0.45;
+      transition: all 0.25s ease;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+    .timeline-dot:hover {
+      opacity: 0.85;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .timeline-dot.active {
+      opacity: 1;
+      background: rgba(0, 242, 255, 0.12);
+      border: 1px solid rgba(0, 242, 255, 0.4);
+      color: var(--plasma-cyan);
+    }
+    .dot-pill {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .nav-hints {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .key-cap {
+      display: inline-block;
+      padding: 3px 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      color: #fff;
+      font-weight: 600;
+    }
+    .btn-action {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--plasma-cyan);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-action:hover {
+      background: var(--plasma-cyan);
+      color: #05070e;
+    }
+
+    /* ==========================================================================
+       04. STAGE CONTENT & RESPONSIVE GRID (ZERO OVERFLOW)
+       ========================================================================== */
+    main.hud-stage {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 16px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .scene-block {
+      position: absolute;
+      inset: 16px 36px;
+      display: grid;
+      grid-template-columns: 1fr 1.18fr;
+      gap: 36px;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .scene-block.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* Left Narrative Column */
+    .narrative-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-height: 100%;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--plasma-cyan);
+      margin-bottom: 10px;
+    }
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--plasma-cyan);
+      box-shadow: 0 0 8px var(--plasma-cyan);
+    }
+
+    .scene-title {
+      font-size: clamp(24px, 2.5vw, 36px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .scene-desc {
+      font-size: clamp(13px, 1.05vw, 15px);
+      line-height: 1.55;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .equation-box {
+      font-family: var(--font-mono);
+      font-size: clamp(12px, 0.95vw, 14px);
+      color: #fff;
+      background: rgba(10, 16, 30, 0.9);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      box-shadow: inset 0 0 12px rgba(0, 242, 255, 0.08);
+      display: inline-block;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .stat-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      backdrop-filter: blur(12px);
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .stat-val {
+      font-family: var(--font-mono);
+      font-size: clamp(20px, 2.0vw, 28px);
+      font-weight: 800;
+      color: #fff;
+    }
+    .stat-val.cyan { color: var(--plasma-cyan); }
+    .stat-val.amber { color: var(--plasma-amber); }
+    .stat-val.crimson { color: var(--plasma-crimson); }
+    .stat-val.emerald { color: var(--plasma-emerald); }
+    .stat-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* Right Media / Render Column */
+    .media-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .video-viewport-card {
+      width: 100%;
+      background: #000;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65), 0 0 1px rgba(0, 242, 255, 0.3);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .video-viewport-card:hover {
+      border-color: var(--border-focus);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 20px rgba(0, 242, 255, 0.15);
+    }
+
+    .video-viewport-card video {
+      width: 100%;
+      max-height: 46vh;
+      object-fit: contain;
+      display: block;
+      background: #000;
+      cursor: pointer;
+    }
+
+    .video-hud-overlay {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 10;
+    }
+    .hud-chip {
+      background: rgba(5, 7, 14, 0.85);
+      border: 1px solid rgba(0, 242, 255, 0.4);
+      color: var(--plasma-cyan);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.05em;
+      backdrop-filter: blur(6px);
+    }
+    .hud-btn-control {
+      background: rgba(5, 7, 14, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: all 0.15s ease;
+    }
+    .hud-btn-control:hover {
+      border-color: var(--plasma-cyan);
+      color: var(--plasma-cyan);
+    }
+    .hud-btn-control.active {
+      background: rgba(0, 242, 255, 0.2);
+      border-color: var(--plasma-cyan);
+      color: var(--plasma-cyan);
+    }
+
+    .video-footer-caption {
+      padding: 8px 14px;
+      background: rgba(10, 14, 24, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .video-footer-caption strong {
+      color: #fff;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 990px) {
+      .scene-block { grid-template-columns: 1fr; gap: 16px; inset: 8px 16px; overflow-y: auto; }
+      .video-viewport-card video { max-height: 32vh; }
+      header.hud-header, footer.hud-footer { padding: 0 16px; }
+      .telemetry-group { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Physics Canvas (subtle background) -->
+  <canvas id="plasmaCanvas"></canvas>
+  <div class="ambient-grid"></div>
+  <div class="ambient-vignette"></div>
+  <div id="lockBar" class="lock-bar"></div>
+
+  <div class="viewport">
+    
+    <!-- ====================================================================
+         TOP HEADER & STATUS HUD
+         ==================================================================== -->
+    <header class="hud-header">
+      <div class="brand-group">
+        <span class="brand-badge">DIII-D #203702</span>
+        <span class="brand-title">TOKAMLD // EQUILIBRIUM & MANIFOLD RESEARCH</span>
+      </div>
+
+      <div class="telemetry-group">
+        <div class="tele-item"><span style="color: var(--plasma-cyan);">●</span> <span>JAX TRACER: RK4</span></div>
+        <div class="tele-item"><span style="color: var(--plasma-emerald);">●</span> <span>E1..E40 VERIFIED</span></div>
+        <div class="tele-item"><span style="color: var(--plasma-amber);">●</span> <span>GRID: 65×65</span></div>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+         MAIN STAGE: 7 CINEMATIC SCENES LINKED TO 3D RENDERS
+         ==================================================================== -->
+    <main class="hud-stage" id="stage">
+
+      <!-- SCENE 0: ACT 1 // DIII-D REACTOR CUTAWAY -->
+      <section class="scene-block active" data-index="0">
+        <div class="narrative-col">
+          <div class="meta-tag">
+            <span class="pulse-dot"></span>
+            <span>MOMENT 01 // ВСТУП & КОНСТРУКЦІЯ</span>
+          </div>
+          <h2 class="scene-title">Геометрія Токамака:<br>Розріз DIII-D #203702</h2>
+          <p class="scene-desc">
+            Відновлення магнітної рівноваги плазми за струмами 21 котушки полоїдального поля. На відміну від абстрактних ML-задач, реальне магнітне поле формується складною вакуумною камерою та струмонесучими контурами.
+          </p>
+          <div class="equation-box">
+            \mathbf{B} = \nabla\psi \times \nabla\varphi + F(\psi)\,\nabla\varphi
+          </div>
+          <div class="metric-row">
+            <div class="stat-card">
+              <span class="stat-label">Розряд Токамака</span>
+              <span class="stat-val cyan">#203702</span>
+              <span class="stat-note">Кадр 75 (t ≈ 1760 мс), DIII-D EFIT</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Ознаки сенсорів</span>
+              <span class="stat-val">21 котушка</span>
+              <span class="stat-note">Без магнітних датчиків (задача конкурсу)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-col">
+          <div class="video-viewport-card">
+            <div class="video-hud-overlay">
+              <span class="hud-chip">АКТ 1 // 1080p</span>
+              <button class="hud-btn-control btn-speed">1.0x</button>
+              <button class="hud-btn-control btn-fs">⛶</button>
+            </div>
+            <video autoplay loop muted playsinline>
+              <source src="deck/videos/act1_cutaway_final.mp4" type="video/mp4">
+              <source src="../../motion/renders/act1_cutaway_final.mp4" type="video/mp4">
+              <source src="deck/videos/act1_cutaway_preview.mp4" type="video/mp4">
+              <source src="../../motion/renders/act1_cutaway_preview.mp4" type="video/mp4">
+            </video>
+            <div class="video-footer-caption">
+              <span><strong>Розріз реактора DIII-D:</strong> камера, соленоїд, котушки</span>
+              <span>8.0 с @ 24 fps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCENE 1: ACT 2 // THE R² PARADOX & GRAD-SHAFRANOV SINGULARITY -->
+      <section class="scene-block" data-index="1">
+        <div class="narrative-col">
+          <div class="meta-tag" style="color: var(--plasma-crimson);">
+            <span class="pulse-dot" style="background: var(--plasma-crimson); box-shadow: 0 0 8px var(--plasma-crimson);"></span>
+            <span>MOMENT 02 // ПАРАДОКС R² = 0.976</span>
+          </div>
+          <h2 class="scene-title">Ілюзія успіху в L²:<br>Сінгулярність других похідних</h2>
+          <p class="scene-desc">
+            UNet_Lite має 1-й ранг за S з R² = 0.976. Але рівняння Ґреда–Шафранова містить <strong>другі похідні</strong> в просторі Соболєва H². Похибка амплітудою ε дає вибух нев'язки як k²ε: модель видає чисельну рябизну!
+          </p>
+          <div class="equation-box" style="border-color: rgba(255, 42, 85, 0.4);">
+            \Delta^*\psi = -\mu_0 R^2 p'(\psi) - F(\psi)F'(\psi)
+          </div>
+          <div class="metric-row">
+            <div class="stat-card" style="border-color: rgba(255, 42, 85, 0.4);">
+              <span class="stat-label">Нев'язка Град-Шафранова g</span>
+              <span class="stat-val crimson">0.8627</span>
+              <span class="stat-note">На +36% гірше за 1% шуму (g_ref = 0.6328)</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Точність L² (L₂-помилка)</span>
+              <span class="stat-val cyan">0.9760</span>
+              <span class="stat-note">Ідеальний R², але фізично нерівноважне</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-col">
+          <div class="video-viewport-card">
+            <div class="video-hud-overlay">
+              <span class="hud-chip">АКТ 2 // 1080p</span>
+              <button class="hud-btn-control btn-speed">1.0x</button>
+              <button class="hud-btn-control btn-fs">⛶</button>
+            </div>
+            <video autoplay loop muted playsinline>
+              <source src="deck/videos/act2_surfaces_final.mp4" type="video/mp4">
+              <source src="../../motion/renders/act2_surfaces_final.mp4" type="video/mp4">
+              <source src="deck/videos/act2_surfaces_preview.mp4" type="video/mp4">
+              <source src="../../motion/renders/act2_surfaces_preview.mp4" type="video/mp4">
+            </video>
+            <div class="video-footer-caption">
+              <span><strong>Магнітні поверхні плазми:</strong> потік, сепаратриса, X-точка</span>
+              <span>12.0 с @ 24 fps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCENE 2: ACT 3 // HAMILTONIAN SYMPLECTIC FIELD LINES -->
+      <section class="scene-block" data-index="2">
+        <div class="narrative-col">
+          <div class="meta-tag">
+            <span class="pulse-dot"></span>
+            <span>MOMENT 03 // ГАМІЛЬТОНОВА ДИНАМІКА</span>
+          </div>
+          <h2 class="scene-title">Силові лінії як<br>Гамільтонова система (E19)</h2>
+          <p class="scene-desc">
+            Рух силової лінії вздовж кута φ — це строга гамільтонова система з координатами (θ*, ψ_t). За теоремою Ліувілля тороїдальний фазовий об'єм строго зберігається: |det J - 1| ≤ 10⁻¹⁰ на нашому JAX-інтеграторі.
+          </p>
+          <div class="equation-box">
+            \frac{d\theta^*}{d\varphi} = \frac{1}{q(\psi)}, \quad \frac{d\psi_t}{d\varphi} = -\frac{\partial\psi}{\partial\theta^*}
+          </div>
+          <div class="metric-row">
+            <div class="stat-card">
+              <span class="stat-label">Збереження фазового об'єму</span>
+              <span class="stat-val emerald">1.0000</span>
+              <span class="stat-note">Симплектичний детермінант |det J|</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Раціональні резонанси</span>
+              <span class="stat-val cyan">q = m / n</span>
+              <span class="stat-note">q=2.0 (поверхня 2/1 при ψ_N = 0.752)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-col">
+          <div class="video-viewport-card">
+            <div class="video-hud-overlay">
+              <span class="hud-chip">АКТ 3 // 1080p</span>
+              <button class="hud-btn-control btn-speed">1.0x</button>
+              <button class="hud-btn-control btn-fs">⛶</button>
+            </div>
+            <video autoplay loop muted playsinline>
+              <source src="deck/videos/act3_fieldlines_final.mp4" type="video/mp4">
+              <source src="../../motion/renders/act3_fieldlines_final.mp4" type="video/mp4">
+              <source src="deck/videos/act3_fieldlines_preview.mp4" type="video/mp4">
+              <source src="../../motion/renders/act3_fieldlines_preview.mp4" type="video/mp4">
+            </video>
+            <div class="video-footer-caption">
+              <span><strong>Силові лінії в 3D:</strong> тороїдальне обертання та резонансні трубки</span>
+              <span>12.0 с @ 24 fps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCENE 3: ACT 4A // THEOREM E20: SINGLE-MODE INTEGRABLE PENDULUM -->
+      <section class="scene-block" data-index="3">
+        <div class="narrative-col">
+          <div class="meta-tag" style="color: var(--plasma-amber);">
+            <span class="pulse-dot" style="background: var(--plasma-amber); box-shadow: 0 0 8px var(--plasma-amber);"></span>
+            <span>MOMENT 04 // ТЕОРЕМА E20 (ОДНА МОДА)</span>
+          </div>
+          <h2 class="scene-title">Одиночна мода 2/1:<br>Хаос строго відсутній</h2>
+          <p class="scene-desc">
+            Збурення з єдиною просторовою модою (2/1) канонічно зводиться до автономного маятника H*. Система інтегровна, лінії замкнені в острови шириною <strong>w = 27.1 мм</strong>, оточені непорушними КАМ-поверхнями.
+          </p>
+          <div class="equation-box" style="border-color: rgba(255, 170, 0, 0.4);">
+            w_{2/1} = 4\sqrt{\frac{\epsilon \cdot q}{|dq/d\psi_N|}} = 27.1\text{ мм} \quad (|dq/d\psi_N| = 4.444)
+          </div>
+          <div class="metric-row">
+            <div class="stat-card" style="border-color: rgba(255, 170, 0, 0.4);">
+              <span class="stat-label">Ширина острова на слайді</span>
+              <span class="stat-val amber">27.1 мм</span>
+              <span class="stat-note">A = 10⁻³, 2/1, модель сцени #203702</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Динамічний Хаос</span>
+              <span class="stat-val emerald">ВІДСУТНІЙ</span>
+              <span class="stat-note">У моделі з однією модою (E20)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-col">
+          <div class="video-viewport-card">
+            <div class="video-hud-overlay">
+              <span class="hud-chip">АКТ 4А // 1080p</span>
+              <button class="hud-btn-control btn-speed">1.0x</button>
+              <button class="hud-btn-control btn-fs">⛶</button>
+            </div>
+            <video autoplay loop muted playsinline>
+              <source src="deck/videos/act4a_poincare_single_final.mp4" type="video/mp4">
+              <source src="../../motion/renders/act4a_poincare_single_final.mp4" type="video/mp4">
+              <source src="deck/videos/act4a_poincare_single_preview.mp4" type="video/mp4">
+              <source src="../../motion/renders/act4a_poincare_single_preview.mp4" type="video/mp4">
+            </video>
+            <div class="video-footer-caption">
+              <span><strong>Переріз Пуанкаре (мода 2/1):</strong> ріст острова без хаосу</span>
+              <span>12.0 с @ 24 fps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCENE 4: ACT 4B // CHIRIKOV OVERLAP & CHAOS -->
+      <section class="scene-block" data-index="4">
+        <div class="narrative-col">
+          <div class="meta-tag" style="color: var(--plasma-crimson);">
+            <span class="pulse-dot" style="background: var(--plasma-crimson); box-shadow: 0 0 8px var(--plasma-crimson);"></span>
+            <span>MOMENT 05 // КРИТЕРІЙ ЧИРИКОВА</span>
+          </div>
+          <h2 class="scene-title">Перекриття 2/1 + 3/1:<br>Народження стохастичного шару</h2>
+          <p class="scene-desc">
+            Хаос проривається лише при накладанні двох резонансів. На ключовому кадрі A = 4.8·10⁻³ острів 2/1 перекривається з 3/1: параметр Чирикова <strong>S = 1.002 ≥ 1.0</strong>, а показник Ляпунова (FTLE) підскакує у 2.02 раза!
+          </p>
+          <div class="equation-box" style="border-color: rgba(255, 42, 85, 0.4);">
+            S_{\mathrm{Chirikov}} = \frac{w_{2/1} + w_{3/1}}{2|\psi_{2/1} - \psi_{3/1}|} \ge 1.0
+          </div>
+          <div class="metric-row">
+            <div class="stat-card" style="border-color: rgba(255, 42, 85, 0.4);">
+              <span class="stat-label">Параметр Чирикова</span>
+              <span class="stat-val crimson">S = 1.002</span>
+              <span class="stat-note">Початок перекриття островів (A=4.8e-3)</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">FTLE сплеск</span>
+              <span class="stat-val amber">k = 2.02</span>
+              <span class="stat-note">У 2.0 раза вище за регулярний режим</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-col">
+          <div class="video-viewport-card">
+            <div class="video-hud-overlay">
+              <span class="hud-chip">АКТ 4Б // 1080p</span>
+              <button class="hud-btn-control btn-speed">1.0x</button>
+              <button class="hud-btn-control btn-fs">⛶</button>
+            </div>
+            <video autoplay loop muted playsinline>
+              <source src="deck/videos/act4b_poincare_chaos_final.mp4" type="video/mp4">
+              <source src="../../motion/renders/act4b_poincare_chaos_final.mp4" type="video/mp4">
+              <source src="deck/videos/act4b_poincare_chaos_preview.mp4" type="video/mp4">
+              <source src="../../motion/renders/act4b_poincare_chaos_preview.mp4" type="video/mp4">
+            </video>
+            <div class="video-footer-caption">
+              <span><strong>Стохастичний шар Пуанкаре:</strong> руйнування поверхонь (S ≥ 1.0)</span>
+              <span>12.0 с @ 24 fps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCENE 5: ACT 5 // 2D TRUTH VS UNET_LITE COMPARISON -->
+      <section class="scene-block" data-index="5">
+        <div class="narrative-col">
+          <div class="meta-tag">
+            <span class="pulse-dot"></span>
+            <span>MOMENT 06 // ПРЯМЕ 2D ПОРІВНЯННЯ</span>
+          </div>
+          <h2 class="scene-title">Істина проти UNet:<br>Медіанний тестовий кадр #062</h2>
+          <p class="scene-desc">
+            Кадр #062:147 обрано строго за медіанною нев'язкою тестового спліту (ранг 760 з 1521). Ліворуч — істина EFIT (g = 0.0065), праворуч — UNet_Lite (g = 0.8618). Контури рівня потоку нейромережі всіяні локальними спотвореннями.
+          </p>
+          <div class="equation-box">
+            \Delta S'(\mathrm{UNet} - \mathrm{MLP}) = -0.1129, \quad 95\%\text{ CI } [-0.204 .. -0.001]
+          </div>
+          <div class="metric-row">
+            <div class="stat-card">
+              <span class="stat-label">g (Істина EFIT)</span>
+              <span class="stat-val emerald">0.0065</span>
+              <span class="stat-note">Фізично гладкий баланс тиску</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">g (UNet_Lite)</span>
+              <span class="stat-val crimson">0.8618</span>
+              <span class="stat-note">Шум других похідних у полоїдальному струмі</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-col">
+          <div class="video-viewport-card">
+            <div class="video-hud-overlay">
+              <span class="hud-chip">АКТ 5 // 2D ПАНЕЛЬ</span>
+              <button class="hud-btn-control btn-speed">1.0x</button>
+              <button class="hud-btn-control btn-fs">⛶</button>
+            </div>
+            <video autoplay loop muted playsinline>
+              <source src="deck/videos/act5_compare_2d_final.mp4" type="video/mp4">
+              <source src="../../motion/renders/act5_compare_2d_final.mp4" type="video/mp4">
+              <source src="deck/videos/act5_compare_2d_preview.mp4" type="video/mp4">
+              <source src="../../motion/renders/act5_compare_2d_preview.mp4" type="video/mp4">
+            </video>
+            <div class="video-footer-caption">
+              <span><strong>Порівняння 12 контурів ψ_N:</strong> Істина проти UNet_Lite</span>
+              <span>12.0 с @ 24 fps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCENE 6: FULL CONTINUOUS FILM & SYNTHESIS -->
+      <section class="scene-block" data-index="6">
+        <div class="narrative-col">
+          <div class="meta-tag" style="color: var(--plasma-emerald);">
+            <span class="pulse-dot" style="background: var(--plasma-emerald); box-shadow: 0 0 8px var(--plasma-emerald);"></span>
+            <span>MOMENT 07 // ПОВНИЙ ФІЛЬМ & СИНТЕЗ</span>
+          </div>
+          <h2 class="scene-title">Повний науковий фільм:<br>Усі акти від розрізу до хаосу</h2>
+          <p class="scene-desc">
+            Повна безперервна 68-секундна візуалізація дослідження. Успішний коваріантний перенос DIII-D → MAST зі 100% збереженням топології 1O/0X, шлюз S'-gate та відкрита фіксація 13 спростованих гіпотез.
+          </p>
+          <div class="equation-box" style="border-color: rgba(0, 255, 163, 0.4);">
+            S'\text{-gate} = S \cdot \exp(-\gamma \max(0, g - g_{\mathrm{ref}})) \cdot P_{\mathrm{topo}}
+          </div>
+          <div class="metric-row">
+            <div class="stat-card">
+              <span class="stat-label">Перенос DIII-D → MAST</span>
+              <span class="stat-val emerald">100%</span>
+              <span class="stat-note">Збереження скелета 1O/0X (R² з -0.99 до +0.68)</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Наукова чесність</span>
+              <span class="stat-val cyan">40 E / 13 R</span>
+              <span class="stat-note">Встановлено 40 фактів, спростовано 13</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-col">
+          <div class="video-viewport-card">
+            <div class="video-hud-overlay">
+              <span class="hud-chip">ПОВНИЙ ФІЛЬМ // 68с</span>
+              <button class="hud-btn-control btn-speed">1.0x</button>
+              <button class="hud-btn-control btn-fs">⛶</button>
+            </div>
+            <video autoplay loop muted playsinline>
+              <source src="deck/videos/film_continuous_final.mp4" type="video/mp4">
+              <source src="../../motion/renders/film_continuous_final.mp4" type="video/mp4">
+              <source src="deck/videos/film_continuous_preview.mp4" type="video/mp4">
+              <source src="../../motion/renders/film_continuous_preview.mp4" type="video/mp4">
+            </video>
+            <div class="video-footer-caption">
+              <span><strong>Повний фільм:</strong> Акти 1, 2, 3, 4А, 4Б, 5 (безперервно)</span>
+              <span>68.0 с @ 24 fps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ====================================================================
+         BOTTOM HUD FOOTER & TIMELINE CONTROLS
+         ==================================================================== -->
+    <footer class="hud-footer">
+      <div class="timeline-nav" id="timeline">
+        <div class="timeline-dot active" data-idx="0">
+          <span class="dot-pill"></span>
+          <span>01 РОЗРІЗ</span>
+        </div>
+        <div class="timeline-dot" data-idx="1">
+          <span class="dot-pill"></span>
+          <span>02 СОБОЛЄВ</span>
+        </div>
+        <div class="timeline-dot" data-idx="2">
+          <span class="dot-pill"></span>
+          <span>03 ГАМІЛЬТОН</span>
+        </div>
+        <div class="timeline-dot" data-idx="3">
+          <span class="dot-pill"></span>
+          <span>04 ОСТРІВ 2/1</span>
+        </div>
+        <div class="timeline-dot" data-idx="4">
+          <span class="dot-pill"></span>
+          <span>05 ХАОС</span>
+        </div>
+        <div class="timeline-dot" data-idx="5">
+          <span class="dot-pill"></span>
+          <span>06 2D ТЕСТ</span>
+        </div>
+        <div class="timeline-dot" data-idx="6">
+          <span class="dot-pill"></span>
+          <span>07 ФІЛЬМ</span>
+        </div>
+      </div>
+
+      <div class="nav-hints">
+        <span class="key-cap">SPACE</span>
+        <span class="key-cap">← / →</span>
+        <span>КРОК</span>
+        <button id="btnPlayAuto" class="btn-action">
+          <span>▶</span> АВТОПРОГРАВАННЯ
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ====================================================================
+       05. GSAP TRANSITION ENGINE & VIDEO CONTROLLER
+       ==================================================================== -->
+  <script>
+    (function() {
+      'use strict';
+
+      const scenes = document.querySelectorAll('.scene-block');
+      const dots = document.querySelectorAll('.timeline-dot');
+      const lockBar = document.getElementById('lockBar');
+      const totalScenes = scenes.length;
+      let currentIdx = 0;
+      let isTransitioning = false;
+      let autoplayInterval = null;
+
+      // -------------------------------------------------------------
+      // SUBTLE AMBIENT CANVAS BACKGROUND
+      // -------------------------------------------------------------
+      const canvas = document.getElementById('plasmaCanvas');
+      const ctx = canvas.getContext('2d');
+      let w = canvas.width = window.innerWidth;
+      let h = canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      });
+
+      const lines = [];
+      for (let i = 0; i < 24; i++) {
+        lines.push({
+          psi: (i + 1) / 25,
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.003 + Math.random() * 0.005
+        });
+      }
+
+      function drawBg() {
+        ctx.clearRect(0, 0, w, h);
+        const cx = w * 0.72; // Keep canvas glow focused on the right side behind video
+        const cy = h * 0.50;
+        const scale = Math.min(w, h) * 0.42;
+
+        for (let l of lines) {
+          l.phase += l.speed;
+          ctx.strokeStyle = `rgba(0, 242, 255, ${0.10 + l.psi * 0.18})`;
+          ctx.lineWidth = 1.0;
+          ctx.beginPath();
+          const rMinor = (0.12 + l.psi * 0.32) * scale;
+          const rMajor = (0.30 + l.psi * 0.50) * scale;
+
+          for (let step = 0; step <= 64; step++) {
+            const theta = (step / 64) * Math.PI * 2;
+            const x = cx + (rMajor + rMinor * Math.cos(theta + 0.3 * Math.sin(theta)));
+            const y = cy + rMinor * 1.5 * Math.sin(theta);
+            if (step === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+        requestAnimationFrame(drawBg);
+      }
+      drawBg();
+
+      // -------------------------------------------------------------
+      // VIDEO HUD CONTROLS (SPEED & FULLSCREEN)
+      // -------------------------------------------------------------
+      document.querySelectorAll('.video-viewport-card').forEach(card => {
+        const video = card.querySelector('video');
+        const btnSpeed = card.querySelector('.btn-speed');
+        const btnFs = card.querySelector('.btn-fs');
+
+        if (video && btnSpeed) {
+          btnSpeed.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (video.playbackRate === 1.0) {
+              video.playbackRate = 0.5;
+              btnSpeed.textContent = '0.5x';
+              btnSpeed.classList.add('active');
+            } else {
+              video.playbackRate = 1.0;
+              btnSpeed.textContent = '1.0x';
+              btnSpeed.classList.remove('active');
+            }
+          });
+        }
+
+        if (video && btnFs) {
+          btnFs.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (video.requestFullscreen) video.requestFullscreen();
+            else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+          });
+        }
+
+        if (video) {
+          video.addEventListener('click', () => {
+            if (video.paused) video.play();
+            else video.pause();
+          });
+        }
+      });
+
+      // -------------------------------------------------------------
+      // GSAP SCENE TRANSITION CONTROLLER
+      // -------------------------------------------------------------
+      function goToScene(nextIdx, direction = 1) {
+        if (isTransitioning || nextIdx === currentIdx || nextIdx < 0 || nextIdx >= totalScenes) return;
+
+        isTransitioning = true;
+
+        // Transition lock visual feedback
+        gsap.fromTo(lockBar, { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.inOut" });
+
+        const currentScene = scenes[currentIdx];
+        const nextScene = scenes[nextIdx];
+
+        // Update timeline dots
+        dots.forEach((d, i) => {
+          if (i === nextIdx) d.classList.add('active');
+          else d.classList.remove('active');
+        });
+
+        // Pause current video
+        const curVid = currentScene.querySelector('video');
+        if (curVid) curVid.pause();
+
+        // 1. OUTGOING SCENE
+        const tlOut = gsap.timeline({
+          onComplete: () => {
+            currentScene.classList.remove('active');
+            gsap.set(currentScene, { clearProps: "all" });
+          }
+        });
+
+        tlOut.to(currentScene.querySelector('.narrative-col'), {
+          y: direction > 0 ? -30 : 30,
+          opacity: 0,
+          duration: 0.38,
+          ease: "power2.in"
+        }, 0);
+
+        tlOut.to(currentScene.querySelector('.media-col'), {
+          y: direction > 0 ? -30 : 30,
+          scale: 0.98,
+          opacity: 0,
+          duration: 0.38,
+          ease: "power2.in"
+        }, 0);
+
+        // 2. INCOMING SCENE
+        nextScene.classList.add('active');
+        const nextNarrative = nextScene.querySelector('.narrative-col');
+        const nextMedia = nextScene.querySelector('.media-col');
+        const nextVid = nextScene.querySelector('video');
+
+        gsap.set(nextNarrative, { y: direction > 0 ? 30 : -30, opacity: 0 });
+        gsap.set(nextMedia, { y: direction > 0 ? 30 : -30, scale: 0.98, opacity: 0 });
+
+        const tlIn = gsap.timeline({
+          delay: 0.2,
+          onComplete: () => {
+            currentIdx = nextIdx;
+            isTransitioning = false;
+            gsap.set(lockBar, { scaleX: 0 });
+
+            // Autoplay next video from start
+            if (nextVid) {
+              nextVid.currentTime = 0;
+              nextVid.play().catch(() => {});
+            }
+          }
+        });
+
+        tlIn.to(nextNarrative, {
+          y: 0,
+          opacity: 1,
+          duration: 0.55,
+          ease: "expo.out"
+        }, 0);
+
+        tlIn.to(nextMedia, {
+          y: 0,
+          scale: 1,
+          opacity: 1,
+          duration: 0.55,
+          ease: "expo.out"
+        }, 0.05);
+      }
+
+      function next() {
+        if (currentIdx < totalScenes - 1) goToScene(currentIdx + 1, 1);
+        else goToScene(0, 1);
+      }
+
+      function prev() {
+        if (currentIdx > 0) goToScene(currentIdx - 1, -1);
+      }
+
+      // Keyboard Listeners
+      window.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' || e.key === 'ArrowRight' || e.key === 'PageDown') {
+          e.preventDefault();
+          next();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          prev();
+        }
+      });
+
+      // Direct Timeline Clicks
+      dots.forEach(d => {
+        d.addEventListener('click', () => {
+          const idx = parseInt(d.getAttribute('data-idx'), 10);
+          goToScene(idx, idx > currentIdx ? 1 : -1);
+        });
+      });
+
+      // Autoplay Toggle
+      const btnPlayAuto = document.getElementById('btnPlayAuto');
+      btnPlayAuto.addEventListener('click', () => {
+        if (autoplayInterval) {
+          clearInterval(autoplayInterval);
+          autoplayInterval = null;
+          btnPlayAuto.innerHTML = '<span>▶</span> АВТОПРОГРАВАННЯ';
+          btnPlayAuto.style.background = 'transparent';
+          btnPlayAuto.style.color = 'var(--plasma-cyan)';
+        } else {
+          autoplayInterval = setInterval(() => {
+            next();
+          }, 12000); // 12s per scene = matches video duration!
+          btnPlayAuto.innerHTML = '<span>⏸</span> ПАУЗА';
+          btnPlayAuto.style.background = 'rgba(255, 42, 85, 0.2)';
+          btnPlayAuto.style.color = '#ff2a55';
+          btnPlayAuto.style.borderColor = '#ff2a55';
+        }
+      });
+
+      // Initial video start
+      const firstVid = scenes[0].querySelector('video');
+      if (firstVid) {
+        firstVid.play().catch(() => {});
+      }
+
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+{
+  "task_id": "T12",
+  "date": "2026-10-09",
+  "equilibrium": {
+    "machine": "DIII-D",
+    "frame": 58,
+    "q95": 4.220284938812256,
+    "f_pol": 3.4042342832356702,
+    "r_axis": 1.7247498539705224,
+    "z_axis": -0.06743052597133378,
+    "dpsi": 0.29915720631752696
+  },
+  "hardware_note": "measured on CPU via XLA, GPU not tested",
+  "tests": {
+    "convergence": {
+      "steps": [
+        0.20943951023931953,
+        0.10471975511965977,
+        0.05235987755982988,
+        0.02617993877991494
+      ],
+      "cart_errors_m": [
+        0.006744086470399404,
+        0.0004677574217293998,
+        0.00020672022650176038,
+        7.454833424342938e-05
+      ],
+      "cart_orders": [
+        3.849790584692522,
+        1.178080988446884,
+        1.471431534432018
+      ],
+      "canon_errors_flux": [
+        6.144194962773805e-06,
+        1.5329561271181376e-06,
+        3.801508644821584e-07,
+        9.194981964182007e-08
+      ],
+      "canon_orders": [
+        2.002907587293516,
+        2.011672431009596,
+        2.0476534219086
+      ],
+      "canon_mean_order": 2.020744480070571,
+      "verdict": "PASS"
+    },
+    "invariants": {
+      "det_j_deviation": 0.0,
+      "h_drift_100turns_Wb": 0.0,
+      "psi_drift_100turns_Wb": 0.00013780183855083283,
+      "verdict": "PASS"
+    },
+    "cpu_match": {
+      "discrepancy_m": 0.0004259617689342619,
+      "threshold_m": 0.001,
+      "verdict": "PASS"
+    },
+    "island_width": {
+      "s_res": 0.7,
+      "q_res": 2.000423756527072,
+      "magnetic_shear": 3.866319237470293,
+      "w_analytic_psin": 0.09098548991201166,
+      "w_analytic_mm": 33.5537338284803,
+      "w_num_psin": 0.09098548991201166,
+      "w_num_mm": 33.5537338284803,
+      "relative_error": 0.0,
+      "verdict": "PASS"
+    },
+    "chaos_ftle": {
+      "t_turns": 50,
+      "ftle_regular": 0.017659219609602733,
+      "ftle_chaotic": 0.04616996067255692,
+      "ftle_ratio_k": 2.614496092876642,
+      "threshold_k": 2.0,
+      "verdict": "PASS"
+    }
+  },
+  "benchmarks": {
+    "scaling": [
+      {
+        "num_lines": 10,
+        "n_turns": 20,
+        "elapsed_sec": 0.48498558300343575,
+        "lines_per_sec": 20.61916962164452,
+        "punctures_per_sec": 412.38339243289045,
+        "ode_steps_per_sec": 24743.003545973424
+      },
+      {
+        "num_lines": 100,
+        "n_turns": 20,
+        "elapsed_sec": 0.5196863329983898,
+        "lines_per_sec": 192.42376343252775,
+        "punctures_per_sec": 3848.475268650555,
+        "ode_steps_per_sec": 230908.51611903327
+      },
+      {
+        "num_lines": 1000,
+        "n_turns": 20,
+        "elapsed_sec": 1.2188725000014529,
+        "lines_per_sec": 820.430356742652,
+        "punctures_per_sec": 16408.60713485304,
+        "ode_steps_per_sec": 984516.4280911824
+      },
+      {
+        "num_lines": 10000,
+        "n_turns": 20,
+        "elapsed_sec": 10.323556999996072,
+        "lines_per_sec": 968.6583800529028,
+        "punctures_per_sec": 19373.167601058056,
+        "ode_steps_per_sec": 1162390.0560634835
+      }
+    ]
+  },
+  "overall_verdict": "PASS",
+  "verdicts": {
+    "test1_convergence": "PASS",
+    "test2_invariants": "PASS",
+    "test3_cpu_match": "PASS",
+    "test4_island_width": "PASS",
+    "test5_chaos_ftle": "PASS"
+  }
+}

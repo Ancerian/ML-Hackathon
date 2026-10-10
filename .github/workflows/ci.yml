@@ -1,0 +1,38 @@
+name: CI Scorer & tokamld Tests
+
+on:
+  push:
+    branches: [ main, anton ]
+  pull_request:
+    branches: [ main, anton ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install torch torchvision numpy scipy pytest
+
+      - name: Run tokamld regression and physics tests
+        run: |
+          python -m pytest tests/test_tokamld.py -v
+
+      - name: Verify Scorer Harness (perfect & zeros)
+        run: |
+          python eval_submission.py --mode perfect
+          python eval_submission.py --mode zeros
+
+      - name: Auto-generate Leaderboard
+        run: |
+          python -m bench.run_benchmark --generate-leaderboard

@@ -1,0 +1,220 @@
+{
+  "verdict": "CONFIRMED_WITH_REFINEMENT (\u041f\u0406\u0414\u0422\u0412\u0415\u0420\u0414\u0416\u0415\u041d\u041e \u0417 \u0423\u0422\u041e\u0427\u041d\u0415\u041d\u041d\u042f\u041c)",
+  "nominal_level": 0.9,
+  "null_model_width_W_N0": 0.42621768602594406,
+  "models": {
+    "UNet_Lite": {
+      "mean_cov_M": 0.8772737234275696,
+      "ci95_cov_M": [
+        0.6488294665973583,
+        0.9769481096450309
+      ],
+      "per_shot_cov_M": [
+        0.7437037037037036,
+        0.8169398907103824,
+        0.9979166666666667,
+        0.21069182389937105,
+        1.0,
+        0.9986449864498645,
+        1.0,
+        1.0
+      ],
+      "mean_w_M": 0.09372970534062929,
+      "kappa": 0.2199104082577275,
+      "mean_cov_P_joint": 0.05456936226166995,
+      "mean_cov_P_pix": 0.8587286211318984,
+      "mean_w_P": 0.03425547853112221,
+      "price_of_simultaneity": 2.7361960585508336,
+      "bonferroni_finite": false,
+      "bonferroni_required_n": 42249,
+      "bonferroni_available_n": 2869
+    },
+    "Conv Decoder": {
+      "mean_cov_M": 0.7964058733289502,
+      "ci95_cov_M": [
+        0.5612989532920711,
+        0.9320217302809515
+      ],
+      "per_shot_cov_M": [
+        0.5318518518518519,
+        0.7581967213114754,
+        0.6916666666666668,
+        0.16981132075471703,
+        1.0,
+        1.0,
+        0.9696969696969697,
+        1.0
+      ],
+      "mean_w_M": 0.09999092956062379,
+      "kappa": 0.23460061099983848,
+      "mean_cov_P_joint": 0.012930089853166777,
+      "mean_cov_P_pix": 0.7708106495908044,
+      "mean_w_P": 0.03505092238386472,
+      "price_of_simultaneity": 2.8527331881757676,
+      "bonferroni_finite": false,
+      "bonferroni_required_n": 42249,
+      "bonferroni_available_n": 2869
+    },
+    "Simple MLP": {
+      "mean_cov_M": 0.846592154284462,
+      "ci95_cov_M": [
+        0.5989769528072768,
+        0.9656765852686703
+      ],
+      "per_shot_cov_M": [
+        0.6325925925925926,
+        0.9084699453551912,
+        0.7291666666666666,
+        0.20440251572327042,
+        1.0,
+        1.0,
+        1.0,
+        0.9963570127504554
+      ],
+      "mean_w_M": 0.14426594561081138,
+      "kappa": 0.33847949144473055,
+      "mean_cov_P_joint": 0.03353057199211046,
+      "mean_cov_P_pix": 0.8758892403134552,
+      "mean_w_P": 0.048960251112778984,
+      "price_of_simultaneity": 2.9465932533413195,
+      "bonferroni_finite": false,
+      "bonferroni_required_n": 42249,
+      "bonferroni_available_n": 2869
+    },
+    "MLP (sklearn)": {
+      "mean_cov_M": 0.7731755424063116,
+      "ci95_cov_M": [
+        0.5143300496723481,
+        0.9823587515751274
+      ],
+      "per_shot_cov_M": [
+        0.07111111111111111,
+        0.8975409836065574,
+        0.99375,
+        0.12264150943396226,
+        1.0,
+        0.983739837398374,
+        0.9507575757575758,
+        1.0
+      ],
+      "mean_w_M": 0.08929361490502401,
+      "kappa": 0.20950236893639526,
+      "mean_cov_P_joint": 0.029585798816568046,
+      "mean_cov_P_pix": 0.6765953573054164,
+      "mean_w_P": 0.029952237382531166,
+      "price_of_simultaneity": 2.981200160930285,
+      "bonferroni_finite": false,
+      "bonferroni_required_n": 42249,
+      "bonferroni_available_n": 2869
+    },
+    "PCA+Ridge": {
+      "mean_cov_M": 0.7297830374753451,
+      "ci95_cov_M": [
+        0.418124906287485,
+        0.9532520325203252
+      ],
+      "per_shot_cov_M": [
+        1.0,
+        0.08196721311475409,
+        0.6375,
+        0.0,
+        1.0,
+        0.9065040650406504,
+        1.0,
+        1.0
+      ],
+      "mean_w_M": 0.17972100183414796,
+      "kappa": 0.42166481524938004,
+      "mean_cov_P_joint": 0.2689020381328074,
+      "mean_cov_P_pix": 0.7599246836206327,
+      "mean_w_P": 0.11539772897958755,
+      "price_of_simultaneity": 1.5574050150149696,
+      "bonferroni_finite": false,
+      "bonferroni_required_n": 42249,
+      "bonferroni_available_n": 2869
+    },
+    "Linear Regression": {
+      "mean_cov_M": 0.7310979618671927,
+      "ci95_cov_M": [
+        0.41246397274423563,
+        0.95625
+      ],
+      "per_shot_cov_M": [
+        1.0,
+        0.08196721311475409,
+        0.65,
+        0.0,
+        1.0,
+        0.9065040650406504,
+        1.0,
+        1.0
+      ],
+      "mean_w_M": 0.18139553717189685,
+      "kappa": 0.4255936417449726,
+      "mean_cov_P_joint": 0.2695595003287311,
+      "mean_cov_P_pix": 0.7592487035545751,
+      "mean_w_P": 0.1162944957613945,
+      "price_of_simultaneity": 1.5597946917803611,
+      "bonferroni_finite": false,
+      "bonferroni_required_n": 42249,
+      "bonferroni_available_n": 2869
+    },
+    "Ridge (CV)": {
+      "mean_cov_M": 0.7310979618671927,
+      "ci95_cov_M": [
+        0.4158244618819139,
+        0.9649390243902438
+      ],
+      "per_shot_cov_M": [
+        1.0,
+        0.08196721311475409,
+        0.65,
+        0.0,
+        1.0,
+        0.9065040650406504,
+        1.0,
+        1.0
+      ],
+      "mean_w_M": 0.1812244645371976,
+      "kappa": 0.42519226789234266,
+      "mean_cov_P_joint": 0.2682445759368836,
+      "mean_cov_P_pix": 0.7592975658337515,
+      "mean_w_P": 0.11619195342063904,
+      "price_of_simultaneity": 1.5596989223610636,
+      "bonferroni_finite": false,
+      "bonferroni_required_n": 42249,
+      "bonferroni_available_n": 2869
+    },
+    "Random Forest": {
+      "mean_cov_M": 0.8284023668639053,
+      "ci95_cov_M": [
+        0.686170025985282,
+        0.9683333333333333
+      ],
+      "per_shot_cov_M": [
+        0.7466666666666667,
+        0.3524590163934426,
+        0.86875,
+        0.7641509433962265,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean_w_M": 0.15711158246101048,
+      "kappa": 0.36861816769247585,
+      "mean_cov_P_joint": 0.14398422090729784,
+      "mean_cov_P_pix": 0.7560938186882656,
+      "mean_w_P": 0.055705275386571884,
+      "price_of_simultaneity": 2.8204076071919615,
+      "bonferroni_finite": false,
+      "bonferroni_required_n": 42249,
+      "bonferroni_available_n": 2869
+    }
+  },
+  "stress_test_mast": {
+    "simultaneous_coverage": 0.0,
+    "pointwise_coverage": 0.0,
+    "violation_reason": "Exchangeability violation under domain shift (spherical tokamak geometry + different flux scale)"
+  }
+}

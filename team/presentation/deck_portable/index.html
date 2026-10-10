@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Відновлення магнітної рівноваги токамака | FMF KPI AI Lab</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --text-bright: #f0f6fc;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-hover: #79c0ff;
+      --warning: #d29922;
+      --danger: #f85149;
+      --success: #3fb950;
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation Bar */
+    header.deck-header {
+      height: 52px;
+      background: #090d13;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 100;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-bright);
+    }
+    .brand-badge {
+      background: rgba(88, 166, 255, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(88, 166, 255, 0.4);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+    }
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn:hover {
+      background: #21262d;
+      border-color: #8b949e;
+      color: var(--text-bright);
+    }
+    .btn.active {
+      background: rgba(88, 166, 255, 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .slide-counter {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-muted);
+      min-width: 65px;
+      text-align: center;
+    }
+
+    /* Progress Bar */
+    .progress-bar-container {
+      width: 100%;
+      height: 3px;
+      background: #1b2128;
+    }
+    .progress-bar {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* Main Deck Layout */
+    main.deck-main {
+      flex: 1;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Slides Viewport & Cinema Transitions */
+    .slides-viewport {
+      flex: 1;
+      height: 100%;
+      overflow-y: auto;
+      padding: 32px 44px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1200px;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1260px;
+      min-height: 85%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 34px 42px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.55), 0 0 1px rgba(88,166,255,0.25);
+      flex-direction: column;
+      position: relative;
+      opacity: 0;
+      transform: translateY(10px) scale(0.995);
+      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .slide.slide-from-right {
+      animation: slideInFromRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .slide.slide-from-left {
+      animation: slideInFromLeft 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes slideInFromRight {
+      from { opacity: 0; transform: translateX(24px) scale(0.992); }
+      to { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    @keyframes slideInFromLeft {
+      from { opacity: 0; transform: translateX(-24px) scale(0.992); }
+      to { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    /* Staggered entrance for slide components */
+    .slide.active .card-box {
+      animation: cardEntrance 0.38s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: 50ms;
+    }
+    .slide.active .video-container {
+      animation: cardEntrance 0.38s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: 90ms;
+    }
+    .slide.active .stat-row,
+    .slide.active table.data-table,
+    .slide.active .sim-panel {
+      animation: cardEntrance 0.38s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: 120ms;
+    }
+    @keyframes cardEntrance {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Slide Typography */
+    .slide-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .slide-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+    .slide-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.45;
+    }
+
+    /* Content Grids */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 28px;
+      flex: 1;
+      align-items: center;
+    }
+    .grid-2col-equal {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      flex: 1;
+    }
+    .card-box {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .card-box h3 {
+      font-size: 16px;
+      color: var(--text-bright);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Video Player Component & Interactive HUD */
+    .video-container {
+      width: 100%;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .video-container:hover {
+      border-color: rgba(88, 166, 255, 0.6);
+      box-shadow: 0 4px 24px rgba(88, 166, 255, 0.16);
+    }
+    .video-container video {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: pointer;
+    }
+    .video-hud {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      z-index: 10;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+    .video-container:hover .video-hud {
+      opacity: 1;
+    }
+    .video-hud-badge {
+      background: rgba(13, 17, 23, 0.88);
+      border: 1px solid rgba(88, 166, 255, 0.45);
+      color: var(--accent);
+      padding: 3px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      backdrop-filter: blur(4px);
+      letter-spacing: 0.04em;
+    }
+    .video-hud-btn {
+      background: rgba(13, 17, 23, 0.88);
+      border: 1px solid var(--border);
+      color: var(--text-bright);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: all 0.15s ease;
+    }
+    .video-hud-btn:hover {
+      background: var(--accent);
+      color: #0d1117;
+      border-color: var(--accent);
+    }
+    .video-hud-btn.active {
+      background: rgba(88, 166, 255, 0.25);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .video-caption {
+      padding: 8px 12px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      background: #11161d;
+      border-top: 1px solid #21262d;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Metric Badges & Stat Rows */
+    .stat-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .stat-badge {
+      flex: 1;
+      background: #161b22;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 14px;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      margin-bottom: 4px;
+    }
+    .stat-val {
+      font-size: 20px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: var(--text-bright);
+    }
+    .stat-val.accent { color: var(--accent); }
+    .stat-val.warning { color: var(--warning); }
+    .stat-val.danger { color: var(--danger); }
+    .stat-val.success { color: var(--success); }
+
+    /* Tables */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    table.data-table th, table.data-table td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    table.data-table th {
+      background: #090d13;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+    }
+    table.data-table tr:hover { background: #1a2028; }
+    table.data-table td.mono { font-family: var(--font-mono); font-size: 12px; }
+
+    /* Interactive Simulator */
+    .sim-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: 100%;
+    }
+    .sim-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      background: #0d1117;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .sim-slider-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 250px;
+    }
+    .sim-slider-group label {
+      font-size: 13px;
+      font-family: var(--font-mono);
+      white-space: nowrap;
+    }
+    .sim-slider-group input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    canvas#poincareCanvas {
+      width: 100%;
+      height: 380px;
+      background: #05070a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: block;
+    }
+
+    /* Speaker Pane */
+    aside.speaker-pane {
+      width: 420px;
+      background: #090d13;
+      border-left: 1px solid var(--border);
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      z-index: 90;
+    }
+    aside.speaker-pane.active { display: flex; }
+    .speaker-header {
+      padding: 14px 18px;
+      background: #11161d;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .timer-display {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--success);
+      letter-spacing: 0.05em;
+    }
+    .timer-display.warn { color: var(--warning); }
+    .timer-display.over { color: var(--danger); }
+    .timer-controls {
+      display: flex;
+      gap: 6px;
+    }
+    .speaker-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e6edf3;
+    }
+    .speaker-body h4 {
+      color: var(--accent);
+      font-size: 13px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .speaker-notes-text {
+      background: #161b22;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px;
+      margin-bottom: 16px;
+      white-space: pre-line;
+    }
+    .speaker-next-preview {
+      margin-top: 16px;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+    .speaker-next-title {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-bottom: 4px;
+    }
+
+    /* Callout & Alerts */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: rgba(88, 166, 255, 0.08);
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      font-size: 13px;
+      margin: 12px 0;
+    }
+    .callout.warning {
+      border-left-color: var(--warning);
+      background: rgba(210, 153, 34, 0.08);
+    }
+    .callout.danger {
+      border-left-color: var(--danger);
+      background: rgba(248, 81, 73, 0.08);
+    }
+
+    /* Pitch Timer Pill in Header */
+    .timer-pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: #11161d;
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .timer-pill:hover {
+      border-color: var(--accent);
+      background: #161d26;
+    }
+    .timer-pill .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      display: inline-block;
+      transition: background 0.3s ease;
+    }
+    .timer-pill.running .dot {
+      box-shadow: 0 0 6px var(--success);
+      animation: pulseDot 1.4s infinite ease-in-out;
+    }
+    .timer-pill.warn { color: var(--warning); border-color: rgba(210, 153, 34, 0.4); }
+    .timer-pill.warn .dot { background: var(--warning); box-shadow: 0 0 6px var(--warning); }
+    .timer-pill.over { color: var(--danger); border-color: rgba(248, 81, 73, 0.5); }
+    .timer-pill.over .dot { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.2); }
+    }
+
+    /* Background Field-Line Canvas */
+    #bgCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.22;
+    }
+
+    /* Slide Overview Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 7, 10, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 250;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .modal-backdrop.active {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-content {
+      width: 90%;
+      max-width: 1040px;
+      max-height: 85vh;
+      background: #161b22;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .modal-slide-card {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .modal-slide-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(88,166,255,0.15);
+      background: #131923;
+    }
+    .modal-slide-card.current {
+      border-color: var(--accent);
+      background: rgba(88, 166, 255, 0.1);
+    }
+    .modal-slide-card .card-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .modal-slide-card .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-bright);
+      line-height: 1.35;
+    }
+    .modal-slide-card .card-tag {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Accessibility: Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      .slide,
+      .slide.active,
+      .slide.slide-from-right,
+      .slide.slide-from-left,
+      .slide.active .card-box,
+      .slide.active .video-container,
+      .slide.active .stat-row,
+      .slide.active table.data-table,
+      .slide.active .sim-panel,
+      .timer-pill.running .dot {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+      }
+      #bgCanvas { display: none !important; }
+    }
+
+    /* Key bindings helper */
+    .key-helper {
+      position: fixed;
+      bottom: 14px;
+      left: 20px;
+      font-size: 11px;
+      color: #484f58;
+      font-family: var(--font-mono);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="deck-header">
+    <div class="brand">
+      <span>TokaBench-GS</span>
+      <span class="brand-badge">DIII-D #203702</span>
+      <span style="color: var(--text-muted); font-size: 12px;">FMF KPI AI Lab</span>
+    </div>
+    <div class="nav-controls">
+      <button class="btn" id="btnPrev" title="Попередній слайд (←)">←</button>
+      <div class="slide-counter" id="slideNum" title="Клік для огляду слайдів (O)" style="cursor: pointer;">1 / 9</div>
+      <button class="btn" id="btnNext" title="Наступний слайд (→)">→</button>
+      <button class="btn" id="btnOverview" title="Огляд усіх слайдів (O)">
+        <span>📑</span> Огляд
+      </button>
+      <div id="headerTimerBadge" class="timer-pill" title="Клік: Старт/Пауза (таймер 12 хв пітчу)">
+        <span class="dot"></span>
+        <span id="headerTimerVal">12:00</span>
+      </div>
+      <button class="btn" id="btnSpeaker" title="Режим доповідача (S)">
+        <span>🎙️</span> Доповідач
+      </button>
+    </div>
+  </header>
+
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <main class="deck-main">
+    <!-- Ambient Tokamak Flux Field Canvas -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Slides Container -->
+    <div class="slides-viewport">
+
+      <!-- SLIDE 1: Title & Overview -->
+      <section class="slide active" data-slide="1">
+        <div class="slide-tag">Акт 1 | Вступ & Конструкція Реактора</div>
+        <h1 class="slide-title">Відновлення магнітної рівноваги токамака:<br>ML-метрика проти рівняння Ґреда–Шафранова</h1>
+        <p class="slide-subtitle">AI-лабораторія ім. В. М. Горшкова, Фізико-математичний факультет КПІ ім. Ігоря Сікорського</p>
+        
+        <div class="grid-2col">
+          <div class="card-box">
+            <h3><span>🔬</span> Ключові тези доповіді</h3>
+            <ul style="padding-left: 20px; font-size: 14px; line-height: 1.7; color: #e6edf3;">
+              <li><strong>Парадокс $R^2_\psi = 0.976$:</strong> Чому найкраща ML-модель руйнує МГД-рівновагу ($g = 0.8627$, на 36% гірше за 1% шуму)?</li>
+              <li><strong>Сліпота офіційної метрики $S$:</strong> UNet_Lite проти простої MLP мають $\Delta S = -0.0015$ (95% CI $[-0.012 .. +0.009]$ містить 0).</li>
+              <li><strong>Діагностична метрика $S'\text{-gate}$ ($g_{\mathrm{ref}}=0.6328$):</strong> Відновлює фізичну ієрархію без зміни офіційних правил.</li>
+              <li><strong>Динаміка силових ліній:</strong> 1-модове збурення 2/1 не дає хаосу ($w=27.1\text{ мм}$); перекриття 2/1+3/1 за Чириковим ($S \ge 1$).</li>
+            </ul>
+            <div class="callout warning" style="margin-top: 16px;">
+              <strong>Чесність дослідження:</strong> Всі висновки базуються на парному бутстрепі по розрядах; спростовані гіпотези відкрито зафіксовано.
+            </div>
+          </div>
+
+          <div class="video-container">
+            <video controls autoplay loop muted playsinline>
+              <source src="videos/act1_cutaway_final.mp4" type="video/mp4">
+              <source src="videos/act1_cutaway_preview.mp4" type="video/mp4">
+              <source src="../../../motion/renders/act1_cutaway_final.mp4" type="video/mp4">
+              <source src="../../../motion/renders/act1_cutaway_preview.mp4" type="video/mp4">
+            </video>
+            <div class="video-caption">
+              <span>АКТ 1: Розріз реактора DIII-D #203702</span>
+              <span>8.0 с @ 24 fps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: The Paradox -->
+      <section class="slide" data-slide="2">
+        <div class="slide-tag">Акт 2 | Магнітні Поверхні & Парадокс Оптимізації</div>
+        <h2 class="slide-title">Парадокс $R^2 = 0.976$: Чи фізичний цей розв'язок?</h2>
+        <p class="slide-subtitle">Мінімізація $L^2$-похибки в просторі потоку створює ілюзію успіху ціною вибуху других похідних</p>
+        
+        <div class="grid-2col">
+          <div>
+            <div class="stat-row">
+              <div class="stat-badge">
+                <div class="stat-label">Офіційний бал S</div>
+                <div class="stat-val accent">0.6476</div>
+                <div style="font-size: 11px; color: var(--text-muted);">#1 у турнірній таблиці</div>
+              </div>
+              <div class="stat-badge">
+                <div class="stat-label">Детермінація R²ψ</div>
+                <div class="stat-val success">0.9760</div>
+                <div style="font-size: 11px; color: var(--text-muted);">Ідеальна підгонка поля</div>
+              </div>
+              <div class="stat-badge">
+                <div class="stat-label">Нев'язка ГШ g</div>
+                <div class="stat-val danger">0.8627</div>
+                <div style="font-size: 11px; color: var(--danger);">+36% вище за шум 1%!</div>
+              </div>
+            </div>
+
+            <div class="card-box">
+              <h3><span>⚠️</span> Механізм розриву: Соболєвський простір $H^2$</h3>
+              <p style="font-size: 13px; line-height: 1.6; margin-bottom: 8px;">
+                Оператор Ґреда–Шафранова $\Delta^*\psi \equiv R\frac{\partial}{\partial R}\left(\frac{1}{R}\frac{\partial\psi}{\partial R}\right) + \frac{\partial^2\psi}{\partial Z^2}$ містить <strong>другі просторові похідні</strong>.
+              </p>
+              <p style="font-size: 13px; line-height: 1.6; color: var(--text-muted);">
+                Високочастотний шум з амплітудою $\epsilon$ на частоті $k$ дає похибку потоку $\sim \epsilon$, але внесок у нев'язку зростає як $k^2 \epsilon$. Згортка UNet_Lite ідеально підганяє потік, але плодить паразитні осциляції струму плазми $j_\phi$.
+              </p>
+            </div>
+          </div>
+
+          <div class="video-container">
+            <video controls autoplay loop muted playsinline>
+              <source src="videos/act2_surfaces_final.mp4" type="video/mp4">
+              <source src="videos/act2_surfaces_preview.mp4" type="video/mp4">
+              <source src="../../../motion/renders/act2_surfaces_final.mp4" type="video/mp4">
+              <source src="../../../motion/renders/act2_surfaces_preview.mp4" type="video/mp4">
+            </video>
+            <div class="video-caption">
+              <span>АКТ 2: Магнітні поверхні ψ_N ∈ [0.12 .. 0.97]</span>
+              <span>12.0 с @ 24 fps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: Physics Context -->
+      <section class="slide" data-slide="3">
+        <div class="slide-tag">Акт 3 | Гамільтонова Природа & Силові Лінії</div>
+        <h2 class="slide-title">Гамільтонова система силових ліній (E19)</h2>
+        <p class="slide-subtitle">Збереження фазового об'єму $|\det J - 1| \le 10^{-10}$ та раціональні поверхні запасу стійкості $q=m/n$</p>
+        
+        <div class="grid-2col">
+          <div class="card-box">
+            <h3><span>⚡</span> Фундаментальна рівновага МГД</h3>
+            <p style="font-size: 13px; line-height: 1.6; margin-bottom: 12px;">
+              Баланс сил у тороїдальній плазмі описується рівнянням Ґреда–Шафранова:
+            </p>
+            <div style="background: #161b22; padding: 10px 14px; border-radius: 6px; font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 14px;">
+              Δ*ψ = -μ₀ R² p'(ψ) - F(ψ) F'(ψ)
+            </div>
+            <p style="font-size: 13px; line-height: 1.6; color: var(--text-muted); margin-bottom: 10px;">
+              Трасування силових ліній магнітного поля уздовж тороїдального кута $\phi$ є строго канонічною системою зі збереженням фазової площі:
+            </p>
+            <ul style="padding-left: 20px; font-size: 13px; line-height: 1.6; color: #e6edf3;">
+              <li>Намотка на незбурені тори із кроком $\omega = 1/q(\psi_N)$.</li>
+              <li>Стандартні методи Рунге–Кутти штучно розсіюють фазовий потік; наш симплектичний інтегратор гарантує збереження об'єму до $10^{-10}$.</li>
+            </ul>
+          </div>
+
+          <div class="video-container">
+            <video controls autoplay loop muted playsinline>
+              <source src="videos/act3_fieldlines_final.mp4" type="video/mp4">
+              <source src="videos/act3_fieldlines_preview.mp4" type="video/mp4">
+              <source src="../../../motion/renders/act3_fieldlines_final.mp4" type="video/mp4">
+              <source src="../../../motion/renders/act3_fieldlines_preview.mp4" type="video/mp4">
+            </video>
+            <div class="video-caption">
+              <span>АКТ 3: Силові лінії в магнітному торі</span>
+              <span>12.0 с @ 24 fps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: Leaderboard & S'-gate -->
+      <section class="slide" data-slide="4">
+        <div class="slide-tag">Турнірна Таблиця & Метрологія</div>
+        <h2 class="slide-title">Офіційна метрика $S$ проти діагностичної $S'\text{-gate}$</h2>
+        <p class="slide-subtitle">Парний бутстреп за 8 контрольними розрядами доводить статистичну нерозрізненність моделей за метрикою $S$</p>
+        
+        <div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Модель</th>
+                <th>Офіційний S [95% CI]</th>
+                <th>Нев'язка g</th>
+                <th>Штраф Гейта G_GS</th>
+                <th>S'-gate [95% CI]</th>
+                <th>Ранг S</th>
+                <th>Ранг S'</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>UNet_Lite</strong> (CNN)</td>
+                <td class="mono">0.6476 [0.629..0.667]</td>
+                <td class="mono" style="color: var(--danger);">0.8627</td>
+                <td class="mono">0.7213</td>
+                <td class="mono">0.4202 [0.372..0.471]</td>
+                <td><span style="color: var(--success); font-weight: 700;">#1</span></td>
+                <td><span style="color: var(--danger); font-weight: 700;">#2</span></td>
+              </tr>
+              <tr>
+                <td><strong>MLP (sklearn)</strong> (50 PCA)</td>
+                <td class="mono">0.6437 [0.624..0.662]</td>
+                <td class="mono" style="color: var(--success);">0.5027</td>
+                <td class="mono">1.0000</td>
+                <td class="mono" style="color: var(--accent); font-weight: 700;">0.5331 [0.400..0.636]</td>
+                <td><span style="color: var(--text-muted);">#2</span></td>
+                <td><span style="color: var(--success); font-weight: 700;">#1</span></td>
+              </tr>
+              <tr>
+                <td><strong>PCA + Ridge</strong> (Baseline)</td>
+                <td class="mono">0.1926 [0.105..0.599]</td>
+                <td class="mono">0.6430</td>
+                <td class="mono">0.9682</td>
+                <td class="mono">0.1834 [0.088..0.584]</td>
+                <td>#3</td>
+                <td>#3</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="grid-2col-equal" style="margin-top: 20px;">
+            <div class="card-box">
+              <h3><span>📊</span> Статистичний висновок (Парний бутстреп)</h3>
+              <p style="font-size: 13px; line-height: 1.6;">
+                <strong>Різниця за метрикою S:</strong><br>
+                $\Delta S = -0.0015$, 95% CI $[-0.0121 .. +0.0089]$.<br>
+                <span style="color: var(--warning);">Інтервал містить 0</span> — моделі <strong>статистично нерозрізненні</strong>.
+              </p>
+            </div>
+            <div class="card-box">
+              <h3><span>🛡️</span> Формула $S'\text{-gate}$ ($g_{\mathrm{ref}}=0.6328$)</h3>
+              <p style="font-size: 13px; line-height: 1.6;">
+                <strong>Різниця за метрикою S'-gate:</strong><br>
+                $\Delta S'\text{-gate} = -0.1129$, 95% CI $[-0.2044 .. -0.0006]$.<br>
+                <span style="color: var(--accent);">Інтервал НЕ містить 0</span> — фізичний гейт інвертує лідерство на користь гладкого розв'язку.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: 2D Equilibrium Comparison Panel (Act 5) -->
+      <section class="slide" data-slide="5">
+        <div class="slide-tag">Акт 5 | 2D Порівняння Рівноваг (Тестовий Кадр)</div>
+        <h2 class="slide-title">Пряме порівняння полів: Істина проти UNet_Lite</h2>
+        <p class="slide-subtitle">DIII-D розряд #062, кадр 147 — медіанна нев'язка тестового спліту (g=0.8618)</p>
+        
+        <div class="grid-2col">
+          <div>
+            <div class="stat-row">
+              <div class="stat-badge">
+                <div class="stat-label">Кадр вибірки</div>
+                <div class="stat-val">#062 : 147</div>
+                <div style="font-size: 11px; color: var(--text-muted);">Ранг 760 з 1521 (медіана)</div>
+              </div>
+              <div class="stat-badge">
+                <div class="stat-label">g(Істина EFIT)</div>
+                <div class="stat-val success">0.0065</div>
+                <div style="font-size: 11px; color: var(--text-muted);">Еталонна гладкість</div>
+              </div>
+              <div class="stat-badge">
+                <div class="stat-label">g(UNet_Lite)</div>
+                <div class="stat-val danger">0.8618</div>
+                <div style="font-size: 11px; color: var(--danger);">Шум других похідних</div>
+              </div>
+            </div>
+
+            <div class="card-box">
+              <h3><span>🎯</span> Методологія вибору кадру</h3>
+              <p style="font-size: 13px; line-height: 1.6; margin-bottom: 8px;">
+                Кадр обрано <strong>строго за медіаною нев'язки</strong> $g$ серед усіх 1521 тестових кадрів спліту 60–67, а не суб'єктивно «найкрасивіший».
+              </p>
+              <p style="font-size: 13px; line-height: 1.6; color: var(--text-muted);">
+                Єдина фіксована шкала локальної нев'язки $g_{\mathrm{local}} \in [0.0 .. 1.2]$ чітко показує: там, де істинне поле абсолютно спокійне ($g < 0.01$), нейромережа породжує хибні градієнти струму біля сепаратриси та осі.
+              </p>
+            </div>
+          </div>
+
+          <div class="video-container">
+            <video controls autoplay loop muted playsinline>
+              <source src="videos/act5_compare_2d_final.mp4" type="video/mp4">
+              <source src="videos/act5_compare_2d_preview.mp4" type="video/mp4">
+              <source src="../../../motion/renders/act5_compare_2d_final.mp4" type="video/mp4">
+              <source src="../../../motion/renders/act5_compare_2d_preview.mp4" type="video/mp4">
+            </video>
+            <div class="video-caption">
+              <span>АКТ 5: 2D Панель порівняння контурів рівноваги</span>
+              <span>12.0 с @ 24 fps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: Poincaré Section Theory (Act 4A & 4B) -->
+      <section class="slide" data-slide="6">
+        <div class="slide-tag">Акт 4 | Переріз Пуанкаре: Одиночна Мода vs Стохастичність</div>
+        <h2 class="slide-title">Магнітні острови та критерій Чирикова (E20)</h2>
+        <p class="slide-subtitle">1-модове збурення 2/1 ніколи не дає хаосу; 2-модове перекриття 2/1+3/1 відкриває стохастичний шар</p>
+        
+        <div class="grid-2col-equal">
+          <!-- Act 4A -->
+          <div class="card-box">
+            <h3><span>🟠</span> АКТ 4А: Одиночна мода 2/1 ($w=27.1\text{ мм}$)</h3>
+            <div class="video-container" style="margin-bottom: 12px;">
+              <video controls autoplay loop muted playsinline>
+                <source src="videos/act4a_poincare_single_final.mp4" type="video/mp4">
+                <source src="videos/act4a_poincare_single_preview.mp4" type="video/mp4">
+                <source src="../../../motion/renders/act4a_poincare_single_final.mp4" type="video/mp4">
+                <source src="../../../motion/renders/act4a_poincare_single_preview.mp4" type="video/mp4">
+              </video>
+            </div>
+            <ul style="padding-left: 18px; font-size: 12px; line-height: 1.6; color: #e6edf3;">
+              <li><strong>Теорема E20:</strong> Автономний маятник $H^*$, хаос повністю відсутній у моделі з однією модою (E20).</li>
+              <li><strong>Ширина острова на слайді:</strong> $w = 27.1\text{ мм}$ ($A=10^{-3}$, 2/1, модель сцени).</li>
+              <li>Параметр Чирикова: $S = \text{н/д}$ (одна мода).</li>
+            </ul>
+          </div>
+
+          <!-- Act 4B -->
+          <div class="card-box">
+            <h3><span>🔴</span> АКТ 4Б: Ключовий кадр перекриття ($A=4.8\cdot 10^{-3}$)</h3>
+            <div class="video-container" style="margin-bottom: 12px;">
+              <video controls autoplay loop muted playsinline>
+                <source src="videos/act4b_poincare_chaos_final.mp4" type="video/mp4">
+                <source src="videos/act4b_poincare_chaos_preview.mp4" type="video/mp4">
+                <source src="../../../motion/renders/act4b_poincare_chaos_final.mp4" type="video/mp4">
+                <source src="../../../motion/renders/act4b_poincare_chaos_preview.mp4" type="video/mp4">
+              </video>
+            </div>
+            <ul style="padding-left: 18px; font-size: 12px; line-height: 1.6; color: #e6edf3;">
+              <li><strong>Перекриття Чирикова:</strong> $S = 1.002 \ge 1.0$ на ключовому кадрі $A=4.8\cdot 10^{-3}$.</li>
+              <li><strong>FTLE-аудит:</strong> k=2.02 (у 2.0 раза вище за регулярний).</li>
+              <li><strong>Точний підпис:</strong> «S≈1.0–1.1: початок перекриття; стохастичність ймовірна, кількісно не підтверджена».</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: Interactive Poincaré Section Simulator -->
+      <section class="slide" data-slide="7">
+        <div class="slide-tag">Інтерактивна Лабораторія | Симулятор Перерізу Пуанкаре</div>
+        <h2 class="slide-title">Дослідження резонансів у реальному часі</h2>
+        <p class="slide-subtitle">15 прорахованих значень амплітуди (дискретно) через tokamld.tracer: 7 кадрів секції А (2/1) та 8 кадрів секції Б (2/1+3/1)</p>
+        
+        <div class="sim-panel">
+          <div class="sim-controls">
+            <div style="display: flex; gap: 8px;">
+              <button class="btn active" id="btnModeA">Секція А (Мода 2/1)</button>
+              <button class="btn" id="btnModeB">Секція Б (Моди 2/1 + 3/1)</button>
+              <button class="btn" id="btnAutoSweep" style="border-color: var(--accent); color: var(--accent);" title="Автоматичне відтворення свіпу амплітуди">
+                <span id="autoSweepIcon">▶</span> <span id="autoSweepText">Авто-Свіп</span>
+              </button>
+            </div>
+
+            <div class="sim-slider-group">
+              <label id="lblAmp">Амплітуда A: 1.0e-3</label>
+              <input type="range" id="ampSlider" min="0" max="6" value="4" step="1">
+            </div>
+
+            <div style="display: flex; gap: 14px; font-family: var(--font-mono); font-size: 12px; align-items: center;">
+              <div>Чириков S: <strong id="valChirikov" style="color: var(--accent);">н/д</strong></div>
+              <div>Ширина w₂/₁: <strong id="valW21">27.1 мм</strong></div>
+              <div>Стан: <strong id="valStatus" style="color: var(--success);">Регулярний (хаос відсутній у моделі з однією модою, E20)</strong></div>
+            </div>
+            <div style="width: 100%; font-size: 11px; color: var(--warning); font-family: var(--font-mono); margin-top: 2px;">
+              * 15 прорахованих значень амплітуди (дискретно), не безперервна фізика
+            </div>
+          </div>
+
+          <canvas id="poincareCanvas" width="1160" height="380"></canvas>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: Tokamak Transfer (MAST) & Scientific Integrity -->
+      <section class="slide" data-slide="8">
+        <div class="slide-tag">Перенос на Сферичний Токамак MAST & Негативні Результати</div>
+        <h2 class="slide-title">Коваріантний перенос рівноваги та відтворюваність</h2>
+        <p class="slide-subtitle">Успішний міжмашинний перенос DIII-D → MAST та відкрита публікація спростованих гіпотез</p>
+        
+        <div class="grid-2col-equal">
+          <div class="card-box">
+            <h3><span>🌐</span> Перенос рівноваги на сферичний MAST (T11)</h3>
+            <p style="font-size: 13px; line-height: 1.6; margin-bottom: 12px;">
+              Пряме застосування моделі з DIII-D на MAST у декартових координатах дає катастрофічний зрив через різну аспектність ($R^2_\psi = \mathbf{-0.9960}$).
+            </p>
+            <div class="callout" style="margin-bottom: 12px;">
+              <strong>Фізично коваріантний метод:</strong><br>
+              Нормалізовані координати $(\bar{R}, \bar{Z}, \psi_N)$ зберегли <strong>100% топологічного скелета</strong> $1\mathrm{O}/0\mathrm{X}$ і підняли точність до $R^2_\psi = \mathbf{0.6880}$ без повторного навчання!
+            </div>
+          </div>
+
+          <div class="card-box">
+            <h3><span>⚖️</span> Культура науки за Поппером (Негативні результати)</h3>
+            <ul style="padding-left: 20px; font-size: 13px; line-height: 1.7; color: #e6edf3;">
+              <li>
+                <strong>Мультитаск струму плазми (T3):</strong><br>
+                Очікували покращення узгодженості. Бутстреп спростував: $\Delta\mathrm{Consistency} = -0.0203$ (CI $[-0.09 .. +0.07]$ перетинає 0) через конфлікт градієнтів.
+              </li>
+              <li>
+                <strong>Deep Ritz проти PINN (T7):</strong><br>
+                Deep Ritz показав дисперсію нев'язки $\mathrm{IQR}(g)$ у 13–32 рази більшу за PINN на краях сітки.
+              </li>
+            </ul>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">
+              Відкрита фіксація спростувань економить місяці праці дослідникам.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 9: Conclusions & Licenses -->
+      <section class="slide" data-slide="9">
+        <div class="slide-tag">Підсумок, Рекомендації & Ліцензії</div>
+        <h2 class="slide-title">Висновки для майбутнього TokaBench</h2>
+        <p class="slide-subtitle">Фізико-математичний факультет КПІ ім. Ігоря Сікорського | AI-лабораторія ім. В. М. Горшкова</p>
+        
+        <div class="grid-2col">
+          <div class="card-box">
+            <h3><span>📌</span> Рекомендації організаторам змагання</h3>
+            <ol style="padding-left: 20px; font-size: 14px; line-height: 1.7; color: #e6edf3;">
+              <li><strong>Доповнити оцінювання соболєвськими нормами:</strong> $L^2$-метрики сліпі до нефізичних осциляцій других похідних.</li>
+              <li><strong>Впровадити поріг шуму $g_{\mathrm{ref}}$:</strong> Не штрафувати моделі за шум самої діагностики, але відсікати моделі з $g > g_{\mathrm{ref}}$.</li>
+              <li><strong>Контролювати псевдореплікацію:</strong> Бутстреп повинен виконуватися строго за розрядами (кластерами), а не за окремими кадрами.</li>
+            </ol>
+          </div>
+
+          <div class="card-box">
+            <h3><span>📜</span> Ліцензійна атрибуція</h3>
+            <p style="font-size: 13px; line-height: 1.6; margin-bottom: 8px;">
+              <strong>Вихідний код:</strong> MIT License<br>
+              <strong>Наукові дані та документація:</strong> CC BY 4.0 International<br>
+              <strong>3D-бібліотека Three.js:</strong> <a href="LICENSE-three.txt" style="color: var(--accent);" target="_blank">MIT License (Three.js Authors)</a>
+            </p>
+            <div class="callout" style="font-size: 12px;">
+              <strong>Чесне застереження:</strong> 3D-візуалізація демонструє штучні вакуумні моди 2/1 та 3/1 на фоні рівноваги DIII-D #203702 і не є прямою симуляцією динаміки реальної плазми.
+            </div>
+            <div style="margin-top: 14px; text-align: center; color: var(--text-muted); font-size: 13px;">
+              Дякуємо за увагу! Готові відповісти на ваші запитання.
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Speaker Mode Pane -->
+    <aside class="speaker-pane" id="speakerPane">
+      <div class="speaker-header">
+        <div class="timer-display" id="speakerTimer">00:00</div>
+        <div class="timer-controls">
+          <button class="btn" id="btnTimerStart" style="padding: 4px 8px; font-size: 11px;">Старт</button>
+          <button class="btn" id="btnTimerReset" style="padding: 4px 8px; font-size: 11px;">Скинути</button>
+        </div>
+      </div>
+      <div class="speaker-body">
+        <h4>Нотатки Доповідача (PITCH_12MIN.md)</h4>
+        <div class="speaker-notes-text" id="speakerNotes">
+          Завантаження нотаток...
+        </div>
+        <div class="speaker-next-preview">
+          <div class="speaker-next-title">НАСТУПНИЙ СЛАЙД:</div>
+          <div id="speakerNextTitle" style="font-weight: 600; color: var(--text-bright);">...</div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Slide Overview Modal -->
+  <div id="slideOverviewModal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div style="font-weight: 700; font-size: 16px; color: var(--text-bright);">Огляд Слайдів Презентації</div>
+        <button class="btn" id="btnCloseOverview">✕ Закрити (Esc)</button>
+      </div>
+      <div class="modal-grid" id="modalSlideGrid"></div>
+    </div>
+  </div>
+
+  <div class="key-helper">
+    Навігація: [←/→] або [Space] | Огляд: [O] | Режим доповідача: [S] | FMF KPI 2026
+  </div>
+
+  <!-- Companion Poincare Data -->
+  <script src="js/poincare_data.js"></script>
+  <!-- Three.js Local Standalone Bundle -->
+  <script src="js/three.min.js"></script>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // Speaker notes mapped from team/presentation/PITCH_12MIN.md
+      const SPEAKER_NOTES = {
+        1: `«Шановні члени журі, колеги-дослідники!\nУявіть ситуацію: ми навчаємо згорткову нейромережу UNet_Lite для відновлення магнітного поля токамака DIII-D. Тестовий результат виглядає бездоганно: R²_ψ = 0.976, а офіційний бал S = 0.6476 виводить модель на перше місце.\nБудь-який стандартний Data Science пайплайн сказав би: "Задача розв'язана, надсилайте у продакшн".\nАле ми запитали себе: чи фізичний цей розв'язок? Що станеться, якщо пустити це поле в реальну плазму? Плазма розлетиться на стінки за кілька мікросекунд! Нев'язка закону магнітогідродинамічної рівноваги g = 0.8627, що на 36% гірше за зашумлені дані (g_ref = 0.6328). Сьогодні ми розкриємо цей парадокс.»`,
+        2: `«У чому ж полягає парадокс машинного навчання?\nНейромережі мінімізують MSE у просторі L². Проте оператор Ґреда–Шафранова містить другі просторові похідні з простору Соболєва H².\nДиференціювання діє як підсилювач високих частот: похибка амплітудою ε дає потік ~ ε, але внесок у Δ*ψ зростає як k²ε!\nЯк результат, UNet_Lite ідеально підганяє форму поля в L², але генерує мікроосциляції других похідних.\nІ тут ми стикаємося з головною вразливістю офіційної метрики S: вона повністю сліпа до руйнування других похідних.»`,
+        3: `«Згадаємо фундаментальну фізику токамака. Утримання плазми базується на балансі сили Лоренца і градієнта тиску: j × B = ∇p. В осесиметричному торі це рівняння Ґреда–Шафранова: Δ*ψ = -μ₀ R² p' - F F'.\nВсередині камери магнітні поверхні вкладені одна в одну навколо магнітної осі, а сепаратриса проходить через X-точку, де полоїдальне поле строго нульове.\nБа більше: трасування магнітних силових ліній вздовж кута φ є канонічною гамільтоновою системою із точним збереженням фазового об'єму |det J - 1| ≤ 10⁻¹⁰.\nБудь-який просторовий шум других похідних викликає фатальне розмивання магнітних поверхонь.»`,
+        4: `«Погляньмо на зведену таблицю лідерборду.\nЗа офіційною метрикою S: UNet_Lite має 0.6476, а проста MLP — 0.6437. Ми застосували парний бутстреп за 8 контрольними розрядами (#060–#067): ΔS = -0.0015 з 95% CI [-0.0121 .. +0.0089]. Інтервал містить нуль — моделі статистично нерозрізненні!\nТому ми запропонували діагностичну метрику S'-gate = S · G_GS · P_topo.\nМультиплікативний гейт м'яко штрафує модель лише тоді, коли нев'язка перевищує експериментальний шум g_ref = 0.6328.\nДля S'-gate парна різниця становить ΔS' = -0.1129 з CI [-0.2044 .. -0.0006] (нуль не входить) — фізична ієрархія відновлюється на користь MLP (50 PCA компонентів діють як неявний соболєвський регулятор).»`,
+        5: `«Перед вами 2D-панель порівняння контурів рівноваги на тестовому спліті.\nМи обрали розряд #062, кадр 147 строго за медіаною нев'язки g серед усіх 1521 тестових кадрів (ранг 760).\nЗверніть увагу: ліворуч — істина EFIT (g = 0.0065), праворуч — прогноз UNet_Lite (g = 0.8618).\nКольорова шкала нев'язки фіксована для обох панелей: [0.0 .. 1.2].\nУ той час як істинні контури потоку ідеально гладкі, передбачення нейромережі всіяне локальними збуреннями, що спотворюють розрахунок полоїдального струму плазми.»`,
+        6: `«Перейдемо до динаміки магнітних силових ліній на перерізі Пуанкаре.\nМи верифікували фундаментальну теорему E20: збурення з однією просторовою модою (2/1) ніколи не викликає хаосу! Система зводиться до маятника з аналітичною шириною острова w = 27.1 мм (модель сцени).\nДинамічний хаос виникає виключно при перекритті двох і більше резонансів (критерій Чирикова S ≥ 1).\nНа правому відео (Акт 4Б) ми показуємо ключовий кадр A = 4.8·10⁻³ (k = 2.02), де острови 2/1 та 3/1 починають перекриватися (S = 1.002) і формується характерний стохастичний шар.»`,
+        7: `«Перед вами наш інтерактивний веб-симулятор перерізу Пуанкаре.\nВи можете перемикатися між секцією А (одиночна мода 2/1) та секцією Б (подвійна мода 2/1 + 3/1), а також змінювати амплітуду збурення A.\nЗверніть увагу: у секції А при збільшенні A острів розширюється, але лінії залишаються строго замкненими КАМ-кривими — хаосу немає.\nУ секції Б при досягненні амплітуди A = 4.8·10⁻³ та 6.0·10⁻³ точки хаотично розсіюються по шару між двома резонансами, демонструючи стохастичність.»`,
+        8: `«Два важливі наукові досягнення нашої команди:\n1. Перенос рівноваги на сферичний токар MAST (T11): пряме декартове перенесення зазнає краху (R² = -0.9960). Наш фізично коваріантний метод у нормалізованих координатах забезпечив 100% збереження топологічного скелета 1O/0X і R² = 0.6880 без донавчання.\n2. Наукова доброчесність: ми відкрито зафіксували два спростування передреєстрованих гіпотез (мультитаск T3 не дав виграшу, а Deep Ritz T7 виявився нестабільним у 13–32 рази). Ми публікуємо негативні результати, щоб заощадити час іншим дослідникам.»`,
+        9: `«Підсумовуючи наш виступ:\n1. Стандартні ML-метрики (L², MSE, S) не бачать руйнування соболєвських похідних.\n2. Діагностична метрика S'-gate із порогом g_ref = 0.6328 захищає плазму від нефізичних передбачень.\n3. Ми рекомендуємо організаторам TokaBench у наступних сезонах доповнити правила соболєвськими нормами або нев'язкою Ґреда–Шафранова.\nУсі матеріали проєкту доступні під відкритими ліцензіями: код MIT, дані CC BY 4.0, Three.js MIT.\nДякуємо за увагу! Готові до дискусії та відповідей на запитання журі.»`
+      };
+
+      const SLIDE_TITLES = {
+        1: "Вступ & Конструкція Реактора DIII-D",
+        2: "Парадокс R² = 0.976 та простори Соболєва",
+        3: "Гамільтонова природа силових ліній",
+        4: "Турнірна таблиця та метрика S'-gate",
+        5: "2D Порівняння рівноваг (Медіанний кадр #062:147)",
+        6: "Магнітні острови та критерій Чирикова",
+        7: "Інтерактивний симулятор Пуанкаре",
+        8: "Перенос на MAST та негативні результати",
+        9: "Висновки для TokaBench та Ліцензії"
+      };
+
+      let currentSlide = 1;
+      const totalSlides = 9;
+
+      const slides = document.querySelectorAll('.slide');
+      const slideNum = document.getElementById('slideNum');
+      const progressBar = document.getElementById('progressBar');
+      const speakerPane = document.getElementById('speakerPane');
+      const speakerNotes = document.getElementById('speakerNotes');
+      const speakerNextTitle = document.getElementById('speakerNextTitle');
+
+      function updateSlide(newIdx, direction = null) {
+        if (newIdx < 1 || newIdx > totalSlides) return;
+        const prevSlideIdx = currentSlide;
+        currentSlide = newIdx;
+
+        slides.forEach(s => {
+          s.classList.remove('active', 'slide-from-right', 'slide-from-left');
+        });
+        const activeSlide = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+        if (activeSlide) {
+          activeSlide.classList.add('active');
+          if (direction === 'next' || (direction === null && currentSlide > prevSlideIdx)) {
+            activeSlide.classList.add('slide-from-right');
+          } else if (direction === 'prev' || (direction === null && currentSlide < prevSlideIdx)) {
+            activeSlide.classList.add('slide-from-left');
+          }
+        }
+
+        slideNum.textContent = `${currentSlide} / ${totalSlides}`;
+        progressBar.style.width = `${((currentSlide - 1) / (totalSlides - 1)) * 100}%`;
+
+        // Update speaker pane
+        if (SPEAKER_NOTES[currentSlide]) {
+          speakerNotes.textContent = SPEAKER_NOTES[currentSlide];
+        }
+        const nextIdx = currentSlide < totalSlides ? currentSlide + 1 : 1;
+        speakerNextTitle.textContent = `${nextIdx}. ${SLIDE_TITLES[nextIdx] || ''}`;
+
+        // Auto play videos on slide
+        if (activeSlide) {
+          const vids = activeSlide.querySelectorAll('video');
+          vids.forEach(v => {
+            v.currentTime = 0;
+            v.play().catch(() => {});
+          });
+        }
+
+        // Trigger simulator render if on slide 7
+        if (currentSlide === 7) {
+          drawPoincareCanvas();
+        }
+
+        // Sync modal active state
+        const modalCards = document.querySelectorAll('.modal-slide-card');
+        modalCards.forEach((c, idx) => {
+          if (idx + 1 === currentSlide) c.classList.add('current');
+          else c.classList.remove('current');
+        });
+      }
+
+      document.getElementById('btnPrev').addEventListener('click', () => updateSlide(currentSlide - 1, 'prev'));
+      document.getElementById('btnNext').addEventListener('click', () => updateSlide(currentSlide + 1, 'next'));
+
+      // Keyboard navigation
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          e.preventDefault();
+          updateSlide(currentSlide + 1, 'next');
+        } else if (e.key === 'ArrowLeft' || e.key === 'Backspace' || e.key === 'PageUp') {
+          e.preventDefault();
+          updateSlide(currentSlide - 1, 'prev');
+        } else if (e.key === 's' || e.key === 'S') {
+          e.preventDefault();
+          toggleSpeaker();
+        }
+      });
+
+      // Speaker Mode Toggle
+      const btnSpeaker = document.getElementById('btnSpeaker');
+      function toggleSpeaker() {
+        speakerPane.classList.toggle('active');
+        btnSpeaker.classList.toggle('active');
+      }
+      btnSpeaker.addEventListener('click', toggleSpeaker);
+
+      // Presentation Timer
+      let timerSec = 0;
+      let timerInterval = null;
+      const speakerTimer = document.getElementById('speakerTimer');
+      const btnTimerStart = document.getElementById('btnTimerStart');
+      const btnTimerReset = document.getElementById('btnTimerReset');
+      const headerTimerBadge = document.getElementById('headerTimerBadge');
+      const headerTimerVal = document.getElementById('headerTimerVal');
+
+      function formatTime(s) {
+        const m = Math.floor(s / 60);
+        const sec = s % 60;
+        return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+      }
+
+      function updateTimerDisplay() {
+        speakerTimer.textContent = formatTime(timerSec);
+        if (timerSec >= 720) { // 12 min
+          speakerTimer.className = 'timer-display over';
+        } else if (timerSec >= 600) { // 10 min
+          speakerTimer.className = 'timer-display warn';
+        } else {
+          speakerTimer.className = 'timer-display';
+        }
+
+        // Sync header countdown timer (12 min pitch)
+        if (headerTimerVal) {
+          const totalPitch = 720;
+          const rem = Math.max(0, totalPitch - timerSec);
+          headerTimerVal.textContent = formatTime(rem);
+          if (headerTimerBadge) {
+            if (rem === 0) {
+              headerTimerBadge.className = 'timer-pill over';
+            } else if (rem <= 120) {
+              headerTimerBadge.className = 'timer-pill warn ' + (timerInterval ? 'running' : '');
+            } else if (timerInterval) {
+              headerTimerBadge.className = 'timer-pill running';
+            } else {
+              headerTimerBadge.className = 'timer-pill';
+            }
+          }
+        }
+      }
+
+      function toggleTimer() {
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          btnTimerStart.textContent = 'Старт';
+        } else {
+          timerInterval = setInterval(() => {
+            timerSec++;
+            updateTimerDisplay();
+          }, 1000);
+          btnTimerStart.textContent = 'Пауза';
+        }
+        updateTimerDisplay();
+      }
+
+      btnTimerStart.addEventListener('click', toggleTimer);
+      if (headerTimerBadge) headerTimerBadge.addEventListener('click', toggleTimer);
+
+      btnTimerReset.addEventListener('click', () => {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        timerSec = 0;
+        btnTimerStart.textContent = 'Старт';
+        updateTimerDisplay();
+      });
+
+      // -------------------------------------------------------------
+      // Interactive Poincaré Canvas Simulator (Slide 7)
+      // -------------------------------------------------------------
+      const pCanvas = document.getElementById('poincareCanvas');
+      const pCtx = pCanvas.getContext('2d');
+      const ampSlider = document.getElementById('ampSlider');
+      const btnModeA = document.getElementById('btnModeA');
+      const btnModeB = document.getElementById('btnModeB');
+      const lblAmp = document.getElementById('lblAmp');
+      const valChirikov = document.getElementById('valChirikov');
+      const valW21 = document.getElementById('valW21');
+      const valStatus = document.getElementById('valStatus');
+
+      let currentMode = 'A'; // 'A' or 'B'
+      let currentAmpIdx = 4;
+
+      btnModeA.addEventListener('click', () => {
+        currentMode = 'A';
+        btnModeA.classList.add('active');
+        btnModeB.classList.remove('active');
+        ampSlider.max = 6;
+        ampSlider.value = Math.min(6, currentAmpIdx);
+        updateSimulator();
+      });
+
+      btnModeB.addEventListener('click', () => {
+        currentMode = 'B';
+        btnModeB.classList.add('active');
+        btnModeA.classList.remove('active');
+        ampSlider.max = 7;
+        ampSlider.value = Math.min(7, currentAmpIdx);
+        updateSimulator();
+      });
+
+      ampSlider.addEventListener('input', (e) => {
+        currentAmpIdx = parseInt(e.target.value, 10);
+        updateSimulator();
+      });
+
+      function updateSimulator() {
+        if (!window.POINCARE_DATA || !window.POINCARE_DATA.frames) return;
+        const frames = window.POINCARE_DATA.frames;
+        
+        let frameObj = null;
+        if (currentMode === 'A') {
+          // frames 0..6
+          const idx = Math.min(6, currentAmpIdx);
+          frameObj = frames[idx];
+          lblAmp.textContent = `Амплітуда A: ${frameObj.amp.toExponential(1)}`;
+          valChirikov.textContent = 'н/д (одна мода)';
+          valChirikov.style.color = 'var(--text-muted)';
+          valW21.textContent = frameObj.island_width_2_1 ? `${(frameObj.island_width_2_1 / 2.7116 * 1000).toFixed(1)} мм` : '0.0 мм';
+          valStatus.textContent = 'Регулярний (хаос відсутній у моделі з однією модою, E20)';
+          valStatus.style.color = 'var(--success)';
+        } else {
+          // frames 7..14
+          const idx = 7 + Math.min(7, currentAmpIdx);
+          frameObj = frames[idx];
+          lblAmp.textContent = `Амплітуда A: ${frameObj.amp.toExponential(1)}`;
+          valChirikov.textContent = String(frameObj.chirikov_S);
+          valW21.textContent = frameObj.island_width_2_1 ? `${(frameObj.island_width_2_1 / 2.7116 * 1000).toFixed(1)} мм` : '0.0 мм';
+          if (frameObj.chirikov_S >= 1.0) {
+            valChirikov.style.color = 'var(--danger)';
+            valStatus.textContent = 'Початок перекриття островів (S ≥ 1.0)';
+            valStatus.style.color = 'var(--danger)';
+          } else {
+            valChirikov.style.color = 'var(--accent)';
+            valStatus.textContent = 'Окремі острівні ланцюги (S < 1.0)';
+            valStatus.style.color = 'var(--warning)';
+          }
+        }
+
+        drawPoincareCanvas(frameObj);
+      }
+
+      function drawPoincareCanvas(frameObj) {
+        if (!frameObj) {
+          if (!window.POINCARE_DATA || !window.POINCARE_DATA.frames) return;
+          frameObj = currentMode === 'A' ? window.POINCARE_DATA.frames[currentAmpIdx] : window.POINCARE_DATA.frames[7 + currentAmpIdx];
+        }
+        if (!frameObj) return;
+
+        const w = pCanvas.width;
+        const h = pCanvas.height;
+        pCtx.fillStyle = '#05070a';
+        pCtx.fillRect(0, 0, w, h);
+
+        // Coordinate limits (R in [1.5, 2.3], Z in [-0.5, 0.4])
+        const rMin = 1.50, rMax = 2.32;
+        const zMin = -0.48, zMax = 0.38;
+
+        function toX(r) { return ((r - rMin) / (rMax - rMin)) * (w - 100) + 60; }
+        function toY(z) { return h - (((z - zMin) / (zMax - zMin)) * (h - 60) + 30); }
+
+        // Grid lines
+        pCtx.strokeStyle = '#161d26';
+        pCtx.lineWidth = 1;
+        for (let r = 1.6; r <= 2.3; r += 0.1) {
+          pCtx.beginPath();
+          pCtx.moveTo(toX(r), 20);
+          pCtx.lineTo(toX(r), h - 25);
+          pCtx.stroke();
+        }
+        for (let z = -0.4; z <= 0.3; z += 0.2) {
+          pCtx.beginPath();
+          pCtx.moveTo(50, toY(z));
+          pCtx.lineTo(w - 30, toY(z));
+          pCtx.stroke();
+        }
+
+        // Draw resonant surfaces (q=2 at R=2.135, q=3 at R=2.19)
+        pCtx.strokeStyle = 'rgba(210, 153, 34, 0.35)';
+        pCtx.setLineDash([4, 4]);
+        pCtx.beginPath();
+        pCtx.moveTo(toX(2.135), 20);
+        pCtx.lineTo(toX(2.135), h - 25);
+        pCtx.stroke();
+        pCtx.setLineDash([]);
+
+        // Magnetic Axis
+        pCtx.fillStyle = '#ffffff';
+        pCtx.beginPath();
+        pCtx.arc(toX(1.7247), toY(-0.0674), 4, 0, Math.PI * 2);
+        pCtx.fill();
+
+        // Puncture Points
+        if (frameObj.lines) {
+          for (let line of frameObj.lines) {
+            for (let pt of line.points) {
+              const r = pt[0], z = pt[1];
+              const px = toX(r), py = toY(z);
+
+              if (currentMode === 'A') {
+                if (r >= 2.02 && r <= 2.17) {
+                  pCtx.fillStyle = '#f0883e'; // Amber Island 2/1
+                } else {
+                  pCtx.fillStyle = 'rgba(88, 166, 255, 0.75)'; // Regular Blue
+                }
+              } else {
+                if (frameObj.chirikov_S >= 1.0 && r >= 2.08 && r <= 2.18) {
+                  pCtx.fillStyle = '#f85149'; // Chaotic Red
+                } else if (r >= 2.02 && r <= 2.22) {
+                  pCtx.fillStyle = '#f0883e'; // Island Amber
+                } else {
+                  pCtx.fillStyle = 'rgba(88, 166, 255, 0.75)'; // Regular Blue
+                }
+              }
+              pCtx.fillRect(px - 1, py - 1, 2.5, 2.5);
+            }
+          }
+        }
+
+        // Axis Labels
+        pCtx.fillStyle = '#8b949e';
+        pCtx.font = '11px monospace';
+        pCtx.fillText('R = 1.7 м (Вісь)', toX(1.72), h - 8);
+        pCtx.fillText('R = 2.135 м (q=2)', toX(2.135) - 35, h - 8);
+        pCtx.fillText('Z = 0.0 м', 8, toY(0.0) + 4);
+      }
+
+      // -------------------------------------------------------------
+      // Auto-Sweep Controller for Slide 7
+      // -------------------------------------------------------------
+      let autoSweepInterval = null;
+      const btnAutoSweep = document.getElementById('btnAutoSweep');
+      const autoSweepIcon = document.getElementById('autoSweepIcon');
+      const autoSweepText = document.getElementById('autoSweepText');
+
+      function toggleAutoSweep() {
+        if (autoSweepInterval) {
+          stopAutoSweep();
+        } else {
+          startAutoSweep();
+        }
+      }
+
+      function startAutoSweep() {
+        if (!btnAutoSweep) return;
+        btnAutoSweep.classList.add('active');
+        if (autoSweepIcon) autoSweepIcon.textContent = '⏸';
+        if (autoSweepText) autoSweepText.textContent = 'Пауза';
+
+        autoSweepInterval = setInterval(() => {
+          let val = parseInt(ampSlider.value, 10);
+          let maxVal = parseInt(ampSlider.max, 10);
+          if (val < maxVal) {
+            ampSlider.value = val + 1;
+            currentAmpIdx = val + 1;
+            updateSimulator();
+          } else {
+            // End of mode: switch between A and B
+            if (currentMode === 'A') {
+              btnModeB.click();
+              ampSlider.value = 0;
+              currentAmpIdx = 0;
+              updateSimulator();
+            } else {
+              btnModeA.click();
+              ampSlider.value = 0;
+              currentAmpIdx = 0;
+              updateSimulator();
+            }
+          }
+        }, 1400);
+      }
+
+      function stopAutoSweep() {
+        if (autoSweepInterval) {
+          clearInterval(autoSweepInterval);
+          autoSweepInterval = null;
+        }
+        if (btnAutoSweep) {
+          btnAutoSweep.classList.remove('active');
+          if (autoSweepIcon) autoSweepIcon.textContent = '▶';
+          if (autoSweepText) autoSweepText.textContent = 'Авто-Свіп';
+        }
+      }
+
+      if (btnAutoSweep) {
+        btnAutoSweep.addEventListener('click', toggleAutoSweep);
+      }
+
+      // -------------------------------------------------------------
+      // Video Interactive HUD Controls (Speed, Fullscreen, Play/Pause)
+      // -------------------------------------------------------------
+      function initVideoHuds() {
+        document.querySelectorAll('.video-container').forEach(container => {
+          const video = container.querySelector('video');
+          if (!video) return;
+
+          const hud = document.createElement('div');
+          hud.className = 'video-hud';
+
+          const badge = document.createElement('div');
+          badge.className = 'video-hud-badge';
+          badge.textContent = '1080p 24FPS';
+
+          const btnSpeed = document.createElement('button');
+          btnSpeed.className = 'video-hud-btn';
+          btnSpeed.textContent = '1.0x';
+          btnSpeed.title = 'Швидкість відтворення (1x / 0.5x для аналізу фізики)';
+          btnSpeed.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (video.playbackRate === 1.0) {
+              video.playbackRate = 0.5;
+              btnSpeed.textContent = '0.5x';
+              btnSpeed.classList.add('active');
+            } else {
+              video.playbackRate = 1.0;
+              btnSpeed.textContent = '1.0x';
+              btnSpeed.classList.remove('active');
+            }
+          });
+
+          const btnFs = document.createElement('button');
+          btnFs.className = 'video-hud-btn';
+          btnFs.textContent = '⛶';
+          btnFs.title = 'Повноекранний перегляд відео';
+          btnFs.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (video.requestFullscreen) {
+              video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) {
+              video.webkitRequestFullscreen();
+            }
+          });
+
+          hud.appendChild(badge);
+          hud.appendChild(btnSpeed);
+          hud.appendChild(btnFs);
+          container.appendChild(hud);
+
+          video.addEventListener('click', () => {
+            if (video.paused) video.play();
+            else video.pause();
+          });
+        });
+      }
+
+      // -------------------------------------------------------------
+      // Slide Overview Modal Grid
+      // -------------------------------------------------------------
+      function initSlideOverview() {
+        const modal = document.getElementById('slideOverviewModal');
+        const grid = document.getElementById('modalSlideGrid');
+        const btnClose = document.getElementById('btnCloseOverview');
+        const btnOpen = document.getElementById('btnOverview');
+        const slideCounter = document.getElementById('slideNum');
+
+        if (!modal || !grid) return;
+
+        grid.innerHTML = '';
+        for (let i = 1; i <= totalSlides; i++) {
+          const card = document.createElement('div');
+          card.className = `modal-slide-card ${i === currentSlide ? 'current' : ''}`;
+          card.innerHTML = `
+            <div class="card-num">СЛАЙД ${String(i).padStart(2, '0')} / 09</div>
+            <div class="card-title">${SLIDE_TITLES[i] || ''}</div>
+            <div class="card-tag">Перейти до розділу →</div>
+          `;
+          card.addEventListener('click', () => {
+            updateSlide(i);
+            closeModal();
+          });
+          grid.appendChild(card);
+        }
+
+        function openModal() {
+          const cards = grid.querySelectorAll('.modal-slide-card');
+          cards.forEach((c, idx) => {
+            if (idx + 1 === currentSlide) c.classList.add('current');
+            else c.classList.remove('current');
+          });
+          modal.classList.add('active');
+        }
+
+        function closeModal() {
+          modal.classList.remove('active');
+        }
+
+        if (btnOpen) btnOpen.addEventListener('click', openModal);
+        if (slideCounter) slideCounter.addEventListener('click', openModal);
+        if (btnClose) btnClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+
+        window.addEventListener('keydown', (e) => {
+          if (e.key === 'o' || e.key === 'O') {
+            e.preventDefault();
+            if (modal.classList.contains('active')) closeModal();
+            else openModal();
+          } else if (e.key === 'Escape') {
+            closeModal();
+          }
+        });
+      }
+
+      // -------------------------------------------------------------
+      // Ambient Tokamak Flux Field Canvas Animation
+      // -------------------------------------------------------------
+      function initBgCanvas() {
+        const bgCanvas = document.getElementById('bgCanvas');
+        if (!bgCanvas) return;
+        const ctx = bgCanvas.getContext('2d');
+        let width = bgCanvas.width = bgCanvas.offsetWidth;
+        let height = bgCanvas.height = bgCanvas.offsetHeight;
+
+        window.addEventListener('resize', () => {
+          width = bgCanvas.width = bgCanvas.offsetWidth;
+          height = bgCanvas.height = bgCanvas.offsetHeight;
+        });
+
+        // 16 gentle procedural magnetic field lines rotating in toroidal space
+        const lines = [];
+        for (let i = 0; i < 16; i++) {
+          lines.push({
+            a: (i / 16) * Math.PI * 2,
+            rMajor: 0.30 + (i % 4) * 0.04,
+            rMinor: 0.12 + (i % 3) * 0.03,
+            q: 1.5 + (i % 3) * 0.5,
+            speed: 0.0009 + (i % 3) * 0.0003,
+            hue: i % 2 === 0 ? 'rgba(88, 166, 255, 0.30)' : 'rgba(210, 153, 34, 0.22)'
+          });
+        }
+
+        function renderBg() {
+          ctx.clearRect(0, 0, width, height);
+          const cx = width * 0.5;
+          const cy = height * 0.5;
+          const scale = Math.min(width, height) * 0.95;
+
+          for (let l of lines) {
+            l.a += l.speed;
+            ctx.strokeStyle = l.hue;
+            ctx.lineWidth = 1.0;
+            ctx.beginPath();
+            for (let t = 0; t <= Math.PI * 2; t += 0.09) {
+              const phi = t + l.a;
+              const theta = t * l.q;
+              const r = l.rMajor + l.rMinor * Math.cos(theta);
+              const x = cx + r * Math.cos(phi) * scale;
+              const y = cy + (r * Math.sin(phi) * 0.42 + l.rMinor * Math.sin(theta) * 0.85) * scale;
+              if (t === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+          }
+
+          requestAnimationFrame(renderBg);
+        }
+
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          renderBg();
+        }
+      }
+
+      // Initialize all motion modules
+      updateSlide(1);
+      initVideoHuds();
+      initSlideOverview();
+      initBgCanvas();
+      setTimeout(updateSimulator, 100);
+    })();
+  </script>
+</body>
+</html>
