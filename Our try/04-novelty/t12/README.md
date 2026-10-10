@@ -1,7 +1,7 @@
-# Novelty Experiment T12: GPU-Accelerated Field Line Tracer on JAX
+# Novelty Experiment T12: JAX/XLA Field Line Tracer
 
 ## 1. Overview
-This experiment implements and rigorously validates a GPU/XLA-accelerated magnetic field line tracer in JAX (`tokamld.tracer`).
+This experiment implements and rigorously validates a JAX/XLA magnetic field line tracer (measured on Apple Silicon CPU via XLA, GPU not tested) in JAX (`tokamld.tracer`).
 
 Key features:
 1. **Canonical Symplectic Integrator:** Implicit Midpoint in $(\psi_t, \theta^*, \phi)$ magnetic coordinates with strict Newton solver ($\|r\|_2 \le 10^{-12}$) guaranteeing exact symplecticity $|\det J - 1| \le 10^{-10}$ (E19).
@@ -29,7 +29,7 @@ PYTHONPATH=tokamak-3d-viz/src:src "fusion equilibrium challenge/starter/.venv/bi
 
 ## 3. Registered Criteria & Results
 
-All acceptance thresholds were pre-registered in [THEORY.md](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t12/THEORY.md) prior to the final run.
+All acceptance thresholds were pre-registered in [THEORY.md](../../../Our%20try/04-novelty/t12/THEORY.md) prior to the final run.
 
 | Test | Quantity | Measured Value | Pre-Registered Threshold | Status |
 |---|---|---|---|---|
@@ -63,7 +63,7 @@ Scaling shows sub-linear overhead and massive throughput gains via `jax.vmap` ba
 ---
 
 ## 5. Artifacts
-- **Pre-registration Theory:** [`THEORY.md`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t12/THEORY.md)
-- **JSON Results:** [`results.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t12/results.json)
-- **Diagnostic Plots:** [`t12_tracer_diagnostics.png`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/Our%20try/04-novelty/t12/t12_tracer_diagnostics.png)
-- **Web Export:** [`tokamak-3d-viz/web/poincare_viewer.json`](file:///Users/ancerian/Documents/Projects/Hackathon_FMF/tokamak-3d-viz/web/poincare_viewer.json)
+- **Pre-registration Theory:** [`THEORY.md`](../../../Our%20try/04-novelty/t12/THEORY.md)
+- **JSON Results:** [`results.json`](../../../Our%20try/04-novelty/t12/results.json)
+- **Diagnostic Plots:** [`t12_tracer_diagnostics.png`](../../../Our%20try/04-novelty/t12/t12_tracer_diagnostics.png)
+- **Web Export:** [`tokamak-3d-viz/web/poincare_viewer.json`](../../../tokamak-3d-viz/web/poincare_viewer.json)

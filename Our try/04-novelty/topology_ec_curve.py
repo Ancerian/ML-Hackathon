@@ -13,9 +13,10 @@ import sys
 from pathlib import Path
 import numpy as np
 
-STARTER = Path("/Users/illia_nakonecnyi/Desktop/ТОКАМАК ПРОДЖЕКТ/fusion equilibrium challenge/starter")
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+STARTER = REPO_ROOT / "fusion equilibrium challenge" / "starter"
 sys.path.insert(0, str(STARTER / "fusion_scoring"))
-sys.path.insert(0, str(Path("/Users/illia_nakonecnyi/Desktop/ТОКАМАК ПРОДЖЕКТ/Our try/04-novelty")))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from topology_probe import critical_points, inside_lcfs        # noqa: E402
 from skimage.measure import euler_number                        # noqa: E402
 

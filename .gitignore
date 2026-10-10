@@ -25,4 +25,7 @@ checkpoints/
 *.pt
 Our try/04-novelty/t3/scalars_cache.npz
 Our try/04-novelty/t1/*.npz
-
+team/presentation/deck/videos/*.mp4
+team/presentation/deck_portable/videos/*.mp4
+.agents/
+skills-lock.json

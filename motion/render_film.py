@@ -27,7 +27,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 PROJECT = Path(__file__).resolve().parent.parent
-BLENDER_BIN = "/Users/ancerian/Library/Application Support/Steam/steamapps/common/Blender/Blender.app/Contents/MacOS/Blender"
+BLENDER_BIN = os.environ.get("BLENDER_BIN", "blender")
 BLEND_FILE = str(PROJECT / "tokamak-3d-viz" / "tokamak.blend")
 COMPARE_PNG = str(PROJECT / "motion" / "data" / "contours_compare.png")
 POINCARE_SWEEP_JSON = str(PROJECT / "motion" / "data" / "poincare_sweep.json")
