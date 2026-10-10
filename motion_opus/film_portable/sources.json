@@ -1,0 +1,22 @@
+{
+  "film": "Motion Opus — DIII-D magnetic equilibrium",
+  "numbers": [
+    {"value":"R²ψ = 0.977","source":"Our try/04-novelty/t13/results.json#baseline_raw_unet.r2_psi"},
+    {"value":"0.006487","source":"motion/data/equilibrium_meta.json#g_ground_truth"},
+    {"value":"0.861835","source":"motion/data/equilibrium_meta.json#g_unet_lite"},
+    {"value":"0.6328","source":"Our try/04-novelty/t1/results.json#g_ref"},
+    {"value":"0.6476 [0.6289..0.6671]","source":"team/presentation/NUMBERS_TABLE.md#S-UNet_Lite"},
+    {"value":"0.6437 [0.6239..0.6622]","source":"team/presentation/NUMBERS_TABLE.md#S-MLP_sklearn"},
+    {"value":"0.862→0.384; 0.980→0.933","source":"Our try/04-novelty/t13/results.json#baseline_raw_unet,relaxed_unet"},
+    {"value":"S≈1.0–1.1","source":"motion/data/poincare_highres_chaos.json#frames"},
+    {"value":"порядку 3 см","source":"motion/MOTION_NOTES.md#L59"}
+  ],
+  "visuals": [
+    {"source":"motion/data/contours_gt.json","purpose":"contours of ground-truth EFIT frame #062:147"},
+    {"source":"motion/data/contours_unet.json","purpose":"contours of UNet_Lite frame #062:147"},
+    {"source":"motion/data/equilibrium_arrays.npz","purpose":"fixed-scale residual maps exported by export_film_assets.py"},
+    {"source":"motion/data/poincare_sweep.json","purpose":"native Poincaré section"},
+    {"source":"motion/data/poincare_highres_chaos.json","purpose":"keyframe at A=4.8e-3"},
+    {"source":"team/presentation/deck_portable/videos/*_final.mp4","purpose":"1080p Blender accents"}
+  ]
+}
