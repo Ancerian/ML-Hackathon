@@ -9,18 +9,26 @@
 
 ## 1. Головні метрики моделей на тестовому спліті (8 розрядів #060–#067, 1521 кадрів)
 
+> **Походження моделей:** Усі 4 порівнювані моделі (`PCA+Ridge`, `Linear Regression`, `MLP (sklearn)`, `UNet_Lite`) є стандартними архітектурами бейзлайнів зі стартер-коду організаторів (`experiments.py`, `experiments_torch.py`). Власної моделі, що обходить бейзлайни за $S$, не заявляємо. Нейромережеві бейзлайни вищі за PCA+Ridge на 60–67, але розкид по розрядах великий; $S$ не відрізняє фізичність.
+
 | Параметр / Величина | Точне числове значення | 95% Bootstrap CI | Контекст у доповіді | Файл-джерело | Команда або скрипт відтворення |
 |:---|:---:|:---:|:---|:---|:---|
-| **$S$ (UNet_Lite)** | **0.6476** | [0.6289 .. 0.6671] | Ранг 1 за офіційною метрикою $S$ | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
-| **$S$ (MLP sklearn)** | **0.6437** | [0.6239 .. 0.6622] | Ранг 2 за офіційною метрикою $S$ | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
-| **$S$ (PCA+Ridge)** | **0.1926** | [0.1053 .. 0.5985] | Ранг 3 за офіційною метрикою $S$ | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
-| **$S$ (Linear Regr)** | **0.1924** | [0.1052 .. 0.5982] | Ранг 4 за офіційною метрикою $S$ | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
-| **$\Delta S$ (UNet – MLP)** | **-0.0015** | **[-0.0121 .. +0.0089]** | **Містить 0: UNet та MLP статистично нерозрізненні за $S$** | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
-| **$S'\text{-gate}$ (UNet_Lite)** | **0.4202** | [0.3719 .. 0.4710] | Ранг 2 за нашою діагностичною пропозицією | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
-| **$S'\text{-gate}$ (MLP sklearn)** | **0.5331** | [0.4003 .. 0.6360] | Ранг 1 за нашою діагностичною пропозицією | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
-| **$S'\text{-gate}$ (PCA+Ridge)** | **0.3614** | [0.2290 .. 0.4910] | Ранг 3 за діагностичною метрикою (CI перетинаються з UNet) | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
-| **$S'\text{-gate}$ (Linear Regr)** | **0.3609** | [0.2288 .. 0.4906] | Ранг 4 за діагностичною метрикою | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
-| **$\Delta S'\text{-gate}$ (UNet – MLP)** | **-0.1129** | **[-0.2044 .. -0.0006]** | **Не містить 0: значуща інверсія рангів на межі ($p < 0.05$)** | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S$ (UNet_Lite)** | **0.6476** | [0.6289 .. 0.6671] | Ранг 1 за офіційною метрикою $S$ (60–67) | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S$ (MLP sklearn)** | **0.6437** | [0.6239 .. 0.6622] | Ранг 2 за офіційною метрикою $S$ (60–67) | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S$ (PCA+Ridge)** | **0.1926** | [0.1053 .. 0.5985] | Ранг 3 за $S$ на 60–67 (провал на #061, #063) | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S$ (Linear Regr)** | **0.1924** | [0.1052 .. 0.5982] | Ранг 4 за офіційною метрикою $S$ (60–67) | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\Delta S$ (UNet – MLP)** (60–67) | **-0.0015** | **[-0.0121 .. +0.0089]** | **0 в CI: UNet та MLP нерозрізненні за $S$** | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\Delta S$ (UNet – PCA)** (60–67) | **+0.2662** | **[+0.1457 .. +0.3920]** | Перевага CNN за $S$ на 60–67 через викиди #061, #063 | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\Delta S$ (MLP – PCA)** (60–67) | **+0.2677** | **[+0.1540 .. +0.3869]** | Перевага MLP за $S$ на 60–67 | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\Delta S$ (UNet – PCA)** (36–39) | **+0.0419** | **[+0.0030 .. +0.0922]** | На 36–39 різниця невелика ($0.713$ vs $0.738$) | [`team/notes/TEST_SNOOPING.md`](../notes/TEST_SNOOPING.md) | `"team/scripts/eval_snooping_audit.py"` |
+| **$\Delta S$ (MLP – PCA)** (36–39) | **+0.0489** | **[+0.0071 .. +0.1117]** | На 36–39 бали близькі ($0.740$ vs $0.738$) | [`team/notes/TEST_SNOOPING.md`](../notes/TEST_SNOOPING.md) | `"team/scripts/eval_snooping_audit.py"` |
+| **$S'\text{-gate}$ (UNet_Lite)** | **0.4202** | [0.3719 .. 0.4710] | Ранг 2 за діагностичним шлюзом GS | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S'\text{-gate}$ (MLP sklearn)** | **0.5331** | [0.4003 .. 0.6360] | Ранг 1 за діагностичним шлюзом GS | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S'\text{-gate}$ (PCA+Ridge)** | **0.3614** | [0.2290 .. 0.4910] | Ранг 3 за діагностичним шлюзом | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$S'\text{-gate}$ (Linear Regr)** | **0.3609** | [0.2288 .. 0.4906] | Ранг 4 за діагностичним шлюзом | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\Delta S'\text{-gate}$ (UNet – MLP)** | **-0.1129** | **[-0.2044 .. -0.0006]** | 0 не в CI: інверсія рангів через штраф за $g$ | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\Delta S'\text{-gate}$ (UNet – PCA)** (60–67) | **+0.0588** | **[-0.0471 .. +0.1608]** | **0 в CI: за шлюзом GS UNet і PCA нерозрізненні** | [`team/LEADERBOARD.md`](../LEADERBOARD.md) | `"fusion equilibrium challenge/starter/.venv/bin/python" eval_submission.py` |
+| **$\Delta S'\text{-gate}$ (UNet – PCA)** (36–39) | **-0.1884** | **[-0.2335 .. -0.1181]** | **0 не в CI: на 36–39 UNet гірший за PCA за $S'$** | [`team/notes/TEST_SNOOPING.md`](../notes/TEST_SNOOPING.md) | `"team/scripts/eval_snooping_audit.py"` |
 
 ---
 
