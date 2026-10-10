@@ -2,12 +2,8 @@
 set -eu
 base=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 out="$base/film_portable"
-if [ -e "$out" ]; then
-  echo "Packaging stopped: $out already exists; move it aside before packaging." >&2
-  exit 1
-fi
 mkdir -p "$out"
-cp "$base/index.html" "$base/README.md" "$base/sources.json" "$out/"
+cp "$base/index.html" "$base/README.md" "$base/sources.json" "$base/STORYBOARD.md" "$base/SPEECH.md" "$out/"
 cp -R "$base/assets" "$base/data" "$out/"
 if find "$out" -type l | grep -q .; then
   echo "Packaging failed: symlink found" >&2

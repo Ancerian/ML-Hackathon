@@ -4,6 +4,8 @@
 
 За замовчуванням увімкнено PRESENTER: → запускає наступний біт і тримає кадр, ← повертає на початок біта, Home/End переходять на початок/кінець, 1–9 обирають сцену, ↑/↓ у S7 обирають одне з 15 дискретних значень A. `N` відкриває окреме вікно нотаток, `F` — повний екран.
 
-`?film=1` вмикає FILM (~12:00); Space — пауза, `[` і `]` — ±5 с. `?short=1` вмикає коротку репетицію (~5:00). `?debug=1` додає технічний оверлей. `?capture=1&t=195` рендерить один детермінований кадр без UI.
+`?film=1` вмикає FILM (8:00); Space — пауза, `[` і `]` — ±5 с. `?short=1` вмикає коротку репетицію (5:00). `?debug=1` додає технічний оверлей. `?capture=1&t=195` рендерить один детермінований кадр без UI.
 
-Спершу виконайте `fusion equilibrium challenge/starter/.venv/bin/python motion_opus/export_film_assets.py`, потім `sh motion_opus/package_film.sh`. Відоме обмеження: числового FTLE-поля для keyframe хаосу в наданому JSON немає.
+Авторський спіч: `SPEECH.md`. Режисерська партитура: `STORYBOARD.md`.
+
+Спершу виконайте `fusion equilibrium challenge/starter/.venv/bin/python motion_opus/export_film_assets.py`, потім `sh motion_opus/package_film.sh`. Для Пуанкаре кадру точки й амплітуду беремо з JSON; значення k для ключової конфігурації беремо з `motion/MOTION_NOTES.md`, бо поля FTLE немає в JSON.
