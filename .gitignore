@@ -27,5 +27,8 @@ Our try/04-novelty/t3/scalars_cache.npz
 Our try/04-novelty/t1/*.npz
 team/presentation/deck/videos/*.mp4
 team/presentation/deck_portable/videos/*.mp4
+team/presentation/film/assets/*.mp4
+team/presentation/film/film_portable/
+team/presentation/film/film_portable.zip
 .agents/
 skills-lock.json
